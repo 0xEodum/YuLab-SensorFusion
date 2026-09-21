@@ -56,6 +56,7 @@ export default function App() {
     </header>
 
     <BackendStatus />
+    <a href="?view=world" className="connected-world-link">Explore the connected world →</a>
     <main className="workspace">
       <div className="workspace-intro"><div><div className="eyebrow"><span className="tiny-line"/> THE WORLD IS YOURS TO SHAPE</div><h1>Small polygons. <span>Endless possibilities.</span></h1></div><div className="intro-note"><Box size={15}/><span>Real 3D. Naturally different.</span></div></div>
       <div className="studio-layout">

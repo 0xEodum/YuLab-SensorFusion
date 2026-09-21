@@ -1,6 +1,6 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-01 is closed; SF-02 is the next authorized item.
+Updated: 2026-09-21. SF-01 is closed; SF-02 is in progress.
 Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -34,7 +34,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | --- | --- | --- | --- |
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
-| SF-02 | Connected deterministic world-space terrain | SF-01 | READY |
+| SF-02 | Connected deterministic world-space terrain | SF-01 | IN PROGRESS |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | PLANNED |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |

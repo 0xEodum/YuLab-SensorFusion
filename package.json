@@ -22,7 +22,9 @@
     "dev:backend": "node tools/uv.mjs run --project backend --locked uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000",
     "test:backend": "node tools/uv.mjs run --project backend --locked pytest backend/tests",
     "test:contracts": "node --experimental-strip-types --test tests/contracts/*.test.ts",
-    "verify": "npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:backend && npm run build"
+    "verify": "npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:world && npm run test:backend && npm run build",
+    "test:world": "node --experimental-strip-types --test tests/world/*.test.ts",
+    "verify:world": "node --experimental-strip-types tools/verify-world.ts"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

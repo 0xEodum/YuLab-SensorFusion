@@ -1,0 +1,21 @@
+{
+  "name": "@yulab/world",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./legacy": "./src/legacy.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@yulab/contracts": "0.1.0",
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "@types/three": "0.185.4",
+    "typescript": "5.9.3"
+  }
+}

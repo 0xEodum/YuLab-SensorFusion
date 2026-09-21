@@ -31,6 +31,14 @@ simulation, file contents or labels. See [contract guidance](../contracts/README
 
 ## 2. Authoritative payload families
 
+SF-02 consumes the existing `WorldSpec` shape with generator version
+`connected-world.v1` and field version `connected-field.v1`. The
+[supported profile](WORLD_GENERATOR.md) adds semantic bounds, unique feature IDs,
+immutable snapshot behavior, supported feature types and meshing/placement
+policy. Wire-valid future versions or asset instances are not silently accepted
+by this generator. Biomes are world-space fields owned by the field version.
+No wire-schema change is needed.
+
 | Payload | Required content | Permitted consumers |
 | --- | --- | --- |
 | `AssetRecord` | ID, content hash, source provenance, units/axes, mesh/sidecar references, subpart and thermal/material definitions | World builder, capture, catalog UI |

@@ -5,5 +5,5 @@
     "allowImportingTsExtensions": true, "esModuleInterop": true,
     "skipLibCheck": true, "types": ["node"]
   },
-  "include": ["tests", "playwright.config.ts"]
+  "include": ["tests", "playwright.config.ts", "tools/verify-world.ts"]
 }

@@ -20,9 +20,11 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 30_000,
   }, {
-    command: 'npm run dev -- --port 4173 --strictPort',
+    command: process.env.PLAYWRIGHT_TEST_BUILT === '1'
+      ? 'npm run preview -- --port 4173 --strictPort'
+      : 'npm run dev -- --port 4173 --strictPort',
     url: 'http://127.0.0.1:4173',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 30_000,
     env: { YULAB_BACKEND_PORT: '8765' },
   }],

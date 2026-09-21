@@ -2,8 +2,9 @@
 
 A procedural terrain editor being developed into an RGB, thermal IR and LiDAR
 simulation and detection lab. SF-01 adds a frontend workspace, local backend,
-shared contracts and verification. World expansion, sensor capture, datasets,
-training and inference are later stages; no trained model is supplied yet.
+shared contracts and verification. SF-02 adds a connected deterministic world
+and four-chunk preview. Sensor capture, datasets, training and inference are
+later stages; no trained model is supplied yet.
 
 ## Setup
 
@@ -41,6 +42,13 @@ to `127.0.0.1:8000`; Vite proxies `/api` to it. Backend API documentation is at
 operations. The editor shows connected, unavailable and incompatible-response
 states; terrain editing and exports also work with the backend stopped.
 
+Choose **Explore the connected world** above the editor (or open `?view=world`)
+to view connected 128 m chunks within a 2,048 × 2,048 m world. Seed zero works;
+region and camera selectors inspect arches, tunnels, outcrops and chunk seams.
+The preview loads four fixed chunks; streaming/navigation is the next stage.
+See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
+mesh tolerances, supported features and reproducibility limits.
+
 `npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
 proxies `/api` in the same way. The current single-file HTML remains an editor
 export, not a self-contained backend. For another backend port, set
@@ -51,12 +59,13 @@ are not accepted by the proxy configuration.
 
 ```powershell
 npm run verify
+npm run verify:world
 npx playwright install chromium
 npm run test:browser
 ```
 
 `verify` checks generated-file drift, all workspace/test TypeScript, shared wire
-fixtures in JavaScript and Python, real API responses/errors and the production
+fixtures in JavaScript and Python, world geometry contracts, API responses/errors and the production
 build. Browser tests start an isolated backend on port 8765 and Vite on 4173.
 Those ports must be free. GitHub workflows are removed by project policy; run
 both core and browser checks locally before pushing. Local Windows Edge passed
@@ -65,7 +74,15 @@ failure, explicitly select installed Edge with `$env:PLAYWRIGHT_CHANNEL='msedge'
 (POSIX: `PLAYWRIGHT_CHANNEL=msedge npm run test:browser`). Browser tests use
 software WebGL for portable functional QA; they are not GPU benchmarks.
 
-Individual commands: `npm run typecheck`, `npm run test:contracts`,
+To run that same browser suite against the production build, run `npm run build`
+and set `$env:PLAYWRIGHT_TEST_BUILT='1'` before `npm run test:browser` (POSIX:
+`PLAYWRIGHT_TEST_BUILT=1 npm run test:browser`). Both modes require a fresh
+isolated server; they never reuse an unrelated process already on port 4173.
+
+`verify:world` checks all 256 chunks and all 480 seams for seeds 0 and 48291,
+including shuffled request order, triangle topology and surface coverage.
+
+Individual commands: `npm run typecheck`, `npm run test:world`, `npm run test:contracts`,
 `npm run test:backend`, `npm run contracts:generate`, `npm run contracts:check`.
 Changing generated code directly fails the drift check. See
 [contract ownership and validation](contracts/README.md).
@@ -76,6 +93,7 @@ Changing generated code directly fails the drift check. See
 - `backend/`: isolated Python API, generated types and tests.
 - `contracts/`: canonical JSON Schema/OpenAPI and shared positive/negative fixtures.
 - `packages/contracts/`: generated TypeScript bindings and runtime validation.
+- `packages/world/`: deterministic fields, chunk meshes, placements and legacy adapter.
 - `tests/`, `tools/`: browser/contract checks and repeatable tooling.
 - `docs/`: [architecture](docs/ARCHITECTURE.md), [backlog](docs/BACKLOG.md),
   [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and

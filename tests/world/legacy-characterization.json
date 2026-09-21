@@ -1,0 +1,78 @@
+{
+  "canyon": {
+    "triangles": 13060,
+    "mesh_sha256": "9755b1fa1ed453745368518954b01efe27652e789606155b412d0db6606474cd",
+    "children": [
+      [
+        "Volumetric terrain",
+        0
+      ],
+      [
+        "Vegetation",
+        47
+      ],
+      [
+        "Scattered rocks",
+        11
+      ]
+    ]
+  },
+  "alpine": {
+    "triangles": 14536,
+    "mesh_sha256": "b933de03daa26f7c7c59383765ea4457325ec2ddc8771e45f40b6cf7b92e1c6a",
+    "children": [
+      [
+        "Volumetric terrain",
+        0
+      ],
+      [
+        "Vegetation",
+        47
+      ],
+      [
+        "Scattered rocks",
+        8
+      ]
+    ]
+  },
+  "islands": {
+    "triangles": 7180,
+    "mesh_sha256": "232c09e18ac6ce591b4162e94575d84f82917b777c22f3442a96fd6eec2d3e4b",
+    "children": [
+      [
+        "Volumetric terrain",
+        0
+      ],
+      [
+        "Vegetation",
+        20
+      ],
+      [
+        "Scattered rocks",
+        1
+      ]
+    ]
+  },
+  "coast": {
+    "triangles": 11784,
+    "mesh_sha256": "580ef850457a147a1d3f424a58c41153d4d1a2c6e8791238d5c472afa989f279",
+    "children": [
+      [
+        "Volumetric terrain",
+        0
+      ],
+      [
+        "Vegetation",
+        47
+      ],
+      [
+        "Scattered rocks",
+        11
+      ],
+      [
+        "Water",
+        0
+      ]
+    ]
+  }
+}
