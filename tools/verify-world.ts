@@ -184,7 +184,7 @@ for (const seed of [0, 48291]) {
     if (i % 64 === 63) console.log(`Replayed ${i + 1}/256 chunks`);
   }
   const report = {
-    profile: 'sf02-connected-world.v1',
+    profile: 'sf02r-connected-world.v2',
     seed,
     extent_m: world.spec.extent_m,
     chunk_size_m: 128,
@@ -198,9 +198,9 @@ for (const seed of [0, 48291]) {
     elapsed_s: (performance.now() - started) / 1000,
     records,
   };
-  mkdirSync('artifacts/sf02', { recursive: true });
+  mkdirSync('artifacts/sf02r', { recursive: true });
   writeFileSync(
-    `artifacts/sf02/world-verification-${seed}.json`,
+    `artifacts/sf02r/world-verification-${seed}.json`,
     JSON.stringify(report, null, 2) + '\n',
   );
   console.log(JSON.stringify({ ...report, records: undefined }, null, 2));

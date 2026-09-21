@@ -11,13 +11,22 @@ test('connected preview shows seams and formations, supports seed zero and world
   await expect(canvas).toBeVisible();
   await expect(page.getByRole('alert')).toHaveCount(0);
   await expect(page.getByRole('status')).toContainText('9 connected chunks');
-  await expect(page.getByLabel('World location').locator('option')).toHaveCount(16);
-  await expect(page.locator('.world-canvas')).toHaveAttribute('data-features', '16');
+  await expect(page.getByLabel('World location').locator('option')).toHaveCount(
+    16,
+  );
+  await expect(page.locator('.world-canvas')).toHaveAttribute(
+    'data-features',
+    '16',
+  );
   await expect
-    .poll(async () => Number(await page.locator('.world-canvas').getAttribute('data-trees')))
+    .poll(async () =>
+      Number(await page.locator('.world-canvas').getAttribute('data-trees')),
+    )
     .toBeGreaterThan(0);
   await expect
-    .poll(async () => Number(await page.locator('.world-canvas').getAttribute('data-rocks')))
+    .poll(async () =>
+      Number(await page.locator('.world-canvas').getAttribute('data-rocks')),
+    )
     .toBeGreaterThan(0);
   const image = () =>
     canvas.evaluate((el: HTMLCanvasElement) => el.toDataURL());
@@ -79,6 +88,75 @@ test('connected preview shows seams and formations, supports seed zero and world
   await page.getByRole('link', { name: 'Preset editor' }).click();
   await expect(page.locator('.terrain-canvas canvas')).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('captures original and connected formations at comparable browser framing', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.locator('.terrain-canvas canvas')).toBeVisible();
+  for (const [preset, slug] of [
+    ['Canyon arches', 'canyon'],
+    ['Alpine peaks', 'alpine'],
+    ['Floating islands', 'islands'],
+    ['Coastal cliffs', 'coast'],
+  ]) {
+    await page.locator('.preset-card').filter({ hasText: preset }).click();
+    await expect(page.locator('.scene-preset')).toHaveText(preset);
+    await page.locator('.terrain-canvas').screenshot({
+      path: `artifacts/browser/sf02r-legacy-${slug}.png`,
+    });
+  }
+
+  await page.goto('/?view=world');
+  const location = page.getByLabel('World location');
+  const camera = page.getByLabel('World camera');
+  await expect(location.locator('option')).toHaveCount(16);
+  for (const [prefix, slug] of [
+    ['Canyon arch', 'canyon'],
+    ['Alpine ridge', 'alpine'],
+    ['Highland outcrops', 'islands'],
+    ['Coastal bluff', 'coast'],
+  ]) {
+    const labels = await location.locator('option').allTextContents();
+    const index = labels.findIndex((label) => label.startsWith(prefix));
+    expect(index).toBeGreaterThanOrEqual(0);
+    await location.selectOption(String(index));
+    await expect
+      .poll(async () =>
+        Number(
+          await page.locator('.world-canvas').getAttribute('data-triangles'),
+        ),
+      )
+      .toBeGreaterThan(30000);
+    await page.locator('.world-canvas').screenshot({
+      path: `artifacts/browser/sf02r-connected-${slug}-overview-seed-0.png`,
+    });
+    await camera.selectOption('detail');
+    await page.locator('.world-canvas').screenshot({
+      path: `artifacts/browser/sf02r-connected-${slug}-detail-seed-0.png`,
+    });
+    await camera.selectOption('oblique');
+  }
+  for (const nextSeed of ['48291', '77123']) {
+    await page
+      .getByRole('spinbutton', { name: 'Connected world seed' })
+      .fill(nextSeed);
+    await page.getByRole('button', { name: 'Generate world' }).click();
+    const labels = await location.locator('option').allTextContents();
+    const canyonIndex = labels.findIndex((label) =>
+      label.startsWith('Canyon arch'),
+    );
+    await location.selectOption(String(canyonIndex));
+    await page.locator('.world-canvas').screenshot({
+      path: `artifacts/browser/sf02r-connected-canyon-overview-seed-${nextSeed}.png`,
+    });
+    await camera.selectOption('detail');
+    await page.locator('.world-canvas').screenshot({
+      path: `artifacts/browser/sf02r-connected-canyon-detail-seed-${nextSeed}.png`,
+    });
+    await camera.selectOption('oblique');
+  }
 });
 
 test('world controls and preview fit a narrow viewport', async ({ page }) => {

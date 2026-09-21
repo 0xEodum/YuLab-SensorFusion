@@ -102,6 +102,17 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
   const localX = wx - f.center_m[0],
     localY = wy - f.center_m[1],
     localZ = wz - f.center_m[2];
+  const rawX = localX / (f.extent_m[0] / 2),
+    rawY = localY / (f.extent_m[1] / 2),
+    rawZ = localZ / (f.extent_m[2] / 2),
+    rawBound = Math.min(
+      1.14 - Math.abs(rawX),
+      1.14 - Math.abs(rawY),
+      1.14 - Math.abs(rawZ),
+    );
+  // Most samples are outside every feature. Cull before the 3D noise warps;
+  // the margin is larger than the maximum displacement below.
+  if (rawBound < 0) return rawBound * Math.min(...f.extent_m) * 0.5;
   const warp = noise(wx / 31, wy / 37, wz / 31, f.seed + 31);
   const crossWarp = noise(wx / 19, wy / 23, wz / 19, f.seed + 37);
   const x = (localX + warp * f.extent_m[0] * 0.055) / (f.extent_m[0] / 2);
@@ -165,7 +176,8 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
   } else {
     const edge = x + 0.28 + noise(wx / 29, 0, wz / 29, f.seed + 43) * 0.18;
     const cap = 0.34 - y + noise(wx / 21, 0, wz / 21, f.seed + 47) * 0.08;
-    const bluff = Math.min(edge, cap, y + 0.95, 1 - Math.abs(z));
+    const mesa = ellipsoid(-0.08, -0.2, 0, 0.92, 0.76, 0.88);
+    const bluff = Math.min(mesa, edge, cap);
     const stacks = Math.max(
       ellipsoid(-0.42, -0.2, 0.38, 0.34, 0.55, 0.3),
       ellipsoid(-0.3, -0.34, -0.4, 0.3, 0.42, 0.27),

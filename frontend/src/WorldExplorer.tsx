@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import {
@@ -10,12 +10,14 @@ import {
 import { disposeGroup } from './terrain';
 import './world.css';
 
-const locations = [
-  { name: 'Central arch', x: 0, z: 0 },
-  { name: 'Northern ridge', x: -2, z: -2 },
-  { name: 'Island outcrop', x: 2, z: -2 },
-  { name: 'Coastal bluff', x: 2, z: 2 },
-];
+const featureNames = {
+  canyon: 'Canyon arch',
+  alpine: 'Alpine ridge',
+  islands: 'Highland outcrops',
+  coast: 'Coastal bluff',
+  aerodrome: 'Aerodrome',
+  harbor: 'Harbor',
+} as const;
 
 export default function WorldExplorer() {
   const host = useRef<HTMLDivElement>(null);
@@ -27,9 +29,29 @@ export default function WorldExplorer() {
   const [error, setError] = useState('');
   const [stats, setStats] = useState({
     triangles: 0,
-    placements: 0,
+    rocks: 0,
+    trees: 0,
     milliseconds: 0,
   });
+  const spec = useMemo(() => defaultWorldSpec(seed), [seed]);
+  const locations = useMemo(
+    () =>
+      spec.features.map((feature, index) => ({
+        id: feature.id,
+        name: `${featureNames[feature.type]} ${index + 1}`,
+        type: feature.type,
+        x: feature.center_m[0],
+        y: feature.center_m[1],
+        z: feature.center_m[2],
+        extent: feature.extent_m,
+      })),
+    [spec],
+  );
+  const center = locations[location] ?? locations[0];
+  const centerChunk = {
+    x: Math.floor(center.x / 128),
+    z: Math.floor(center.z / 128),
+  };
   const engine = useRef<{
     camera: THREE.PerspectiveCamera;
     controls: OrbitControls;
@@ -47,8 +69,7 @@ export default function WorldExplorer() {
     const scene = new THREE.Scene();
     setError('');
     try {
-      const world = createWorld(defaultWorldSpec(seed));
-      const center = locations[location];
+      const world = createWorld(spec);
       renderer = new THREE.WebGLRenderer({
         antialias: true,
         preserveDrawingBuffer: true,
@@ -63,14 +84,14 @@ export default function WorldExplorer() {
       scene.background = new THREE.Color('#e7e9e4');
       scene.add(new THREE.HemisphereLight('#f9f4e4', '#626856', 2));
       const sun = new THREE.DirectionalLight('#fff0d5', 3);
-      sun.position.set(center.x * 128 - 110, 200, center.z * 128 + 130);
-      sun.target.position.set(center.x * 128, 10, center.z * 128);
+      sun.position.set(center.x - 180, 250, center.z + 170);
+      sun.target.position.set(center.x, center.y, center.z);
       sun.castShadow = true;
       Object.assign(sun.shadow.camera, {
-        left: -200,
-        right: 200,
-        top: 200,
-        bottom: -200,
+        left: -260,
+        right: 260,
+        top: 260,
+        bottom: -260,
         near: 1,
         far: 500,
       });
@@ -79,6 +100,7 @@ export default function WorldExplorer() {
       scene.add(sun, sun.target);
       const material = new THREE.MeshStandardMaterial({
         vertexColors: true,
+        flatShading: true,
         roughness: 1,
       });
       const rockMaterial = new THREE.MeshStandardMaterial({
@@ -87,11 +109,28 @@ export default function WorldExplorer() {
         roughness: 1,
       });
       const rockGeometry = new THREE.DodecahedronGeometry(1, 0);
+      const trunkGeometry = new THREE.CylinderGeometry(0.07, 0.1, 0.72, 5);
+      const crownGeometry = new THREE.ConeGeometry(0.46, 0.9, 6);
+      const trunkMaterial = new THREE.MeshStandardMaterial({
+        color: '#5d4933',
+        roughness: 1,
+      });
+      const crownMaterials = ['#344a38', '#425c3d', '#526847'].map(
+        (color) =>
+          new THREE.MeshStandardMaterial({
+            color,
+            roughness: 1,
+            flatShading: true,
+          }),
+      );
       const seamPoints: number[] = [];
       let triangles = 0,
-        placements = 0;
-      for (let x = center.x - 1; x <= center.x; x++)
-        for (let z = center.z - 1; z <= center.z; z++) {
+        rocks = 0,
+        trees = 0;
+      const seamX = new Set([centerChunk.x * 128, (centerChunk.x + 1) * 128]);
+      const seamZ = new Set([centerChunk.z * 128, (centerChunk.z + 1) * 128]);
+      for (let x = centerChunk.x - 1; x <= centerChunk.x + 1; x++)
+        for (let z = centerChunk.z - 1; z <= centerChunk.z + 1; z++) {
           const data = meshChunk(world, { x, z });
           const geometry = new THREE.BufferGeometry();
           geometry.setAttribute(
@@ -119,8 +158,8 @@ export default function WorldExplorer() {
                 b = i + ((v + 1) % 3) * 3,
                 p = data.positions;
               if (
-                (p[a] === center.x * 128 && p[b] === center.x * 128) ||
-                (p[a + 2] === center.z * 128 && p[b + 2] === center.z * 128)
+                (p[a] === p[b] && seamX.has(p[a])) ||
+                (p[a + 2] === p[b + 2] && seamZ.has(p[a + 2]))
               ) {
                 seamPoints.push(
                   p[a],
@@ -133,14 +172,48 @@ export default function WorldExplorer() {
               }
             }
           for (const placement of chunkPlacements(world, { x, z })) {
-            const rock = new THREE.Mesh(rockGeometry, rockMaterial);
-            rock.name = placement.id;
-            rock.position.set(...placement.position);
-            rock.scale.setScalar(placement.scale);
-            rock.rotation.y = placement.yaw;
-            rock.castShadow = true;
-            scene.add(rock);
-            placements++;
+            if (placement.kind === 'tree') {
+              const tree = new THREE.Group();
+              tree.name = placement.id;
+              const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+              trunk.position.y = 0.36;
+              trunk.castShadow = true;
+              tree.add(trunk);
+              for (let layer = 0; layer < 3; layer++) {
+                const crown = new THREE.Mesh(
+                  crownGeometry,
+                  crownMaterials[
+                    (layer + Math.abs(x + z)) % crownMaterials.length
+                  ],
+                );
+                crown.position.y = 0.75 + layer * 0.28;
+                crown.scale.setScalar(1 - layer * 0.17);
+                crown.rotation.y = placement.yaw + layer * 0.7;
+                crown.castShadow = true;
+                tree.add(crown);
+              }
+              tree.position.set(...placement.position);
+              tree.scale.setScalar(placement.scale);
+              scene.add(tree);
+              trees++;
+            } else {
+              const rock = new THREE.Mesh(rockGeometry, rockMaterial);
+              rock.name = placement.id;
+              rock.position.set(...placement.position);
+              rock.scale.set(
+                placement.scale * 1.2,
+                placement.scale * 0.65,
+                placement.scale,
+              );
+              rock.rotation.set(
+                placement.yaw * 0.13,
+                placement.yaw,
+                placement.yaw * 0.08,
+              );
+              rock.castShadow = true;
+              scene.add(rock);
+              rocks++;
+            }
           }
         }
       const seams = new THREE.LineSegments(
@@ -177,7 +250,8 @@ export default function WorldExplorer() {
       draw();
       setStats({
         triangles,
-        placements,
+        rocks,
+        trees,
         milliseconds: Math.round(performance.now() - start),
       });
       return () => {
@@ -187,8 +261,6 @@ export default function WorldExplorer() {
         disposeGroup(scene);
         seams.geometry.dispose();
         (seams.material as THREE.Material).dispose();
-        rockGeometry.dispose();
-        rockMaterial.dispose();
         sun.shadow.map?.dispose();
         renderer?.dispose();
         renderer?.forceContextLoss();
@@ -206,34 +278,44 @@ export default function WorldExplorer() {
       engine.current = null;
       setError(e instanceof Error ? e.message : 'World preview failed');
     }
-    // Seed/location create a fixed four-chunk preview; streaming belongs to SF-03.
-  }, [seed, location]);
+    // Seed/location create a fixed nine-chunk preview; streaming belongs to SF-03.
+  }, [center.id, seed, spec]);
 
   function positionCamera() {
     const e = engine.current;
     if (!e) return;
-    const center = locations[location],
-      x = center.x * 128,
-      z = center.z * 128;
+    const x = center.x,
+      y = center.y,
+      z = center.z;
     if (view === 'top') {
-      e.camera.position.set(x, 360, z + 0.01);
-      e.controls.target.set(x, 0, z);
+      e.camera.position.set(x, 540, z + 0.01);
+      e.controls.target.set(x, 12, z);
     } else if (view === 'opening') {
-      e.camera.position.set(x + 5, 33, z + 115);
-      e.controls.target.set(x, 35, z);
+      e.camera.position.set(
+        x + center.extent[0] * 0.08,
+        y,
+        z + center.extent[2] * 0.95,
+      );
+      e.controls.target.set(x, y, z);
+    } else if (view === 'detail') {
+      e.camera.position.set(
+        x + center.extent[0] * 0.82,
+        y + center.extent[1] * 0.65,
+        z + center.extent[2] * 0.98,
+      );
+      e.controls.target.set(x, y, z);
     } else {
-      e.camera.position.set(x + 215, 180, z + 265);
-      e.controls.target.set(x, 14, z);
+      e.camera.position.set(x + 310, 225, z + 350);
+      e.controls.target.set(x, 20, z);
     }
     e.controls.update();
   }
-  useEffect(positionCamera, [view]);
+  useEffect(positionCamera, [view, center.id]);
   useEffect(() => {
     if (engine.current) engine.current.seams.visible = boundaries;
   }, [boundaries]);
 
   const validSeed = /^\d+$/.test(draftSeed) && Number(draftSeed) <= 4294967295;
-  const center = locations[location];
   return (
     <main className="world-page">
       <header className="world-header">
@@ -300,6 +382,7 @@ export default function WorldExplorer() {
               onChange={(e) => setView(e.target.value)}
             >
               <option value="oblique">Landscape</option>
+              <option value="detail">Landmark detail</option>
               <option value="top">From above</option>
               <option value="opening">Ground level</option>
             </select>
@@ -320,25 +403,28 @@ export default function WorldExplorer() {
           data-seed={seed}
           data-location={location}
           data-triangles={error ? 0 : stats.triangles}
+          data-features={spec.features.length}
+          data-trees={stats.trees}
+          data-rocks={stats.rocks}
         >
           {error && <div role="alert">World preview unavailable: {error}</div>}
         </div>
         <div className="world-status" role="status">
-          <span>4 connected chunks · 256 × 256 m preview</span>
+          <span>9 connected chunks · 384 × 384 m preview</span>
           <span>
-            {stats.triangles.toLocaleString()} faces · {stats.placements} rocks
-            · {stats.milliseconds} ms generation
+            {stats.triangles.toLocaleString()} faces · {stats.trees} trees ·{' '}
+            {stats.rocks} rocks · {stats.milliseconds} ms generation
           </span>
         </div>
       </section>
       <footer className="world-footer">
         <p>
-          Viewing X {(center.x - 1) * 128}…{(center.x + 1) * 128} m, Z{' '}
-          {(center.z - 1) * 128}…{(center.z + 1) * 128} m. Drag to orbit;
-          right-drag to pan.
+          Viewing X {(centerChunk.x - 1) * 128}…{(centerChunk.x + 2) * 128} m, Z{' '}
+          {(centerChunk.z - 1) * 128}…{(centerChunk.z + 2) * 128} m. Drag to
+          orbit; right-drag to pan.
         </p>
         <p>
-          This preview loads four fixed chunks. World streaming and free
+          This preview loads nine fixed chunks. World streaming and free
           navigation are next.
         </p>
       </footer>
