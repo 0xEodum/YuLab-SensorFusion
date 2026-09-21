@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-02R procedural landscape quality passed local acceptance.
-SF-03 streaming and navigation is IN PROGRESS. Dataset generation and training remain
+Updated: 2026-09-21. SF-03 streaming and navigation passed local acceptance.
+SF-04 asset import and first aerodrome is READY. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -37,8 +37,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
 | SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
 | SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
-| SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | IN PROGRESS |
-| SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
+| SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
+| SF-04 | Asset import and first aerodrome | SF-03 | READY |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
@@ -186,6 +186,17 @@ Acceptance:
   cover an occluder outside the display frustum and just across a chunk boundary.
 - Meet or explicitly revise ARCHITECTURE's interactive frame-time targets with
   a recorded hardware/scene profile; report p50/p95, memory and generation latency.
+
+Completed in implementation checkpoint `0c6c456`. Worker-backed bounded caches,
+atomic 4 m/2 m display LOD, flight, persisted rig poses and independent fixed-2-m
+sensor leases passed local acceptance. The production-browser traversal crossed
+104 adjacent boundaries with 1,260 matching rendered seams, stable instance IDs,
+bounded cache/GPU resources and verified teardown. Frame p50/p95 was 16.7/16.9 ms
+at 1280 ? 720 on the RTX 3090. All core checks, two full-world sweeps, 11 production
+browser tests and 10 development/software compatibility tests passed. See
+[SF-03 evidence](evidence/SF-03-streaming-navigation.md),
+[manifest](evidence/sf03-verification-manifest.json), and
+[residency/LOD policy](STREAMING.md) for measured bounds and remaining limits.
 
 ## SF-04 — Import pipeline and first aerodrome
 

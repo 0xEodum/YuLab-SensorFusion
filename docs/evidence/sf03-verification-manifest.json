@@ -1,0 +1,305 @@
+{
+  "schema": "sf03-verification-manifest.v1",
+  "created_at": "2026-09-21",
+  "verification_policy": "local-only",
+  "source_revision": "0c6c456eb01364b0afdc622dceed8d02446f31b6",
+  "source_hash_encoding": "SHA-256 of git blob bytes at source_revision, independent of checkout CRLF; artifacts use raw file bytes",
+  "environment": {
+    "os": "Windows 11 Pro 10.0.26200 x64",
+    "cpu": "Intel Core i5-12400, 6 cores / 12 threads",
+    "physical_ram_bytes": 34088599552,
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "driver": "591.86",
+    "vram_mib": 24576,
+    "node": "25.6.1",
+    "npm": "11.9.0",
+    "python": "3.13.10",
+    "uv": "0.12.17",
+    "playwright": "1.63.0",
+    "edge": "153.0.4234.48"
+  },
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exit": 0,
+      "contract_tests": 62,
+      "world_tests": 19,
+      "backend_tests": 72,
+      "typecheck": true,
+      "production_build": true,
+      "log": "artifacts/sf03/verify-final.log"
+    },
+    {
+      "command": "npm run verify:world",
+      "exit": 0,
+      "seeds": [
+        0,
+        48291
+      ],
+      "chunks_per_seed": 256,
+      "seams_per_seed": 480,
+      "vertical_probes_per_seed": 262144,
+      "log": "artifacts/sf03/full-world.log"
+    },
+    {
+      "command": "PLAYWRIGHT_CHANNEL=msedge PLAYWRIGHT_GPU=1 PLAYWRIGHT_TEST_BUILT=1 npm run test:browser",
+      "exit": 0,
+      "passed": 11,
+      "duration_minutes": 2.3,
+      "log": "artifacts/sf03/browser-production.log"
+    },
+    {
+      "command": "PLAYWRIGHT_CHANNEL=msedge npx playwright test --grep-invert \"104 adjacent\"",
+      "exit": 0,
+      "passed": 10,
+      "duration_minutes": 2.1,
+      "profile": "development server, software WebGL compatibility",
+      "log": "artifacts/sf03/browser-development-software.log"
+    }
+  ],
+  "traversal": {
+    "profile": "SF-03-production-streaming-v1",
+    "seed": 0,
+    "canvas": [
+      1280,
+      720
+    ],
+    "display_pitch_m": 4,
+    "display_chunks": 9,
+    "crossings": 104,
+    "seam_pairs": 1260,
+    "errors": [],
+    "warmup_crossings": 12,
+    "frame_ms": {
+      "samples": 2999,
+      "p50": 16.69999999999709,
+      "p95": 16.899999999997817,
+      "max": 33.299999999995634
+    },
+    "generation_ms": {
+      "samples": 237,
+      "p50": 126.70000000018626,
+      "p95": 181.20000000018626
+    },
+    "commit_ms": {
+      "p50": 1,
+      "p95": 1.699999999254942
+    },
+    "terrain_triangles_range": [
+      79670,
+      106372
+    ],
+    "display_cache_limits": {
+      "max_chunks": 24,
+      "max_bytes": 134217728
+    },
+    "sensor_cache_limits": {
+      "max_chunks": 32,
+      "max_bytes": 134217728,
+      "pitch_m": 2
+    },
+    "peak_retained_display_bytes": 27885584,
+    "renderer_geometries_range": [
+      15,
+      21
+    ],
+    "final_resources": {
+      "created": 1987,
+      "disposed": 1924,
+      "live": 63
+    },
+    "forced_gc_main_isolate_memory": [
+      {
+        "index": 12,
+        "bytes": 9039988,
+        "backingStoreBytes": 26580647,
+        "embedderBytes": 1211896
+      },
+      {
+        "index": 24,
+        "bytes": 9130656,
+        "backingStoreBytes": 27173393,
+        "embedderBytes": 1269232
+      },
+      {
+        "index": 36,
+        "bytes": 9295280,
+        "backingStoreBytes": 27559434,
+        "embedderBytes": 1025632
+      },
+      {
+        "index": 48,
+        "bytes": 9337532,
+        "backingStoreBytes": 27075817,
+        "embedderBytes": 1215328
+      },
+      {
+        "index": 60,
+        "bytes": 9303356,
+        "backingStoreBytes": 27560286,
+        "embedderBytes": 1017008
+      },
+      {
+        "index": 72,
+        "bytes": 9371744,
+        "backingStoreBytes": 26502308,
+        "embedderBytes": 1214984
+      },
+      {
+        "index": 84,
+        "bytes": 9467092,
+        "backingStoreBytes": 26831663,
+        "embedderBytes": 1027464
+      },
+      {
+        "index": 96,
+        "bytes": 9511752,
+        "backingStoreBytes": 28523872,
+        "embedderBytes": 1165272
+      }
+    ],
+    "architectural_frame_targets_passed": true,
+    "memory_scope": "Retained cache bytes, main-isolate V8 heap/ArrayBuffer backing store, renderer geometry counts. Total driver VRAM and worker/process RSS not measured; mesher temporaries and one transferred in-flight result are outside retained cache accounting."
+  },
+  "source_sha256": {
+    "backend/uv.lock": "598379e94b04807c1ae487d5412bd109aef8875755cf853facd5ef98636cfabb",
+    "docs/DATA_CONTRACTS.md": "a9e1780151f6da94354a734f5829df042374b578152ef25ad64a128245aee41e",
+    "docs/STREAMING.md": "85e8197fda8df4f709893530c236389f22d66d5eb6542126816b4d2e4f4c0df9",
+    "frontend/src/ChunkScene.ts": "b90cf567d825658c8c58e5d1626cb3796bc6ae297944de708b02ee1a531f903e",
+    "frontend/src/ChunkWorker.ts": "f42a1639e3d1cd723126c8ab437f6a4ce70b23985324cd7de99bc5ecb7db6b04",
+    "frontend/src/WorldExplorer.tsx": "0aea77bbc33fd1e419c765d827598abf83311426fc3aed08269d6601a9179fd0",
+    "frontend/src/WorldRuntime.ts": "e07972560d693204c9c96a2324507f30ac1a8102b26a0b94162afac7f810f050",
+    "frontend/src/chunk.worker.ts": "bb32a58c50e43fb022634ed4de9b8e8c2870be9d5b6999b718d8d8eaaafd1def",
+    "frontend/src/world.css": "b4ea76cbe396763a5f817516ed7f9432d30f6035175752085e806847f8763280",
+    "frontend/vite.config.ts": "51b6526e2384590c3d7ca79887fed7c0edcb2b981b5e3ee5feaeae89e888b42a",
+    "package-lock.json": "ab6184bb5f2eac4f626258220d4a515c3b019999bef5162f02a375b200b49d05",
+    "package.json": "03ea2b763d4da94b617f62a0965ddb9124834406cb6199112fbfcb0f691df2e2",
+    "packages/world/src/bookmark.ts": "a4be571c437fde200fa59d3260d29e41008c1b3083f25481f097ccf47db05cf6",
+    "packages/world/src/field.ts": "8468bb2b421f0550b0253b6a38256f254c87621484ecc76fa68625f375d83971",
+    "packages/world/src/index.ts": "8531e21344bdf6b6737a39b19b5a706bfdc91ebf2531a5ed708b9df413599624",
+    "packages/world/src/legacy.ts": "207a691cf84aea67bb50d5d6384dac2ed48607d9071838dea2cb3adb7bed73fd",
+    "packages/world/src/mesh.ts": "6242f6a5f4befa0eb67ef16704716e76abf94363180f45358e5559d485649ed8",
+    "packages/world/src/noise.ts": "b2987def28cab6be185cf8876eccf83cd11d5e20dfea0ea2fa0807160b33ddc6",
+    "packages/world/src/placement.ts": "cd033822756a94df191a61b7772dbedebc443b0762d199fe6b25dab25b70ac42",
+    "packages/world/src/residency.ts": "03d5fd896a96c40505c0cdd85933ee0b1fc3f677d19e25b4177b4aa6f23af874",
+    "playwright.config.ts": "0f4a0919a1381757095d36666a28331033f76fb0fb42f5ad0174955e106ab6f3",
+    "tests/browser/backend.spec.ts": "40797b7d9634d3b147016fc4a476580959ace38ae1414067ef8cc846d6a65647",
+    "tests/browser/editor.spec.ts": "b05e174101a95cbf532729582bda0c4062836ce6a2e3a17c40537e0398bb3b8b",
+    "tests/browser/streaming.spec.ts": "09d4da0b21994f67f1c2bd4045f41f3f797b15c67b1da4be3556b841c7ce49e3",
+    "tests/browser/world.spec.ts": "acae3b7fece79cb59a62497e4ee02749354bec878b52b8588c0c137372ef3647",
+    "tests/world/legacy-characterization.json": "b4996095fbec1cd11d8c23689991f19e649a95e56355f99eb55d9da51fdff272",
+    "tests/world/residency.test.ts": "b1c496df9bb1a0bd32bef26056196408a12b46c27384668a45968758af76415d",
+    "tests/world/world.test.ts": "b0c22e4b4f72e40d382843b10394fcd8856a212db964dc318419eaea41e79bd7",
+    "tsconfig.tools.json": "4b4aca7bdcc5b2dd5eed3317f51e38859264763600b96c08810f35379c5cea84"
+  },
+  "fixture_sha256": {
+    "contracts/fixtures/AnnotationBundle.json": "e6f48dbd19e63e3e13f0a772936441bf9362dd7d037298eb31602517316d45c8",
+    "contracts/fixtures/ApiError.json": "b93470896ff41fb118f28a516d89e2a691e70c383bb82d791a3c60be8b01bb85",
+    "contracts/fixtures/AssetRecord.json": "1ceb169088f8dfbcf3494809c02b7b22b5aacc518d5342a83de6fedf9483d6d2",
+    "contracts/fixtures/Capabilities.json": "a71e791d7d6f0eabc500cef70d0bd917f83d553f28b82f248d1e7d51a5346772",
+    "contracts/fixtures/CapturePlan.json": "997b9a16acf749146226b8cb3b6e710dd5a64e7e6a67fc769a83d03d7fa1e710",
+    "contracts/fixtures/DatasetManifest.json": "a47fc25fbefcb14b03b3d088ab1df1514364b2cd7e6730f71c83deea325a19bf",
+    "contracts/fixtures/EnvironmentSpec.json": "eb88d421d5cfe636db1207d36bf60f56ee1917fe639ccfc0a4638bbfa264c266",
+    "contracts/fixtures/Health.json": "fe3bd7110ea7b080955c35105891a690dfafa01b507c6d02197365359bb6d339",
+    "contracts/fixtures/ObservationBundle.json": "81e973618ab21cfd1151ebdfc407ae1b8d2505ad3ab74d5280fbc74a7e5adf63",
+    "contracts/fixtures/PredictionBundle.json": "38dd6b579752712d797fd258ebd98ef1fa0d1d5620b69fbc874fae1e5e707e67",
+    "contracts/fixtures/RigSpec.json": "59e96de0975382d11edd241f9a54c499614ac27540922edf2a63b274d0ddf052",
+    "contracts/fixtures/TruthBundle.json": "51641efb407d17020016c2da23f958651e6e985270f6f2f9f7c48ac84ff3a400",
+    "contracts/fixtures/WorldSpec.json": "776f893e10207a9fea13672fb669b48d1534f9c24b5af38652e038290dc9ac3f",
+    "contracts/fixtures/cases.json": "3d993a5190a69cdae9f2b14686878add711ce9ea203e582039a22100e196df0a",
+    "contracts/lab.schema.json": "98fe0b581cbbb2b0bff8800311ebebfa3ff9fa3eb770030f71924e5be1188288",
+    "contracts/openapi.json": "0273902ee0624c6255263415c13439f61f3548f5ddb264b9e7c555198c3a71ce",
+    "tests/world/legacy-characterization.json": "b4996095fbec1cd11d8c23689991f19e649a95e56355f99eb55d9da51fdff272"
+  },
+  "artifact_sha256": {
+    "artifacts/sf03/browser-development-software/backend-offline.png": "779f9a6393d24ee4c5f5938a4573f14369f906a75cfe2756611aa32890a3c3a3",
+    "artifacts/sf03/browser-development-software/editor-desktop.png": "e01c1e8968280f3ec3c0c5b6c10f34e0fc99dc2ce1bd83e9fc7fa80efd129b9d",
+    "artifacts/sf03/browser-development-software/editor-mobile.png": "cbcc6b645a3eaa5888251fb802b77addfb6e832f985c6bb1ccbeaa2193940986",
+    "artifacts/sf03/browser-development-software/fine-seams.png": "22bfbd8837de5e53752341e5bc8b8a6e6737c83cb0663f690b4df005c26b5072",
+    "artifacts/sf03/browser-development-software/results.json": "bc548994a5cd491f1f848b47668728c20c479d311ec5f84d04bde6be0a234079",
+    "artifacts/sf03/browser-development-software/sf02r-connected-alpine-detail-seed-0.png": "4495e97943bf032bcb90d501d62be1cad7b1b03eefd3d6467004af56cc6c981a",
+    "artifacts/sf03/browser-development-software/sf02r-connected-alpine-overview-seed-0.png": "9acd9ab7513ba24aa14ccda4348c09ba1eeac3b4e98e1e4de8420a70780d7df7",
+    "artifacts/sf03/browser-development-software/sf02r-connected-alpine-seed-0.png": "6de50cfe139226be77701130467f41cd9a5c1a9e34b8be233d8fcb1c77c70ba3",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-close-seed-0.png": "40361d05de5b49763b47b2cc3a89b38cd904257d3383de02092ce1a64c073b0e",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-detail-seed-0.png": "01b052a8a15c0c1a91bbe6ab882bd5e6da9eb99941c1e22ad138d4d5b7c7d0d2",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-detail-seed-48291.png": "11c64d320e37526ec340036324fcf45dd0ab95e6a6e85c530e4d631bede16335",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-detail-seed-77123.png": "d8bf9e20690f0cc13322df6724e3da629f077dc203834757c9a36d6d5be4d27b",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-overview-seed-0.png": "88d3b71e1970f31d0be59a2a49032d1b3e9513e931b1d81f639962a1660f0839",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-overview-seed-48291.png": "afa9f96e1fcf83cb9da9f45327f2ba48b55e6f084be87ba508d60bf67063f478",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-overview-seed-77123.png": "f1354b8a6dd6c704b97a37511fabd52184d80b4da2d76a7abed488e9ca28dfe6",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-seed-0.png": "ad8d9825ba069e547ca57749a0d26d31da841dff30363cdadd74386a6b0f021c",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-seed-48291.png": "c6e7be03f7ce950a642b0dd612e9585f290a1c0fa696f2514ff615038afff35c",
+    "artifacts/sf03/browser-development-software/sf02r-connected-canyon-seed-77123.png": "92f06bc18f76cb60607f4e39611870df328b31e829ed91631d61354932d43502",
+    "artifacts/sf03/browser-development-software/sf02r-connected-coast-detail-seed-0.png": "a52be8daa089e90ad542cd9d2c6e0a8c4be9085761cdfaf4264faccb827267e0",
+    "artifacts/sf03/browser-development-software/sf02r-connected-coast-overview-seed-0.png": "54f35cfb20e5016474b155e1f29b0cfd197a5c3aaa946e6338c19afa9b010b08",
+    "artifacts/sf03/browser-development-software/sf02r-connected-coast-seed-0.png": "4e0cd2d5d65f33282cd8633bd42a3b3c70e1b66f228b311ffb5ceaf3f7c74a57",
+    "artifacts/sf03/browser-development-software/sf02r-connected-islands-detail-seed-0.png": "f279abb7f69e4f8409f40473c041c699059d8c550bcf2fb4e7fe62bf884480ef",
+    "artifacts/sf03/browser-development-software/sf02r-connected-islands-overview-seed-0.png": "20797c9728d6807061c6aa8f53484f162dd40a417232a618782350eb4c7ce863",
+    "artifacts/sf03/browser-development-software/sf02r-connected-islands-seed-0.png": "af82d43178649f84ccfa1748957c220f6af9c91ed98c8b570c1e76e1b248b5c7",
+    "artifacts/sf03/browser-development-software/sf02r-legacy-alpine.png": "64fae32c1544f981ea2aedbd7eb66782f57a2af5b42e9f6a68f5db4b9f5b729b",
+    "artifacts/sf03/browser-development-software/sf02r-legacy-canyon.png": "b0d091b2dccae23fe003e2b4eae1f2e99c42ab182c87581f980f49065d88491b",
+    "artifacts/sf03/browser-development-software/sf02r-legacy-coast.png": "1903b55b4c865430ff403444f31cb9216d9bceb483df4f2bbe0c953e860a757a",
+    "artifacts/sf03/browser-development-software/sf02r-legacy-islands.png": "0013ea8309af930f6dc01fb6858690726694a355140654618cb7ff1ea7613cc1",
+    "artifacts/sf03/browser-development-software/world-coast.png": "8ae214d80a9efbc57641376a4424a858964b5fdf0201031dda510211b4ead72c",
+    "artifacts/sf03/browser-development-software/world-islands.png": "4f1bab37828694a6d663aedd4f34a6cc0bbbef60541adbe9f6201c532d26b932",
+    "artifacts/sf03/browser-development-software/world-mobile.png": "f722d780c747704309fd741ff04006c9cbaddfcb4a37cdfdee7741bf2796cbb9",
+    "artifacts/sf03/browser-development-software/world-oblique.png": "e5c09f1adc2941e12d9448d81847ad9b3a6b6ec15a2f002b68b8ff1a79096125",
+    "artifacts/sf03/browser-development-software/world-opening.png": "34dd5e5065b13a7b4385fdac80e43170066a2f5304ffaaf95624ad594ee45ea2",
+    "artifacts/sf03/browser-development-software/world-region-fifteen.png": "fb880e3a4748d1a997c2874fc9967e7066dda1e40530c7331cd73db026e87213",
+    "artifacts/sf03/browser-development-software/world-region-five.png": "697b1de508d1fbdd5eb23a36ca54b96d5e981345ac753489fbdec65fad4cf524",
+    "artifacts/sf03/browser-development-software/world-region-ten.png": "7538ed4c75bda7b5481d91ec6a434b2f681788a620a4d2fcff1963f31d006047",
+    "artifacts/sf03/browser-development-software/world-ridge.png": "1438872de720fd8be0a1d8d2f3abd08b46c32d04874824c83e56f30e5536d3ed",
+    "artifacts/sf03/browser-development-software/world-seams.png": "dff844e44653255819e3502c85fc5919676028c064209c92c9588de7dc651b5b",
+    "artifacts/sf03/browser-development-software/world-top-seams.png": "b9f6e39bf96612eb75576f92cdbf442a23a72233e9a1e90a4b4c313f2002485a",
+    "artifacts/sf03/browser-development-software.log": "eb5b06e562488ffdbe41d8427f1b6b3224eb2d2995bbf0eac07fcb58d8b6a695",
+    "artifacts/sf03/browser-production/backend-offline.png": "b6d7c83785e3a204d3f4bc7d7ec7711f48ac9e3bbb28bd4257e8ca6ef47f9059",
+    "artifacts/sf03/browser-production/editor-desktop.png": "9498f099a6fab8510d32eccdfae4642a3ed17c496e284fc21179c74862b90958",
+    "artifacts/sf03/browser-production/editor-mobile.png": "487df25eefd24a751ea8d9a31e59f486026bd659e595ab4ed7ed34ecbc06782c",
+    "artifacts/sf03/browser-production/results.json": "7b2bc8b8eb35d64122a7c9110fe73f43b99d30867686a63d8d9b84f677b0212c",
+    "artifacts/sf03/browser-production/sf02r-connected-alpine-detail-seed-0.png": "81d91e958afff753e7a560347f3d66fbf3d24f2c792bbd92375fbd4c555fe60d",
+    "artifacts/sf03/browser-production/sf02r-connected-alpine-overview-seed-0.png": "40d356b6eda6755feb6afb166117271485b6cb03eada587bbf334347fe6b97b8",
+    "artifacts/sf03/browser-production/sf02r-connected-alpine-seed-0.png": "6de50cfe139226be77701130467f41cd9a5c1a9e34b8be233d8fcb1c77c70ba3",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-close-seed-0.png": "40361d05de5b49763b47b2cc3a89b38cd904257d3383de02092ce1a64c073b0e",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-detail-seed-0.png": "9365bf32e72034b055582cb82d6b180073f364011e3f93f74e8b92cc5266e2db",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-detail-seed-48291.png": "00b268b29e34bdef2a147e205d83408c25f7529aec1d7778122a1c6b0d89fda1",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-detail-seed-77123.png": "c1459a85dee49d99676c4322e68816a4bd4c8e48a9f260a6cd4191e41b6e303a",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-overview-seed-0.png": "6d84382902f7cd02ed763effa75d90a022768bd7cfe93e5d551ee9cbd38df4dd",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-overview-seed-48291.png": "963f29d2542e343e82b2ca3770d589c1bb2a60251aefec016d24965d88d562ef",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-overview-seed-77123.png": "a070966a1be735078961927076ca340fff32998603f0b26d068147474f5c35bf",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-seed-0.png": "ad8d9825ba069e547ca57749a0d26d31da841dff30363cdadd74386a6b0f021c",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-seed-48291.png": "c6e7be03f7ce950a642b0dd612e9585f290a1c0fa696f2514ff615038afff35c",
+    "artifacts/sf03/browser-production/sf02r-connected-canyon-seed-77123.png": "92f06bc18f76cb60607f4e39611870df328b31e829ed91631d61354932d43502",
+    "artifacts/sf03/browser-production/sf02r-connected-coast-detail-seed-0.png": "5dc69c5caf0fcc62c77e411fb78be799bd694c05628f2d0a348912f8dd718ee9",
+    "artifacts/sf03/browser-production/sf02r-connected-coast-overview-seed-0.png": "01a832447af34a8516cffe92f4e90062039cb8c56b7133e0b01b1053c0b6e9a1",
+    "artifacts/sf03/browser-production/sf02r-connected-coast-seed-0.png": "4e0cd2d5d65f33282cd8633bd42a3b3c70e1b66f228b311ffb5ceaf3f7c74a57",
+    "artifacts/sf03/browser-production/sf02r-connected-islands-detail-seed-0.png": "d0677e152cdee6205e6eb9b0dbb5153aea16d08687fc41be3c69910ec18b6d76",
+    "artifacts/sf03/browser-production/sf02r-connected-islands-overview-seed-0.png": "2a0399197a1dfbe0adf698d3a4af271aef799754f3af48a5937be74832d846cc",
+    "artifacts/sf03/browser-production/sf02r-connected-islands-seed-0.png": "af82d43178649f84ccfa1748957c220f6af9c91ed98c8b570c1e76e1b248b5c7",
+    "artifacts/sf03/browser-production/sf02r-legacy-alpine.png": "bca8833ca59378112c9ee74e466790671b1d9dea0361a860d006f28cc9f8e8b5",
+    "artifacts/sf03/browser-production/sf02r-legacy-canyon.png": "b9f13e44e45bb78fbb813c7213ddb2fac71435998b229d68aa53bdc148c40e08",
+    "artifacts/sf03/browser-production/sf02r-legacy-coast.png": "fb313a975bfd38c9d1dee54c95ee87f32fae36307fdb863ea9c2cce96faeb231",
+    "artifacts/sf03/browser-production/sf02r-legacy-islands.png": "57f1ff4be29e888b95286b030d2f315a8b1108dbc3be7827b3bc36243749ab69",
+    "artifacts/sf03/browser-production/world-coast.png": "8ae214d80a9efbc57641376a4424a858964b5fdf0201031dda510211b4ead72c",
+    "artifacts/sf03/browser-production/world-islands.png": "4f1bab37828694a6d663aedd4f34a6cc0bbbef60541adbe9f6201c532d26b932",
+    "artifacts/sf03/browser-production/world-mobile.png": "40473ef1e2be5b20cf13182bd36bb3d4646641ae2e3b1ed099249a6d72a6f171",
+    "artifacts/sf03/browser-production/world-oblique.png": "9c0d426f205dbb0cb24cd4bb5b9368a0db8dfc9905d7d03fbf4630537ba80c7f",
+    "artifacts/sf03/browser-production/world-opening.png": "6bd683260a2d9e3660590eb097dde12dbbbce45d5b395bc3d908871adc756f98",
+    "artifacts/sf03/browser-production/world-region-fifteen.png": "8f276623b302e64b2e4ae2dd2d7826fe55e47d525d07009d2271d9a20c23ca65",
+    "artifacts/sf03/browser-production/world-region-five.png": "fda61d46858f39c629a7d0383a155e75e5a505257f5ce3c35d01fced6820f103",
+    "artifacts/sf03/browser-production/world-region-ten.png": "6d99cfb86b84a1940581a9c94669e15cd0dd5258d6190d7bcdab157711e47905",
+    "artifacts/sf03/browser-production/world-ridge.png": "1438872de720fd8be0a1d8d2f3abd08b46c32d04874824c83e56f30e5536d3ed",
+    "artifacts/sf03/browser-production/world-seams.png": "b6b7606e78a44d5556dd22f41de193fbde9a3a3d9ff033ba4a740e6adbbe104e",
+    "artifacts/sf03/browser-production/world-top-seams.png": "8f4b89f9f2403c59b3a70fa4ba07553eea0db422fdf00991e5d82aa1a8c989dc",
+    "artifacts/sf03/browser-production.log": "782f6b5c82f8a0cf96cabf1650c0a849e4be71a6695fc0a1848f70e86d38b737",
+    "artifacts/sf03/full-world.log": "2e29777a35822d4bc8f18a136f09d388b3a6d19811b1d37cda0d2b3a8aaa6982",
+    "artifacts/sf03/production-fine-seams.png": "8f7a26cdd88beff9b1a12b9ce69d09f8f4fbdbd880c832db91b416f1e9a56959",
+    "artifacts/sf03/production-traversal-104.png": "b0efff1bf78b2feefe923265e8b7e0a461e2dd4a8e3f7dafec376ffd480bfc16",
+    "artifacts/sf03/production-traversal-12.png": "c22d14b691873e4d8eeaaa0fe217489a9df810ee8a3cef083a8d94cd894cd617",
+    "artifacts/sf03/production-traversal.json": "4b8439f24290f687202b1d49c7652c63393deef4a242f6d8168c26f2c5a66aaf",
+    "artifacts/sf03/verify-final.log": "182715e4e5dbf91ecd9fecf27181f9c64ba056a802f779ba0be51636162a002a",
+    "artifacts/sf03/world-verification-0.json": "07d1d314ce1c705daa1ad323f9907f14417b98bab87b6ff506c3973435a67b3e",
+    "artifacts/sf03/world-verification-48291.json": "5365760fc6a47014412958d0f349f731926f360be4038dfb2a3fcd05f68becb8",
+    "frontend/dist/chunk.worker-BuF7aPG1.js": "ce6180697b6a13449046017ab985a611b64eea21ea79637ca5f56fbb868d45c0",
+    "frontend/dist/index.html": "bb07abccdaed6fb0beb41d826ae804d529075358e6f00ecd5b1ba11bfb9e2d01"
+  }
+}

@@ -1,7 +1,7 @@
 # Sensor-fusion lab architecture
 
-Status: SF-03 streaming and navigation implemented, 2026-09-21; local
-acceptance is recorded under docs/evidence. Frontend/backend structure,
+Status: SF-03 streaming and navigation accepted locally, 2026-09-21;
+SF-04 asset import and first aerodrome is next. Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
 Sensors, datasets and models remain planned; no sensor/training
@@ -338,6 +338,14 @@ Sensor capture throughput is measured in SF-05 before setting dataset completion
 estimates. Full-resolution capture may run slower than interactive preview;
 the UI must show that rate honestly. Benchmark on the named machine with stated
 object counts, mesh detail, resident chunks, resolution and point budget.
+
+SF-03 measured 16.7 ms median / 16.9 ms p95 across the post-warmup production
+traversal at 1280 ? 720, nine 4 m chunks, 79,670..106,372 terrain faces on the
+RTX 3090 / i5-12400. The targets remain unchanged for this recorded profile.
+See [SF-03 evidence](evidence/SF-03-streaming-navigation.md) for cache/heap/resource
+measurements, generation latency, source identity and limits. This is not a
+sensor-capture or all-hardware performance claim.
+
 
 ## 10. Limits and change control
 

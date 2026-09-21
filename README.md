@@ -114,7 +114,8 @@ Changing generated code directly fails the drift check. See
   [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and
   [SF-01 evidence](docs/evidence/SF-01-foundation.md) and
   [SF-02 evidence](docs/evidence/SF-02-connected-world.md) plus its
-  [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md).
+  [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md), and
+  [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md).
 
 Datasets, imported asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned
