@@ -3,7 +3,10 @@ import {
   defaultWorldSpec,
   validateBookmark,
   type RigBookmark,
+  aerodromeWorldSpec,
+  aerodromeFixtures,
 } from "@yulab/world";
+import { loadCatalog, type Catalog } from "@yulab/assets";
 import { WorldRuntime, type WorldStatus } from "./WorldRuntime";
 import "./world.css";
 
@@ -30,6 +33,20 @@ export default function WorldExplorer() {
   const [bookmarkName, setBookmarkName] = useState("Rig 1"),
     [bookmarks, setBookmarks] = useState<RigBookmark[]>([]);
   const [rigMessage, setRigMessage] = useState("");
+  const [aerodrome, setAerodrome] = useState(
+    new URLSearchParams(window.location.search).get("site") === "aerodrome",
+  );
+  const [catalog, setCatalog] = useState<Catalog | null>(null);
+  const [catalogError, setCatalogError] = useState("");
+  useEffect(() => {
+    const controller = new AbortController();
+    loadCatalog(controller.signal)
+      .then(setCatalog)
+      .catch((error) => {
+        if (!controller.signal.aborted) setCatalogError(String(error));
+      });
+    return () => controller.abort();
+  }, []);
   const [stats, setStats] = useState<WorldStatus>({
     ready: false,
     chunks: 0,
@@ -41,13 +58,25 @@ export default function WorldExplorer() {
     z: 0,
     error: "",
   });
-  const spec = useMemo(() => defaultWorldSpec(seed), [seed]);
+  const spec = useMemo(
+    () =>
+      aerodrome && catalog
+        ? aerodromeWorldSpec(seed, catalog.assets)
+        : defaultWorldSpec(seed),
+    [seed, aerodrome, catalog],
+  );
   useEffect(() => {
     if (!host.current) return;
+    if (aerodrome && !catalog) return;
     let runtime: WorldRuntime | undefined;
     setStats((s) => ({ ...s, ready: false, triangles: 0, error: "" }));
     try {
-      runtime = new WorldRuntime(spec, host.current, setStats);
+      runtime = new WorldRuntime(
+        spec,
+        host.current,
+        setStats,
+        catalog ?? undefined,
+      );
       engine.current = runtime;
       runtime.view(location, view);
       runtime.setPitch(pitch);
@@ -57,7 +86,9 @@ export default function WorldExplorer() {
         window.worldQA = runtime;
       try {
         const saved: unknown = JSON.parse(
-          localStorage.getItem(`strata-rigs-${seed}`) ?? "[]",
+          localStorage.getItem(
+            `strata-rigs-${aerodrome ? "aerodrome-" : ""}${seed}`,
+          ) ?? "[]",
         );
         setBookmarks(
           Array.isArray(saved)
@@ -99,7 +130,10 @@ export default function WorldExplorer() {
         ...bookmarks.filter((b) => b.name !== bookmark.name),
         bookmark,
       ].slice(-12);
-      localStorage.setItem(`strata-rigs-${seed}`, JSON.stringify(next));
+      localStorage.setItem(
+        `strata-rigs-${aerodrome ? "aerodrome-" : ""}${seed}`,
+        JSON.stringify(next),
+      );
       setBookmarks(next);
       setRigMessage(`Saved ${bookmark.name}.`);
     } catch (error) {
@@ -139,6 +173,32 @@ export default function WorldExplorer() {
         </div>
       </section>
       <section className="world-panel" aria-label="Connected world preview">
+        <div className="world-toolbar">
+          <button
+            aria-pressed={!aerodrome}
+            onClick={() => {
+              setAerodrome(false);
+              setLocation(0);
+            }}
+          >
+            Natural landscape
+          </button>
+          <button
+            aria-pressed={aerodrome}
+            disabled={!catalog}
+            onClick={() => {
+              setAerodrome(true);
+              setLocation(0);
+            }}
+          >
+            Open aerodrome
+          </button>
+          <span>
+            {aerodrome
+              ? "Airfield · 1,200 m runway · parked aircraft"
+              : "Seeded landforms · continuous terrain"}
+          </span>
+        </div>
         <form
           className="world-toolbar"
           onSubmit={(e) => {
@@ -235,10 +295,12 @@ export default function WorldExplorer() {
           data-trees={stats.trees}
           data-rocks={stats.rocks}
         >
-          {stats.error && (
-            <div role="alert">World preview unavailable: {stats.error}</div>
+          {(stats.error || (aerodrome && catalogError)) && (
+            <div role="alert">
+              World preview unavailable: {stats.error || catalogError}
+            </div>
           )}
-          {!stats.ready && !stats.error && (
+          {!stats.ready && !stats.error && !catalogError && (
             <div className="world-loading">Loading terrain…</div>
           )}
         </div>
@@ -276,6 +338,65 @@ export default function WorldExplorer() {
           ))}
           <span aria-live="polite">{rigMessage}</span>
         </div>
+        <section className="world-catalog" aria-label="Model catalog">
+          <div>
+            <h2>Objects at world scale</h2>
+            <p>One unit is one metre. Original proportions, parked pose.</p>
+          </div>
+          {catalogError && (
+            <p role="alert">Model catalog unavailable: {catalogError}</p>
+          )}
+          {!catalog && !catalogError && <p>Loading model catalog…</p>}
+          <div className="catalog-grid">
+            {catalog?.assets.map((a) => (
+              <article key={a.asset_id}>
+                <h3>
+                  {a.asset_id === "f16"
+                    ? "F-16"
+                    : a.asset_id === "rq4"
+                      ? "RQ-4 Global Hawk"
+                      : "8×8 ground vehicle"}
+                </h3>
+                <p>
+                  {a.bounds.extent_m[2].toFixed(1)} m long ·{" "}
+                  {a.bounds.extent_m[0].toFixed(1)} m wide ·{" "}
+                  {a.bounds.extent_m[1].toFixed(1)} m high
+                </p>
+                <button
+                  disabled={!aerodrome || !stats.ready}
+                  onClick={() => {
+                    engine.current?.inspectAsset(a.asset_id);
+                    setNavigation("orbit");
+                  }}
+                >
+                  Inspect{" "}
+                  {a.asset_id === "f16"
+                    ? "F-16"
+                    : a.asset_id === "rq4"
+                      ? "RQ-4"
+                      : "vehicle"}
+                </button>
+              </article>
+            ))}
+          </div>
+          {aerodrome && (
+            <div className="world-toolbar">
+              <span>Visibility fixtures</span>
+              {aerodromeFixtures.map((f) => (
+                <button
+                  key={f.id}
+                  disabled={!stats.ready}
+                  onClick={() => {
+                    engine.current?.fixture(f.id);
+                    setNavigation("orbit");
+                  }}
+                >
+                  {f.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </section>
       </section>
       <footer className="world-footer">
         <p>

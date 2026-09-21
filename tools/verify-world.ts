@@ -1,23 +1,24 @@
-import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import {
   createWorld,
   defaultWorldSpec,
+  aerodromeWorldSpec,
   chunkCoordinates,
   meshChunk,
   chunkPlacements,
   type ChunkMesh,
-} from '../packages/world/src/index.ts';
+} from "../packages/world/src/index.ts";
 
 const sha = (data: string | ArrayBufferView) =>
-  createHash('sha256')
+  createHash("sha256")
     .update(
-      typeof data === 'string'
+      typeof data === "string"
         ? data
         : new Uint8Array(data.buffer, data.byteOffset, data.byteLength),
     )
-    .digest('hex');
+    .digest("hex");
 const key = (x: number, z: number) => `${x},${z}`;
 function inspect(m: ChunkMesh) {
   const p = m.positions,
@@ -43,8 +44,8 @@ function inspect(m: ChunkMesh) {
     for (let v = 0; v < 3; v++) {
       const a = tri[v],
         b = tri[(v + 1) % 3],
-        ak = a.join(','),
-        bk = b.join(',');
+        ak = a.join(","),
+        bk = b.join(",");
       const ek = ak < bk ? `${ak}|${bk}` : `${bk}|${ak}`;
       const entry = edges.get(ek) ?? { a, b, count: 0, orientation: 0 };
       entry.count++;
@@ -55,10 +56,10 @@ function inspect(m: ChunkMesh) {
           const off = i + v * 3;
           const attrs = Array.from(m.normals.slice(off, off + 3))
             .concat(Array.from(m.colors.slice(off, off + 3)))
-            .join(',');
+            .join(",");
           assert.ok(
             !sides[s].has(ak) || sides[s].get(ak) === attrs,
-            'inconsistent duplicate attributes',
+            "inconsistent duplicate attributes",
           );
           sides[s].set(ak, attrs);
         }
@@ -100,7 +101,7 @@ function inspect(m: ChunkMesh) {
         `interior hole at ${a} -> ${b}`,
       );
     else {
-      assert.equal(count, 2, 'non-manifold edge');
+      assert.equal(count, 2, "non-manifold edge");
       assert.equal(
         orientation,
         0,
@@ -116,9 +117,17 @@ function inspect(m: ChunkMesh) {
   return sides.map((s) => sha(JSON.stringify([...s].sort())));
 }
 
+const aerodrome = process.argv.includes("--aerodrome");
+const catalog = aerodrome
+  ? JSON.parse(readFileSync("frontend/public/catalog/catalog.json", "utf8"))
+      .assets
+  : [];
+const output = aerodrome ? "artifacts/sf04" : "artifacts/sf02r";
 for (const seed of [0, 48291]) {
   const started = performance.now();
-  const world = createWorld(defaultWorldSpec(seed)),
+  const world = createWorld(
+      aerodrome ? aerodromeWorldSpec(seed, catalog) : defaultWorldSpec(seed),
+    ),
     coords = chunkCoordinates(world);
   const records: Record<
     string,
@@ -166,7 +175,9 @@ for (const seed of [0, 48291]) {
     }
   }
   // Recreate the world and request chunks in a different, deterministic shuffled order.
-  const replay = createWorld(defaultWorldSpec(seed));
+  const replay = createWorld(
+    aerodrome ? aerodromeWorldSpec(seed, catalog) : defaultWorldSpec(seed),
+  );
   const shuffled = [...coords].sort((a, b) =>
     sha(key(a.x, a.z)).localeCompare(sha(key(b.x, b.z))),
   );
@@ -184,7 +195,7 @@ for (const seed of [0, 48291]) {
     if (i % 64 === 63) console.log(`Replayed ${i + 1}/256 chunks`);
   }
   const report = {
-    profile: 'sf02r-connected-world.v2',
+    profile: aerodrome ? "sf04-aerodrome-world.v1" : "sf02r-connected-world.v2",
     seed,
     extent_m: world.spec.extent_m,
     chunk_size_m: 128,
@@ -198,10 +209,10 @@ for (const seed of [0, 48291]) {
     elapsed_s: (performance.now() - started) / 1000,
     records,
   };
-  mkdirSync('artifacts/sf02r', { recursive: true });
+  mkdirSync(output, { recursive: true });
   writeFileSync(
-    `artifacts/sf02r/world-verification-${seed}.json`,
-    JSON.stringify(report, null, 2) + '\n',
+    `${output}/world-verification-${seed}.json`,
+    JSON.stringify(report, null, 2) + "\n",
   );
   console.log(JSON.stringify({ ...report, records: undefined }, null, 2));
 }

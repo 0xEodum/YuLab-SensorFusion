@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
 Updated: 2026-09-21. SF-03 streaming and navigation passed local acceptance.
-SF-04 asset import and first aerodrome is READY. Dataset generation and training remain
+SF-04 asset import and first aerodrome is IN PROGRESS. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -38,7 +38,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
 | SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
-| SF-04 | Asset import and first aerodrome | SF-03 | READY |
+| SF-04 | Asset import and first aerodrome | SF-03 | IN PROGRESS |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |

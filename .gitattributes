@@ -1,0 +1,3 @@
+# These sidecars are addressed by raw byte hashes; Windows checkout must not rewrite them.
+frontend/public/catalog/*.json text eol=lf
+*.glb binary

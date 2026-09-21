@@ -1,0 +1,85 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 1.5707963267948966,
+  "source_ground_y": 0.010096566069827465,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -1.4685777425765991,
+      1.3877787807814457e-17,
+      3.4357175827026367
+    ],
+    [
+      1.4714223146438599,
+      1.3877787807814457e-17,
+      3.4357175827026367
+    ],
+    [
+      -1.4685777425765991,
+      1.3877787807814457e-17,
+      1.3357175588607788
+    ],
+    [
+      1.4714223146438599,
+      1.3877787807814457e-17,
+      1.3357175588607788
+    ],
+    [
+      -1.4685777425765991,
+      1.3877787807814457e-17,
+      -1.514282464981079
+    ],
+    [
+      1.4714223146438599,
+      1.3877787807814457e-17,
+      -1.514282464981079
+    ],
+    [
+      -1.4685777425765991,
+      1.3877787807814457e-17,
+      -3.6642825603485107
+    ],
+    [
+      1.4714223146438599,
+      1.3877787807814457e-17,
+      -3.6642825603485107
+    ]
+  ],
+  "bounds_min_m": [
+    -2.130000114440918,
+    1.3877787807814457e-17,
+    -5.505000114440918
+  ],
+  "bounds_max_m": [
+    2.130000114440918,
+    5.8500895500183105,
+    5.577499866485596
+  ],
+  "source_bounds_m": {
+    "min": [
+      -5.577499999850988,
+      0.010096566069827465,
+      -2.1299999994039536
+    ],
+    "max": [
+      5.505000001788139,
+      5.860186038501259,
+      2.1299999994039536
+    ]
+  },
+  "validation": {
+    "triangles": 111996,
+    "meshes": 1383,
+    "max_normal_error": 3.5888509275494584e-8
+  },
+  "frozen_pose": "gear down; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named exterior regions only; synthetic placeholder material coefficients, all sources off. Thermal evolution is SF-06.",
+  "source_files": [
+    {
+      "path": "src/model.ts",
+      "sha256": "c01d2311465d9aa06e050c2f8ede07e2ad7cea7d551856f78f8aa239f69cdd99"
+    }
+  ]
+}

@@ -215,3 +215,50 @@
   font-size: 12px;
   align-self: center;
 }
+.world-catalog {
+  padding: 22px;
+  border-top: 1px solid #d8ded7;
+}
+.world-catalog h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+.world-catalog p {
+  color: #59655e;
+  font-size: 13px;
+}
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.catalog-grid article {
+  padding: 18px;
+  background: #f4f5f0;
+  border: 1px solid #d8ded7;
+  border-radius: 8px;
+}
+.catalog-grid h3 {
+  margin: 0;
+  font-size: 17px;
+}
+.world-catalog button {
+  border: 1px solid #aab6ac;
+  border-radius: 5px;
+  padding: 8px 12px;
+  background: #fff;
+  cursor: pointer;
+}
+.world-catalog button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.world-toolbar button[aria-pressed="true"] {
+  background: #d8e5d6;
+}
+@media (max-width: 700px) {
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+}

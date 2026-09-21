@@ -1,13 +1,18 @@
-import type { WorldSpec } from '@yulab/contracts';
-import { validatePayload } from '@yulab/contracts/validate';
-import { hash, noise } from './noise.ts';
+import type { WorldSpec } from "@yulab/contracts";
+import { validatePayload } from "@yulab/contracts/validate";
+import { hash, noise } from "./noise.ts";
+import {
+  AERODROME_GENERATOR,
+  AERODROME_FIELD,
+  gradeWeight,
+} from "./aerodrome.ts";
 
-export const GENERATOR_VERSION = 'connected-world.v2';
-export const FIELD_VERSION = 'connected-field.v2';
+export const GENERATOR_VERSION = "connected-world.v2";
+export const FIELD_VERSION = "connected-field.v2";
 export const CHUNK_SIZE = 128;
 export const MESH_TOLERANCE_M = 0.0001;
 export type Vec3 = [number, number, number];
-export type Feature = WorldSpec['features'][number];
+export type Feature = WorldSpec["features"][number];
 export type ChunkCoord = { x: number; z: number };
 export type World = {
   readonly spec: WorldSpec;
@@ -37,9 +42,9 @@ export function terrainHeight(x: number, z: number, seed: number) {
 }
 
 export function defaultWorldSpec(seed = 48291): WorldSpec {
-  const featureTypes = ['canyon', 'alpine', 'islands', 'coast'] as const;
+  const featureTypes = ["canyon", "alpine", "islands", "coast"] as const;
   const rotation = Math.floor(seeded(0, 80, seed) * featureTypes.length);
-  const features: WorldSpec['features'] = [];
+  const features: WorldSpec["features"] = [];
   for (let row = 0; row < 4; row++)
     for (let column = 0; column < 4; column++) {
       const cell = row * 4 + column;
@@ -47,14 +52,14 @@ export function defaultWorldSpec(seed = 48291): WorldSpec {
       const z = -768 + row * 512 + (seeded(cell, 2, seed) - 0.5) * 210;
       const type = featureTypes[(cell + rotation) % featureTypes.length];
       const width =
-        (type === 'alpine' || type === 'coast' ? 176 : 120) +
-        seeded(cell, 3, seed) * (type === 'alpine' ? 64 : 48);
+        (type === "alpine" || type === "coast" ? 176 : 120) +
+        seeded(cell, 3, seed) * (type === "alpine" ? 64 : 48);
       const depth =
-        (type === 'alpine' || type === 'coast' ? 160 : 112) +
+        (type === "alpine" || type === "coast" ? 160 : 112) +
         seeded(cell, 4, seed) * 56;
       const height =
-        (type === 'alpine' ? 88 : type === 'canyon' ? 72 : 64) +
-        seeded(cell, 5, seed) * (type === 'alpine' ? 8 : 16);
+        (type === "alpine" ? 88 : type === "canyon" ? 72 : 64) +
+        seeded(cell, 5, seed) * (type === "alpine" ? 8 : 16);
       const ground = terrainHeight(x, z, seed);
       const centerY = Math.min(
         88 - height / 2,
@@ -69,17 +74,17 @@ export function defaultWorldSpec(seed = 48291): WorldSpec {
       });
     }
   return {
-    schema_version: 'lab.v1',
-    kind: 'WorldSpec',
+    schema_version: "lab.v1",
+    kind: "WorldSpec",
     world_id: `connected-${seed}`,
     seed,
     units: {
-      length: 'm',
-      temperature: 'K',
-      angle: 'rad',
-      time: 's',
-      world_frame: 'east-up-south',
-      matrix_layout: 'row-major',
+      length: "m",
+      temperature: "K",
+      angle: "rad",
+      time: "s",
+      world_frame: "east-up-south",
+      matrix_layout: "row-major",
     },
     origin_m: [-1024, -32, -1024],
     extent_m: [2048, 128, 2048],
@@ -139,7 +144,7 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
     ) * 0.018;
   const surface = coarse + fine + strata;
   let d: number;
-  if (f.type === 'canyon') {
+  if (f.type === "canyon") {
     const ring = Math.min(
       1 - Math.hypot(x, y),
       0.32 - Math.abs(z),
@@ -157,7 +162,7 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
     );
     // Enclosed cavity: the outer wall must occlude its inner surface.
     d = Math.min(d, -ellipsoid(-0.65, -0.15, 0, 0.16, 0.22, 0.24));
-  } else if (f.type === 'alpine') {
+  } else if (f.type === "alpine") {
     const peakShift = (seeded(f.seed & 0xffff, 41, f.seed) - 0.5) * 0.18;
     d = Math.max(
       ellipsoid(-0.36 + peakShift, -0.05, -0.08, 0.5, 1.05, 0.58),
@@ -165,7 +170,7 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
       ellipsoid(0.04, -0.52, -0.42, 0.7, 0.48, 0.5),
     );
     d += surface * 1.35;
-  } else if (f.type === 'islands') {
+  } else if (f.type === "islands") {
     d =
       Math.max(
         ellipsoid(-0.42, 0.02, 0.04, 0.58, 0.3, 0.7),
@@ -189,35 +194,84 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
 
 /** Validate the wire boundary, then enforce this generator's narrower supported profile. */
 export function createWorld(input: WorldSpec): World {
-  validatePayload('WorldSpec', input);
-  if (input.generator_version !== GENERATOR_VERSION)
-    throw new Error('Unsupported generator_version');
-  if (input.field_version !== FIELD_VERSION)
-    throw new Error('Unsupported field_version');
+  validatePayload("WorldSpec", input);
+  const aerodrome = input.generator_version === AERODROME_GENERATOR;
+  if (input.generator_version !== GENERATOR_VERSION && !aerodrome)
+    throw new Error("Unsupported generator_version");
+  if (input.field_version !== (aerodrome ? AERODROME_FIELD : FIELD_VERSION))
+    throw new Error("Unsupported field_version");
   if (input.world_id.length > 64)
-    throw new Error('world_id must be at most 64 characters for placement IDs');
+    throw new Error("world_id must be at most 64 characters for placement IDs");
   if (input.chunk_size_m !== CHUNK_SIZE)
-    throw new Error('chunk_size_m must be 128');
+    throw new Error("chunk_size_m must be 128");
   if (input.origin_m[1] !== -32 || input.extent_m[1] !== 128)
-    throw new Error('vertical domain must be [-32,96]');
+    throw new Error("vertical domain must be [-32,96]");
   for (const axis of [0, 2]) {
     if (input.origin_m[axis] % 128 || input.extent_m[axis] % 128)
-      throw new Error('world origin/extent must align to 128 m chunks');
+      throw new Error("world origin/extent must align to 128 m chunks");
     if (
       input.extent_m[axis] > 2048 ||
       Math.abs(input.origin_m[axis]) > 4096 ||
       Math.abs(input.origin_m[axis] + input.extent_m[axis]) > 4096
     )
-      throw new Error('world exceeds verified extent/coordinate limits');
+      throw new Error("world exceeds verified extent/coordinate limits");
   }
-  if (input.instances.length)
-    throw new Error('asset instances are unsupported until SF-04');
+  if (input.instances.length && !aerodrome)
+    throw new Error("asset instances require aerodrome-world.v1");
+  const instanceIds = new Set<string>();
+  for (const i of input.instances) {
+    if (instanceIds.has(i.instance_id))
+      throw new Error(`duplicate instance id: ${i.instance_id}`);
+    instanceIds.add(i.instance_id);
+    const m = i.T_world_from_asset;
+    if (
+      Math.abs(m[0] * m[0] + m[2] * m[2] - 1) > 1e-6 ||
+      Math.abs(m[0] - m[10]) > 1e-6 ||
+      Math.abs(m[2] + m[8]) > 1e-6 ||
+      m[1] !== 0 ||
+      m[4] !== 0 ||
+      m[5] !== 1 ||
+      m[6] !== 0 ||
+      m[9] !== 0
+    )
+      throw new Error(
+        `instance ${i.instance_id}: rigid yaw-only transform required`,
+      );
+    if (
+      m[3] < input.origin_m[0] ||
+      m[3] >= input.origin_m[0] + input.extent_m[0] ||
+      m[11] < input.origin_m[2] ||
+      m[11] >= input.origin_m[2] + input.extent_m[2]
+    )
+      throw new Error(`instance ${i.instance_id}: outside world extent`);
+  }
+  if (
+    aerodrome &&
+    input.features.filter((f) => f.type === "aerodrome").length !== 1
+  )
+    throw new Error("aerodrome profile requires one graded site");
   const ids = new Set<string>();
   for (const f of input.features) {
-    if (!['canyon', 'alpine', 'islands', 'coast'].includes(f.type))
-      throw new Error(`unsupported feature type: ${f.type}`);
     if (ids.has(f.id)) throw new Error(`duplicate feature id: ${f.id}`);
     ids.add(f.id);
+    if (aerodrome && f.type === "aerodrome") {
+      if (
+        f.id !== "aerodrome" ||
+        JSON.stringify(f.center_m) !== "[64,24,0]" ||
+        JSON.stringify(f.extent_m) !== "[448,8,1280]"
+      )
+        throw new Error("unsupported aerodrome grading layout");
+      for (const axis of [0, 2])
+        if (
+          f.center_m[axis] - f.extent_m[axis] / 2 - 32 < input.origin_m[axis] ||
+          f.center_m[axis] + f.extent_m[axis] / 2 + 32 >
+            input.origin_m[axis] + input.extent_m[axis]
+        )
+          throw new Error("aerodrome grading outside world extent");
+      continue;
+    }
+    if (!["canyon", "alpine", "islands", "coast"].includes(f.type))
+      throw new Error(`unsupported feature type: ${f.type}`);
     for (let axis = 0; axis < 3; axis++) {
       if (f.extent_m[axis] < 64 || f.extent_m[axis] > 256)
         throw new Error(
@@ -238,14 +292,20 @@ export function createWorld(input: WorldSpec): World {
   spec.features.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   function freeze(value: object) {
     for (const v of Object.values(value))
-      if (v && typeof v === 'object') freeze(v);
+      if (v && typeof v === "object") freeze(v);
     Object.freeze(value);
   }
   freeze(spec);
-  const baseHeight = (x: number, z: number) => terrainHeight(x, z, spec.seed);
+  const pad = spec.features.find((f) => f.type === "aerodrome");
+  const baseHeight = (x: number, z: number) => {
+    const h = terrainHeight(x, z, spec.seed);
+    return pad ? mix(h, pad.center_m[1], gradeWeight(pad, x, z)) : h;
+  };
   const density = (x: number, y: number, z: number) => {
     let d = baseHeight(x, z) - y;
-    for (const f of spec.features) d = Math.max(d, featureDensity(f, x, y, z));
+    for (const f of spec.features)
+      if (f.type !== "aerodrome") d = Math.max(d, featureDensity(f, x, y, z));
+    if (pad) d = mix(d, baseHeight(x, z) - y, gradeWeight(pad, x, z));
     return d;
   };
   const normal = (x: number, y: number, z: number): Vec3 => {
@@ -281,12 +341,12 @@ export function createWorld(input: WorldSpec): World {
 
 export function chunkAddress(x: number, z: number): ChunkCoord {
   if (!Number.isFinite(x) || !Number.isFinite(z))
-    throw new Error('chunk coordinates must be finite');
+    throw new Error("chunk coordinates must be finite");
   return { x: Math.floor(x / 128), z: Math.floor(z / 128) };
 }
 export function assertChunk(w: World, c: ChunkCoord) {
   if (!Number.isInteger(c.x) || !Number.isInteger(c.z))
-    throw new Error('chunk address must be integer');
+    throw new Error("chunk address must be integer");
   const s = w.spec;
   if (
     c.x * 128 < s.origin_m[0] ||
@@ -294,7 +354,7 @@ export function assertChunk(w: World, c: ChunkCoord) {
     (c.x + 1) * 128 > s.origin_m[0] + s.extent_m[0] ||
     (c.z + 1) * 128 > s.origin_m[2] + s.extent_m[2]
   )
-    throw new Error('chunk outside world extent');
+    throw new Error("chunk outside world extent");
 }
 export function chunkCoordinates(w: World): ChunkCoord[] {
   const result: ChunkCoord[] = [];

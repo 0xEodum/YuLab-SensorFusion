@@ -1,5 +1,13 @@
 # Streaming, navigation and residency
 
+SF-04 adds a bounded three-template asset library and procedural aerodrome
+geometry for its separate world profile. Asset/building selection intersects
+their transformed bounds with each leased chunk; runway/road surfaces are
+clipped to leased rectangles. Independent sensor leases use this same geometry
+builder and never display culling. Template geometry/textures are shared by
+instances and disposed on runtime teardown; infrastructure is disposed on every
+replacement. See [asset residency](ASSETS_AND_AERODROME.md).
+
 SF-03 implements `chunk-residency.v1` over the unchanged `connected-world.v2`
 field. The world is finite; rendering an unloaded neighborhood is not evidence
 of an empty world. No sensor simulator, capture endpoint or model is advertised.

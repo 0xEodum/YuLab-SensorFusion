@@ -1,7 +1,7 @@
 # Sensor-fusion lab architecture
 
-Status: SF-03 streaming and navigation accepted locally, 2026-09-21;
-SF-04 asset import and first aerodrome is next. Frontend/backend structure,
+Status: SF-04 asset import and first aerodrome implemented, local acceptance in progress, 2026-09-21.
+Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
 Sensors, datasets and models remain planned; no sensor/training
@@ -158,6 +158,12 @@ ground/aerial passes around the aerodrome. Cameras must not spawn inside opaque
 geometry. Free orbit is an inspection tool; capture uses a named rig and pose.
 
 ## 5. Asset ingestion and heat
+
+SF-04 implementation: [asset adapters, scales and aerodrome](ASSETS_AND_AERODROME.md).
+Three self-contained GLBs and hash-verified metadata ship in
+`frontend/public/catalog/`; `@yulab/assets` builds the same background/object
+geometry for display and independent sensor residency. The small initial bundle
+is versioned with code; larger later imports/datasets remain external artifacts.
 
 The source directory is `K:\PycharmProjects\world_models\Generated` (external).
 The inventory contains 17 project directories:

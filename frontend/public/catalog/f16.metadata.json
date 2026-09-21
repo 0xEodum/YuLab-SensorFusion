@@ -1,0 +1,72 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -2.200000011920929,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -0.07000000029802322,
+      1.3113021779531664e-8,
+      2.549999952316284
+    ],
+    [
+      -1.399999976158142,
+      0,
+      -1
+    ],
+    [
+      1.2000000476837158,
+      0,
+      -1
+    ]
+  ],
+  "bounds_min_m": [
+    -4.619999885559082,
+    0,
+    -7.800000190734863
+  ],
+  "bounds_max_m": [
+    4.619999885559082,
+    5,
+    8.550000190734863
+  ],
+  "source_bounds_m": {
+    "min": [
+      -7.800000190734863,
+      -2.200000011920929,
+      -4.619999885559082
+    ],
+    "max": [
+      8.550000190734863,
+      2.799999952316284,
+      4.619999885559082
+    ]
+  },
+  "validation": {
+    "triangles": 1777,
+    "meshes": 53,
+    "max_normal_error": 4.047197688095139e-8
+  },
+  "frozen_pose": "gear down; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named exterior regions only; synthetic placeholder material coefficients, all sources off. Thermal evolution is SF-06.",
+  "source_files": [
+    {
+      "path": "src/model/Airframe.tsx",
+      "sha256": "21facdb12f5451b9cbe44ee6a57383fc5b619604f8e9ef0a1c27430effed774a"
+    },
+    {
+      "path": "src/model/Part.tsx",
+      "sha256": "a3d9d1239f0cdd64ac32330b98f2117f92809c7b9b760f7b90b75476cc0b7e15"
+    },
+    {
+      "path": "src/data/liveries.ts",
+      "sha256": "0e0faa73780fa0c6795353f19e9ee457cf50724a2e1e0f70b884c62c3a3aa703"
+    },
+    {
+      "path": "src/three/geometry.ts",
+      "sha256": "2903bfe80d191655ed47c4e52f1b62a714098137269a802c553411a6293e0217"
+    }
+  ]
+}

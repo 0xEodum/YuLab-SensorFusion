@@ -96,11 +96,26 @@ isolated server; they never reuse an unrelated process already on port 4173.
 
 `verify:world` checks all 256 chunks and all 480 seams for seeds 0 and 48291,
 including shuffled request order, triangle topology and surface coverage.
+Pass `-- --aerodrome` to verify the graded airfield profile and write its reports
+under `artifacts/sf04/`.
 
 Individual commands: `npm run typecheck`, `npm run test:world`, `npm run test:contracts`,
 `npm run test:backend`, `npm run contracts:generate`, `npm run contracts:check`.
 Changing generated code directly fails the drift check. See
 [contract ownership and validation](contracts/README.md).
+
+## First aerodrome and models
+
+Open the connected world and select **Open aerodrome**, or visit
+`/?view=world&site=aerodrome`. Inspect F-16, RQ-4 and the 8×8 vehicle from the
+catalog cards. They share metre scale and retain source proportions. Visibility
+fixtures demonstrate open, partial and closed-hangar views. The bundled GLBs
+and metadata work without the original model projects.
+
+Reimport with `npm run assets:import -- "K:\PycharmProjects\world_models\Generated"`.
+An optional second path writes a comparison bundle. `npm run test:assets` checks
+hashes, mesh normals, scale, contacts, clearances and graded seams. See
+[asset/airfield documentation](docs/ASSETS_AND_AERODROME.md) for scope and limits.
 
 ## Repository
 
@@ -109,6 +124,8 @@ Changing generated code directly fails the drift check. See
 - `contracts/`: canonical JSON Schema/OpenAPI and shared positive/negative fixtures.
 - `packages/contracts/`: generated TypeScript bindings and runtime validation.
 - `packages/world/`: deterministic fields, chunk meshes, placements and legacy adapter.
+- `packages/assets/`: validated catalog, shared templates and aerodrome scene geometry.
+- `frontend/public/catalog/`: self-contained three-model runtime bundle and source provenance.
 - `tests/`, `tools/`: browser/contract checks and repeatable tooling.
 - `docs/`: [architecture](docs/ARCHITECTURE.md), [backlog](docs/BACKLOG.md),
   [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and
@@ -117,6 +134,6 @@ Changing generated code directly fails the drift check. See
   [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md), and
   [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md).
 
-Datasets, imported asset bundles, caches and model checkpoints belong under
+Datasets, larger future asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned
 manifests identify them when their implementation stages are reached.

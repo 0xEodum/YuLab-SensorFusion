@@ -31,6 +31,15 @@ simulation, file contents or labels. See [contract guidance](../contracts/README
 
 ## 2. Authoritative payload families
 
+SF-04 consumes canonical `AssetRecord` entries and WorldSpec instances without a
+wire-schema change. The separate `aerodrome-world.v1` / `aerodrome-field.v1`
+profile supports graded terrain and rigid yaw-only asset placement. The
+`connected-world.v2` profile continues to reject asset instances. Hash-verified
+GLBs and `asset-import.v1` sidecars define source transforms, actual tread
+contacts, bounds and named exterior heat regions. `surface-regions.v1` contains
+off-state placeholders, not an implemented thermal model. See
+[asset and aerodrome semantics](ASSETS_AND_AERODROME.md).
+
 SF-02R consumes the existing `WorldSpec` shape with generator version
 `connected-world.v2` and field version `connected-field.v2`. The
 [supported profile](WORLD_GENERATOR.md) adds semantic bounds, unique feature IDs,

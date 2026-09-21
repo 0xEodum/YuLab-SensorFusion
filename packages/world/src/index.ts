@@ -33,3 +33,12 @@ export type {
 } from "./residency.ts";
 export { validateBookmark } from "./bookmark.ts";
 export type { RigBookmark } from "./bookmark.ts";
+export {
+  aerodromeWorldSpec,
+  aerodromeStructures,
+  aerodromeFixtures,
+  gradeWeight,
+  PAD_Y,
+  SURFACE_Y,
+} from "./aerodrome.ts";
+export type { Structure } from "./aerodrome.ts";

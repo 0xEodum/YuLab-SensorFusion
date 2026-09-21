@@ -283,6 +283,11 @@ test("104 adjacent chunk crossings preserve seams and IDs with bounded productio
   expect(returned.cache.evicted).toBeGreaterThan(100);
   expect(returned.resources.disposed).toBeGreaterThan(100);
   expect(heaps.length).toBeGreaterThanOrEqual(7);
+  // Preserve diagnostics even when a memory gate fails, instead of losing the samples.
+  writeFileSync(
+    "artifacts/sf03/traversal-heaps.json",
+    JSON.stringify({ heaps, returned }, null, 2),
+  );
   expect(heaps.at(-1)!.bytes).toBeLessThan(
     heaps[0].bytes * 1.5 + 16 * 1024 * 1024,
   );

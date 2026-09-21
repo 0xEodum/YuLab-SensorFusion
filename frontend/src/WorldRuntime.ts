@@ -13,6 +13,8 @@ import {
 import type { WorldSpec } from "@yulab/contracts";
 import { ChunkWorker } from "./ChunkWorker";
 import { ChunkScene } from "./ChunkScene";
+import { AssetLibrary, buildAerodromeScene, type Catalog } from "@yulab/assets";
+import { aerodromeFixtures } from "@yulab/world";
 
 declare global {
   interface Window {
@@ -50,6 +52,10 @@ export class WorldRuntime {
   readonly controls;
   readonly chunks = new ChunkScene();
   readonly scene = new THREE.Scene();
+  readonly assets: AssetLibrary | null;
+  private assetsReady: Promise<void> = Promise.resolve();
+  private assetError: unknown;
+  private site: ReturnType<typeof buildAerodromeScene> | null = null;
   navigation: "orbit" | "flight" = "orbit";
   pitch: 2 | 4 = 4;
   private lease: ChunkLease | null = null;
@@ -82,8 +88,19 @@ export class WorldRuntime {
     readonly spec: WorldSpec,
     private mount: HTMLDivElement,
     private onStatus: (status: WorldStatus) => void,
+    catalog?: Catalog,
   ) {
     this.world = createWorld(spec);
+    this.assets =
+      spec.instances.length && catalog ? new AssetLibrary(catalog) : null;
+    if (spec.instances.length && !this.assets)
+      throw new Error("catalog: required for asset world");
+    if (this.assets)
+      this.assetsReady = this.assets
+        .load(spec, this.sensorRequest.signal)
+        .catch((error) => {
+          this.assetError = error;
+        });
     this.worker = new ChunkWorker(spec);
     this.sensorWorker = new ChunkWorker(spec);
     this.cache = new ChunkCache(async (coord, pitch, signal) => {
@@ -283,6 +300,8 @@ export class WorldRuntime {
       this.publish({ ready: false, error: "", x, z });
       const start = performance.now();
       try {
+        await this.assetsReady;
+        if (this.assetError) throw this.assetError;
         const lease = await this.cache.acquire(
           displayChunks(this.world, x, z),
           pitch,
@@ -299,6 +318,19 @@ export class WorldRuntime {
         const commit = performance.now();
         try {
           this.chunks.commit(lease.chunks);
+          if (this.assets) {
+            const next = buildAerodromeScene(
+              this.spec,
+              this.assets,
+              [...lease.chunks.values()].map((d) => d.mesh.coord),
+            );
+            if (this.site) {
+              this.scene.remove(this.site.root);
+              this.site.dispose();
+            }
+            this.site = next;
+            this.scene.add(next.root);
+          }
         } catch (error) {
           lease.release();
           throw error;
@@ -357,6 +389,20 @@ export class WorldRuntime {
       [x, y, z] = c.center_m;
     this.navigation = "orbit";
     this.controls.enabled = true;
+    if (c.type === "aerodrome") {
+      this.controls.target.set(85, 24, 20);
+      this.camera.position.set(
+        view === "top" ? 85 : view === "detail" ? 125 : 320,
+        view === "top" ? 380 : view === "detail" ? 65 : 210,
+        view === "top" ? 20.01 : view === "detail" ? 110 : 300,
+      );
+      if (view === "opening") {
+        this.camera.position.set(110, 28, 110);
+        this.controls.target.set(60, 26, 20);
+      }
+      this.controls.update();
+      return;
+    }
     if (view === "top") {
       this.camera.position.set(x, 540, z + 0.01);
       this.controls.target.set(x, 12, z);
@@ -420,15 +466,94 @@ export class WorldRuntime {
     this.keys.clear();
   }
   async prepareSensors(position: Vec3, range: number) {
+    await this.assetsReady;
+    if (this.assetError) throw this.assetError;
     return this.sensors.capture(
       [{ position, range }],
       this.sensorRequest.signal,
-      async (chunks) => ({
-        keys: [...chunks.keys()],
-        pitch: 2,
-        ids: [...chunks.values()].flatMap((d) => d.placements.map((p) => p.id)),
-      }),
+      async (chunks) => {
+        const site = this.assets
+          ? buildAerodromeScene(
+              this.spec,
+              this.assets,
+              [...chunks.values()].map((d) => d.mesh.coord),
+            )
+          : null;
+        try {
+          return {
+            keys: [...chunks.keys()],
+            pitch: 2,
+            ids: [...chunks.values()]
+              .flatMap((d) => d.placements.map((p) => p.id))
+              .concat(site?.ids ?? []),
+            structures:
+              site?.root.children
+                .filter((o) => o.userData.background)
+                .map((o) => o.name) ?? [],
+          };
+        } finally {
+          site?.dispose();
+        }
+      },
     );
+  }
+  inspectAsset(assetId: string) {
+    const instance = this.spec.instances.find((i) => i.asset_id === assetId);
+    if (!instance) return;
+    const t = instance.T_world_from_asset;
+    const distance =
+      assetId === "rq4" ? 48 : assetId === "ground-vehicle" ? 19 : 24;
+    this.navigation = "orbit";
+    this.controls.enabled = true;
+    this.controls.target.set(t[3], t[7] + 2, t[11]);
+    this.camera.position.set(
+      t[3] + distance,
+      t[7] + distance * 0.55,
+      t[11] + distance,
+    );
+    this.controls.update();
+  }
+  fixture(id: string) {
+    const fixture = aerodromeFixtures.find((f) => f.id === id);
+    if (!fixture) throw new Error(`Unknown aerodrome fixture: ${id}`);
+    this.navigation = "orbit";
+    this.controls.enabled = true;
+    this.camera.position.set(...fixture.position);
+    this.controls.target.set(...fixture.target);
+    this.controls.update();
+  }
+  inspectVisibility(id: string) {
+    const target = this.scene.getObjectByName(`${this.spec.world_id}-${id}`);
+    if (!target) throw new Error(`Fixture target unavailable: ${id}`);
+    this.scene.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(target, true),
+      ndc = new THREE.Box2();
+    for (const x of [box.min.x, box.max.x])
+      for (const y of [box.min.y, box.max.y])
+        for (const z of [box.min.z, box.max.z]) {
+          const p = new THREE.Vector3(x, y, z).project(this.camera);
+          ndc.expandByPoint(new THREE.Vector2(p.x, p.y));
+        }
+    const ray = new THREE.Raycaster();
+    let isolated = 0,
+      visible = 0;
+    for (let y = 0; y < 32; y++)
+      for (let x = 0; x < 40; x++) {
+        ray.setFromCamera(
+          new THREE.Vector2(
+            ndc.min.x + ((x + 0.5) / 40) * (ndc.max.x - ndc.min.x),
+            ndc.min.y + ((y + 0.5) / 32) * (ndc.max.y - ndc.min.y),
+          ),
+          this.camera,
+        );
+        const own = ray.intersectObject(target, true)[0];
+        if (!own) continue;
+        isolated++;
+        const first = ray.intersectObjects(this.scene.children, true)[0];
+        if (first && Math.abs(first.distance - own.distance) < 0.0001)
+          visible++;
+      }
+    return { isolated, visible, fraction: isolated ? visible / isolated : 0 };
   }
   metrics() {
     const gl = this.renderer.getContext(),
@@ -440,6 +565,8 @@ export class WorldRuntime {
       ids: [...(this.lease?.chunks.values() ?? [])].flatMap((d) =>
         d.placements.map((p) => p.id),
       ),
+      assetIds: this.site?.ids ?? [],
+      assetTemplates: this.assets?.templates.size ?? 0,
       cache: this.cache.snapshot(),
       sensorCache: this.sensorCache.snapshot(),
       worker: { ...this.worker.stats },
@@ -501,6 +628,8 @@ export class WorldRuntime {
     this.cache.dispose();
     this.sensorCache.dispose();
     this.chunks.dispose();
+    this.site?.dispose();
+    this.assets?.dispose();
     this.sun.shadow.dispose();
     this.scene.clear();
     this.renderer.dispose();
