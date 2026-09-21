@@ -1,4 +1,5 @@
 # These sidecars are addressed by raw byte hashes; Windows checkout must not rewrite them.
 frontend/public/catalog/*.json text eol=lf
 *.glb binary
-docs/evidence/sf04/* -text
+# Captured evidence retains CRLF and diagnostic-line whitespace byte-for-byte.
+docs/evidence/sf04/* -text -whitespace
