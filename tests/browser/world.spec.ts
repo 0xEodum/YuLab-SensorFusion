@@ -10,7 +10,15 @@ test('connected preview shows seams and formations, supports seed zero and world
   const canvas = page.locator('.world-canvas canvas');
   await expect(canvas).toBeVisible();
   await expect(page.getByRole('alert')).toHaveCount(0);
-  await expect(page.getByRole('status')).toContainText('4 connected chunks');
+  await expect(page.getByRole('status')).toContainText('9 connected chunks');
+  await expect(page.getByLabel('World location').locator('option')).toHaveCount(16);
+  await expect(page.locator('.world-canvas')).toHaveAttribute('data-features', '16');
+  await expect
+    .poll(async () => Number(await page.locator('.world-canvas').getAttribute('data-trees')))
+    .toBeGreaterThan(0);
+  await expect
+    .poll(async () => Number(await page.locator('.world-canvas').getAttribute('data-rocks')))
+    .toBeGreaterThan(0);
   const image = () =>
     canvas.evaluate((el: HTMLCanvasElement) => el.toDataURL());
   await expect
@@ -19,7 +27,7 @@ test('connected preview shows seams and formations, supports seed zero and world
         await page.locator('.world-canvas').getAttribute('data-triangles'),
       ),
     )
-    .toBeGreaterThan(10000);
+    .toBeGreaterThan(30000);
   const first = await image();
   await page.screenshot({
     path: 'artifacts/browser/world-oblique.png',
@@ -56,9 +64,9 @@ test('connected preview shows seams and formations, supports seed zero and world
   await page.getByRole('button', { name: 'Generate world' }).click();
   await expect.poll(image).toBe(first);
   for (const [value, name] of [
-    ['1', 'ridge'],
-    ['2', 'islands'],
-    ['3', 'coast'],
+    ['5', 'region-five'],
+    ['10', 'region-ten'],
+    ['15', 'region-fifteen'],
   ]) {
     await page.getByLabel('World location').selectOption(value);
     await expect.poll(image).not.toBe(first);
@@ -80,8 +88,8 @@ test('world controls and preview fit a narrow viewport', async ({ page }) => {
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(375);
-  await page.getByLabel('World location').selectOption('1');
-  await expect(page.getByRole('status')).toContainText('4 connected chunks');
+  await page.getByLabel('World location').selectOption('5');
+  await expect(page.getByRole('status')).toContainText('9 connected chunks');
   await page.screenshot({
     path: 'artifacts/browser/world-mobile.png',
     fullPage: true,
