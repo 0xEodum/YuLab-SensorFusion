@@ -1,0 +1,32 @@
+[
+  {
+    "old": "src/App.tsx",
+    "new": "frontend/src/App.tsx",
+    "sha256_lf": "2b8e208a34730f5f63825f1c83ae354d355e2c72bfd27dd54225447654f731e5"
+  },
+  {
+    "old": "src/TerrainViewport.tsx",
+    "new": "frontend/src/TerrainViewport.tsx",
+    "sha256_lf": "182f31474d59ce7be3569740753e08e175d39ab77715b70b3824b1b234329eca"
+  },
+  {
+    "old": "src/index.css",
+    "new": "frontend/src/index.css",
+    "sha256_lf": "56910b3fc94d1003556d0d274ed8a0c30fcd28b5757e8a9d0e0cb76ada95117a"
+  },
+  {
+    "old": "src/main.tsx",
+    "new": "frontend/src/main.tsx",
+    "sha256_lf": "f268dc44f71240012de0cfb1569d8ac906265cccd45eb3a99059c1a663d2f830"
+  },
+  {
+    "old": "src/terrain.ts",
+    "new": "frontend/src/terrain.ts",
+    "sha256_lf": "c54f31169af0bfcc4c9bcc53a4732f6f2a244d0bfb1d112a30bf66b6c7933766"
+  },
+  {
+    "old": "src/utils/cn.ts",
+    "new": "frontend/src/utils/cn.ts",
+    "sha256_lf": "d1f1e0d62cb8d8d1e04c26e14de842d8a151f75812d81b046c65b5d1fe8e4b27"
+  }
+]

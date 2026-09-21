@@ -1,8 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. Scope of the current session: architecture and backlog only.
-No implementation, dataset generation or training is authorized by this plan's
-status labels alone. A subsequent implementation session starts with `SF-01`.
+Updated: 2026-09-21. SF-01 implementation is authorized and in progress.
+Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -32,7 +31,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | Item | Outcome | Depends on | Status |
 | --- | --- | --- | --- |
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
-| SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | READY |
+| SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | IN PROGRESS |
 | SF-02 | Connected deterministic world-space terrain | SF-01 | PLANNED |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | PLANNED |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
