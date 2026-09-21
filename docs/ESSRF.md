@@ -1,5 +1,140 @@
 # ESSRF: Evidential Sparse Subset-Routed Fusion for Robust Multimodal 3D Perception
 
+## 0. Lab implementation status and decision record
+
+**Status (2026-09-21): design only.** There is no ESSRF implementation, trained
+checkpoint, convergence result or measured latency in this repository. Sections
+1–7 describe the research target; this section defines how it will be implemented
+and tested in the sensor-fusion lab. The [architecture](ARCHITECTURE.md),
+[data contracts](DATA_CONTRACTS.md), and [backlog](BACKLOG.md) specify the system
+around the model. No theoretical routing identity guarantees detection accuracy.
+
+### 0.1 Implementation profiles
+
+| Profile | Scope | Backlog gate |
+| --- | --- | --- |
+| `baseline-v1` | RGB-only, IR-only, LiDAR-only and simple fusion detectors with a common evaluator | SF-11 |
+| `essrf-static-v1` | Compact frame-wise sparse queries, local modality features, evidential reliability, eight subset experts and explicit null abstention | SF-12 |
+| `essrf-temporal-v1` | Temporal query bank, motion/state covariance, calibration-aware local sampling and gated measurement update | SF-14 |
+
+The static profile deliberately omits temporal propagation and learned calibration
+uncertainty. It cannot claim those properties merely by using the ESSRF name.
+The final target includes the temporal profile; a different final architecture
+requires measured justification and an explicit document/backlog revision.
+
+Proposed initial static configuration: Q=128 learned discovery queries, C=128,
+s=16 local samples per query/modality, lightweight image encoders, and a bounded
+sparse point encoder (at most 32,768 observed points). Use the 640x384 pilot
+images. These values are starting choices, not validated optima. Query reference
+positions are learned or initialized from declared rig range/frustum geometry,
+never from simulator object centers. Empty/off-image neighborhoods have validity
+masks and finite outputs. The subset experts are small adapters, not eight copies
+of the backbones. Profile memory and end-to-end latency, including encoders,
+sampling and host/device transfer, rather than quoting attention-pair ratios.
+
+For static detection, the null expert represents no supported observation and
+abstains from emitting new detections. For temporal detection it preserves the
+propagated prior and labels continued tracks as prediction-only. All-unavailable
+inputs cannot generate an apparently observed object. The initial yaw-only box
+head supports upright objects; the dataset retains full 3D orientation. Non-yaw
+poses require an explicit head/profile change and evaluation, not silent dropping
+of pitch/roll labels.
+
+### 0.2 Inputs and supervision boundaries
+
+Inputs are RGB sensor images, linear calibrated IR, observed sparse LiDAR points,
+nominal sensor calibration/timestamps, modality availability, and (for temporal
+inference) the model's own previous state. The dataloader and API must enforce
+the observation-only contract. Never provide instance masks, object lists, true
+boxes, clean hidden surfaces, exact perturbed calibration, or weather/thermal
+truth to proposal generation, feature extraction or reliability inference.
+
+Supervision may use simulator truth through matching and losses. Current-frame
+positives follow the visibility policy in DATA_CONTRACTS: tight visible 2D masks/
+boxes and amodal 3D boxes for geometrically observable objects. A fully hidden
+object is not a discovery target. Severe sensor corruption does not erase a
+geometrically visible target from evaluation. Track continuation is scored
+separately from new detections.
+
+Per-query reliability is not a synonym for global weather severity. Define local
+targets using versioned sensor-support/corruption criteria and clean-versus-
+corrupted reference comparisons available ONLY during supervision. Document
+unlabeled/ambiguous reliability cases and their loss masks. Use modality dropout,
+localized corruptions and explicit OOD exposure. Report predictive reliability
+calibration and vacuity separately; evidence parameterization alone is not a
+calibration guarantee.
+
+### 0.3 Subset isolation and training sequence
+
+An expert for subset S must not consume an excluded current-frame modality
+indirectly through shared proposal coordinates, discovery scores, query features,
+or fused preprocessing. The initial learned discovery queries are independent
+of current sensor inputs. If unimodal proposals are later used, form each
+subset's proposals from its own modalities and record provenance. A temporal
+prior may summarize past observations; this is explicitly conditional on history,
+not a current-frame surviving-sensor-only claim.
+
+1. Validate labels and overfit a tiny scene set with baseline detectors.
+2. Train each non-empty subset path with sampled subset supervision; confirm
+   every availability pattern is exercised before evaluating the mixture.
+3. Warm up local reliability supervision and jointly optimize detection,
+   subset, calibration and vacuity terms. Monitor routing collapse toward the
+   null expert and unsupported high-confidence evidence.
+4. Introduce temporal and calibration objectives only after the static profile
+  has a measured baseline. Select hyperparameters on grouped validation data.
+
+For the empty subset, supervise static abstention rather than forcing a detector
+with no observations to recover current-frame truth boxes. In the temporal
+profile, supervise prior propagation/uncertainty and track continuation instead.
+Keep fully dropped-out examples in failure/abstention evaluation, with the loss
+mask and scoring policy stated explicitly. This distinguishes unavailable sensors
+from difficult but available observations, which retain detection supervision.
+
+Start with FP32 reference checks; enable mixed precision only after checking
+digamma/evidence/NLL stability, finite gradients and validation equivalence.
+Train within the measured GPU budget in ARCHITECTURE. Gradient accumulation,
+point limits, resolution and query-count changes are recorded configuration
+changes. Raw local point neighborhoods must never be replaced with truth object
+crops to make convergence easier.
+
+### 0.4 Corrections to the research formulation
+
+Two qualifications are incorporated directly into the equations below:
+
+- Failed modalities approaching zero remove every expert that requires them.
+  The result is generally a mixture over subsets of surviving modalities. It
+  collapses to one exact surviving-subset expert only when each survivor's
+  reliability also approaches one. This is an algebraic endpoint result,
+  conditional on finite, properly isolated expert features and outputs.
+- `GRU(q, q)` need not equal q. An unconditional GRU after null fusion therefore
+  does not preserve the prior. Section 2.8 now gates the measurement-induced
+  recurrent update by observation mass. At zero observation mass it is exactly
+  the prior. Measurement covariance updates must obey the same no-information
+  condition; uncertainty can still grow during motion propagation.
+
+### 0.5 Evidence and change policy
+
+No experiment has been run as part of this planning change. SF-11 establishes
+baseline quality targets; SF-12/SF-14 compare profiles; SF-15 selects and tests
+the trained candidate. Report visible 2D and observable-object 3D detection,
+per-class/condition/subset results, calibration, abstention, track/outage metrics,
+loss curves, seed variation, p50/p95 latency and peak memory.
+
+If convergence, memory, latency or calibration is poor, change the implementation
+and this document together. Every decision entry must give: profile/version,
+source and dataset hashes, problem evidence, changed encoder/router/loss/box
+representation, validation comparison, cost and remaining limitations. Preserve
+failed comparisons. A loss decrease or theoretical complexity reduction alone
+does not establish improved perception. Final architecture and data-volume
+selection must not use the sealed test set.
+
+| Date | Decision | Evidence / status |
+| --- | --- | --- |
+| 2026-09-21 | Baselines, compact static profile, then full temporal profile | Planning decision; no measured result |
+| 2026-09-21 | Qualify surviving-subset limit; gate GRU measurement update | Algebraic correction, implementation tests pending |
+
+---
+
 ## Abstract
 
 ESSRF (Evidential Sparse Subset-Routed Fusion) is a multimodal 3D perception architecture designed for RGB, thermal, and LiDAR sensing under partial sensor failures, spatially localized corruption, calibration drift, transient degradation, and complete loss of trustworthy observations.
@@ -28,7 +163,7 @@ The fundamental reasoning unit is therefore not a sensor mapped onto an entire B
 
 ESSRF avoids a mandatory dense BEV fusion manifold, represents reliability as local evidential belief rather than a global scalar, propagates temporal hypotheses with uncertainty, incorporates calibration uncertainty directly into local sampling, and routes each query through a smooth mixture of modality-subset experts, including an explicit null expert for the case in which no sensor is trustworthy.
 
-This construction provides three useful properties. First, localized sensor degradation can be represented at the query level instead of being collapsed into a single sensor-wide score. Second, multimodal fusion no longer contains a quadratic \(G^2\) term in the BEV grid size \(G\). Third, graceful degradation follows algebraically from the routing rule: as failed modalities approach zero reliability, the fused representation converges exactly to the expert corresponding to the surviving modality subset, and to the temporal/null expert when all modalities fail.
+This construction provides three useful properties. First, localized sensor degradation can be represented at the query level instead of being collapsed into a single sensor-wide score. Second, multimodal fusion no longer contains a quadratic \(G^2\) term in the BEV grid size \(G\). Third, as failed modalities approach zero reliability, routing removes experts that require them. It converges exactly to the surviving-subset expert when surviving reliabilities also approach one, and to the temporal/null expert when all reliabilities approach zero. These algebraic properties do not by themselves establish learned detection robustness.
 
 ---
 
@@ -869,13 +1004,39 @@ the measurement correction vanishes continuously.
 
 ## 2.8. Detection output
 
-After temporal fusion,
+After temporal fusion, gate the measurement-induced recurrent change by the
+observation mass \(\kappa_i=1-\pi_{i,\emptyset}\):
 
 \[
-q_i^t
+\tilde q_i^t
 =
 \operatorname{GRU}(q_i^-,z_i).
 \]
+
+\[
+\boxed{
+q_i^t=q_i^-+\kappa_i(\tilde q_i^t-q_i^-)
+}
+\]
+
+Thus \(\kappa_i=0\) implies \(q_i^t=q_i^-\) exactly; an unconditional GRU
+would not provide that identity. New-detection emission also requires observation
+support. A null update may continue a prior track as prediction-only but cannot
+declare a new measurement. At zero observation mass, localization uncertainty
+comes from the propagated prior, not a fresh learned variance head.
+
+For the temporal profile, one admissible covariance update is
+
+\[
+\Sigma_i^t=
+\left[(\Sigma_i^-)^{-1}+\kappa_i\Lambda_i^{meas}\right]^{-1},
+\qquad \Lambda_i^{meas}\succeq0.
+\]
+
+It preserves \(\Sigma_i^-\) at \(\kappa_i=0\). The positive-semidefinite
+measurement information must be estimated/calibrated; the algebra alone does
+not make uncertainty calibrated. Motion process noise is applied during prior
+propagation as in section 2.2.
 
 Class logits are
 
@@ -1225,6 +1386,25 @@ which is the temporal/null expert.
 
 The result follows directly from the routing polynomial; it does not require a learned gate to become infinitely confident under corruption.
 
+If only the failed modalities approach zero, while surviving reliabilities remain
+arbitrary, the more general limit is
+
+\[
+F(r)\longrightarrow
+\sum_{S\subseteq A}
+\left[
+\prod_{m\in S}r_m
+\prod_{m\in A\setminus S}(1-r_m)
+\right]F_S.
+\]
+
+This is a mixture of experts using surviving modalities, including the null
+expert; it is not generally \(F_A\). Both results assume finite expert outputs
+and proper subset isolation. A failed current-frame modality must not contaminate
+\(q_i^-\), proposal locations or surviving features through another path. The
+theorem does not show that a learned reliability head will identify every failure
+or that any selected expert has good detection accuracy.
+
 ---
 
 ## 4.2. Interpretation as the surviving risk-minimizing sub-network
@@ -1325,7 +1505,7 @@ and
 {(e^++e^-+2)^2}.
 \]
 
-The second derivative is also finite for every
+The derivative with respect to negative evidence is also finite for every
 
 \[
 e^\pm\ge0.
@@ -1695,7 +1875,7 @@ This construction yields:
 2. **an explicit no-observation state**, because the empty expert carries probability mass when all modalities are unreliable;
 3. **calibration-aware fusion**, because state and extrinsic uncertainty determine local sampling support;
 4. **temporal robustness**, because object hypotheses survive transient sensing failures without fabricated measurements;
-5. **exact graceful degradation**, because routing converges algebraically to the surviving subset expert;
+5. **exact routing limits**, because routing excludes failed modalities and converges to the surviving-subset expert when surviving reliabilities also approach one;
 6. **non-singular routing gradients**, because subset routing requires no normalization denominator;
 7. **substantially better scaling**, because the multimodal fusion core replaces dense \(G^2\) interactions with query-local \(MQs\) interactions and query-level \(Q^2\) reasoning.
 

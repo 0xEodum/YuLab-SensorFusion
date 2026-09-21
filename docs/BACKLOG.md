@@ -73,6 +73,7 @@ Evidence: inspected original source revision
 external model catalog. Existing `npm run build` and `npx tsc --noEmit` passed.
 Recorded environment and limitations in ARCHITECTURE. No browser or sensor
 acceptance is claimed for this documentation-only milestone.
+See [planning evidence](evidence/SF-00-planning.md) for checks and scope limits.
 
 ## SF-01 — Repository and contract foundation
 
