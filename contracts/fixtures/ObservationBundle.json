@@ -1,0 +1,346 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "ObservationBundle",
+  "capture_id": "capture-1",
+  "sequence_id": "sequence-1",
+  "rig": {
+    "schema_version": "lab.v1",
+    "kind": "RigSpec",
+    "rig_id": "rig-1",
+    "calibration_version": "cal.v1",
+    "T_world_from_rig": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "sensors": [
+      {
+        "sensor_id": "rgb-1",
+        "modality": "rgb",
+        "available": true,
+        "T_rig_from_sensor": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "timestamp_offset_s": 0,
+        "exposure_s": 0.01,
+        "scan_duration_s": 0,
+        "min_range_m": 0.1,
+        "max_range_m": 250,
+        "camera": {
+          "frame": "optical-right-down-forward",
+          "width_px": 640,
+          "height_px": 384,
+          "fx_px": 500,
+          "fy_px": 500,
+          "cx_px": 320,
+          "cy_px": 192,
+          "distortion": "ideal-pinhole"
+        },
+        "lidar": null,
+        "sensor_model_version": "rgb.v1"
+      },
+      {
+        "sensor_id": "ir-1",
+        "modality": "ir",
+        "available": true,
+        "T_rig_from_sensor": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "timestamp_offset_s": 0,
+        "exposure_s": 0.01,
+        "scan_duration_s": 0,
+        "min_range_m": 0.1,
+        "max_range_m": 250,
+        "camera": {
+          "frame": "optical-right-down-forward",
+          "width_px": 640,
+          "height_px": 384,
+          "fx_px": 500,
+          "fy_px": 500,
+          "cx_px": 320,
+          "cy_px": 192,
+          "distortion": "ideal-pinhole"
+        },
+        "lidar": null,
+        "sensor_model_version": "ir.v1"
+      },
+      {
+        "sensor_id": "lidar-1",
+        "modality": "lidar",
+        "available": true,
+        "T_rig_from_sensor": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "timestamp_offset_s": 0,
+        "exposure_s": 0.01,
+        "scan_duration_s": 0,
+        "min_range_m": 0.1,
+        "max_range_m": 250,
+        "camera": null,
+        "lidar": {
+          "frame": "lidar-forward-left-up",
+          "rows": 64,
+          "columns": 512,
+          "horizontal_fov_rad": 1.2,
+          "vertical_fov_rad": 0.6,
+          "return_policy": "single-first-opaque"
+        },
+        "sensor_model_version": "lidar.v1"
+      }
+    ],
+    "timing_profile": "synchronized-static"
+  },
+  "rgb": {
+    "status": "available",
+    "timestamp_s": 0,
+    "health": "ok",
+    "sensor_id": "rgb-1",
+    "sensor_model_version": "rgb.v1",
+    "data": {
+      "image": {
+        "artifact": {
+          "id": "rgb",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "uint8",
+        "shape": [
+          384,
+          640,
+          3
+        ],
+        "units": "1",
+        "frame": "image-top-left"
+      },
+      "validity_mask": {
+        "artifact": {
+          "id": "mask",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "bool",
+        "shape": [
+          384,
+          640
+        ],
+        "units": "1",
+        "frame": "image-top-left"
+      },
+      "transfer_function": "srgb",
+      "exposure_s": 0.01
+    }
+  },
+  "ir": {
+    "status": "available",
+    "timestamp_s": 0,
+    "health": "ok",
+    "sensor_id": "ir-1",
+    "sensor_model_version": "ir.v1",
+    "data": {
+      "radiance": {
+        "artifact": {
+          "id": "ir",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "float32",
+        "shape": [
+          384,
+          640
+        ],
+        "units": "W/m2/sr",
+        "frame": "image-top-left"
+      },
+      "validity_mask": {
+        "artifact": {
+          "id": "mask",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "bool",
+        "shape": [
+          384,
+          640
+        ],
+        "units": "1",
+        "frame": "image-top-left"
+      },
+      "saturation_mask": {
+        "artifact": {
+          "id": "mask",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "bool",
+        "shape": [
+          384,
+          640
+        ],
+        "units": "1",
+        "frame": "image-top-left"
+      },
+      "band_um": [
+        8,
+        14
+      ],
+      "response_version": "ir-response.v1"
+    }
+  },
+  "lidar": {
+    "status": "available",
+    "timestamp_s": 0,
+    "health": "ok",
+    "sensor_id": "lidar-1",
+    "sensor_model_version": "lidar.v1",
+    "data": {
+      "xyz": {
+        "artifact": {
+          "id": "xyz",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "float32",
+        "shape": [
+          0,
+          3
+        ],
+        "units": "m",
+        "frame": "lidar-forward-left-up"
+      },
+      "intensity": {
+        "artifact": {
+          "id": "intensity",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "float32",
+        "shape": [
+          0
+        ],
+        "units": "1",
+        "frame": "lidar-forward-left-up"
+      },
+      "beam_id": {
+        "artifact": {
+          "id": "beam_id",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "uint32",
+        "shape": [
+          0
+        ],
+        "units": "1",
+        "frame": "lidar-forward-left-up"
+      },
+      "time_offset": {
+        "artifact": {
+          "id": "time_offset",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "float32",
+        "shape": [
+          0
+        ],
+        "units": "s",
+        "frame": "lidar-forward-left-up"
+      },
+      "validity": {
+        "artifact": {
+          "id": "validity",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "bool",
+        "shape": [
+          0
+        ],
+        "units": "1",
+        "frame": "lidar-forward-left-up"
+      },
+      "beam_table": {
+        "artifact": {
+          "id": "beam_table",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byte_length": 1024,
+          "media_type": "application/x-npy"
+        },
+        "dtype": "uint8",
+        "shape": [
+          32768
+        ],
+        "units": "1",
+        "frame": "lidar-forward-left-up"
+      }
+    }
+  }
+}

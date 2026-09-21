@@ -1,0 +1,51 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "PredictionBundle",
+  "capture_id": "capture-1",
+  "checkpoint_id": "checkpoint-1",
+  "checkpoint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "latency_ms": 10,
+  "detections": [
+    {
+      "prediction_id": "prediction-1",
+      "class_id": 1,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          0,
+          2,
+          0
+        ],
+        "extent_m": [
+          8,
+          4,
+          16
+        ],
+        "quaternion_xyzw": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "score": 0.5,
+      "position_variance_m2": [
+        1,
+        1,
+        1
+      ],
+      "observation_supported": true,
+      "routing": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "state": null
+}

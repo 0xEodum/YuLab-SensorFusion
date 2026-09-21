@@ -1,0 +1,24 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "CapturePlan",
+  "capture_id": "capture-1",
+  "sequence_id": "sequence-1",
+  "world_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "rig_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "environment_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "simulation_time_s": 0,
+  "geometry_policy": "fixed-sensor-geometry",
+  "quality_version": "quality.v1",
+  "seed_channels": {
+    "world": 0,
+    "weather": 0,
+    "rgb": 0,
+    "ir": 0,
+    "lidar": 0
+  },
+  "modalities": [
+    "rgb",
+    "ir",
+    "lidar"
+  ]
+}

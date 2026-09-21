@@ -1,0 +1,7 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "Health",
+  "status": "ok",
+  "service": "yulab-backend",
+  "service_version": "0.1.0"
+}

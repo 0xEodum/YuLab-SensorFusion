@@ -1,10 +1,12 @@
 # World, observation and annotation contracts
 
-Status: normative design for implementation, version proposal `lab.v1`.
-No machine-readable schemas exist yet. SF-01 must encode these semantics in
-canonical JSON Schemas/OpenAPI, with positive and negative examples, before API
-or dataset implementation. Prose is the design rationale; those schemas will be
-the authority for payload validation and generated language bindings.
+Status: `lab.v1` wire foundation implemented in SF-01. Canonical
+[JSON Schema](../contracts/lab.schema.json) and [OpenAPI](../contracts/openapi.json)
+define payload validation and generated language bindings. Shared fixtures cover
+all ten payload families and the three foundation API envelopes in both runtimes.
+This prose defines data/physical semantics for the later capture and dataset
+stages; schema-valid metadata alone does not prove correct geometry, sensor
+simulation, file contents or labels. See [contract guidance](../contracts/README.md).
 
 ## 1. Coordinate, time and identity conventions
 

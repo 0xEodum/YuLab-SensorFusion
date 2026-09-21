@@ -1,0 +1,108 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "AssetRecord",
+  "asset_id": "asset-f16",
+  "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "mesh": {
+    "id": "mesh",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byte_length": 1024,
+    "media_type": "model/gltf-binary"
+  },
+  "metadata": {
+    "id": "metadata",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "byte_length": 1024,
+    "media_type": "application/json"
+  },
+  "source": {
+    "project": "f16",
+    "revision": "fixture",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "adapter_version": "adapter.v1",
+    "use_permission": "synthetic fixture"
+  },
+  "units": {
+    "length": "m",
+    "temperature": "K",
+    "angle": "rad",
+    "time": "s",
+    "world_frame": "east-up-south",
+    "matrix_layout": "row-major"
+  },
+  "scale_m_per_source_unit": 1,
+  "T_world_from_asset": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "contact_point_m": [
+    0,
+    0,
+    0
+  ],
+  "class_name": "aircraft",
+  "bounds": {
+    "frame": "east-up-south",
+    "center_m": [
+      0,
+      2,
+      0
+    ],
+    "extent_m": [
+      8,
+      4,
+      16
+    ],
+    "quaternion_xyzw": [
+      0,
+      0,
+      0,
+      1
+    ]
+  },
+  "parts": [
+    {
+      "id": "body",
+      "mesh_node": "body",
+      "material_id": "metal",
+      "semantic": "airframe"
+    }
+  ],
+  "materials": [
+    {
+      "id": "metal",
+      "emissivity": 0.8,
+      "solar_absorption": 0.7,
+      "thermal_capacity_j_per_k": 100,
+      "area_m2": 5,
+      "convection_w_per_m2_k": 10,
+      "response_time_s": 100,
+      "opaque_rgb": true,
+      "opaque_ir": true,
+      "opaque_lidar": true
+    }
+  ],
+  "heat_sources": [
+    {
+      "part_id": "body",
+      "power_w": 0,
+      "coupling_fraction": 0.1,
+      "operating_state": "off"
+    }
+  ],
+  "thermal_model_version": "thermal.v1"
+}

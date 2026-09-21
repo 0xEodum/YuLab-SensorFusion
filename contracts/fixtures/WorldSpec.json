@@ -1,0 +1,54 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "WorldSpec",
+  "world_id": "world-1",
+  "seed": 0,
+  "units": {
+    "length": "m",
+    "temperature": "K",
+    "angle": "rad",
+    "time": "s",
+    "world_frame": "east-up-south",
+    "matrix_layout": "row-major"
+  },
+  "extent_m": [
+    2048,
+    128,
+    2048
+  ],
+  "origin_m": [
+    -1024,
+    0,
+    -1024
+  ],
+  "chunk_size_m": 128,
+  "generator_version": "world.v1",
+  "field_version": "field.v1",
+  "features": [],
+  "instances": [
+    {
+      "instance_id": "aircraft-1",
+      "asset_id": "asset-f16",
+      "asset_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "T_world_from_asset": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "operating_state": "off"
+    }
+  ]
+}

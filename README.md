@@ -1,37 +1,84 @@
 # YuLab Sensor Fusion
 
-A procedural terrain editor being developed into a reproducible RGB, thermal IR,
-and LiDAR simulation and detection lab.
+A procedural terrain editor being developed into an RGB, thermal IR and LiDAR
+simulation and detection lab. SF-01 adds a frontend workspace, local backend,
+shared contracts and verification. World expansion, sensor capture, datasets,
+training and inference are later stages; no trained model is supplied yet.
 
-**Current status:** architecture and implementation planning only. The application
-still runs the original terrain editor. Sensors, datasets, the backend, and a
-trained detector are not implemented yet.
+## Setup
 
-## Run the existing editor
+Use Node 22 LTS (at least 22.12), npm, and Python 3.13. CI targets Node 22 on
+Windows and Linux; local verification also uses Node 25. The npm lock and
+`backend/uv.lock` pin dependencies. Python uses `backend/.venv`, not global ML
+packages. No external model directory or GPU is needed for SF-01.
 
 ```powershell
 npm ci
+python -m venv .tools
+.\.tools\Scripts\python.exe -m pip install uv==0.12.17
+npm run backend:sync
+```
+
+On Linux/macOS, bootstrap uv with `.tools/bin/python -m pip install uv==0.12.17`.
+An existing uv 0.12.17 on PATH also works. Root helper commands prefer the local
+`.tools` installation when present. Do not install the backend into global Python.
+
+## Run
+
+Start these in two terminals at the repository root:
+
+```powershell
+npm run dev:backend
+```
+
+```powershell
 npm run dev
 ```
 
-Existing verification commands:
+Vite prints the frontend URL (normally `http://127.0.0.1:5173`). The backend binds
+to `127.0.0.1:8000`; Vite proxies `/api` to it. Backend API documentation is at
+`http://127.0.0.1:8000/docs`. Health and capabilities are the only implemented
+operations. The editor shows connected, unavailable and incompatible-response
+states; terrain editing and exports also work with the backend stopped.
+
+`npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
+proxies `/api` in the same way. The current single-file HTML remains an editor
+export, not a self-contained backend. For another backend port, set
+`YULAB_BACKEND_PORT` for Vite and launch uvicorn on that same port. Remote hosts
+are not accepted by the proxy configuration.
+
+## Verify
 
 ```powershell
-npm run build
-npx tsc --noEmit
+npm run verify
+npx playwright install chromium
+npm run test:browser
 ```
 
-## Implementation documents
+`verify` checks generated-file drift, all workspace/test TypeScript, shared wire
+fixtures in JavaScript and Python, real API responses/errors and the production
+build. Browser tests start an isolated backend on port 8765 and Vite on 4173.
+Those ports must be free. CI installs pinned Chromium; for a local download
+failure, explicitly select installed Edge with `$env:PLAYWRIGHT_CHANNEL='msedge'`
+(POSIX: `PLAYWRIGHT_CHANNEL=msedge npm run test:browser`). Browser tests use
+software WebGL for portable functional QA; they are not GPU benchmarks.
 
-- [Architecture and decisions](docs/ARCHITECTURE.md): boundaries, world generation,
-  assets, sensors, storage, services, and demonstration.
-- [Data and sensor contracts](docs/DATA_CONTRACTS.md): units, visibility, observation
-  payloads, provenance, and access boundaries.
-- [Implementation backlog](docs/BACKLOG.md): ordered tasks, dependencies, acceptance
-  gates, and commit/push checkpoints. Start with `SF-01`.
-- [ESSRF design](docs/ESSRF.md): research architecture and explicitly scoped lab
-  implementation profiles. Architectural claims are not measured model results.
+Individual commands: `npm run typecheck`, `npm run test:contracts`,
+`npm run test:backend`, `npm run contracts:generate`, `npm run contracts:check`.
+Changing generated code directly fails the drift check. See
+[contract ownership and validation](contracts/README.md).
 
-Large generated datasets, imported build artifacts, and training checkpoints will
-be stored outside ordinary Git history; versioned manifests will identify them.
-The external model library is an import source, not a runtime dependency.
+## Repository
+
+- `frontend/`: existing React/Three.js editor and backend connection status.
+- `backend/`: isolated Python API, generated types and tests.
+- `contracts/`: canonical JSON Schema/OpenAPI and shared positive/negative fixtures.
+- `packages/contracts/`: generated TypeScript bindings and runtime validation.
+- `tests/`, `tools/`: browser/contract checks and repeatable tooling.
+- `docs/`: [architecture](docs/ARCHITECTURE.md), [backlog](docs/BACKLOG.md),
+  [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and
+  [SF-01 evidence](docs/evidence/SF-01-foundation.md).
+
+Datasets, imported asset bundles, caches and model checkpoints belong under
+ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned
+manifests identify them when their implementation stages are reached.

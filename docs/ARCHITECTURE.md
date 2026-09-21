@@ -1,6 +1,8 @@
 # Sensor-fusion lab architecture
 
-Status: implementation plan, 2026-09-21. No lab capability is marked implemented.
+Status: SF-01 foundation implemented, 2026-09-21. Frontend/backend structure,
+health/capability API and shared wire contracts exist. World expansion, sensors,
+datasets and models remain planned; no sensor/training capability is advertised.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).
 
@@ -56,7 +58,8 @@ job directory and local asset catalog. No arbitrary shell or URL supplied by UI.
 
 ## 3. Target repository and process layout
 
-This is a proposed layout; SF-01 creates it incrementally.
+This is the target layout. SF-01 creates frontend, backend, contracts, tooling
+and tests; world/sensor/capture/asset packages are added in their named stages.
 
 ```text
 frontend/                     React app, editor, lab and prediction views
@@ -214,9 +217,11 @@ Do not infer calibrated real-world performance from these synthetic presets.
 
 ## 7. Backend and jobs
 
-Proposed consumer operations are listed below. SF-01 creates canonical OpenAPI
-and JSON Schemas before provider/client implementation. Generate TypeScript and
-Python validation types from those artifacts; do not maintain parallel shapes.
+Proposed consumer operations are listed below. SF-01 implements GET
+`/api/v1/health` and `/api/v1/capabilities` only; the remaining operations are not
+exposed as stubs. Canonical OpenAPI and JSON Schema in `contracts/` precede
+provider/client code. TypeScript and Python types are generated from them;
+runtime boundary validators enforce the same schema with shared fixtures.
 
 | Operation | Consumer need |
 | --- | --- |

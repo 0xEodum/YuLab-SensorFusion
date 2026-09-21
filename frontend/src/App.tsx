@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDownToLine, ArrowRight, Box, Check, ChevronDown, CircleHelp, Compass, Download, Expand, Eye, FileBox, FolderHeart, Grid2X2, Hand, Info, Layers3, Leaf, LoaderCircle, Maximize, Mountain, Move3D, Plus, Minus, RotateCcw, Save, Shuffle, SlidersHorizontal, Sparkles, Sun, Trees, Waves, X } from 'lucide-react';
 import TerrainViewport, { type SceneStats, type ViewportHandle } from './TerrainViewport';
 import { DEFAULT_CONFIG, PRESETS, makePreviews, type TerrainConfig } from './terrain';
+import BackendStatus from './BackendStatus';
 
 type SavedPreset = { name: string; config: TerrainConfig; date: string };
 function Logo({ small = false }: { small?: boolean }) { return <svg width={small ? 23 : 35} height={small ? 23 : 35} viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M4 30 16 8l7 13 5-8 9 17H4Z" stroke="currentColor" strokeWidth="2.3" strokeLinejoin="round"/><path d="m10 30 9-15M20 30l7-12M16 23l6 7" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round"/></svg>; }
@@ -54,6 +55,7 @@ export default function App() {
       <nav className="header-actions"><button className="text-button presets-link" onClick={() => setModal('presets')}><FolderHeart size={16} />My presets{saved.length > 0 && <span className="count-badge">{saved.length}</span>}</button><button className="text-button guide-button" onClick={() => setModal('help')}><CircleHelp size={16} /><span>Quick guide</span></button><span className="action-divider"/><div className="export-wrapper"><button className="primary-button export-button" onClick={() => setExportOpen(!exportOpen)} aria-expanded={exportOpen}>{exporting ? <LoaderCircle size={16} className="spin"/> : <Download size={16}/>}<span>{exporting ? 'Exporting…' : 'Export terrain'}</span><ChevronDown size={14}/></button>{exportOpen && <><button className="dropdown-dismiss" aria-label="Close export menu" onClick={() => setExportOpen(false)}/><div className="dropdown export-menu"><div className="dropdown-label">TAKE YOUR WORLD WITH YOU</div><button onClick={() => exportTerrain('glb')}><FileBox size={18}/><span><strong>3D model <em>.glb</em></strong><small>Mesh, colors, and vegetation</small></span><ArrowDownToLine size={14}/></button><button onClick={() => exportTerrain('obj')}><Box size={18}/><span><strong>Wavefront <em>.obj</em></strong><small>Universal 3D geometry</small></span><ArrowDownToLine size={14}/></button><button onClick={() => exportTerrain('png')}><Eye size={18}/><span><strong>Viewport image <em>.png</em></strong><small>A snapshot of your current view</small></span><ArrowDownToLine size={14}/></button></div></>}</div></nav>
     </header>
 
+    <BackendStatus />
     <main className="workspace">
       <div className="workspace-intro"><div><div className="eyebrow"><span className="tiny-line"/> THE WORLD IS YOURS TO SHAPE</div><h1>Small polygons. <span>Endless possibilities.</span></h1></div><div className="intro-note"><Box size={15}/><span>Real 3D. Naturally different.</span></div></div>
       <div className="studio-layout">

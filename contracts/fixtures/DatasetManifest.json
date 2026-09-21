@@ -1,0 +1,52 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "DatasetManifest",
+  "dataset_id": "dataset-1",
+  "created_utc": "2026-09-21T12:00:00Z",
+  "provenance": {
+    "source_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "world_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "asset_hashes": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "config_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "sensor_version": "sensor.v1",
+    "generator_version": "world.v1",
+    "toolchain": "fixture-only",
+    "seed": 0
+  },
+  "class_map": [
+    {
+      "id": 1,
+      "name": "aircraft"
+    }
+  ],
+  "class_map_version": "classes.v1",
+  "captures": [
+    {
+      "capture_id": "capture-1",
+      "sequence_id": "sequence-1",
+      "group_id": "group-1",
+      "split": "train",
+      "observation": {
+        "id": "observation",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byte_length": 1024,
+        "media_type": "application/json"
+      },
+      "annotations": {
+        "id": "annotations",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "byte_length": 1024,
+        "media_type": "application/json"
+      },
+      "truth": null
+    }
+  ],
+  "files": [],
+  "counts": {
+    "train": 1,
+    "validation": 0,
+    "test": 0
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "AnnotationBundle",
+  "capture_id": "capture-1",
+  "class_map_version": "classes.v1",
+  "visibility_policy_version": "visibility.v1",
+  "objects": [
+    {
+      "instance_id": "aircraft-1",
+      "class_id": 1,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          0,
+          2,
+          0
+        ],
+        "extent_m": [
+          8,
+          4,
+          16
+        ],
+        "quaternion_xyzw": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "rgb": {
+        "mask": {
+          "artifact": {
+            "id": "mask",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "byte_length": 1024,
+            "media_type": "application/x-npy"
+          },
+          "dtype": "bool",
+          "shape": [
+            384,
+            640
+          ],
+          "units": "1",
+          "frame": "image-top-left"
+        },
+        "visible_box_xyxy": null,
+        "visible_pixels": 0,
+        "isolated_projected_pixels": 0,
+        "visible_fraction": null,
+        "truncated": false
+      },
+      "ir": {
+        "mask": {
+          "artifact": {
+            "id": "mask",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "byte_length": 1024,
+            "media_type": "application/x-npy"
+          },
+          "dtype": "bool",
+          "shape": [
+            384,
+            640
+          ],
+          "units": "1",
+          "frame": "image-top-left"
+        },
+        "visible_box_xyxy": null,
+        "visible_pixels": 0,
+        "isolated_projected_pixels": 0,
+        "visible_fraction": null,
+        "truncated": false
+      },
+      "lidar_ideal_hits": 0,
+      "lidar_surface_hits": 0,
+      "eligible": false,
+      "ignore_reason": "out_of_frustum"
+    }
+  ]
+}

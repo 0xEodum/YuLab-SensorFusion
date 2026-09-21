@@ -1,0 +1,861 @@
+[
+  {
+    "name": "WorldSpec valid",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "RigSpec valid",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "EnvironmentSpec valid",
+    "schema": "EnvironmentSpec",
+    "base": "EnvironmentSpec.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "ObservationBundle valid",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "AssetRecord valid",
+    "schema": "AssetRecord",
+    "base": "AssetRecord.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "CapturePlan valid",
+    "schema": "CapturePlan",
+    "base": "CapturePlan.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "AnnotationBundle valid",
+    "schema": "AnnotationBundle",
+    "base": "AnnotationBundle.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "TruthBundle valid",
+    "schema": "TruthBundle",
+    "base": "TruthBundle.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "DatasetManifest valid",
+    "schema": "DatasetManifest",
+    "base": "DatasetManifest.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "PredictionBundle valid",
+    "schema": "PredictionBundle",
+    "base": "PredictionBundle.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "Health valid",
+    "schema": "Health",
+    "base": "Health.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "Capabilities valid",
+    "schema": "Capabilities",
+    "base": "Capabilities.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "ApiError valid",
+    "schema": "ApiError",
+    "base": "ApiError.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "unknown version",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "schema_version"
+        ],
+        "value": "lab.v2"
+      }
+    ]
+  },
+  {
+    "name": "wrong units",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "units",
+          "length"
+        ],
+        "value": "feet"
+      }
+    ]
+  },
+  {
+    "name": "wrong world frame",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "units",
+          "world_frame"
+        ],
+        "value": "north-east-down"
+      }
+    ]
+  },
+  {
+    "name": "negative seed",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": -1
+      }
+    ]
+  },
+  {
+    "name": "boolean seed",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": true
+      }
+    ]
+  },
+  {
+    "name": "string seed",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": "0"
+      }
+    ]
+  },
+  {
+    "name": "fractional seed",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": 1.5
+      }
+    ]
+  },
+  {
+    "name": "seed upper boundary",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": true,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": 4294967295
+      }
+    ]
+  },
+  {
+    "name": "seed overflow",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "seed"
+        ],
+        "value": 4294967296
+      }
+    ]
+  },
+  {
+    "name": "missing world id",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "delete",
+        "path": [
+          "world_id"
+        ],
+        "value": null
+      }
+    ]
+  },
+  {
+    "name": "path as id",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "world_id"
+        ],
+        "value": "../secrets"
+      }
+    ]
+  },
+  {
+    "name": "oversized extent",
+    "schema": "WorldSpec",
+    "base": "WorldSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "extent_m",
+          0
+        ],
+        "value": 100001
+      }
+    ]
+  },
+  {
+    "name": "wrong camera frame",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "sensors",
+          0,
+          "camera",
+          "frame"
+        ],
+        "value": "east-up-south"
+      }
+    ]
+  },
+  {
+    "name": "short transform",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "T_world_from_rig"
+        ],
+        "value": [
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bad homogeneous transform",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "T_world_from_rig",
+          15
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "duplicate rig modality",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "sensors",
+          1,
+          "modality"
+        ],
+        "value": "rgb"
+      }
+    ]
+  },
+  {
+    "name": "wrong sensor intrinsics",
+    "schema": "RigSpec",
+    "base": "RigSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "sensors",
+          2,
+          "camera"
+        ],
+        "value": {
+          "frame": "optical-right-down-forward",
+          "width_px": 640,
+          "height_px": 384,
+          "fx_px": 500,
+          "fy_px": 500,
+          "cx_px": 320,
+          "cy_px": 192,
+          "distortion": "ideal-pinhole"
+        }
+      }
+    ]
+  },
+  {
+    "name": "cold temperature invalid",
+    "schema": "EnvironmentSpec",
+    "base": "EnvironmentSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "ambient_temperature_k"
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "wetness overflow",
+    "schema": "EnvironmentSpec",
+    "base": "EnvironmentSpec.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "wetness"
+        ],
+        "value": 1.1
+      }
+    ]
+  },
+  {
+    "name": "duplicate modalities",
+    "schema": "CapturePlan",
+    "base": "CapturePlan.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "modalities"
+        ],
+        "value": [
+          "rgb",
+          "rgb"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "unknown camera modality",
+    "schema": "CapturePlan",
+    "base": "CapturePlan.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "modalities"
+        ],
+        "value": [
+          "radar"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "unknown property",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "environment"
+        ],
+        "value": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "env-1",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            0,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "env.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        }
+      }
+    ]
+  },
+  {
+    "name": "truth boxes forbidden",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "objects"
+        ],
+        "value": []
+      }
+    ]
+  },
+  {
+    "name": "nested truth forbidden",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "rgb",
+          "data",
+          "instance_ids"
+        ],
+        "value": []
+      }
+    ]
+  },
+  {
+    "name": "available image missing",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "delete",
+        "path": [
+          "rgb",
+          "data",
+          "image"
+        ],
+        "value": null
+      }
+    ]
+  },
+  {
+    "name": "wrong RGB dtype",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "rgb",
+          "data",
+          "image",
+          "dtype"
+        ],
+        "value": "float32"
+      }
+    ]
+  },
+  {
+    "name": "wrong RGB channels",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "rgb",
+          "data",
+          "image",
+          "shape"
+        ],
+        "value": [
+          384,
+          640,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "name": "wrong IR units",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "ir",
+          "data",
+          "radiance",
+          "units"
+        ],
+        "value": "K"
+      }
+    ]
+  },
+  {
+    "name": "wrong LiDAR frame",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "lidar",
+          "data",
+          "xyz",
+          "frame"
+        ],
+        "value": "east-up-south"
+      }
+    ]
+  },
+  {
+    "name": "valid unavailable IR",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": true,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "ir"
+        ],
+        "value": {
+          "status": "unavailable",
+          "reason": "disabled",
+          "message": "Sensor deliberately disabled"
+        }
+      }
+    ]
+  },
+  {
+    "name": "unavailable with data",
+    "schema": "ObservationBundle",
+    "base": "ObservationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "ir"
+        ],
+        "value": {
+          "status": "unavailable",
+          "reason": "disabled",
+          "message": "Sensor deliberately disabled",
+          "data": {}
+        }
+      }
+    ]
+  },
+  {
+    "name": "invalid hash",
+    "schema": "AssetRecord",
+    "base": "AssetRecord.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "content_sha256"
+        ],
+        "value": "bad"
+      }
+    ]
+  },
+  {
+    "name": "negative thermal capacity",
+    "schema": "AssetRecord",
+    "base": "AssetRecord.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "materials",
+          0,
+          "thermal_capacity_j_per_k"
+        ],
+        "value": -1
+      }
+    ]
+  },
+  {
+    "name": "visibility overflow",
+    "schema": "AnnotationBundle",
+    "base": "AnnotationBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "objects",
+          0,
+          "rgb",
+          "visible_fraction"
+        ],
+        "value": 1.1
+      }
+    ]
+  },
+  {
+    "name": "zero box extent",
+    "schema": "PredictionBundle",
+    "base": "PredictionBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "detections",
+          0,
+          "box_3d",
+          "extent_m",
+          1
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "truth id in prediction",
+    "schema": "PredictionBundle",
+    "base": "PredictionBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "detections",
+          0,
+          "instance_id"
+        ],
+        "value": "aircraft-1"
+      }
+    ]
+  },
+  {
+    "name": "confidence overflow",
+    "schema": "PredictionBundle",
+    "base": "PredictionBundle.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "detections",
+          0,
+          "score"
+        ],
+        "value": 2
+      }
+    ]
+  },
+  {
+    "name": "bad timestamp",
+    "schema": "DatasetManifest",
+    "base": "DatasetManifest.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "created_utc"
+        ],
+        "value": "2026-99-99T00:00:00Z"
+      }
+    ]
+  },
+  {
+    "name": "bad split",
+    "schema": "DatasetManifest",
+    "base": "DatasetManifest.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "captures",
+          0,
+          "split"
+        ],
+        "value": "training"
+      }
+    ]
+  },
+  {
+    "name": "empty dataset",
+    "schema": "DatasetManifest",
+    "base": "DatasetManifest.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "captures"
+        ],
+        "value": []
+      }
+    ]
+  },
+  {
+    "name": "capability reason required",
+    "schema": "Capabilities",
+    "base": "Capabilities.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "sensors",
+          "ir",
+          "reason"
+        ],
+        "value": null
+      }
+    ]
+  },
+  {
+    "name": "error job nullable",
+    "schema": "ApiError",
+    "base": "ApiError.json",
+    "valid": true,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "job_id"
+        ],
+        "value": "job-1"
+      }
+    ]
+  },
+  {
+    "name": "unknown error code",
+    "schema": "ApiError",
+    "base": "ApiError.json",
+    "valid": false,
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "code"
+        ],
+        "value": "whatever"
+      }
+    ]
+  },
+  {
+    "name": "non-finite JSON NaN",
+    "schema": "Health",
+    "valid": false,
+    "raw": "{\"bad\":NaN}"
+  },
+  {
+    "name": "non-finite JSON Infinity",
+    "schema": "Health",
+    "valid": false,
+    "raw": "{\"bad\":Infinity}"
+  },
+  {
+    "name": "non-finite JSON -Infinity",
+    "schema": "Health",
+    "valid": false,
+    "raw": "{\"bad\":-Infinity}"
+  },
+  {
+    "name": "non-finite JSON 1e999",
+    "schema": "Health",
+    "valid": false,
+    "raw": "{\"bad\":1e999}"
+  }
+]

@@ -1,0 +1,133 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "YuLab foundation API",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8000"
+    }
+  ],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "Health",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./lab.schema.json#/$defs/Health"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./lab.schema.json#/$defs/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "responses": {
+          "200": {
+            "description": "Capabilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./lab.schema.json#/$defs/Capabilities"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./lab.schema.json#/$defs/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AssetRecord": {
+        "$ref": "./lab.schema.json#/$defs/AssetRecord"
+      },
+      "WorldSpec": {
+        "$ref": "./lab.schema.json#/$defs/WorldSpec"
+      },
+      "RigSpec": {
+        "$ref": "./lab.schema.json#/$defs/RigSpec"
+      },
+      "EnvironmentSpec": {
+        "$ref": "./lab.schema.json#/$defs/EnvironmentSpec"
+      },
+      "CapturePlan": {
+        "$ref": "./lab.schema.json#/$defs/CapturePlan"
+      },
+      "ObservationBundle": {
+        "$ref": "./lab.schema.json#/$defs/ObservationBundle"
+      },
+      "AnnotationBundle": {
+        "$ref": "./lab.schema.json#/$defs/AnnotationBundle"
+      },
+      "TruthBundle": {
+        "$ref": "./lab.schema.json#/$defs/TruthBundle"
+      },
+      "DatasetManifest": {
+        "$ref": "./lab.schema.json#/$defs/DatasetManifest"
+      },
+      "PredictionBundle": {
+        "$ref": "./lab.schema.json#/$defs/PredictionBundle"
+      },
+      "Health": {
+        "$ref": "./lab.schema.json#/$defs/Health"
+      },
+      "Capabilities": {
+        "$ref": "./lab.schema.json#/$defs/Capabilities"
+      },
+      "ApiError": {
+        "$ref": "./lab.schema.json#/$defs/ApiError"
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Unknown API operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "./lab.schema.json#/$defs/ApiError"
+            }
+          }
+        }
+      },
+      "MethodNotAllowed": {
+        "description": "Unsupported method",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "./lab.schema.json#/$defs/ApiError"
+            }
+          }
+        }
+      }
+    }
+  }
+}

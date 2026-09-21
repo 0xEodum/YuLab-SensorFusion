@@ -1,0 +1,2693 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yulab.invalid/contracts/lab.v1",
+  "title": "LabPayload",
+  "description": "Canonical lab.v1 wire shapes. Only health/capabilities APIs are implemented in SF-01.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/AssetRecord"
+    },
+    {
+      "$ref": "#/$defs/WorldSpec"
+    },
+    {
+      "$ref": "#/$defs/RigSpec"
+    },
+    {
+      "$ref": "#/$defs/EnvironmentSpec"
+    },
+    {
+      "$ref": "#/$defs/CapturePlan"
+    },
+    {
+      "$ref": "#/$defs/ObservationBundle"
+    },
+    {
+      "$ref": "#/$defs/AnnotationBundle"
+    },
+    {
+      "$ref": "#/$defs/TruthBundle"
+    },
+    {
+      "$ref": "#/$defs/DatasetManifest"
+    },
+    {
+      "$ref": "#/$defs/PredictionBundle"
+    },
+    {
+      "$ref": "#/$defs/Health"
+    },
+    {
+      "$ref": "#/$defs/Capabilities"
+    },
+    {
+      "$ref": "#/$defs/ApiError"
+    }
+  ],
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$",
+      "maxLength": 96
+    },
+    "Hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "minLength": 64,
+      "maxLength": 64
+    },
+    "Version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "Vec3": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -1000000000.0,
+        "maximum": 1000000000.0
+      },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "Quaternion": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": -1,
+        "maximum": 1
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "Transform": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        {
+          "type": "number",
+          "minimum": -1000000000.0,
+          "maximum": 1000000000.0
+        },
+        {
+          "const": 0
+        },
+        {
+          "const": 0
+        },
+        {
+          "const": 0
+        },
+        {
+          "const": 1
+        }
+      ],
+      "items": false,
+      "minItems": 16,
+      "maxItems": 16,
+      "description": "Row-major T_A_from_B acting on column vectors; translation in metres. Rigid rotation validated by the geometry stage."
+    },
+    "Units": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "length": {
+          "const": "m"
+        },
+        "temperature": {
+          "const": "K"
+        },
+        "angle": {
+          "const": "rad"
+        },
+        "time": {
+          "const": "s"
+        },
+        "world_frame": {
+          "const": "east-up-south"
+        },
+        "matrix_layout": {
+          "const": "row-major"
+        }
+      },
+      "required": [
+        "length",
+        "temperature",
+        "angle",
+        "time",
+        "world_frame",
+        "matrix_layout"
+      ]
+    },
+    "Artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1099511627776
+        },
+        "media_type": {
+          "enum": [
+            "model/gltf-binary",
+            "application/json",
+            "application/x-npy",
+            "image/png"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "sha256",
+        "byte_length",
+        "media_type"
+      ]
+    },
+    "ArrayArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/Artifact"
+        },
+        "dtype": {
+          "enum": [
+            "uint8",
+            "uint16",
+            "uint32",
+            "float32",
+            "float64",
+            "bool"
+          ]
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000000
+          },
+          "minItems": 1,
+          "maxItems": 4
+        },
+        "units": {
+          "enum": [
+            "1",
+            "pixel",
+            "m",
+            "s",
+            "K",
+            "W/m2/sr"
+          ]
+        },
+        "frame": {
+          "enum": [
+            "image-top-left",
+            "optical-right-down-forward",
+            "lidar-forward-left-up",
+            "east-up-south"
+          ]
+        }
+      },
+      "required": [
+        "artifact",
+        "dtype",
+        "shape",
+        "units",
+        "frame"
+      ]
+    },
+    "Box3": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "frame": {
+          "const": "east-up-south"
+        },
+        "center_m": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "extent_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 1e-06,
+            "maximum": 10000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "quaternion_xyzw": {
+          "$ref": "#/$defs/Quaternion"
+        }
+      },
+      "required": [
+        "frame",
+        "center_m",
+        "extent_m",
+        "quaternion_xyzw"
+      ]
+    },
+    "Material": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "emissivity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "solar_absorption": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "thermal_capacity_j_per_k": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 1000000000000.0
+        },
+        "area_m2": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 100000000.0
+        },
+        "convection_w_per_m2_k": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "response_time_s": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 100000000.0
+        },
+        "opaque_rgb": {
+          "type": "boolean"
+        },
+        "opaque_ir": {
+          "type": "boolean"
+        },
+        "opaque_lidar": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "emissivity",
+        "solar_absorption",
+        "thermal_capacity_j_per_k",
+        "area_m2",
+        "convection_w_per_m2_k",
+        "response_time_s",
+        "opaque_rgb",
+        "opaque_ir",
+        "opaque_lidar"
+      ]
+    },
+    "HeatSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "part_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "power_w": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "coupling_fraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "operating_state": {
+          "enum": [
+            "off",
+            "idle",
+            "running"
+          ]
+        }
+      },
+      "required": [
+        "part_id",
+        "power_w",
+        "coupling_fraction",
+        "operating_state"
+      ]
+    },
+    "Part": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "mesh_node": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "material_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "semantic": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "id",
+        "mesh_node",
+        "material_id",
+        "semantic"
+      ]
+    },
+    "AssetRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "AssetRecord"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "mesh": {
+          "$ref": "#/$defs/Artifact"
+        },
+        "metadata": {
+          "$ref": "#/$defs/Artifact"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "project": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "revision": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "sha256": {
+              "$ref": "#/$defs/Hash"
+            },
+            "adapter_version": {
+              "$ref": "#/$defs/Version"
+            },
+            "use_permission": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            }
+          },
+          "required": [
+            "project",
+            "revision",
+            "sha256",
+            "adapter_version",
+            "use_permission"
+          ]
+        },
+        "units": {
+          "$ref": "#/$defs/Units"
+        },
+        "scale_m_per_source_unit": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 1000000.0
+        },
+        "T_world_from_asset": {
+          "$ref": "#/$defs/Transform"
+        },
+        "contact_point_m": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "class_name": {
+          "enum": [
+            "aircraft",
+            "ground_vehicle",
+            "ship",
+            "background"
+          ]
+        },
+        "bounds": {
+          "$ref": "#/$defs/Box3"
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Part"
+          },
+          "minItems": 1,
+          "maxItems": 10000
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Material"
+          },
+          "minItems": 1,
+          "maxItems": 1000
+        },
+        "heat_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HeatSource"
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "thermal_model_version": {
+          "$ref": "#/$defs/Version"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "asset_id",
+        "content_sha256",
+        "mesh",
+        "metadata",
+        "source",
+        "units",
+        "scale_m_per_source_unit",
+        "T_world_from_asset",
+        "contact_point_m",
+        "class_name",
+        "bounds",
+        "parts",
+        "materials",
+        "heat_sources",
+        "thermal_model_version"
+      ]
+    },
+    "Instance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "instance_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "asset_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "T_world_from_asset": {
+          "$ref": "#/$defs/Transform"
+        },
+        "operating_state": {
+          "enum": [
+            "off",
+            "idle",
+            "running"
+          ]
+        }
+      },
+      "required": [
+        "instance_id",
+        "asset_id",
+        "asset_sha256",
+        "T_world_from_asset",
+        "operating_state"
+      ]
+    },
+    "Feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "type": {
+          "enum": [
+            "canyon",
+            "alpine",
+            "islands",
+            "coast",
+            "aerodrome",
+            "harbor"
+          ]
+        },
+        "center_m": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "extent_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 100000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "center_m",
+        "extent_m",
+        "seed"
+      ]
+    },
+    "WorldSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "WorldSpec"
+        },
+        "world_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "units": {
+          "$ref": "#/$defs/Units"
+        },
+        "extent_m": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "origin_m": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "chunk_size_m": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "generator_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "field_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Feature"
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Instance"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "world_id",
+        "seed",
+        "units",
+        "extent_m",
+        "origin_m",
+        "chunk_size_m",
+        "generator_version",
+        "field_version",
+        "features",
+        "instances"
+      ]
+    },
+    "Camera": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "frame": {
+          "const": "optical-right-down-forward"
+        },
+        "width_px": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "height_px": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "fx_px": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100000
+        },
+        "fy_px": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100000
+        },
+        "cx_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "cy_px": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "distortion": {
+          "const": "ideal-pinhole"
+        }
+      },
+      "required": [
+        "frame",
+        "width_px",
+        "height_px",
+        "fx_px",
+        "fy_px",
+        "cx_px",
+        "cy_px",
+        "distortion"
+      ]
+    },
+    "Lidar": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "frame": {
+          "const": "lidar-forward-left-up"
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "horizontal_fov_rad": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 6.283185307179586
+        },
+        "vertical_fov_rad": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 3.141592653589793
+        },
+        "return_policy": {
+          "const": "single-first-opaque"
+        }
+      },
+      "required": [
+        "frame",
+        "rows",
+        "columns",
+        "horizontal_fov_rad",
+        "vertical_fov_rad",
+        "return_policy"
+      ]
+    },
+    "SensorRig": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sensor_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "modality": {
+          "enum": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "T_rig_from_sensor": {
+          "$ref": "#/$defs/Transform"
+        },
+        "timestamp_offset_s": {
+          "type": "number",
+          "minimum": -10,
+          "maximum": 10
+        },
+        "exposure_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "scan_duration_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "min_range_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "max_range_m": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 10000
+        },
+        "camera": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Camera"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lidar": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Lidar"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sensor_model_version": {
+          "$ref": "#/$defs/Version"
+        }
+      },
+      "required": [
+        "sensor_id",
+        "modality",
+        "available",
+        "T_rig_from_sensor",
+        "timestamp_offset_s",
+        "exposure_s",
+        "scan_duration_s",
+        "min_range_m",
+        "max_range_m",
+        "camera",
+        "lidar",
+        "sensor_model_version"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "modality": {
+                "const": "lidar"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "camera": {
+                "type": "null"
+              },
+              "lidar": {
+                "$ref": "#/$defs/Lidar"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "camera": {
+                "$ref": "#/$defs/Camera"
+              },
+              "lidar": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RigSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "RigSpec"
+        },
+        "rig_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "calibration_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "T_world_from_rig": {
+          "$ref": "#/$defs/Transform"
+        },
+        "sensors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SensorRig"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "properties": {
+                  "modality": {
+                    "const": "rgb"
+                  }
+                }
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": {
+                  "modality": {
+                    "const": "ir"
+                  }
+                }
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": {
+                  "modality": {
+                    "const": "lidar"
+                  }
+                }
+              },
+              "minContains": 1,
+              "maxContains": 1
+            }
+          ]
+        },
+        "timing_profile": {
+          "enum": [
+            "synchronized-static",
+            "timed-scan"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "rig_id",
+        "calibration_version",
+        "T_world_from_rig",
+        "sensors",
+        "timing_profile"
+      ]
+    },
+    "EnvironmentSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "EnvironmentSpec"
+        },
+        "environment_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "simulation_time_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "solar_time_hour": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "latitude_rad": {
+          "type": "number",
+          "minimum": -1.5707963267948966,
+          "maximum": 1.5707963267948966
+        },
+        "sun_direction_world": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "ambient_temperature_k": {
+          "type": "number",
+          "minimum": 100,
+          "maximum": 500
+        },
+        "fog_extinction_per_m": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "rain_mm_per_h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "snow_mm_per_h": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "wind_m_per_s": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "wetness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "parameter_set_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "thermal_history": {
+          "enum": [
+            "equilibrated",
+            "continued"
+          ]
+        },
+        "thermal_state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Artifact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "environment_id",
+        "simulation_time_s",
+        "solar_time_hour",
+        "latitude_rad",
+        "sun_direction_world",
+        "ambient_temperature_k",
+        "fog_extinction_per_m",
+        "rain_mm_per_h",
+        "snow_mm_per_h",
+        "wind_m_per_s",
+        "wetness",
+        "parameter_set_version",
+        "thermal_history",
+        "thermal_state"
+      ]
+    },
+    "CapturePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "CapturePlan"
+        },
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "world_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "rig_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "environment_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "simulation_time_s": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "geometry_policy": {
+          "const": "fixed-sensor-geometry"
+        },
+        "quality_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "seed_channels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "world": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "weather": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "rgb": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ir": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "lidar": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          },
+          "required": [
+            "world",
+            "weather",
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "modalities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "rgb",
+              "ir",
+              "lidar"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "capture_id",
+        "sequence_id",
+        "world_sha256",
+        "rig_sha256",
+        "environment_sha256",
+        "simulation_time_s",
+        "geometry_policy",
+        "quality_version",
+        "seed_channels",
+        "modalities"
+      ]
+    },
+    "Unavailable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "unavailable"
+        },
+        "reason": {
+          "enum": [
+            "not_implemented",
+            "disabled",
+            "hardware_failure"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "message"
+      ]
+    },
+    "RgbData": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "uint8"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "image-top-left"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "const": 3
+                    }
+                  ],
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "validity_mask": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "bool"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "image-top-left"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "transfer_function": {
+          "const": "srgb"
+        },
+        "exposure_s": {
+          "type": "number",
+          "minimum": 1e-06,
+          "maximum": 10
+        }
+      },
+      "required": [
+        "image",
+        "validity_mask",
+        "transfer_function",
+        "exposure_s"
+      ]
+    },
+    "IrData": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "radiance": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "float32"
+                },
+                "units": {
+                  "const": "W/m2/sr"
+                },
+                "frame": {
+                  "const": "image-top-left"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "validity_mask": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "bool"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "image-top-left"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "saturation_mask": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "bool"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "image-top-left"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8192
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "band_um": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 100
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "response_version": {
+          "$ref": "#/$defs/Version"
+        }
+      },
+      "required": [
+        "radiance",
+        "validity_mask",
+        "saturation_mask",
+        "band_um",
+        "response_version"
+      ]
+    },
+    "LidarData": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "xyz": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "float32"
+                },
+                "units": {
+                  "const": "m"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    },
+                    {
+                      "const": 3
+                    }
+                  ],
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "intensity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "float32"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    }
+                  ],
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "beam_id": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "uint32"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    }
+                  ],
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "time_offset": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "float32"
+                },
+                "units": {
+                  "const": "s"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    }
+                  ],
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "validity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "bool"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    }
+                  ],
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "beam_table": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ArrayArtifact"
+            },
+            {
+              "properties": {
+                "dtype": {
+                  "const": "uint8"
+                },
+                "units": {
+                  "const": "1"
+                },
+                "frame": {
+                  "const": "lidar-forward-left-up"
+                },
+                "shape": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 8388608
+                    }
+                  ],
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": false
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "xyz",
+        "intensity",
+        "beam_id",
+        "time_offset",
+        "validity",
+        "beam_table"
+      ]
+    },
+    "RgbObservation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Unavailable"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "available"
+            },
+            "timestamp_s": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000.0
+            },
+            "health": {
+              "enum": [
+                "ok",
+                "degraded"
+              ]
+            },
+            "sensor_id": {
+              "$ref": "#/$defs/Id"
+            },
+            "sensor_model_version": {
+              "$ref": "#/$defs/Version"
+            },
+            "data": {
+              "$ref": "#/$defs/RgbData"
+            }
+          },
+          "required": [
+            "status",
+            "timestamp_s",
+            "health",
+            "sensor_id",
+            "sensor_model_version",
+            "data"
+          ]
+        }
+      ]
+    },
+    "IrObservation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Unavailable"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "available"
+            },
+            "timestamp_s": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000.0
+            },
+            "health": {
+              "enum": [
+                "ok",
+                "degraded"
+              ]
+            },
+            "sensor_id": {
+              "$ref": "#/$defs/Id"
+            },
+            "sensor_model_version": {
+              "$ref": "#/$defs/Version"
+            },
+            "data": {
+              "$ref": "#/$defs/IrData"
+            }
+          },
+          "required": [
+            "status",
+            "timestamp_s",
+            "health",
+            "sensor_id",
+            "sensor_model_version",
+            "data"
+          ]
+        }
+      ]
+    },
+    "LidarObservation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Unavailable"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "available"
+            },
+            "timestamp_s": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000.0
+            },
+            "health": {
+              "enum": [
+                "ok",
+                "degraded"
+              ]
+            },
+            "sensor_id": {
+              "$ref": "#/$defs/Id"
+            },
+            "sensor_model_version": {
+              "$ref": "#/$defs/Version"
+            },
+            "data": {
+              "$ref": "#/$defs/LidarData"
+            }
+          },
+          "required": [
+            "status",
+            "timestamp_s",
+            "health",
+            "sensor_id",
+            "sensor_model_version",
+            "data"
+          ]
+        }
+      ]
+    },
+    "ObservationBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "ObservationBundle"
+        },
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "rig": {
+          "$ref": "#/$defs/RigSpec"
+        },
+        "rgb": {
+          "$ref": "#/$defs/RgbObservation"
+        },
+        "ir": {
+          "$ref": "#/$defs/IrObservation"
+        },
+        "lidar": {
+          "$ref": "#/$defs/LidarObservation"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "capture_id",
+        "sequence_id",
+        "rig",
+        "rgb",
+        "ir",
+        "lidar"
+      ]
+    },
+    "VisibleCamera": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mask": {
+          "$ref": "#/$defs/ArrayArtifact"
+        },
+        "visible_box_xyxy": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8192
+              },
+              "minItems": 4,
+              "maxItems": 4
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "visible_pixels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "isolated_projected_pixels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 67108864
+        },
+        "visible_fraction": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "mask",
+        "visible_box_xyxy",
+        "visible_pixels",
+        "isolated_projected_pixels",
+        "visible_fraction",
+        "truncated"
+      ]
+    },
+    "ObjectAnnotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "instance_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "class_id": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "box_3d": {
+          "$ref": "#/$defs/Box3"
+        },
+        "rgb": {
+          "$ref": "#/$defs/VisibleCamera"
+        },
+        "ir": {
+          "$ref": "#/$defs/VisibleCamera"
+        },
+        "lidar_ideal_hits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        },
+        "lidar_surface_hits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        },
+        "eligible": {
+          "type": "boolean"
+        },
+        "ignore_reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "out_of_frustum",
+                "fully_occluded",
+                "small_fragment"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "instance_id",
+        "class_id",
+        "box_3d",
+        "rgb",
+        "ir",
+        "lidar_ideal_hits",
+        "lidar_surface_hits",
+        "eligible",
+        "ignore_reason"
+      ]
+    },
+    "AnnotationBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "AnnotationBundle"
+        },
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "class_map_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "visibility_policy_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectAnnotation"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "capture_id",
+        "class_map_version",
+        "visibility_policy_version",
+        "objects"
+      ]
+    },
+    "ObjectTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "instance": {
+          "$ref": "#/$defs/Instance"
+        },
+        "velocity_m_per_s": {
+          "$ref": "#/$defs/Vec3"
+        },
+        "surface_temperatures_k": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "part_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "temperature_k": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 5000
+              }
+            },
+            "required": [
+              "part_id",
+              "temperature_k"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        }
+      },
+      "required": [
+        "instance",
+        "velocity_m_per_s",
+        "surface_temperatures_k"
+      ]
+    },
+    "TruthBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "TruthBundle"
+        },
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "world": {
+          "$ref": "#/$defs/WorldSpec"
+        },
+        "actual_rig": {
+          "$ref": "#/$defs/RigSpec"
+        },
+        "environment": {
+          "$ref": "#/$defs/EnvironmentSpec"
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObjectTruth"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        },
+        "clean_intermediates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Artifact"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "corruption_masks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ArrayArtifact"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "capture_id",
+        "world",
+        "actual_rig",
+        "environment",
+        "objects",
+        "clean_intermediates",
+        "corruption_masks"
+      ]
+    },
+    "CaptureEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "group_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation",
+            "test"
+          ]
+        },
+        "observation": {
+          "$ref": "#/$defs/Artifact"
+        },
+        "annotations": {
+          "$ref": "#/$defs/Artifact"
+        },
+        "truth": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Artifact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "capture_id",
+        "sequence_id",
+        "group_id",
+        "split",
+        "observation",
+        "annotations",
+        "truth"
+      ]
+    },
+    "Provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "world_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "asset_hashes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hash"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        },
+        "config_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "sensor_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "generator_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "toolchain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "source_revision",
+        "world_sha256",
+        "asset_hashes",
+        "config_sha256",
+        "sensor_version",
+        "generator_version",
+        "toolchain",
+        "seed"
+      ]
+    },
+    "DatasetManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "DatasetManifest"
+        },
+        "dataset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "created_utc": {
+          "type": "string",
+          "format": "date-time",
+          "maxLength": 40
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "class_map": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 65535
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 96
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 65535
+        },
+        "class_map_version": {
+          "$ref": "#/$defs/Version"
+        },
+        "captures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CaptureEntry"
+          },
+          "minItems": 1,
+          "maxItems": 1000000
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ArrayArtifact"
+          },
+          "minItems": 0,
+          "maxItems": 1000000
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "train": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "validation": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "test": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            }
+          },
+          "required": [
+            "train",
+            "validation",
+            "test"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "dataset_id",
+        "created_utc",
+        "provenance",
+        "class_map",
+        "class_map_version",
+        "captures",
+        "files",
+        "counts"
+      ]
+    },
+    "Detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prediction_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "class_id": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "box_3d": {
+          "$ref": "#/$defs/Box3"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "position_variance_m2": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "observation_supported": {
+          "type": "boolean"
+        },
+        "routing": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "minItems": 8,
+              "maxItems": 8
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "prediction_id",
+        "class_id",
+        "box_3d",
+        "score",
+        "position_variance_m2",
+        "observation_supported",
+        "routing"
+      ]
+    },
+    "PredictionBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "PredictionBundle"
+        },
+        "capture_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "checkpoint_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "checkpoint_sha256": {
+          "$ref": "#/$defs/Hash"
+        },
+        "latency_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000.0
+        },
+        "detections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Detection"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "state": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Artifact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "capture_id",
+        "checkpoint_id",
+        "checkpoint_sha256",
+        "latency_ms",
+        "detections",
+        "state"
+      ]
+    },
+    "Health": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "Health"
+        },
+        "status": {
+          "const": "ok"
+        },
+        "service": {
+          "const": "yulab-backend"
+        },
+        "service_version": {
+          "const": "0.1.0"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "status",
+        "service",
+        "service_version"
+      ]
+    },
+    "Capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "not_implemented",
+                "no_checkpoint",
+                "device_unavailable"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "available",
+        "reason"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "available": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "enum": [
+                  "not_implemented",
+                  "no_checkpoint",
+                  "device_unavailable"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "Capabilities"
+        },
+        "service_version": {
+          "const": "0.1.0"
+        },
+        "contracts_version": {
+          "const": "lab.v1"
+        },
+        "capture_renderer": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "device": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sensors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "rgb": {
+              "$ref": "#/$defs/Capability"
+            },
+            "ir": {
+              "$ref": "#/$defs/Capability"
+            },
+            "lidar": {
+              "$ref": "#/$defs/Capability"
+            }
+          },
+          "required": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "services": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "worlds": {
+              "$ref": "#/$defs/Capability"
+            },
+            "capture": {
+              "$ref": "#/$defs/Capability"
+            },
+            "datasets": {
+              "$ref": "#/$defs/Capability"
+            },
+            "training": {
+              "$ref": "#/$defs/Capability"
+            },
+            "inference": {
+              "$ref": "#/$defs/Capability"
+            }
+          },
+          "required": [
+            "worlds",
+            "capture",
+            "datasets",
+            "training",
+            "inference"
+          ]
+        },
+        "checkpoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "service_version",
+        "contracts_version",
+        "capture_renderer",
+        "device",
+        "sensors",
+        "services",
+        "checkpoints"
+      ]
+    },
+    "ApiError": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "lab.v1"
+        },
+        "kind": {
+          "const": "ApiError"
+        },
+        "code": {
+          "enum": [
+            "not_found",
+            "method_not_allowed",
+            "validation_error",
+            "internal_error"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "request_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "job_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 512
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "path",
+              "message"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "code",
+        "message",
+        "request_id",
+        "job_id",
+        "details"
+      ]
+    }
+  }
+}

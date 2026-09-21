@@ -1,0 +1,45 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "Capabilities",
+  "service_version": "0.1.0",
+  "contracts_version": "lab.v1",
+  "capture_renderer": null,
+  "device": null,
+  "sensors": {
+    "rgb": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "ir": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "lidar": {
+      "available": false,
+      "reason": "not_implemented"
+    }
+  },
+  "services": {
+    "worlds": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "capture": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "datasets": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "training": {
+      "available": false,
+      "reason": "not_implemented"
+    },
+    "inference": {
+      "available": false,
+      "reason": "not_implemented"
+    }
+  },
+  "checkpoints": []
+}

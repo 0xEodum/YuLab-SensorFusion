@@ -13,10 +13,16 @@ export default defineConfig({
     trace: 'retain-on-failure',
     launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
   },
-  webServer: {
+  webServer: [{
+    command: 'node tools/uv.mjs run --project backend --locked uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8765',
+    url: 'http://127.0.0.1:8765/api/v1/health',
+    reuseExistingServer: false,
+    timeout: 30_000,
+  }, {
     command: 'npm run dev -- --port 4173 --strictPort',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
-  },
+    env: { YULAB_BACKEND_PORT: '8765' },
+  }],
 });

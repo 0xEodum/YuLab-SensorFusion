@@ -1,0 +1,26 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "EnvironmentSpec",
+  "environment_id": "env-1",
+  "simulation_time_s": 0,
+  "solar_time_hour": 12,
+  "latitude_rad": 0.9,
+  "sun_direction_world": [
+    0,
+    1,
+    0
+  ],
+  "ambient_temperature_k": 293.15,
+  "fog_extinction_per_m": 0,
+  "rain_mm_per_h": 0,
+  "snow_mm_per_h": 0,
+  "wind_m_per_s": [
+    0,
+    0,
+    0
+  ],
+  "wetness": 0,
+  "parameter_set_version": "env.v1",
+  "thermal_history": "equilibrated",
+  "thermal_state": null
+}

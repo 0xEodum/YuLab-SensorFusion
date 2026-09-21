@@ -13,13 +13,22 @@
   "scripts": {
     "dev": "npm run dev --workspace @yulab/frontend --",
     "build": "npm run build --workspace @yulab/frontend",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json",
     "preview": "npm run preview --workspace @yulab/frontend --",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "contracts:generate": "node tools/generate-contracts.mjs",
+    "contracts:check": "node tools/generate-contracts.mjs --check",
+    "backend:sync": "node tools/uv.mjs sync --project backend --locked",
+    "dev:backend": "node tools/uv.mjs run --project backend --locked uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000",
+    "test:backend": "node tools/uv.mjs run --project backend --locked pytest backend/tests",
+    "test:contracts": "node --experimental-strip-types --test tests/contracts/*.test.ts",
+    "verify": "npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:backend && npm run build"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
+    "@types/node": "22.19.17",
     "ajv": "8.20.0",
-    "json-schema-to-typescript": "16.0.0"
+    "json-schema-to-typescript": "16.0.0",
+    "typescript": "5.9.3"
   }
 }
