@@ -7,8 +7,8 @@ training and inference are later stages; no trained model is supplied yet.
 
 ## Setup
 
-Use Node 22 LTS (at least 22.12), npm, and Python 3.13. CI targets Node 22 on
-Windows and Linux; local verification also uses Node 25. The npm lock and
+Use Node 22 LTS (at least 22.12), npm, and Python 3.13. Verification runs locally;
+the recorded Windows environment also uses Node 25. The npm lock and
 `backend/uv.lock` pin dependencies. Python uses `backend/.venv`, not global ML
 packages. No external model directory or GPU is needed for SF-01.
 
@@ -58,9 +58,9 @@ npm run test:browser
 `verify` checks generated-file drift, all workspace/test TypeScript, shared wire
 fixtures in JavaScript and Python, real API responses/errors and the production
 build. Browser tests start an isolated backend on port 8765 and Vite on 4173.
-Those ports must be free. Core CI runs on Windows and Linux; browser CI runs
-with pinned Chromium on Linux. Hosted Windows software-WebGL browser runs stall
-(see SF-01 evidence); local Windows Edge passed the full browser suite. For a local download
+Those ports must be free. GitHub workflows are removed by project policy; run
+both core and browser checks locally before pushing. Local Windows Edge passed
+the full browser suite. For a local download
 failure, explicitly select installed Edge with `$env:PLAYWRIGHT_CHANNEL='msedge'`
 (POSIX: `PLAYWRIGHT_CHANNEL=msedge npm run test:browser`). Browser tests use
 software WebGL for portable functional QA; they are not GPU benchmarks.

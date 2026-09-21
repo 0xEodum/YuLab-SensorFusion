@@ -1,6 +1,6 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-01 implementation is authorized and in progress.
+Updated: 2026-09-21. SF-01 is closed; SF-02 is the next authorized item.
 Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -14,6 +14,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
   change; preserve its acceptance requirements in named child tasks.
 - Write meaningful deterministic tests for new world/sensor/model contracts.
   Preserve legacy terrain behavior during the initial repository move.
+- Verification is local only, including browser acceptance. Do not add or run
+  hosted GitHub workflows; this supersedes the original SF-01 CI requirement.
 - Commit and push each coherent, verified checkpoint. Do not accumulate several
   completed milestones in one unpushed change. Use explicit staging; exclude
   datasets, secrets, external source trees and large checkpoints from normal Git.
@@ -31,8 +33,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | Item | Outcome | Depends on | Status |
 | --- | --- | --- | --- |
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
-| SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | IN PROGRESS |
-| SF-02 | Connected deterministic world-space terrain | SF-01 | PLANNED |
+| SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
+| SF-02 | Connected deterministic world-space terrain | SF-01 | READY |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | PLANNED |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
@@ -78,7 +80,7 @@ See [planning evidence](evidence/SF-00-planning.md) for checks and scope limits.
 
 Deliver: npm workspace frontend move, isolated Python backend, loopback health/
 capability endpoint, canonical JSON Schemas/OpenAPI and generated bindings for
-the payload families in DATA_CONTRACTS, local launch instructions, CI checks.
+the payload families in DATA_CONTRACTS, local launch instructions and checks.
 
 Acceptance:
 
@@ -89,11 +91,15 @@ Acceptance:
   the same fixtures and regenerated bindings produce no diff.
 - Backend health is callable through the frontend development proxy; unavailable
   backend is an explicit UI state. No fake sensor/training capabilities advertised.
-- Locked dependencies, documented versions and minimal CI run without the external
+- Locked dependencies, documented versions and local verification run without the external
   `K:` model source path. Dataset/checkpoint/cache ignore policies are in place.
 
 Suggested checkpoints: structural move and browser baseline; contract/backend
 foundation with cross-runtime validation. Run acceptance after each checkpoint.
+
+Closed by user instruction on 2026-09-21. See [SF-01 evidence](evidence/SF-01-foundation.md)
+and its verification manifest; hosted-run failures remain documented. Future
+acceptance uses local checks only.
 
 ## SF-02 — Connected world generator
 
