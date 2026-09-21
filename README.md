@@ -58,7 +58,8 @@ npm run test:browser
 `verify` checks generated-file drift, all workspace/test TypeScript, shared wire
 fixtures in JavaScript and Python, real API responses/errors and the production
 build. Browser tests start an isolated backend on port 8765 and Vite on 4173.
-Those ports must be free. CI installs pinned Chromium; for a local download
+Those ports must be free. Linux CI installs pinned Chromium; Windows CI uses
+the runner's installed Edge (the browser version is not pinned). For a local download
 failure, explicitly select installed Edge with `$env:PLAYWRIGHT_CHANNEL='msedge'`
 (POSIX: `PLAYWRIGHT_CHANNEL=msedge npm run test:browser`). Browser tests use
 software WebGL for portable functional QA; they are not GPU benchmarks.

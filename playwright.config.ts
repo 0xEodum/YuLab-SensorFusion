@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/browser',
   timeout: 90_000,
+  globalTimeout: 300_000,
   workers: 1,
   reporter: [['list'], ['json', { outputFile: 'artifacts/browser/results.json' }]],
   use: {

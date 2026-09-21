@@ -8,10 +8,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            browser-channel: ''
+          - os: windows-latest
+            browser-channel: msedge
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     env:
       UV_LINK_MODE: copy
+      PLAYWRIGHT_CHANNEL: ${{ matrix.browser-channel }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,6 +32,7 @@ jobs:
       - run: npm run backend:sync
       - run: npm run verify
       - run: npx playwright install --with-deps chromium
+        if: runner.os == 'Linux'
       - run: npm run test:browser
       - uses: actions/upload-artifact@v4
         if: always()
