@@ -132,7 +132,8 @@ hashes, mesh normals, scale, contacts, clearances and graded seams. See
   [SF-01 evidence](docs/evidence/SF-01-foundation.md) and
   [SF-02 evidence](docs/evidence/SF-02-connected-world.md) plus its
   [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md), and
-  [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md).
+  [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md), and
+  [SF-04 assets and aerodrome](docs/evidence/SF-04-assets-aerodrome.md).
 
 Datasets, larger future asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned

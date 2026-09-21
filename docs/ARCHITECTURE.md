@@ -1,6 +1,7 @@
 # Sensor-fusion lab architecture
 
-Status: SF-04 asset import and first aerodrome implemented, local acceptance in progress, 2026-09-21.
+Status: SF-04 asset import and first aerodrome accepted locally, 2026-09-21.
+SF-05 shared capture worker and reference passes is next.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.

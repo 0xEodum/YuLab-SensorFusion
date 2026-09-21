@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-03 streaming and navigation passed local acceptance.
-SF-04 asset import and first aerodrome is IN PROGRESS. Dataset generation and training remain
+Updated: 2026-09-21. SF-04 assets and aerodrome passed local acceptance.
+SF-05 shared capture worker and reference passes is READY. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -38,8 +38,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
 | SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
-| SF-04 | Asset import and first aerodrome | SF-03 | IN PROGRESS |
-| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
+| SF-04 | Asset import and first aerodrome | SF-03 | DONE |
+| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | READY |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
 | SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
@@ -213,6 +213,15 @@ Acceptance:
   Aircraft contact and placement checks exclude unintended intersections.
 - Capture fixtures include an unobstructed aircraft, partial hangar occlusion and
   fully hidden aircraft. No source application behaviors/projectiles are imported.
+
+Completed in implementation checkpoint `2102fc0`. Three source-faithful GLB
+adapters, metre-scale catalog, graded aerodrome, five seeded/static fixture
+instances and shared bounds-based asset residency passed local acceptance.
+Four independent imports match byte-for-byte. Both full-world seed sweeps,
+core checks and all 13 production browser tests pass from a fresh source archive.
+See [SF-04 evidence](evidence/SF-04-assets-aerodrome.md),
+[manifest](evidence/sf04-verification-manifest.json) and
+[asset semantics](ASSETS_AND_AERODROME.md) for measured results and limits.
 
 ## SF-05 — Capture worker and RGB/reference passes
 

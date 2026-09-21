@@ -1,0 +1,2836 @@
+{
+  "profile": "sf04-aerodrome-world.v1",
+  "seed": 48291,
+  "extent_m": [
+    2048,
+    128,
+    2048
+  ],
+  "chunk_size_m": 128,
+  "cell_size_m": 4,
+  "chunks": 256,
+  "seams": 480,
+  "vertical_probes": 262144,
+  "triangles": 2389400,
+  "placements": 7687,
+  "world_sha256": "85de7b68c14187248355975d2b3b647be19c4c4be7084498064e02002cf4cac4",
+  "elapsed_s": 130.6226453,
+  "records": {
+    "-8,-8": {
+      "geometry": "683505df22b2cf1b48efa444c003ef2ececca390a94e1b128836c78838159a32",
+      "placements": "d76c5492b4bf6ebf93e2d99486054468f4bb846ba954789c40c05a2d61dff573",
+      "triangles": 8918,
+      "boundary": [
+        "c17160d0f25633d06a14fb510ab0ef5bbe3a2bd50cee31c37d7b67feee134ef1",
+        "89aa9ce004459848b630aacf84230e4b2a6e4d6a54a99f7bfbb51dd906bcf0e1",
+        "1ae39a0320c96f033eaa548e2f62a3aff9282c5717fd602723080510138b7856",
+        "bcbe8d5fd51cd91cab290ed5495c8a318f303b3252685553c50bc180a9e41f88"
+      ]
+    },
+    "-8,-7": {
+      "geometry": "44e0f09b4409bf67f0be83bff5f6929d4ea0270bc27409b51e607fcbf251d89c",
+      "placements": "fc34635eec5c9b96ec5276eb150c0347dc073e1744d0f9871d40110359091702",
+      "triangles": 9736,
+      "boundary": [
+        "130b6ddb716ce704321f07e0c18d69ec21510a20d146b0e458c54ca813baede5",
+        "6333c5a6ba0aad4fdf4934352394bef26cbb3b947e1dd8fc59d7c1e12b00eb67",
+        "bcbe8d5fd51cd91cab290ed5495c8a318f303b3252685553c50bc180a9e41f88",
+        "00c182e528e4dd028be527fb621f40d170f4daecbab3f9ceda30ee6719850e97"
+      ]
+    },
+    "-8,-6": {
+      "geometry": "6e66d549b64c59934b5e623d29ba010ac74d82c5ac1eb326eb5d2829d88075b3",
+      "placements": "039d824f7419291748b398463d41580791af970a5a6a5368d2e0dc4bd3e20c64",
+      "triangles": 8710,
+      "boundary": [
+        "2100ce29922208d2698d672665a6828a6788d61da8b44f8f70c206df9bf1cdc3",
+        "e295ccbf152152a16bbe2203158605699b0e59e145de23f8a53f0a7c9c2917e6",
+        "00c182e528e4dd028be527fb621f40d170f4daecbab3f9ceda30ee6719850e97",
+        "5abc8cf846c58865463527f6174cbc0ba7b993523fc0b12c2458716702e6e3c3"
+      ]
+    },
+    "-8,-5": {
+      "geometry": "70b8852fb387e3eb66a8f7780950e41fdd8549342ac2501e186129c83eea45ab",
+      "placements": "56b13163b3ff48670ffdd0d1113350330fd06557034cdb72fe3d974c938de6ee",
+      "triangles": 9048,
+      "boundary": [
+        "c4d5959a2a8a8f2ea668e361573cf182d6f9ed9dcd66cd0d71b8cb266ae110b6",
+        "87e305de21c70165fef1548d0591742025826e73c46f8d35877cfe959d643f1d",
+        "5abc8cf846c58865463527f6174cbc0ba7b993523fc0b12c2458716702e6e3c3",
+        "0e8fa9fc12466311dd6e1190848afbb2d6ba0aa94e24d1827b702c9d58278cf4"
+      ]
+    },
+    "-8,-4": {
+      "geometry": "993792ba96d893b9b8819b2d2c6719771fd89dc95896c24bd99f1a5a353cec41",
+      "placements": "8b9ee88304eb5c0e615fda791f329d11f264c27e33217c6b209f690c4ce8fd71",
+      "triangles": 9448,
+      "boundary": [
+        "26e62a4f625947e6a2dcb54f15ac879902ecd10d5261d3f0e47ae1155469f5ec",
+        "30048d2d124d4f7b77ad6fe8ab2692325cd97efde2c3b3221366d5f1c00e1dc9",
+        "0e8fa9fc12466311dd6e1190848afbb2d6ba0aa94e24d1827b702c9d58278cf4",
+        "b98405062847b5139e245ffbaf0ba03e599c7307ebfbed7499e9a5d71613ffdd"
+      ]
+    },
+    "-8,-3": {
+      "geometry": "b40a3599d714874a40623cad088e1eea56ec4b4230387cb1e95f9549b9b20362",
+      "placements": "c737affd59b37d0c60bbd282bcce04f0c73693b2e92b2ef3b0a68750b73cb4fe",
+      "triangles": 8894,
+      "boundary": [
+        "909ce7c855f0dcbbd9920f3c4fa9e392578609b6d5370c683c185f3018a90583",
+        "790bf027057228f51076b323f55c38687ad257509a796a4f28cbdf70620cf95b",
+        "b98405062847b5139e245ffbaf0ba03e599c7307ebfbed7499e9a5d71613ffdd",
+        "e352b45f3eef716efae69910b0928af23455b66edacf1f26d1f9ca3ad51b10e0"
+      ]
+    },
+    "-8,-2": {
+      "geometry": "8f6a04322847767b7588d951020df9ecbbbb5297c6089eac5d0aae6d875c183a",
+      "placements": "74c4394b474ad3c917101ca017d3f6be3b360bb76b798408d22c3ecaa8150288",
+      "triangles": 8726,
+      "boundary": [
+        "c117fbe33c2f4ec4003d9339a3a8f35c6cfce2a1edb8658fdbb93b120558828a",
+        "90eb2e4e70dd564024399041ae5384872621c32fee5df0477b0fbd99ce5165fa",
+        "e352b45f3eef716efae69910b0928af23455b66edacf1f26d1f9ca3ad51b10e0",
+        "fc4f5f855066adbc5ac14254fde17b2d8dc8b4ec77e9ce9f2124ee97c31c01c9"
+      ]
+    },
+    "-8,-1": {
+      "geometry": "a38115d6881bc75cfd23c18cdce8cb17795e6c387163aa7bb154a53acc072d45",
+      "placements": "0f634ee4f2c29238f47aab424cdc8f38be2cd7e34209a18571531ef1d4be4ac1",
+      "triangles": 8934,
+      "boundary": [
+        "6db3a49b3c8e1eb81677eb864882205b4260be91568732f5161c4f79c2739951",
+        "62dc3a28d536f979edd612f558ca73a9b4e73fad04caf35b6272115b5d233786",
+        "fc4f5f855066adbc5ac14254fde17b2d8dc8b4ec77e9ce9f2124ee97c31c01c9",
+        "9061b667b06189c396ffe7c2ac6e48fcd17cb8ba7d8e206e2e559f1b97786e67"
+      ]
+    },
+    "-8,0": {
+      "geometry": "001e3e5b4106870c5da887b137f8f4d0976a19732293cd90fd59b933a3e55e75",
+      "placements": "438c1fa8f93ba1659a564cf3d5406d44b32b9060c3aab05fa237c9de98f9d391",
+      "triangles": 8854,
+      "boundary": [
+        "7e3615acc36074446f210e96a2a6642caf76757fae742c1fa0daea9498b51b9c",
+        "cbb1bd53d91fecbb1c7e4cb8bfba7f3e1067a1fb74aa783a194e5b1fda611de2",
+        "9061b667b06189c396ffe7c2ac6e48fcd17cb8ba7d8e206e2e559f1b97786e67",
+        "dd7161176826fe2f512fac8eda19ad7c3b7eec82af7d200ba8726471fd556aeb"
+      ]
+    },
+    "-8,1": {
+      "geometry": "1020ee05f741a7e9bc31920502881b519ec2456c6d21b9ce350acb589ed2c654",
+      "placements": "11468a35028d59da93fd8acafa057d7efb4676ef3b8b7583b457c94e518dbd0b",
+      "triangles": 8668,
+      "boundary": [
+        "4ebb2590a2e097b4b8cac454184578032b4fe9ddf2ec4311a0d5a2bd4b957e8b",
+        "f40efcb699c06b4211b2388272e9f0db0bdc6aec085114a42a65a4ee2c9bb93d",
+        "dd7161176826fe2f512fac8eda19ad7c3b7eec82af7d200ba8726471fd556aeb",
+        "0ff190903e3c274671db6d1e176d0a8b576943bb068d9657c7fce58244ee10fc"
+      ]
+    },
+    "-8,2": {
+      "geometry": "c40c219f3e1855e0bb08b85aa98ff5a3e1753c8c84c2a1288d5a971f5f595514",
+      "placements": "49f62b6c19b43da03e92115488a1104baa35c87320aca5b44e00c4f17877c924",
+      "triangles": 8346,
+      "boundary": [
+        "fe9815e518a3c649b3b81d41a7e25704e2d4267443ddeaa7f1f741c57159430f",
+        "2d63331d81590b3492262ac3e80c9fd41823486c8ba9512886ee8257d8cc2520",
+        "0ff190903e3c274671db6d1e176d0a8b576943bb068d9657c7fce58244ee10fc",
+        "31d691915b34a280f3c36b8afbd4dd591f470c50bcedf59172d0c36d73408a72"
+      ]
+    },
+    "-8,3": {
+      "geometry": "eaf82f3efc80c0266efb7b1a5c21bf2e00b5c2566e0cdbddf349c40b7f1797fb",
+      "placements": "e7d8638fda7a1ab19cdc9c2c7c86f4f086e28c48e225f5f5de7b89b3f5c6b041",
+      "triangles": 8516,
+      "boundary": [
+        "5236c52b67fd7be08a7aee90dcc12480743f1cd8952811efc7b81036a2263ffe",
+        "771189ed9c61fdf4b39880bd40f00766464f25330cc4c07c62db71ba07493445",
+        "31d691915b34a280f3c36b8afbd4dd591f470c50bcedf59172d0c36d73408a72",
+        "8d447548b96f50a5963ae529b4f24052104fdf26dd751fbffc44d593ed5fc0b3"
+      ]
+    },
+    "-8,4": {
+      "geometry": "ff91fe3a31a68d4079c1c62f9e4ac67b959f3e239b11baf7b507ea1a1d5ba341",
+      "placements": "041eb0189d7f87e474848af7f750634d309c49a384b205fe43cec392ea4cc605",
+      "triangles": 9280,
+      "boundary": [
+        "c3c0422edf64b15138cc8e7646b5aaa5a9dc383330d559996b0231da4a7e4b5a",
+        "afc2a8ab49092f6f0e1742e9037636c36e41d3a887f4ec0b6de3f5d0562c8e88",
+        "8d447548b96f50a5963ae529b4f24052104fdf26dd751fbffc44d593ed5fc0b3",
+        "92efae909caa039a7dd8e3c5295c86b6aa04047d6caf4bbc0378f50fc4a0f65b"
+      ]
+    },
+    "-8,5": {
+      "geometry": "ed2a829f214aab0bb1b8fe70d8a2710d66fe9573eab2845550c0fe4b7f9df401",
+      "placements": "e2d2e15d08a8b366ea5066c3fb5779507e2921f46934cf34313c56ca2f71012d",
+      "triangles": 9420,
+      "boundary": [
+        "6c31c3ff0a21650af7b0c7af495ebf4917b06d78eb3a9d4ab53dba9cf4e710d3",
+        "f8b3b2ea3ad2ab6a4215e82ec59649ed32d6bb1fea62f6fcec6c59114b3a9ad3",
+        "92efae909caa039a7dd8e3c5295c86b6aa04047d6caf4bbc0378f50fc4a0f65b",
+        "f0b9eaab9b8d177210c28f80aa442e53aa632cd553d908eae8592f40290bdf01"
+      ]
+    },
+    "-8,6": {
+      "geometry": "9d7b32fdb12442e4fee35fdd2ee9cbe88d97ae04a2bbcbc545490b4f1e784a39",
+      "placements": "f0d669701ece2e98662c70034dddb37b8da4e6c1859fabb3c122ea5ca31c1b9d",
+      "triangles": 8526,
+      "boundary": [
+        "7512142a413b2990fb483dcc4f0e8be4b5dd012e7d1d1c2f7c571e912899d7a5",
+        "751ba0aea8a043eaff418cf83006a447b6eb42d8a3b4cf6f26e76e4cb3b655c6",
+        "f0b9eaab9b8d177210c28f80aa442e53aa632cd553d908eae8592f40290bdf01",
+        "e824dc9d6200b281d9a5222974ef04f324ddf57eb98b6325de94ac3f32e59bc5"
+      ]
+    },
+    "-8,7": {
+      "geometry": "1b5b1c7edbc8efe22bdf07503f498c4217aba49ec230311343f40817287af9a5",
+      "placements": "4778129513c3d5841dc9da687e4a9b7ac7223176a62b2e7e7c4f88c42778d2f9",
+      "triangles": 8822,
+      "boundary": [
+        "ae62a94eb6e47a9cbe5c311239663964b773c511ae6820d329bc1f3936de8e30",
+        "c427a0c5b61768ab37238293e7c1b6051dcc71edda44a4aca3073406f17de745",
+        "e824dc9d6200b281d9a5222974ef04f324ddf57eb98b6325de94ac3f32e59bc5",
+        "b3a09aa6cf27ffb405d09af6e66fc7dbbd76d428968beb2ca2565b94384989f8"
+      ]
+    },
+    "-7,-8": {
+      "geometry": "e7f44388631e0c84973aac532adff3edcb5e70e048ebc8438edb429749d0369a",
+      "placements": "e228c630a734e35baedd44130e505eaeb4536e0d3154e8abb5e3f0e5c61743d3",
+      "triangles": 8754,
+      "boundary": [
+        "89aa9ce004459848b630aacf84230e4b2a6e4d6a54a99f7bfbb51dd906bcf0e1",
+        "0230d5d8286ed533f69f1ca8612428e21cfc13cc00e520e2ce72a924cb182fcd",
+        "bf06b637d220fd58c5ccaf7e56209c1eb49d6cfc8209a0fc2306bb1a241f77e8",
+        "ff35b8c9d44eab1e89fcb7fa3d32f60c171dc71ec2e86a8210504b037ca79cfa"
+      ]
+    },
+    "-7,-7": {
+      "geometry": "9438870eb57c83e119822a3688285098c9b030c9be3e136dbb7b9f0826abd4ca",
+      "placements": "b3811f7e0c9878bcb26a7642b9d313ca126eceb49ac03e6a0e42c19acfc177c5",
+      "triangles": 21862,
+      "boundary": [
+        "6333c5a6ba0aad4fdf4934352394bef26cbb3b947e1dd8fc59d7c1e12b00eb67",
+        "94b5f7dffb285708bdbf1f5ad16be680d785a92025b077f0ab465aea3f7b319c",
+        "ff35b8c9d44eab1e89fcb7fa3d32f60c171dc71ec2e86a8210504b037ca79cfa",
+        "36ac0d7b7a95b308050235057cd78c879513dc101c8bf6b01e734800ae3f0178"
+      ]
+    },
+    "-7,-6": {
+      "geometry": "c7ef63356253635a5dbb3041afb0118523ba1317d98345be90f4f832ac5e5966",
+      "placements": "a6e4d8bd65ba7b73b852da7f05001be1f0079d663bf6b2a1b5b9db0bae37ed01",
+      "triangles": 8564,
+      "boundary": [
+        "e295ccbf152152a16bbe2203158605699b0e59e145de23f8a53f0a7c9c2917e6",
+        "3fc9ab3d20479466a5beb3c9596f0f4aba4e97593bda58256e94a28a42fc2ede",
+        "36ac0d7b7a95b308050235057cd78c879513dc101c8bf6b01e734800ae3f0178",
+        "e3348e96e7b984194bdf1f9c3c954ba7b0b9b8a719d0d9bd311ddf64fb24729a"
+      ]
+    },
+    "-7,-5": {
+      "geometry": "5a29e4e981880f7ead61957f674a81e9f5771d895033baad8ed3592a3dcb4039",
+      "placements": "734b911f8f5f1ecb1a3c982d0fcbb6965711b303a7ef6962ce1bda8bb822cc71",
+      "triangles": 8868,
+      "boundary": [
+        "87e305de21c70165fef1548d0591742025826e73c46f8d35877cfe959d643f1d",
+        "1426dc14745f56b270a61c045fb52f3eb70d8a57efa64e1fbee314d088808c7d",
+        "e3348e96e7b984194bdf1f9c3c954ba7b0b9b8a719d0d9bd311ddf64fb24729a",
+        "a4450a6d2b4f3f027efc2f1ecabec46961bf02ee2b7543856414fcd968988880"
+      ]
+    },
+    "-7,-4": {
+      "geometry": "81aee993eefc7a75cc84cae7816367c8a95a763b0f2ff3b412064cbfa7b28156",
+      "placements": "8ef7750796f7761fa3ed9b2a1764505567ce6a1f962fb18a060de0e7ad16de41",
+      "triangles": 8782,
+      "boundary": [
+        "30048d2d124d4f7b77ad6fe8ab2692325cd97efde2c3b3221366d5f1c00e1dc9",
+        "a849bb764221d10f12c92501e7898ecb9dbf9f146895c739d6b55edf8863b7ca",
+        "a4450a6d2b4f3f027efc2f1ecabec46961bf02ee2b7543856414fcd968988880",
+        "17e9ab893ada70c9221c23dbf388f632e86052cae2967826ee6be58cdeac30b9"
+      ]
+    },
+    "-7,-3": {
+      "geometry": "bf74db41f3b49b0e6132d6664f3a8948fc56bf0fa9a6adec4234df1547cdcf96",
+      "placements": "8905ae0c0194ee36c0abe228807fa71a260e617627231d7f9eb98e73683e7786",
+      "triangles": 8532,
+      "boundary": [
+        "790bf027057228f51076b323f55c38687ad257509a796a4f28cbdf70620cf95b",
+        "03bbb1e85c61d9a31473154ef5313279eef688f2f640023eec2a339d4a032e8e",
+        "17e9ab893ada70c9221c23dbf388f632e86052cae2967826ee6be58cdeac30b9",
+        "f8d36c5850aa74055a642532cbf22316b18eb5c6206e2cb3d98fc8de949b32ba"
+      ]
+    },
+    "-7,-2": {
+      "geometry": "eadb049f9557a580f94fc51c138a3002f9c3b2b171087e876b0b9ad429586b30",
+      "placements": "846eea5aadb26f644d870765f2988be0e6af39bc1c49fa515d61e316d7593f0e",
+      "triangles": 21604,
+      "boundary": [
+        "90eb2e4e70dd564024399041ae5384872621c32fee5df0477b0fbd99ce5165fa",
+        "5c745c2b42c210fc09c6dba60c7bc701ab22e6eaac5542afa3118b08686cddcf",
+        "f8d36c5850aa74055a642532cbf22316b18eb5c6206e2cb3d98fc8de949b32ba",
+        "12b6c76f3e04fe0d827d4de4b24a53d13c6450b6418c4fc2960d80925db0536f"
+      ]
+    },
+    "-7,-1": {
+      "geometry": "94679cf06556e0e5e5d87ae02a7ac2d984c44bafbdb7163be422f53452a22cc0",
+      "placements": "40da4eea66d3d96347c1f400e299e0f052c543499939a7a34f471405edf89da2",
+      "triangles": 8786,
+      "boundary": [
+        "62dc3a28d536f979edd612f558ca73a9b4e73fad04caf35b6272115b5d233786",
+        "905d297c3cc02868e59d2300afa3860a2cdc0a03203bd048ac20842de8657593",
+        "12b6c76f3e04fe0d827d4de4b24a53d13c6450b6418c4fc2960d80925db0536f",
+        "de1f62afe842ec5e303e065777aad30ff853ece1f2ff466b2b438689d21e1077"
+      ]
+    },
+    "-7,0": {
+      "geometry": "11d4651db0dada0331f15d58c35b2f5b3f8960bfe603c1c71e8bb7a6f8dc0a7e",
+      "placements": "cec0f75f14af9d5c6338a2225695fe92dd6adb3a3e9c8ce21d7b51ed684ef6d3",
+      "triangles": 8992,
+      "boundary": [
+        "cbb1bd53d91fecbb1c7e4cb8bfba7f3e1067a1fb74aa783a194e5b1fda611de2",
+        "151c909cc253082d9440f163616d391774459b94b1e85634a8b398a75e393f49",
+        "de1f62afe842ec5e303e065777aad30ff853ece1f2ff466b2b438689d21e1077",
+        "4114dfb1a6ef3caa64acd5a82d5665e6b09c96ff11ebfd45048fcfe41e31a86b"
+      ]
+    },
+    "-7,1": {
+      "geometry": "842c40e763c1ee33d43f8dcd7eaf46f16638a4608822c37acde9387c108afde5",
+      "placements": "faaad9287fe29a2ebeb0546f474e57e8063e84e6aa15854028dab043f8a519fb",
+      "triangles": 9042,
+      "boundary": [
+        "f40efcb699c06b4211b2388272e9f0db0bdc6aec085114a42a65a4ee2c9bb93d",
+        "682cd91584a2bd2fc03cbfd0f2964f657ac88dd6097fcbe5021c023fdb5ec905",
+        "4114dfb1a6ef3caa64acd5a82d5665e6b09c96ff11ebfd45048fcfe41e31a86b",
+        "012463bb9401f136efdae24bcf980e0e9b2a1d53c8f5b7f901ebc67f2e7ff229"
+      ]
+    },
+    "-7,2": {
+      "geometry": "80fcc88f7f5c4c2875b59c9dc9f141f513ae44224a16ca44bc7c273e7f16c670",
+      "placements": "f71b6532c474ce1f491ef8ffc83670d5102aa1176c56458bc2fe0b68abc4d184",
+      "triangles": 8692,
+      "boundary": [
+        "2d63331d81590b3492262ac3e80c9fd41823486c8ba9512886ee8257d8cc2520",
+        "70676782993ebc0a05ee81ea72bd2f97e31c54384f61f6262f156b4902cacbdb",
+        "012463bb9401f136efdae24bcf980e0e9b2a1d53c8f5b7f901ebc67f2e7ff229",
+        "af709368945f283837087b55019b15284f358294f853ab1cef2c972319800784"
+      ]
+    },
+    "-7,3": {
+      "geometry": "e58a02306da4bc603150a9d2e55c59f9342d9b2298db0529cc3680a0830ee239",
+      "placements": "58a3c93bc1660bf3a90e6f91a808e53ab30cb22c019e1f3de3a1ae0c3192481d",
+      "triangles": 9408,
+      "boundary": [
+        "771189ed9c61fdf4b39880bd40f00766464f25330cc4c07c62db71ba07493445",
+        "05d5a5c90ab4a86f4c2ac6df5dfcaa8a9f091d6bc060b78a4f0d0d374fa68817",
+        "af709368945f283837087b55019b15284f358294f853ab1cef2c972319800784",
+        "dcb6bb64379da209ebf997fbab3fb7d16df06e1b198797fc70e5dfed38eaa277"
+      ]
+    },
+    "-7,4": {
+      "geometry": "b8b92afc3b180d227acbbe16d593340de0300fb3ffa3f934b63b5aed37f934eb",
+      "placements": "622ff67dc96a365fc58dbe642944a53664941db59499bdce8f305fd11e821b0e",
+      "triangles": 8938,
+      "boundary": [
+        "afc2a8ab49092f6f0e1742e9037636c36e41d3a887f4ec0b6de3f5d0562c8e88",
+        "0e3ffc84d7fd169d8377794edd2e3f198d4b02e7dabf36a52ea965172fe66238",
+        "dcb6bb64379da209ebf997fbab3fb7d16df06e1b198797fc70e5dfed38eaa277",
+        "332c533bc4a3aa5c6900e88fa5354a547aa8ea69e98f4f37e8aba1053fff78c7"
+      ]
+    },
+    "-7,5": {
+      "geometry": "d442acdfd2300a2c1b7822318f5995d376396806b71ca6aa749344d2095026ec",
+      "placements": "925fed01ba23b6cf15953d33279e6811932c708550b3649318f8e4c214d88156",
+      "triangles": 8520,
+      "boundary": [
+        "f8b3b2ea3ad2ab6a4215e82ec59649ed32d6bb1fea62f6fcec6c59114b3a9ad3",
+        "4fe421e45cb67327beb5ebe1ecfa51c285df62ad433410f095414ae56d68c431",
+        "332c533bc4a3aa5c6900e88fa5354a547aa8ea69e98f4f37e8aba1053fff78c7",
+        "14988f5f60ce70e7e849d5d06424f3fef0d71f527cdeb11d328dc7366318cef3"
+      ]
+    },
+    "-7,6": {
+      "geometry": "a9e074b0b72997c38e8b6cbad515124b73ad18576f25b1436d1ab70e88da882c",
+      "placements": "7b0fff0c6f358fa472c98f4d28daef8aa1380bcf4ed7847ce27abbcaebdbd52a",
+      "triangles": 11988,
+      "boundary": [
+        "751ba0aea8a043eaff418cf83006a447b6eb42d8a3b4cf6f26e76e4cb3b655c6",
+        "f11ae509d408d0af1fee51a156781f2d7c5b236a270852914313d33d52a1d45c",
+        "14988f5f60ce70e7e849d5d06424f3fef0d71f527cdeb11d328dc7366318cef3",
+        "f331fcdf4175f012886d1e069723b3337ad64425dd6268ef02259e48c6e69252"
+      ]
+    },
+    "-7,7": {
+      "geometry": "4c0509f7cddf2a65ec64e2b0e8f4e1ca379a159905feb44f57565597c1832e4a",
+      "placements": "a990441785f075559bfd0792dd9b0e4537092a5e351339da6c1b11b243aff6f8",
+      "triangles": 10166,
+      "boundary": [
+        "c427a0c5b61768ab37238293e7c1b6051dcc71edda44a4aca3073406f17de745",
+        "70010aec975c9eca1a05654a83e8e586cdff746a274178e88c059ac9a2c7e969",
+        "f331fcdf4175f012886d1e069723b3337ad64425dd6268ef02259e48c6e69252",
+        "c7158b3e55c8b71ac5a0d78133edd282e9105861d28036f76bac3bb3b88cad96"
+      ]
+    },
+    "-6,-8": {
+      "geometry": "e5eff6630df2a6998fe35579e24550edaa5e749efc1d0959292f680c9ec0f7b4",
+      "placements": "32b5f34e4bab4b2726f4f3f9534d85205a84aca9b31de2026083f63def6b915a",
+      "triangles": 8658,
+      "boundary": [
+        "0230d5d8286ed533f69f1ca8612428e21cfc13cc00e520e2ce72a924cb182fcd",
+        "fab9f5039b28b8ff0ff8b692da7c1c89c75cec980d0e1b7cfceecd91e3bc0171",
+        "28d1e0b5e7b039f19f48a3cd9154c2e68ac2f6afa107430b7e3f477215e7ebe7",
+        "8621efc595f83f19e498adcffb5c7e69b615e3c9eb681f361a220a297261dbf1"
+      ]
+    },
+    "-6,-7": {
+      "geometry": "310ae487e107076f4a5168a103555f23cf1da5d42c547a38b35f7d7048ee2d4c",
+      "placements": "559eee99093b5892eb431be02de3b53e140ff0b98fc376200cb7d63cef352ea4",
+      "triangles": 9132,
+      "boundary": [
+        "94b5f7dffb285708bdbf1f5ad16be680d785a92025b077f0ab465aea3f7b319c",
+        "be5b104f3c8674f895fc6ebb477835024adcdc5ee342fa547045f564af41c141",
+        "8621efc595f83f19e498adcffb5c7e69b615e3c9eb681f361a220a297261dbf1",
+        "6ec45039f82693c35b40f8d9d2eb15d9889e58adba9d99c0a3e530e520c2ad50"
+      ]
+    },
+    "-6,-6": {
+      "geometry": "38ee4bc895dfe739b81466aa469f78e6e8978a0ef286ed152bd2810c3f8b5280",
+      "placements": "42e47097d70e79674f8179946f7ef07a2c6466743f7fad969b237a35ee735445",
+      "triangles": 9392,
+      "boundary": [
+        "3fc9ab3d20479466a5beb3c9596f0f4aba4e97593bda58256e94a28a42fc2ede",
+        "53db4a974e5196fa80e59954685b64c8b928c7c864083b2f139d50d0966a3b3b",
+        "6ec45039f82693c35b40f8d9d2eb15d9889e58adba9d99c0a3e530e520c2ad50",
+        "9523eeda60ec53da9e042fc4a970ad12f6f039f739eef79cd06d6c6282d082c8"
+      ]
+    },
+    "-6,-5": {
+      "geometry": "4e408d853c349b257f4642d2b90870e88c760aeb9f1d254fe4876a243e4d6b72",
+      "placements": "4510fd024b93ed24f5747a6277297221d458450c2ba43e2b92979ffb247f0d39",
+      "triangles": 9166,
+      "boundary": [
+        "1426dc14745f56b270a61c045fb52f3eb70d8a57efa64e1fbee314d088808c7d",
+        "58b1ccbe03a6222e46b158bf607108ca85e8bb65cea1ecf1b10af0a58f3b0adc",
+        "9523eeda60ec53da9e042fc4a970ad12f6f039f739eef79cd06d6c6282d082c8",
+        "50416e80501da4fd081b0c32dbfddc982ff220638f0f30bd34ed695c3729ea87"
+      ]
+    },
+    "-6,-4": {
+      "geometry": "86469309ce2b26ea262324d912b489fa23fec4cd33b1e63467f916a8b14f891d",
+      "placements": "feb6526e0ad27811ad658d3fd925e5ff59248ac3b2884bcccd7f0539da81f80a",
+      "triangles": 8618,
+      "boundary": [
+        "a849bb764221d10f12c92501e7898ecb9dbf9f146895c739d6b55edf8863b7ca",
+        "82860980af36f1aaabbf62a817a8dad5d5ec01c499f1bf38f11e8f20887ab6f8",
+        "50416e80501da4fd081b0c32dbfddc982ff220638f0f30bd34ed695c3729ea87",
+        "dea54736c9b1246d1cfd748fcf9f65933cfd148f69fbeea296a0acdece9bf1c5"
+      ]
+    },
+    "-6,-3": {
+      "geometry": "eacd446b9c6ffb231370d7c5fff8ddd4c5d9e97136fb406b1eff48b2df180b5e",
+      "placements": "2eb1a4100c47dcaf23de977b2a2feb18c2f63bc49e9432f0a24a45cf1ce734d8",
+      "triangles": 8940,
+      "boundary": [
+        "03bbb1e85c61d9a31473154ef5313279eef688f2f640023eec2a339d4a032e8e",
+        "513542d7edbd446726772c036e01af37d4f64721ca3a4c855dd7c82f17df4857",
+        "dea54736c9b1246d1cfd748fcf9f65933cfd148f69fbeea296a0acdece9bf1c5",
+        "e195ae27b0d2a2cf7c66bd27f8c539d19c27869eac590408b39de44573a79163"
+      ]
+    },
+    "-6,-2": {
+      "geometry": "a53fc8dc660ecdaca7f5e579a1b8a92fdd7ebe20d8e27e4af0da08668ae9420a",
+      "placements": "1b226aca25e464598e2667b4d332890117bb78f9176e27eb7d2c1df72455e349",
+      "triangles": 12026,
+      "boundary": [
+        "5c745c2b42c210fc09c6dba60c7bc701ab22e6eaac5542afa3118b08686cddcf",
+        "e1befc7f5cf630c8b0568c139810794cce61b15076eaf217139bda38a808354c",
+        "e195ae27b0d2a2cf7c66bd27f8c539d19c27869eac590408b39de44573a79163",
+        "de0361e8d8bf3f8760075f37c641cd0428a0161824726255b275d953aea37580"
+      ]
+    },
+    "-6,-1": {
+      "geometry": "444eaf1870bccd6b4636e265b16cafd33da3764c3ad12057c2bf86a9bd674a5c",
+      "placements": "1dfdcd9ad375fae9edd82654e34464eb074f6ff272b1c598e1dc19b24825b85b",
+      "triangles": 8816,
+      "boundary": [
+        "905d297c3cc02868e59d2300afa3860a2cdc0a03203bd048ac20842de8657593",
+        "5d741f3c9d8d4df2d77ee3a648911a526373b2a702396e736fcbfc1289555de5",
+        "de0361e8d8bf3f8760075f37c641cd0428a0161824726255b275d953aea37580",
+        "365b4ec46468e0f8c34d37a63284650949559b1df485b29eac3f2ac5cef56cd9"
+      ]
+    },
+    "-6,0": {
+      "geometry": "8b7ebed3bd6df51c0f5b48dfb03468bd5c21af7f7362b32673260c651340cdc9",
+      "placements": "cad264059f0142e90b3a9ce5508bb1a98f807f2736c95e67c9c4b882989b626c",
+      "triangles": 8614,
+      "boundary": [
+        "151c909cc253082d9440f163616d391774459b94b1e85634a8b398a75e393f49",
+        "ad03705fbe3b407f573293b46d18163f5ba2b553a7b32574c1be3468fe4a0c9c",
+        "365b4ec46468e0f8c34d37a63284650949559b1df485b29eac3f2ac5cef56cd9",
+        "29a1d372e9cbd06a49b35dfeb59df5be18092885d0f64e87ceed47d96d2d5af4"
+      ]
+    },
+    "-6,1": {
+      "geometry": "0412c4fd37d19b1988dd68c7e8159f8cdf295ff322e53b0adb8677bcf0103e95",
+      "placements": "1d8e47272215fe1770422cecac269c532bd6c29bbf6963feb2d63601d3881073",
+      "triangles": 18868,
+      "boundary": [
+        "682cd91584a2bd2fc03cbfd0f2964f657ac88dd6097fcbe5021c023fdb5ec905",
+        "2e84414c9d59f66f17bb167fa1063bc3522359c752305ab0d288706896e83a43",
+        "29a1d372e9cbd06a49b35dfeb59df5be18092885d0f64e87ceed47d96d2d5af4",
+        "91d49267cd67396dbdbd909d0d1c37007139db096bb70a84ec1d0d8353ed5e91"
+      ]
+    },
+    "-6,2": {
+      "geometry": "0d78560a3745f83ddca747828b65e2ff2dff69c0f026a681644934f6daa99a2c",
+      "placements": "9ea40617e028aaefd24a7a1985821d4c870b9cf80e951da42af80c5387acf9d7",
+      "triangles": 8680,
+      "boundary": [
+        "70676782993ebc0a05ee81ea72bd2f97e31c54384f61f6262f156b4902cacbdb",
+        "f48c54d2563b0289ca3c896b84632b5831c09d556b8f6ae353bc30f8b7f95497",
+        "91d49267cd67396dbdbd909d0d1c37007139db096bb70a84ec1d0d8353ed5e91",
+        "136759cc31f4f3abe868d0aa0bd158476ceb57ee76daced25d4ba9806bcb58db"
+      ]
+    },
+    "-6,3": {
+      "geometry": "410df3f6314b221f34f310e1fc63d2ce810f19a0c26a1532596b0a24bd8688af",
+      "placements": "78657d393a3958ad7aee4b8bfea141f48c7244bd81f70b781d18fc759fd13e86",
+      "triangles": 8676,
+      "boundary": [
+        "05d5a5c90ab4a86f4c2ac6df5dfcaa8a9f091d6bc060b78a4f0d0d374fa68817",
+        "53f894faa9ae3a3863d39573ac1bd363a83a9ce62e692861f0a245472687f55d",
+        "136759cc31f4f3abe868d0aa0bd158476ceb57ee76daced25d4ba9806bcb58db",
+        "1f8bc84acbe618756b2425c4f3bab11ac0bc7412f72e88cc345bffd9e128b09f"
+      ]
+    },
+    "-6,4": {
+      "geometry": "70ef5ecf7fcab1d2067786f356aaff1d647fd17e3f1e8388770b571a700196ca",
+      "placements": "e31ace069a296d2ecac246de40948619596bcf91a36b322cb1a24aedc587668c",
+      "triangles": 8676,
+      "boundary": [
+        "0e3ffc84d7fd169d8377794edd2e3f198d4b02e7dabf36a52ea965172fe66238",
+        "c05007dce674189ea9103073f0df328d90e6b9de33dba84523eea932d2e969cd",
+        "1f8bc84acbe618756b2425c4f3bab11ac0bc7412f72e88cc345bffd9e128b09f",
+        "e78e70c9cfbc85efefbe9417a4d03f57d1f016be4e41894483fec93a8c3e1a9f"
+      ]
+    },
+    "-6,5": {
+      "geometry": "6783f5f9ac760ca6a58c0c98918a0d2745282fc303cfdba4b8bb5f6a196f7647",
+      "placements": "f0f429830ad5915f42c245fad85a8ec303ca8f67251792a3974b750d9a37f0c9",
+      "triangles": 9050,
+      "boundary": [
+        "4fe421e45cb67327beb5ebe1ecfa51c285df62ad433410f095414ae56d68c431",
+        "48f07c8471e9060a18bf29170aa2a1b5e231424f5b9f36983f1813bb3e950b01",
+        "e78e70c9cfbc85efefbe9417a4d03f57d1f016be4e41894483fec93a8c3e1a9f",
+        "c3e0c85f8b1edf15131b4379b47414224723c67d3c5e148f32ae6d6c45407dbb"
+      ]
+    },
+    "-6,6": {
+      "geometry": "230e01100100155a6390a03db764fdc9eb81dde6d9cfb098b137d2effc7287b3",
+      "placements": "1a6006c0a51f49c1406519544487e45d55ad66068311015cbc229a0f6b297026",
+      "triangles": 16116,
+      "boundary": [
+        "f11ae509d408d0af1fee51a156781f2d7c5b236a270852914313d33d52a1d45c",
+        "ae4b3e7f565c105cf6266c10547ad5f6c98f1ed387dfda567e544719b5198dd9",
+        "c3e0c85f8b1edf15131b4379b47414224723c67d3c5e148f32ae6d6c45407dbb",
+        "93356b790aeaf9d042f2d45be85d03f6e4c30248423cc3057f29bb10fcc0c557"
+      ]
+    },
+    "-6,7": {
+      "geometry": "2f2c64abc6244d262153563994db5434eb5afd600599a154cc4534ecc0bf67af",
+      "placements": "84f125c9c912756fe655b8bc32c74aaef8e9d2397285554de95539b1a611aaf4",
+      "triangles": 8906,
+      "boundary": [
+        "70010aec975c9eca1a05654a83e8e586cdff746a274178e88c059ac9a2c7e969",
+        "057132e3bfcab8685423db09448511d6e161322f10ad293ab01383a5c1fad992",
+        "93356b790aeaf9d042f2d45be85d03f6e4c30248423cc3057f29bb10fcc0c557",
+        "d73a0bbe1bf9c7f3e819e4277604cab68df2bf7615616f358799f040972dea85"
+      ]
+    },
+    "-5,-8": {
+      "geometry": "b368c4ee123d42bf4693b7f303d3240bbd09d7e98be8810370150a1793788f21",
+      "placements": "392cda0c250550b876584fd8b605fe4aa5d760ff831bb3f630fe4bd83ee0279d",
+      "triangles": 8574,
+      "boundary": [
+        "fab9f5039b28b8ff0ff8b692da7c1c89c75cec980d0e1b7cfceecd91e3bc0171",
+        "347c9c8420ac79955e58f7d872df6db08e6f917b4205afd42b3c96fc8179b67d",
+        "50135d74bd8f26b5a9713bec70b4f905928441fa13508ca87e9715ed4897bb27",
+        "5781ec34f5c51bba23c3336aaa6dd3fe06cfe39d63f5221761678369cd682c4e"
+      ]
+    },
+    "-5,-7": {
+      "geometry": "eb413bee630b623148cdd42dfec313f63d58606500c90da2adfd9dd57ff1271a",
+      "placements": "6943c20eb8dc301d9c4477468d72cee4d7cc156e104e4e8686d0f062fcd9bd74",
+      "triangles": 9566,
+      "boundary": [
+        "be5b104f3c8674f895fc6ebb477835024adcdc5ee342fa547045f564af41c141",
+        "7370a69b1399eab97a8f93aa6379874807154fa6b2cc0e18f75f7930b56020b6",
+        "5781ec34f5c51bba23c3336aaa6dd3fe06cfe39d63f5221761678369cd682c4e",
+        "bc1f8758881a3fb2e5cd4e574927fcb0315f6648b38f9bc2067ff9dbefff1201"
+      ]
+    },
+    "-5,-6": {
+      "geometry": "802162fdfd1e374cbf8afffb25029f1a7b37628e4ffdaa92ea5ac048725b259f",
+      "placements": "dc18fe5ed7540b85eee1aa8e92b99175298dd15c1f888fa091eae249c76561a7",
+      "triangles": 9096,
+      "boundary": [
+        "53db4a974e5196fa80e59954685b64c8b928c7c864083b2f139d50d0966a3b3b",
+        "638289270db652344f8b29a2ef6cc08b6a68f2a16b543d6f4f917df15db9d2be",
+        "bc1f8758881a3fb2e5cd4e574927fcb0315f6648b38f9bc2067ff9dbefff1201",
+        "aa85a53fe09c0f93bc6c1ee00bf16a35b27869a7df1e8f2f37176e67d8b8c9e5"
+      ]
+    },
+    "-5,-5": {
+      "geometry": "982fd2acd507b4b48d82112bd441bf3413ff373f6841df3069977509bdd0841a",
+      "placements": "4de177b5fe685ca1a991dfedc0d4335329442a1912b874bfd49289eabe3ba6c7",
+      "triangles": 8814,
+      "boundary": [
+        "58b1ccbe03a6222e46b158bf607108ca85e8bb65cea1ecf1b10af0a58f3b0adc",
+        "071884d30ffc02bcb918031b3c1f985311aa4df152f1488d380a11c3275f835d",
+        "aa85a53fe09c0f93bc6c1ee00bf16a35b27869a7df1e8f2f37176e67d8b8c9e5",
+        "c89bed6e6db78f716fec2bcda6336db427952f8191e6ee259d595f5b25bef3e7"
+      ]
+    },
+    "-5,-4": {
+      "geometry": "b06622918c3c16f5e87b60732f4bfe63cbf5787c9ba5fc4ac359e5ab3ea9ded0",
+      "placements": "b0c2e1563fb49fe41b7b03a346ebd68054f64d53b4bd195864fc9424b361b165",
+      "triangles": 8802,
+      "boundary": [
+        "82860980af36f1aaabbf62a817a8dad5d5ec01c499f1bf38f11e8f20887ab6f8",
+        "5fd3c24151bfa5b8e458c57b85e5a35623d5e102f303e3f87dd9bb0f02f0a737",
+        "c89bed6e6db78f716fec2bcda6336db427952f8191e6ee259d595f5b25bef3e7",
+        "c277b1df0974a4c11cb72a5532427e62adf63198a2a916df77d5cfe9dbd0626b"
+      ]
+    },
+    "-5,-3": {
+      "geometry": "053b7f0b38bb25709699a966d1c3fe82fbf2241ad4dd684a5290b8be7b2f9a97",
+      "placements": "131e428123b4371b1d7c24d17a9050557a3da0c042c2174c4064267fa14f65c8",
+      "triangles": 8990,
+      "boundary": [
+        "513542d7edbd446726772c036e01af37d4f64721ca3a4c855dd7c82f17df4857",
+        "6a1a0eff8ac01500bd11bfc339f0d921dd7dccc4d3fcd9dd0f58f63e0e44e8c0",
+        "c277b1df0974a4c11cb72a5532427e62adf63198a2a916df77d5cfe9dbd0626b",
+        "da65bd873e98d0024f174b924894afa8c5f932e861452212a1231a0adfa0a165"
+      ]
+    },
+    "-5,-2": {
+      "geometry": "e800c01c0de080d75ed6fb61168324bda25cf108ea25788da4b47710388cfe30",
+      "placements": "9a41b528447a297a4d0de6a1829f6a913b069a10755998c05bdca8ac11a04325",
+      "triangles": 9150,
+      "boundary": [
+        "e1befc7f5cf630c8b0568c139810794cce61b15076eaf217139bda38a808354c",
+        "32782a7ebd84a651efb8985ffb1b8971be462c14cb1e4c11baf14d7b884d345e",
+        "da65bd873e98d0024f174b924894afa8c5f932e861452212a1231a0adfa0a165",
+        "cc2eb9ce5fe583f0a9d64ad4085914d7687f08b422bb85e00edff34d27858a6d"
+      ]
+    },
+    "-5,-1": {
+      "geometry": "fca4c740aa37911b009f6867855c5fafed78a4baae41d3ffad2e059225440bb0",
+      "placements": "587a7758eb4c6f4f3c4b005f5e55e84f353ccbda8e00a6df235952f0aefa4d15",
+      "triangles": 9088,
+      "boundary": [
+        "5d741f3c9d8d4df2d77ee3a648911a526373b2a702396e736fcbfc1289555de5",
+        "10201c3cef1a865d40645b5767148aea41c421787117d1367857b7467cc5ebb9",
+        "cc2eb9ce5fe583f0a9d64ad4085914d7687f08b422bb85e00edff34d27858a6d",
+        "3fe6b259f5f3b3e01beca4d0042b63f14de495f824249e8b6dd933f1f8479627"
+      ]
+    },
+    "-5,0": {
+      "geometry": "6dbdc5522999dd42c07b6f6910d76fb29e1828a8755a744b81d9cfd5675d7244",
+      "placements": "d5940232b5e19e7c33c13df5db3560c580cfd486cc17b6de9e461421bb43acd7",
+      "triangles": 8742,
+      "boundary": [
+        "ad03705fbe3b407f573293b46d18163f5ba2b553a7b32574c1be3468fe4a0c9c",
+        "de52bbb9699c9c0c58ebccbd22df427433fad026384033540e667a7911faee0b",
+        "3fe6b259f5f3b3e01beca4d0042b63f14de495f824249e8b6dd933f1f8479627",
+        "e1f8b452f767c4fd9931be7b4599157ef01d55d824305eed7669d5957d7a0698"
+      ]
+    },
+    "-5,1": {
+      "geometry": "958812941d85bc04dd781a3a6efbfeec47578772c41ec91dee17fa68a43c2e91",
+      "placements": "cd6acd4b18d1ec9d788f2f07b53110fb221ebe407fb682bd3d1b41a4f82d87cc",
+      "triangles": 12748,
+      "boundary": [
+        "2e84414c9d59f66f17bb167fa1063bc3522359c752305ab0d288706896e83a43",
+        "05658046d3c3948351e793c9fd6e463dcf1d66dc5a555bd3f198055035c6cc54",
+        "e1f8b452f767c4fd9931be7b4599157ef01d55d824305eed7669d5957d7a0698",
+        "1f0e8db16668b2e3df538352ac46cebcfefdeadf6d26d4131d49eb343dba045a"
+      ]
+    },
+    "-5,2": {
+      "geometry": "2b2a42d855975277d57e9ee1f34c892703e31c6efd2b895f451d617213ea477b",
+      "placements": "213aa81bbc38319df630ad3a2e2257fd2dac2dd81a7f42125d2adbc0832f1e49",
+      "triangles": 8558,
+      "boundary": [
+        "f48c54d2563b0289ca3c896b84632b5831c09d556b8f6ae353bc30f8b7f95497",
+        "c2d99d0f2a2dd4221721845a6349d6d57f0b17c4cd57856b4e0643934efbc1c3",
+        "1f0e8db16668b2e3df538352ac46cebcfefdeadf6d26d4131d49eb343dba045a",
+        "439d967e53653043e25fa24ba6bee6fd0ed6ae68a7cc7a81f7b78d24ddba8a15"
+      ]
+    },
+    "-5,3": {
+      "geometry": "2dc0df183f512432ea7fbaa6982cc54be12286cab15f6ffff09acfe374973ebd",
+      "placements": "c2ef9fcdb5f7c1ea4fb5e550929c9b5343a292f024a3edb02cba894de5a3fb1f",
+      "triangles": 9338,
+      "boundary": [
+        "53f894faa9ae3a3863d39573ac1bd363a83a9ce62e692861f0a245472687f55d",
+        "6d15eda848563268d6537f4db0073d664920387a75585230774b84ee3bb7b5c8",
+        "439d967e53653043e25fa24ba6bee6fd0ed6ae68a7cc7a81f7b78d24ddba8a15",
+        "70d0a8b32f8a5acfeeb540def3668f0854325a48e4afd440a67839d22ec582a9"
+      ]
+    },
+    "-5,4": {
+      "geometry": "468ccd1b6a179a98b68e4868a1a8accdbb6aea88c22ef1e6091471d631a6064a",
+      "placements": "911b5229b9734bcd1a0e8bbec6dd36577b03897ef2db1adb9dfc17e67cd503ab",
+      "triangles": 9038,
+      "boundary": [
+        "c05007dce674189ea9103073f0df328d90e6b9de33dba84523eea932d2e969cd",
+        "6d2234922e55421dfe599e34708919dbac19c3d738c7e5dbbc4bde25dc3ec575",
+        "70d0a8b32f8a5acfeeb540def3668f0854325a48e4afd440a67839d22ec582a9",
+        "2c35169c4ed952106f0cdd7d9b453b2af29d9c25979f5dbcb1ffb0eb64a0aa2e"
+      ]
+    },
+    "-5,5": {
+      "geometry": "164301bea015e5d9c80398e4b1f121f93297c92551ae2f5091e2f42672a4a760",
+      "placements": "c585a783c4395fcc25334ee0a3609a387f8a693f51b15c64ff84bd0ef7d93263",
+      "triangles": 9308,
+      "boundary": [
+        "48f07c8471e9060a18bf29170aa2a1b5e231424f5b9f36983f1813bb3e950b01",
+        "6886e028dbcaf17b339db4b05bad02378181b582027b9d2137bb0dd695ef9fc1",
+        "2c35169c4ed952106f0cdd7d9b453b2af29d9c25979f5dbcb1ffb0eb64a0aa2e",
+        "6ca3a992fa67859c7f57afc76f0168f77d8fff53450811047a7eb068a7ba22ab"
+      ]
+    },
+    "-5,6": {
+      "geometry": "78a5e1c8f8fbae34e9a2548672d88f92533e7adf2bddc7b7e007919ec2998173",
+      "placements": "c6204cc13e1196af0a4f0644ce42edc4c97a505c02996ee3e0d048033b80b623",
+      "triangles": 9464,
+      "boundary": [
+        "ae4b3e7f565c105cf6266c10547ad5f6c98f1ed387dfda567e544719b5198dd9",
+        "51511efa21a05398bd571b4261b9861b04e94def06545b09acef04ae7c63c3cc",
+        "6ca3a992fa67859c7f57afc76f0168f77d8fff53450811047a7eb068a7ba22ab",
+        "0abfc5ef8fff3d994105299fd1b93ecf1d5f825efc2a8977796cdece7cff3e6f"
+      ]
+    },
+    "-5,7": {
+      "geometry": "80e83a005e92167bc980c923a1ce4352bcd9939256d53325ca5f6a35b76ecb91",
+      "placements": "64aa76b0ab9c40691ed05bc61a1d2a2b31fd8f9bb0a5ba87370ef2b3d1a212be",
+      "triangles": 9078,
+      "boundary": [
+        "057132e3bfcab8685423db09448511d6e161322f10ad293ab01383a5c1fad992",
+        "b80dcff7a76006355b76f309852cb1a80a268fcc08c0a45d1838e36103ec2f0d",
+        "0abfc5ef8fff3d994105299fd1b93ecf1d5f825efc2a8977796cdece7cff3e6f",
+        "ead6ec4a81ed28a7f94ebcedacf5df28e696279147e916561c9fcced7f167999"
+      ]
+    },
+    "-4,-8": {
+      "geometry": "f1473edee55fd4f1ca0d072a920579defd82be7b14274f60104e776dfa6d9d56",
+      "placements": "baa2bf0098d7769d3d26be90abc5e058179d2dbbed3b69cf45cdcf65e2832b4c",
+      "triangles": 9226,
+      "boundary": [
+        "347c9c8420ac79955e58f7d872df6db08e6f917b4205afd42b3c96fc8179b67d",
+        "606bbf96d7091920c3a9c0aabb59fcdfd791e94ae292f32aaca7385aacabe60f",
+        "363b42e028c332faa5e7c367260632f28e4998f89d07a1e4462979fc9fbc2390",
+        "10ff7980a41236f2d522fb578a047784819747f1791882e557a68e743e271a10"
+      ]
+    },
+    "-4,-7": {
+      "geometry": "7aa51950602fb8f528a04007b065e55320c627721adacca813c9a482b343414e",
+      "placements": "093b388dfeda8c5796ba8a8074089cf83f46010ebf8894b7be79301ba727d6e2",
+      "triangles": 9246,
+      "boundary": [
+        "7370a69b1399eab97a8f93aa6379874807154fa6b2cc0e18f75f7930b56020b6",
+        "804795f41b17206e8794f6c62a8e191042ad7ca94a525b5dd39c2aceff129c67",
+        "10ff7980a41236f2d522fb578a047784819747f1791882e557a68e743e271a10",
+        "6b0aef90683f9b996a58e2f898381073bd857af5a6fd1f8fb55b599aa21048e2"
+      ]
+    },
+    "-4,-6": {
+      "geometry": "33a7c4a0f8e0212d2d058c468c2cb9a2503f8934c68a3a764d6fa181d63181a0",
+      "placements": "9f4682b144eed6192d222c63547cad9a70fea9a2c47d76ae21e915087aa7f79a",
+      "triangles": 8478,
+      "boundary": [
+        "638289270db652344f8b29a2ef6cc08b6a68f2a16b543d6f4f917df15db9d2be",
+        "3809563d0f73f18f3ea62debc2f1b018790be6a3c425acae037af01529b8517b",
+        "6b0aef90683f9b996a58e2f898381073bd857af5a6fd1f8fb55b599aa21048e2",
+        "f79269b4f647940867240dacfe167fce65fa7e8e545bcb158931f194a11551de"
+      ]
+    },
+    "-4,-5": {
+      "geometry": "ce3b75e89e5750fef61786fc8d361502a9cdf7b137fcdff68851414103d1dc87",
+      "placements": "cb2d8a0da05e0af4c483c679e6267ad924b25cb83b67de990382f3078e71cacb",
+      "triangles": 8786,
+      "boundary": [
+        "071884d30ffc02bcb918031b3c1f985311aa4df152f1488d380a11c3275f835d",
+        "f54b8adc2bcba8f0813293d319cbc001bcc7c68ab0a2199a3a67d60b3744286d",
+        "f79269b4f647940867240dacfe167fce65fa7e8e545bcb158931f194a11551de",
+        "9db67db8f3b58f9231fd5b037d9010c11df3a152d754037582ce76bdefd7b988"
+      ]
+    },
+    "-4,-4": {
+      "geometry": "029c106063d359a8c4e6ac329e2b26a6768cd064b05e086ebd9e03825052bf40",
+      "placements": "80236a65f67b9f7627720503a13803c29ecc57a729643e912c4574f3a3432e3a",
+      "triangles": 9172,
+      "boundary": [
+        "5fd3c24151bfa5b8e458c57b85e5a35623d5e102f303e3f87dd9bb0f02f0a737",
+        "73c19248c982893f7f88892a3f0eebb3f6be9919361922b8c0b970d30af44cf4",
+        "9db67db8f3b58f9231fd5b037d9010c11df3a152d754037582ce76bdefd7b988",
+        "caac224b54573ff37fd5741c31c36475ae1c3ba9d7a4bee3cd09d355ecf15ceb"
+      ]
+    },
+    "-4,-3": {
+      "geometry": "0e649c63b531d9623dd30f05f250c6f057471b0471bac1563c567eea11b9fceb",
+      "placements": "a54947e8581025b90020432e44975252c5a1f2dfd4f7892982d70e12a035836c",
+      "triangles": 8892,
+      "boundary": [
+        "6a1a0eff8ac01500bd11bfc339f0d921dd7dccc4d3fcd9dd0f58f63e0e44e8c0",
+        "da291faeac1fbbdeb4b50ddf0b91092938c6d2023087428dcafc5c33a8af60e0",
+        "caac224b54573ff37fd5741c31c36475ae1c3ba9d7a4bee3cd09d355ecf15ceb",
+        "8da82f99816d92fe589a1e37ab62228e2c4d1f5a6a3e17b74f55d413c8836421"
+      ]
+    },
+    "-4,-2": {
+      "geometry": "26977d290174a333667c582ae648555351c20eb23da9c3e89ac765958da2dae7",
+      "placements": "3e852d28f53243690944334d1b9d8d5ded0d85138a7f70b648244ba580325072",
+      "triangles": 12004,
+      "boundary": [
+        "32782a7ebd84a651efb8985ffb1b8971be462c14cb1e4c11baf14d7b884d345e",
+        "6c487b3171c8d58343a79cd712d05190ab1e6f8e5de26742790a01b5878e080e",
+        "8da82f99816d92fe589a1e37ab62228e2c4d1f5a6a3e17b74f55d413c8836421",
+        "b08eb29bcac4867540c7a97e2af93675bacf6dd590ea89ea7e20843f2f46b36a"
+      ]
+    },
+    "-4,-1": {
+      "geometry": "79b03c3654d7cbe894a9756e86ba314c855e7234920f5e7507caba10c708d699",
+      "placements": "3b88120188c38da10a9c1021cc17be72e21b60180324dd61614fa292e0537a2d",
+      "triangles": 9416,
+      "boundary": [
+        "10201c3cef1a865d40645b5767148aea41c421787117d1367857b7467cc5ebb9",
+        "bbb79547afcacee8229f39d3a10ac89813f090f0f0910036edbaa4a7e3a16f70",
+        "b08eb29bcac4867540c7a97e2af93675bacf6dd590ea89ea7e20843f2f46b36a",
+        "b6fce997aa8bc29100ec4e4aa17f84af3337fba7b2ceb639f52d7544efadb85e"
+      ]
+    },
+    "-4,0": {
+      "geometry": "e09425267abe0bac80dde9e636910598738a6b9d86cd3b3ccd9ca8c3ea1bfa76",
+      "placements": "c354b22fb0db8f80d6c98948cf6e746ece6e7df866e721080d7d12723e4ea81a",
+      "triangles": 8996,
+      "boundary": [
+        "de52bbb9699c9c0c58ebccbd22df427433fad026384033540e667a7911faee0b",
+        "7899ec26b73953e9bf0af93a8c43296846970953299e50340440b9e7dfc62bee",
+        "b6fce997aa8bc29100ec4e4aa17f84af3337fba7b2ceb639f52d7544efadb85e",
+        "f6d8a2caf057e7be59346719156dd2ee0d1a7ebfcff146f5f5abd25701c9ec76"
+      ]
+    },
+    "-4,1": {
+      "geometry": "1763a5c67b81a7ea56761fb9fad1dec96c04f66d4bb551fc05749d585ca43ac6",
+      "placements": "780e2ac1d7692f0d70764949cc5e6ca41b07a372577815d43c0ef00ff03aa6d9",
+      "triangles": 8760,
+      "boundary": [
+        "05658046d3c3948351e793c9fd6e463dcf1d66dc5a555bd3f198055035c6cc54",
+        "b492910f562d420d1a67292f54cd722225cb3f9f5ab16def0375db76485faa82",
+        "f6d8a2caf057e7be59346719156dd2ee0d1a7ebfcff146f5f5abd25701c9ec76",
+        "b23aeb3adf59aa821d30cbf5e6b86e056d57f36d7ba463f4c71b533f113ca476"
+      ]
+    },
+    "-4,2": {
+      "geometry": "001e20d94d88716996792a49d7865ecd30159c20ac307bdfc13b98e575abf4d8",
+      "placements": "0128c805e13304c4d51fc408d5d56bd81c308531dd8542d7bdd4217a0b8f401d",
+      "triangles": 8662,
+      "boundary": [
+        "c2d99d0f2a2dd4221721845a6349d6d57f0b17c4cd57856b4e0643934efbc1c3",
+        "612c18684a1110a9df58958fa52a9c8714b6393dbc8207af699b21b770191a9c",
+        "b23aeb3adf59aa821d30cbf5e6b86e056d57f36d7ba463f4c71b533f113ca476",
+        "465ee792baea5e04b4ba6f9c3511f012db55932937d01c8e7437f2f9ae3e1719"
+      ]
+    },
+    "-4,3": {
+      "geometry": "6df0fb5e5b289099ccf0a6c42986de71393ec166224948cdccf623dd062d9db4",
+      "placements": "8e65b3e7d039f269e80df5f5c7adbaa1a0f92958b56046ef737783d9a139ed2b",
+      "triangles": 8608,
+      "boundary": [
+        "6d15eda848563268d6537f4db0073d664920387a75585230774b84ee3bb7b5c8",
+        "0f9e99f4975a4a2b041e202b7d1f3815d856621bb06ad50b1ce74eabb591e6c0",
+        "465ee792baea5e04b4ba6f9c3511f012db55932937d01c8e7437f2f9ae3e1719",
+        "ca0c6ca1b6d799e2f50c26a2de859c38bc06627249dce72bb220f66753ffa60c"
+      ]
+    },
+    "-4,4": {
+      "geometry": "1b2bd95c1c7deeeef2787ca556e234674b03d698db867bcdcd802efb66848be9",
+      "placements": "360d26ddc91618d509e3b6f603af0b0612ae511710b3095bfb80fb34917b20e7",
+      "triangles": 8856,
+      "boundary": [
+        "6d2234922e55421dfe599e34708919dbac19c3d738c7e5dbbc4bde25dc3ec575",
+        "49f469ae1c5b6cb7702298f42424b895bf31379c0d7fdf994b76568f300cb58f",
+        "ca0c6ca1b6d799e2f50c26a2de859c38bc06627249dce72bb220f66753ffa60c",
+        "6347fed5b2e05b6f9630cff4eb35ab20b8741f93e64adba665cad6c261e4492a"
+      ]
+    },
+    "-4,5": {
+      "geometry": "b76955bbbe4d2e1bf93ee3b89c7b54f9fa6e3e1875c8d9dca1545b32382862f7",
+      "placements": "bb9a71106faf7a16e749035459f99de5f982e00edade573702240761f4f12619",
+      "triangles": 8948,
+      "boundary": [
+        "6886e028dbcaf17b339db4b05bad02378181b582027b9d2137bb0dd695ef9fc1",
+        "812568d12eb3fdb74692178a02a607c4917906768eedc087e39a65f1d2fd0a2f",
+        "6347fed5b2e05b6f9630cff4eb35ab20b8741f93e64adba665cad6c261e4492a",
+        "0af026aa203a2baebd4c53f52026ed797d2c2eb9c7cd995800a23dbe39d2702d"
+      ]
+    },
+    "-4,6": {
+      "geometry": "e6830dd2c8f4e66cac7f4a9b0eab2761e83d6d0df8b724e03b219cd6995f81a2",
+      "placements": "7c032e2ff8c0fae7d26ff670f97a15b937978babd36e29cfc373f988debfe9bb",
+      "triangles": 9070,
+      "boundary": [
+        "51511efa21a05398bd571b4261b9861b04e94def06545b09acef04ae7c63c3cc",
+        "a432ec2a66cfb14bf82488feabef8fc4b14da8e9094372d6d51c18ec15c9e857",
+        "0af026aa203a2baebd4c53f52026ed797d2c2eb9c7cd995800a23dbe39d2702d",
+        "7ae39e365867b5b7b047a8624b02d8c9e576985ea0a934b681825cf9c0b69f97"
+      ]
+    },
+    "-4,7": {
+      "geometry": "a74229307a41832440e4e3f9fd311b9395c9fe0be4ae97f8f1476217c0084794",
+      "placements": "e8322334d3b7fdbe15c7eeeb96879f02ffb2153ecb0ce9cb3d08fd9eef912b23",
+      "triangles": 8652,
+      "boundary": [
+        "b80dcff7a76006355b76f309852cb1a80a268fcc08c0a45d1838e36103ec2f0d",
+        "83a69d14b1174d803be70879203ecec08a2341a1af8eab60e1b2c8c5a97e944b",
+        "7ae39e365867b5b7b047a8624b02d8c9e576985ea0a934b681825cf9c0b69f97",
+        "4d46a97c463e91ad6a6b095203370d212d1b6ee2e38fc729c41faa826e0fe2c9"
+      ]
+    },
+    "-3,-8": {
+      "geometry": "c89b3d7d091ea0e4875843143f3b06fa26c066903e792b248fc205bf52d2e8eb",
+      "placements": "0a114be7f8a69779dcc7f642ec9cb6c3b876c0e33f2ce629a3e9fedd1031ee88",
+      "triangles": 8516,
+      "boundary": [
+        "606bbf96d7091920c3a9c0aabb59fcdfd791e94ae292f32aaca7385aacabe60f",
+        "6207c35ab3cca90b660ba8bcbf585ee17f8c48e0e712e265e35202f4822506d6",
+        "b691da7ae4f8558fc5af4ee82fd1e99a76a402b860ae1c14cb8aa48da354dfd5",
+        "93ad45d8e6d57ae555c368065b47c0370f6d8400c579c836d325357bc11e16da"
+      ]
+    },
+    "-3,-7": {
+      "geometry": "ea9b14961ea359c0faf48d97ac6c614f48176f0c5b1b21b6684c85fb097848a2",
+      "placements": "fd0a2a1035282e3ce11d301f24817d969e5a149a2ea7c9b58f53dd6cf0cf4346",
+      "triangles": 9126,
+      "boundary": [
+        "804795f41b17206e8794f6c62a8e191042ad7ca94a525b5dd39c2aceff129c67",
+        "24f898917d5613b4271748c68496e94d6bf146e62469e909568574dd26c21eab",
+        "93ad45d8e6d57ae555c368065b47c0370f6d8400c579c836d325357bc11e16da",
+        "8a19b7ee483a22b91cd8f3b944eb497f5f334993f988012ae205deb446655117"
+      ]
+    },
+    "-3,-6": {
+      "geometry": "fc0784ae019e3d357d453272a739d4b0fcbb6a54f08548aebd69e4ffc4399401",
+      "placements": "b176e9ff852c22b8ba1ddac082d5a57ae6b739228c497f05dbb219986ea1c657",
+      "triangles": 8978,
+      "boundary": [
+        "3809563d0f73f18f3ea62debc2f1b018790be6a3c425acae037af01529b8517b",
+        "5cd307329e13338d90080e6409ea20905519119b942570b92082fab7d3404da8",
+        "8a19b7ee483a22b91cd8f3b944eb497f5f334993f988012ae205deb446655117",
+        "23fefbd6c1da9006def70c0b0cf629757202b61270ce555ebb0213379c3da849"
+      ]
+    },
+    "-3,-5": {
+      "geometry": "0a721faefb35c12286a7abf3011a386e4a68079de4b9fe313c988775daa45fa1",
+      "placements": "4ffc83ab081df75c11b8d7eeb7c458b929e86c44167357393d8e71fdf49549ff",
+      "triangles": 9570,
+      "boundary": [
+        "f54b8adc2bcba8f0813293d319cbc001bcc7c68ab0a2199a3a67d60b3744286d",
+        "6ef3f0c7bfbe00eeccb047727b21325e022ab02155a2c4a4436d0faae877303a",
+        "23fefbd6c1da9006def70c0b0cf629757202b61270ce555ebb0213379c3da849",
+        "9a949362b8fa50a2a6bc60e1b245921edf47eacc34eeb327063629b9a03b086a"
+      ]
+    },
+    "-3,-4": {
+      "geometry": "b057db8766fc9e1139d5d6b476af152d54a5223d4c999758100679477e80fac2",
+      "placements": "b72b69a40a5e2d720e086d3f5a02407b47dbac1cb9ec3f381ce3977be0b41a30",
+      "triangles": 9306,
+      "boundary": [
+        "73c19248c982893f7f88892a3f0eebb3f6be9919361922b8c0b970d30af44cf4",
+        "cc8dc0b4f13c3d192f422002297974146bc4ed5d70706bdfe846cf72659392d3",
+        "9a949362b8fa50a2a6bc60e1b245921edf47eacc34eeb327063629b9a03b086a",
+        "39cdc23c9797b936ef76dc19d10272c62e208bcd3f97a8501834d02b0a72e566"
+      ]
+    },
+    "-3,-3": {
+      "geometry": "34e21dd0eb5ec97f1651cfc588b8467de336b598f8f3662bc112fc2b801df6b9",
+      "placements": "4638da62b090ff9ac8db9109d9ec4ff237cb27bb66b9ecb63774557bb936ceac",
+      "triangles": 10490,
+      "boundary": [
+        "da291faeac1fbbdeb4b50ddf0b91092938c6d2023087428dcafc5c33a8af60e0",
+        "4113d9831624d0a4192f254134fc7103ff0b1478ceca582dcc25086eeec151ca",
+        "39cdc23c9797b936ef76dc19d10272c62e208bcd3f97a8501834d02b0a72e566",
+        "c7b442227a9c18d7b04d14dd6b0608f4602484c32bdfa82b6f07e7e93089374e"
+      ]
+    },
+    "-3,-2": {
+      "geometry": "ccf55df71289336eb6e4829ce555898a656dbe27ea81e0b0de4e0af4ecc7add4",
+      "placements": "1c8441e7bce407d2f03630a18c3789ab1bcfc86c6eae3ab305c5238f380090a9",
+      "triangles": 14594,
+      "boundary": [
+        "6c487b3171c8d58343a79cd712d05190ab1e6f8e5de26742790a01b5878e080e",
+        "639991634942b4e217ace3580ffa9bef8c8f18a406e8539b6ca3b0ad9649cb29",
+        "c7b442227a9c18d7b04d14dd6b0608f4602484c32bdfa82b6f07e7e93089374e",
+        "b9248760eb0bbdd83b1edd9e1980afdf163e25f1c4b22647d3e61c07460ca938"
+      ]
+    },
+    "-3,-1": {
+      "geometry": "133ccc2d92a79a0bc21f02b73971f859f95884eff775e7a1726d6e08343d8a58",
+      "placements": "8a89f980e31462ec7e01788173f30a6cd1c014594c7d118dae3bb82ee5ffdb6e",
+      "triangles": 12100,
+      "boundary": [
+        "bbb79547afcacee8229f39d3a10ac89813f090f0f0910036edbaa4a7e3a16f70",
+        "08babf70aa49eb8c4eaa3f367f36623576fa301a25574985f3117d9b3c0e3219",
+        "b9248760eb0bbdd83b1edd9e1980afdf163e25f1c4b22647d3e61c07460ca938",
+        "a713bbc461ab55610ff09122cf8548d8092f166e12690dd933f9dd63aa9f9364"
+      ]
+    },
+    "-3,0": {
+      "geometry": "04b4325aba0c98c348d23754fdbe46ef3bef37d17a1d3c6dea1900b95fc1cd78",
+      "placements": "ebe20e37bbe22ef28ff22d5a0bfc5e4cce079f829e90d4a2d4b199dd6ccded7f",
+      "triangles": 8806,
+      "boundary": [
+        "7899ec26b73953e9bf0af93a8c43296846970953299e50340440b9e7dfc62bee",
+        "afa45a3dee0e061fc4686a698b498f6b36744f2b4fd7658a9fae8ca0cc0f4281",
+        "a713bbc461ab55610ff09122cf8548d8092f166e12690dd933f9dd63aa9f9364",
+        "c89aebe164a29a1d4286a482fe7d40c61a64e551822160a617b7e9d377feebeb"
+      ]
+    },
+    "-3,1": {
+      "geometry": "72517b10cf94fa0e72a48a3f70c67256310ae9b02ddbf9276bc4d25abe728cfe",
+      "placements": "16c85a3b2cf6e6949cf18d4293856ed60f029be8463eaf08f78410483c9cf798",
+      "triangles": 8750,
+      "boundary": [
+        "b492910f562d420d1a67292f54cd722225cb3f9f5ab16def0375db76485faa82",
+        "5d0c169330dbab809915fb01e5a605fc966b0c811207592f66e621cec45d51c8",
+        "c89aebe164a29a1d4286a482fe7d40c61a64e551822160a617b7e9d377feebeb",
+        "767789bbde569f8c06e95eba229fdf32ab00f939a59b1464aff279fd7f0e8284"
+      ]
+    },
+    "-3,2": {
+      "geometry": "1da953f0d5f7b2cb71dad710f62dc36feafafdf12c5efb0b0d6dc51bab02aa80",
+      "placements": "015079aedfe83b0857ef4f5e5ef12dee6cb3900c56a16edc5bc35a63d0f90d39",
+      "triangles": 8932,
+      "boundary": [
+        "612c18684a1110a9df58958fa52a9c8714b6393dbc8207af699b21b770191a9c",
+        "cdfa10a7d0932e3f275cdd82f6db3d84f165d3448b0c18c72047f59a6ca99db2",
+        "767789bbde569f8c06e95eba229fdf32ab00f939a59b1464aff279fd7f0e8284",
+        "efae92d5d8bdf4001af7e78608ab388d44a20510330efaf119cda7eed170c692"
+      ]
+    },
+    "-3,3": {
+      "geometry": "b0ec251e7f2a8fd991d81a3865c2e5281d8204204aa516ef14893df8d56fdf3a",
+      "placements": "d93d682035dcfd552549e0e8cf1dd9c0584ecc3b7126bd6656cac1a9f15b6199",
+      "triangles": 9438,
+      "boundary": [
+        "0f9e99f4975a4a2b041e202b7d1f3815d856621bb06ad50b1ce74eabb591e6c0",
+        "65746530e72384a6dbd12e0f738d540032acce1600edae221b5d31c1c133f516",
+        "efae92d5d8bdf4001af7e78608ab388d44a20510330efaf119cda7eed170c692",
+        "a42f1ef63621b61cf7c2456b105cdc226a32da53f9b7cbd99a8d4e69c24d0826"
+      ]
+    },
+    "-3,4": {
+      "geometry": "ab436acd7b18ee520c49dbc3e270c7f736372bb6b2315d2af25e4db212c60285",
+      "placements": "3e6268a64cfcbe0c5d82047f62be18f0244e45309c6e323a15601251a7fac8b7",
+      "triangles": 9268,
+      "boundary": [
+        "49f469ae1c5b6cb7702298f42424b895bf31379c0d7fdf994b76568f300cb58f",
+        "efc7e01d6870ec68edf428c33a6835351974fab512f76a55fb2a9bf75057aa4f",
+        "a42f1ef63621b61cf7c2456b105cdc226a32da53f9b7cbd99a8d4e69c24d0826",
+        "eaa39dcb2420a71b069f47c698c8d033a388fec837c8f937f24ea4aa3efe6dc6"
+      ]
+    },
+    "-3,5": {
+      "geometry": "3eb9a063bf584d8abd83b49a51ab1bdb54d10a079f545295b1f8496191f4c941",
+      "placements": "0db6652523dc8c1d517e49299ab09201fe163a986f1ecf8d86ef5cbc825a8905",
+      "triangles": 9342,
+      "boundary": [
+        "812568d12eb3fdb74692178a02a607c4917906768eedc087e39a65f1d2fd0a2f",
+        "0a953436e09b3a0bf14039b6ef427eb181d126386d90e1915a91890f7eeade30",
+        "eaa39dcb2420a71b069f47c698c8d033a388fec837c8f937f24ea4aa3efe6dc6",
+        "ad1f04841e1af0bfcc14fb5d2113651cd5332051878079e612d01202ac3c56ac"
+      ]
+    },
+    "-3,6": {
+      "geometry": "86c462c31bd6000f4af2696ba4176c4f93a1a5fff232cf17e00bd40d15ac647d",
+      "placements": "7219a267111155445a8e59054faa054f2d0b825585e9040201768ae4ef382cbc",
+      "triangles": 11394,
+      "boundary": [
+        "a432ec2a66cfb14bf82488feabef8fc4b14da8e9094372d6d51c18ec15c9e857",
+        "b93d88c42d105442ee0f5f783be220afa0982ec421b07d1305b4c98f73e876e9",
+        "ad1f04841e1af0bfcc14fb5d2113651cd5332051878079e612d01202ac3c56ac",
+        "4477623ab3a38dafeeeaa78daa506c77b4e7408997f944b6bc8204de0613fc8a"
+      ]
+    },
+    "-3,7": {
+      "geometry": "9dc15ecdf8876c0f14a06f28b0a04994e23ab6efdb28a313f7da9fa94537fa19",
+      "placements": "5d3977c716f485330b4d5189d6a33e48978bd3fa22321a5eedc527f996d3e883",
+      "triangles": 8990,
+      "boundary": [
+        "83a69d14b1174d803be70879203ecec08a2341a1af8eab60e1b2c8c5a97e944b",
+        "23c2f12b93e38feeffebe3ae17e47570938620e67b31e7e09c0b9a42bd513736",
+        "4477623ab3a38dafeeeaa78daa506c77b4e7408997f944b6bc8204de0613fc8a",
+        "1c28fe06e12572c254c6e5cfea5fd997dde8ce8aeb28064ab78d34f0892b6bb7"
+      ]
+    },
+    "-2,-8": {
+      "geometry": "58515860f4b49ec78d454a6e63fc095dfd99ae5ee5a788844b03696a2de936e8",
+      "placements": "9ea710bfa3909ab82570abed052162007d8c204c64bac301b12afb4b8690995b",
+      "triangles": 8928,
+      "boundary": [
+        "6207c35ab3cca90b660ba8bcbf585ee17f8c48e0e712e265e35202f4822506d6",
+        "3563404bee16b0ca56b08375ce8d22922dc316f99410e487a93cd36b8b9fa7f0",
+        "73bdc25363b8b0bd919de443e4a8b7dfb131ccc14b45fc1754963b8504b5654d",
+        "15e1631f03113e4ff97afd94bcbc243eaa3c76c4dde09bb671fb1fe128431382"
+      ]
+    },
+    "-2,-7": {
+      "geometry": "36b94eb2b5a8299083a3194eca7b824871d62b860719e37e7f01300bd5eb7b16",
+      "placements": "e43bfc9a47b80d0f303c339dbce09041c8971e820e949bf587be83c97c56f293",
+      "triangles": 8720,
+      "boundary": [
+        "24f898917d5613b4271748c68496e94d6bf146e62469e909568574dd26c21eab",
+        "fa2eba9efe5de898dc0c81bfb7291520b65330ce7d7af32144be1c594e8606e6",
+        "15e1631f03113e4ff97afd94bcbc243eaa3c76c4dde09bb671fb1fe128431382",
+        "46955437da1e0d012dcfb8c100acacbe72d94e8801e138f59497c0e6302d7982"
+      ]
+    },
+    "-2,-6": {
+      "geometry": "b5a5b03300fcb158f3f2c08f81fc7fe965abc628dc1c577e27b360cb9e676a76",
+      "placements": "cb571aab3f895e2d9876f4ebb220916d2ff7a29c3710e347fa476486f067b5a3",
+      "triangles": 8780,
+      "boundary": [
+        "5cd307329e13338d90080e6409ea20905519119b942570b92082fab7d3404da8",
+        "20131f0eb1d2eff3d4c4719c5f45ced66573f0e17232791a0e29b4fba834732f",
+        "46955437da1e0d012dcfb8c100acacbe72d94e8801e138f59497c0e6302d7982",
+        "6f00f0ddbaa2b1dc6b533c1d5e509a455c27873dfd715a447e1e21d81d0cf823"
+      ]
+    },
+    "-2,-5": {
+      "geometry": "239642b05435385fddc218b0674041141412b17b64f49bbeb36c5dce797c2adb",
+      "placements": "7d176522971b1aa81af1193140ff19d8d5430658663c50dc5bbe31b38b4cb2d7",
+      "triangles": 9036,
+      "boundary": [
+        "6ef3f0c7bfbe00eeccb047727b21325e022ab02155a2c4a4436d0faae877303a",
+        "fe017ca8125be5c629b2fcb74de7735095700a57f09fbb3501069c77089c9e6a",
+        "6f00f0ddbaa2b1dc6b533c1d5e509a455c27873dfd715a447e1e21d81d0cf823",
+        "9abcf42bf8f52ea5c0893fc994083e830467a5f01e98ac1d61886a984383ef24"
+      ]
+    },
+    "-2,-4": {
+      "geometry": "1a2184be62f51aa1e63e3de3bf002d36f3ff5762d88860baa787183f1119117d",
+      "placements": "6c817389d24100ee815e01cbcb3a000936b35d1370efe4a5632f7d870d98ae21",
+      "triangles": 8430,
+      "boundary": [
+        "cc8dc0b4f13c3d192f422002297974146bc4ed5d70706bdfe846cf72659392d3",
+        "69315950c857758a216d7f4455c57032fd4d0fe2b4c44cd815efd6d62f1f738b",
+        "9abcf42bf8f52ea5c0893fc994083e830467a5f01e98ac1d61886a984383ef24",
+        "193951d30906b5af3f27dbfa106bd8bfeac10cdedc11d88aa1b2ff654a3c3015"
+      ]
+    },
+    "-2,-3": {
+      "geometry": "6a867839b3d1906e84aca0a9a22a95472af171826111c009510af1a1d1021cde",
+      "placements": "8fcab3720944d8611a4a41ad17813283540a16e6d43f0c1aa23d5c61f3943b84",
+      "triangles": 8624,
+      "boundary": [
+        "4113d9831624d0a4192f254134fc7103ff0b1478ceca582dcc25086eeec151ca",
+        "f33751514cd80c03d1e79382520614018a291b9e7536dff551873348e74b3845",
+        "193951d30906b5af3f27dbfa106bd8bfeac10cdedc11d88aa1b2ff654a3c3015",
+        "c55d3ce61f16a0f87646fafb46793e8ba655f1ffd8ccb0acbceace172056cbe2"
+      ]
+    },
+    "-2,-2": {
+      "geometry": "2c9bf4919f16db9687516881b2ddc0d031c040e8707a82feb03bd065f29f9f36",
+      "placements": "32715b0282a5f137ee2a87211a8e747d3f0cbb4e6b7c053f20fdb6c681ed6fd6",
+      "triangles": 8464,
+      "boundary": [
+        "639991634942b4e217ace3580ffa9bef8c8f18a406e8539b6ca3b0ad9649cb29",
+        "ecc0efb89f4bdbb07b0151735eee7c49e4130265ccc0d8f391ce8bdeb075afd3",
+        "c55d3ce61f16a0f87646fafb46793e8ba655f1ffd8ccb0acbceace172056cbe2",
+        "f603ad79e36efdcab77370c44c1882031227e72ac17047b34030121ae3a1e449"
+      ]
+    },
+    "-2,-1": {
+      "geometry": "089361b6194b971e8cbea967524988d0667166bc6d1c4428c0a9e502fe4febb8",
+      "placements": "3a452b2c45dda96ca011b639e3fe5b760b350a21a5bd58252b9d28392d2aacc0",
+      "triangles": 8296,
+      "boundary": [
+        "08babf70aa49eb8c4eaa3f367f36623576fa301a25574985f3117d9b3c0e3219",
+        "929201d01b1b6acf75cdc18fedb5126654f48f2d56104b18c80a270b6f72ffc6",
+        "f603ad79e36efdcab77370c44c1882031227e72ac17047b34030121ae3a1e449",
+        "8134af03aab29e10d5fa74bbaf16355fc29ce2aa59970f205dd9d4003140b023"
+      ]
+    },
+    "-2,0": {
+      "geometry": "91763f28ef498540864988adeb7afb552fd6383ac5cf05fb6e5af4dc4f0a7afe",
+      "placements": "516d734f73a25cc64e370cceba100e8de1470eb56efd04deac2d17c44b843131",
+      "triangles": 8428,
+      "boundary": [
+        "afa45a3dee0e061fc4686a698b498f6b36744f2b4fd7658a9fae8ca0cc0f4281",
+        "b1c6cc415f034127c3025ff9fc6dfa67481ff987ff231ca16ef1c356653bfbb0",
+        "8134af03aab29e10d5fa74bbaf16355fc29ce2aa59970f205dd9d4003140b023",
+        "5dc87320fc4e163bb1386b0026c6ebdd13eacfa892dbbfb27fb71d28a588567a"
+      ]
+    },
+    "-2,1": {
+      "geometry": "309785fed04da8262d8c195673f44b4c10f275dc84664ca237fc2f50a3959422",
+      "placements": "f254801a5c1b214971f88d58d59461e58aa1a427a0690e88885f6496fe812025",
+      "triangles": 8776,
+      "boundary": [
+        "5d0c169330dbab809915fb01e5a605fc966b0c811207592f66e621cec45d51c8",
+        "c87183ef79d5131cc6ad7f03b8aa35284fe2e8efaf9a0333f62d1d583f153730",
+        "5dc87320fc4e163bb1386b0026c6ebdd13eacfa892dbbfb27fb71d28a588567a",
+        "913177d71060b0e44dc867518305158a0032e944d319b18b9f6197d5da9ae63a"
+      ]
+    },
+    "-2,2": {
+      "geometry": "f2035bf2df2ff074ea738a3b70f461d81c49873ded8b2c03912623b34f8c2112",
+      "placements": "f39c59014d738a5861eb6b8b251271224d636288a27b95458ec88a4348af16f4",
+      "triangles": 8530,
+      "boundary": [
+        "cdfa10a7d0932e3f275cdd82f6db3d84f165d3448b0c18c72047f59a6ca99db2",
+        "de01e84696d676f002325f6165b24969848cdd4afe8f0c1f13b929538e5da5d3",
+        "913177d71060b0e44dc867518305158a0032e944d319b18b9f6197d5da9ae63a",
+        "ebd07cb90ad24de07f2edb7204b2fd4b13891cdb9ddbe0877819f7d665458626"
+      ]
+    },
+    "-2,3": {
+      "geometry": "4413dbd92a62f6513959140a57b7105134d47e1090b057698a15a269ac04bf61",
+      "placements": "94b9d6844a4cf65899b8b9a6d253d0b77fdf2c25384ea4b9366861a78108d675",
+      "triangles": 8664,
+      "boundary": [
+        "65746530e72384a6dbd12e0f738d540032acce1600edae221b5d31c1c133f516",
+        "ce05fb6accd1663d20bbeb63c1e487f4390c3007752a8de160c2b67d43f929b6",
+        "ebd07cb90ad24de07f2edb7204b2fd4b13891cdb9ddbe0877819f7d665458626",
+        "d218c10c5c5f31c5582ca299a05798252aa344d3fa6bfbc385134ab2e6e79ce0"
+      ]
+    },
+    "-2,4": {
+      "geometry": "5a11f39234d1a1a447fc6b61e802e65b3ef0fe03dffb00aeea57df5df14df0b2",
+      "placements": "52e374fb9e6849c3ecd3b39eafe54f44a2ae68e7fb3781911e76242a37322448",
+      "triangles": 8688,
+      "boundary": [
+        "efc7e01d6870ec68edf428c33a6835351974fab512f76a55fb2a9bf75057aa4f",
+        "066860e99980cca9ed8568f5c0b0fac68c916024dd027b0848e8b3dde2260979",
+        "d218c10c5c5f31c5582ca299a05798252aa344d3fa6bfbc385134ab2e6e79ce0",
+        "2938069957dabfa477a42dcb0646ed5ced6c19e9202678056c3477c913a99472"
+      ]
+    },
+    "-2,5": {
+      "geometry": "b1e216a492915ad39bd0db8c6b107e3a1c1e0cd9750d0aa8ac45f14dc9ba1e7c",
+      "placements": "4220a561201a111f15b8d2b9022365bb564857216fc361273afdd97e0ea3d814",
+      "triangles": 9418,
+      "boundary": [
+        "0a953436e09b3a0bf14039b6ef427eb181d126386d90e1915a91890f7eeade30",
+        "67b204062fa3c05f02479f9c225b27b8dd9c10f9f7840774762bd484e1df2ba5",
+        "2938069957dabfa477a42dcb0646ed5ced6c19e9202678056c3477c913a99472",
+        "b0d3f9a4a499ad4694cfa837373e0854d8d9048417bc52e84a29b3fc1ce45663"
+      ]
+    },
+    "-2,6": {
+      "geometry": "662b201ed9d3378ae369ee200da19f77b7f5b9c3d28cefb1bae8e7339376d0e9",
+      "placements": "e6134c4507aca215f986a461e278f16b8a7aa92c67f8e592b34ab3118aa49f84",
+      "triangles": 10532,
+      "boundary": [
+        "b93d88c42d105442ee0f5f783be220afa0982ec421b07d1305b4c98f73e876e9",
+        "30d40855c3f7b090f1e3f64053b52610c96321e1cc9d260e172882f719a0c2e9",
+        "b0d3f9a4a499ad4694cfa837373e0854d8d9048417bc52e84a29b3fc1ce45663",
+        "cd637f0e344cfd066c1c198610d40e3c5ab062c110619c1d472ff8c35dc16cd1"
+      ]
+    },
+    "-2,7": {
+      "geometry": "1d812c97570203d4d7f407dfab4a9b405e8cc2993f2e06099591fe488d9862c0",
+      "placements": "bfc9c959cd8dbe10bb2b08cd53dab53dfe8bf23a7940b21bbc3ab4e697475583",
+      "triangles": 9022,
+      "boundary": [
+        "23c2f12b93e38feeffebe3ae17e47570938620e67b31e7e09c0b9a42bd513736",
+        "24665e7599f9ad2de80ea37b90652a458749261d3fd08cd4997f7ea7b3f22aa4",
+        "cd637f0e344cfd066c1c198610d40e3c5ab062c110619c1d472ff8c35dc16cd1",
+        "f15e2470905d1d9f28dac55ac60d1be0c2af19c9d21c082912ad82fe6e8dc605"
+      ]
+    },
+    "-1,-8": {
+      "geometry": "924a06b48d7cd66cdb2550782cb53d24c7e07ce13fefd666d21e1524dac2baa7",
+      "placements": "c108ad503c77da2c25350536567e4a7dafd157257cebc3791df1fa26b772e0d3",
+      "triangles": 8956,
+      "boundary": [
+        "3563404bee16b0ca56b08375ce8d22922dc316f99410e487a93cd36b8b9fa7f0",
+        "4bee60dc3d2922db3c277211b14df4238d27f600eef44d0c3228ca8e880d7349",
+        "eff3588a2fcdcaa3f62837174b25c414012aa6e3a183161e1fc4b301c9102f32",
+        "f6a5b01522550db8ba39adfeddd6a45f7a2a4b092d475941f66227dcf7c1e38c"
+      ]
+    },
+    "-1,-7": {
+      "geometry": "e95a0441a41dc382a5ec34b3de858da660f66b0337f5187db41e2b656d1ce87f",
+      "placements": "7983bd3781324f87de35932b1ea349b2087a2969be8065d740c27d7d1a555262",
+      "triangles": 8668,
+      "boundary": [
+        "fa2eba9efe5de898dc0c81bfb7291520b65330ce7d7af32144be1c594e8606e6",
+        "ab550967ef25d955b8e7589994fce55c7ac047ab8c403e156f9d88b6fe63a2a4",
+        "f6a5b01522550db8ba39adfeddd6a45f7a2a4b092d475941f66227dcf7c1e38c",
+        "fa8adfb4c509c1989e703deba8500e6715129b270db6ca376679a424f5585416"
+      ]
+    },
+    "-1,-6": {
+      "geometry": "7cad8bf9df840c2e0edcff23ea26b55c20325dbd2677ef5f00fe1fe159798695",
+      "placements": "d2b4877ee4bbc528f45758371cc4954646b8a0698806b13b2c1c3d83df94d245",
+      "triangles": 9546,
+      "boundary": [
+        "20131f0eb1d2eff3d4c4719c5f45ced66573f0e17232791a0e29b4fba834732f",
+        "5e6683fd0d40a70f62be4ba0b2c3fd96c40b2f0c79ced4a50e0163415404e5ee",
+        "fa8adfb4c509c1989e703deba8500e6715129b270db6ca376679a424f5585416",
+        "5148744e181cea39dfd6e6a7762f0d985fcee10df4e208a6d5a3037ceb8ce784"
+      ]
+    },
+    "-1,-5": {
+      "geometry": "537d138d3ef6a9426c7c954cec65770fb30f3c6862bcc8071f57d579093cd56f",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "fe017ca8125be5c629b2fcb74de7735095700a57f09fbb3501069c77089c9e6a",
+        "e4743b56f8caba6dfd1aeefcc023182bd2de2cba152fe0b4e84c0c249b6b20fe",
+        "5148744e181cea39dfd6e6a7762f0d985fcee10df4e208a6d5a3037ceb8ce784",
+        "d09b534c59ad7e4e867287109fe1bd07567a7a93f01a50a45101a3f5d64f7897"
+      ]
+    },
+    "-1,-4": {
+      "geometry": "0cd41ae37f9e0d9044347c76aaf60c312f802268a664f3ffe4848a21302238fc",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "69315950c857758a216d7f4455c57032fd4d0fe2b4c44cd815efd6d62f1f738b",
+        "c4aee1b6ccecb269f5ae574bffc475d41a314d730697c710691de0aac50b3341",
+        "d09b534c59ad7e4e867287109fe1bd07567a7a93f01a50a45101a3f5d64f7897",
+        "6c0e0b1ca648104ac491155dcbb2d1ee79346a4069458868094fa5a3ab0a28b6"
+      ]
+    },
+    "-1,-3": {
+      "geometry": "f5c2e8950640357d5076b4b549f4e3f68e005cc409e75d38f000b3a52d575c3b",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "f33751514cd80c03d1e79382520614018a291b9e7536dff551873348e74b3845",
+        "645e8989455d47729b706ef0b1d73002fb37e1f8b2f4070a37d7ffee9b8fce9d",
+        "6c0e0b1ca648104ac491155dcbb2d1ee79346a4069458868094fa5a3ab0a28b6",
+        "6e48b25712b2aa2c56902326b41d8bcf24b6800352c53c568037262e4abdbb8f"
+      ]
+    },
+    "-1,-2": {
+      "geometry": "573a94c75bb8f03475ebaec7253849f8318bcf39ae2725a4be62ee41298f5b43",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "ecc0efb89f4bdbb07b0151735eee7c49e4130265ccc0d8f391ce8bdeb075afd3",
+        "affc9c1d7f93b6d9adf66d12a103ca48017402785241ffa4804f8e0f4f81b06c",
+        "6e48b25712b2aa2c56902326b41d8bcf24b6800352c53c568037262e4abdbb8f",
+        "2fa8347e347ec0d6dfd9bcf1a0d7a52061c8aacecc02cc3730a1879411f4d26c"
+      ]
+    },
+    "-1,-1": {
+      "geometry": "3b1a2335b94f94b7669e98686037c4cee3ea01ade2dfcbd6adcea0792b194ff6",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "929201d01b1b6acf75cdc18fedb5126654f48f2d56104b18c80a270b6f72ffc6",
+        "920b0beb85967479aaf72c83b3bbfa4c461675ae5ec5bd858b872aecccc7f435",
+        "2fa8347e347ec0d6dfd9bcf1a0d7a52061c8aacecc02cc3730a1879411f4d26c",
+        "aacbb4e1ddfc645246984b6b45ba1b8a3c7a2f5b2a3038e2309fd3539098f380"
+      ]
+    },
+    "-1,0": {
+      "geometry": "736902052a48fc0ae2e7357cabf880ffa93851c1545ce926a10cc9199876a1ea",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "b1c6cc415f034127c3025ff9fc6dfa67481ff987ff231ca16ef1c356653bfbb0",
+        "f7f9f7a1bbab6719ab53cb003430fbb756c0e54bdcd7fb38ea950355e21c5112",
+        "aacbb4e1ddfc645246984b6b45ba1b8a3c7a2f5b2a3038e2309fd3539098f380",
+        "865c6c7c6e82a93c9c229ae193c31ed6e67c97a9a837feb0c93a3e0d96c8fd9c"
+      ]
+    },
+    "-1,1": {
+      "geometry": "4c596fb0ff9b844de92ea2e1810fe47f374a11843693a43eca6d254538a02689",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "c87183ef79d5131cc6ad7f03b8aa35284fe2e8efaf9a0333f62d1d583f153730",
+        "58b1fd2ec9cf2c34712f8110d9ece677a32b1cc5cffbbf96cea94e8194d2ceb0",
+        "865c6c7c6e82a93c9c229ae193c31ed6e67c97a9a837feb0c93a3e0d96c8fd9c",
+        "635f1d007433f27f4c8dcaac138af590b3302bf9e0ab7f81ce18bd7c9654b7d7"
+      ]
+    },
+    "-1,2": {
+      "geometry": "fd7b5ef1436c217e5ee6ca222be8c0e28d5c18f49a42a4f9628576778c09a0e2",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "de01e84696d676f002325f6165b24969848cdd4afe8f0c1f13b929538e5da5d3",
+        "779563a9492c4dc0382b02c8f5338837d37395096193777da66b3e37685343b8",
+        "635f1d007433f27f4c8dcaac138af590b3302bf9e0ab7f81ce18bd7c9654b7d7",
+        "49929c0468f324289bd0d6fc5e6a622a06b991b9b564780e9650fadc5a619835"
+      ]
+    },
+    "-1,3": {
+      "geometry": "b7e7f56c9eed04989c3dfab83d03b3740b5e9e931332eee8dd52f0bc02e03218",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "ce05fb6accd1663d20bbeb63c1e487f4390c3007752a8de160c2b67d43f929b6",
+        "0a2c93c79963e3faebc70e440e5f4c0dc98a52a61fb05c24701f1a690e6addcf",
+        "49929c0468f324289bd0d6fc5e6a622a06b991b9b564780e9650fadc5a619835",
+        "d3439c2b0cd8a6e4fc2ae7a55bab9bceac66b8d36e765e001cca7dab961f4788"
+      ]
+    },
+    "-1,4": {
+      "geometry": "b7962dd3b5bdb87c7e41af22cd45e473f035f555a69e5b7d050fc91c269cda55",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "066860e99980cca9ed8568f5c0b0fac68c916024dd027b0848e8b3dde2260979",
+        "2afc46f3641d5ac94784ca9304c5d42aa7e0a5eae6f02bb26ca7a3719432003b",
+        "d3439c2b0cd8a6e4fc2ae7a55bab9bceac66b8d36e765e001cca7dab961f4788",
+        "1aba7b59ae665b1bbb7e79aa7fb5a3d7fd5cbe4bd8ba270ca58dd084d8b559d4"
+      ]
+    },
+    "-1,5": {
+      "geometry": "b042e0cd7f6f533a2c9268b4a592f663e510f02559bd8eddfcc5168143214989",
+      "placements": "63ebb647f023781dca0542179df64d8c3815b9a356c0a6e99a1c03b0ba588b3f",
+      "triangles": 8588,
+      "boundary": [
+        "67b204062fa3c05f02479f9c225b27b8dd9c10f9f7840774762bd484e1df2ba5",
+        "6475e2936b89abbb3ed52e7c16051ba73f223c8aced130c3e4669212db48e86a",
+        "1aba7b59ae665b1bbb7e79aa7fb5a3d7fd5cbe4bd8ba270ca58dd084d8b559d4",
+        "df253685f5ef6267d55a6030455b71d0288ed48b0ac2101ab4d39c2e25ec2850"
+      ]
+    },
+    "-1,6": {
+      "geometry": "5b1be9b4deeb444d918403979f63944889699280d9a1adedb81f5bd1c0728c2c",
+      "placements": "6365ce2d7b6606d68f0623c2e972a74b04d13d4bd622023582dc3436e835a3ba",
+      "triangles": 8564,
+      "boundary": [
+        "30d40855c3f7b090f1e3f64053b52610c96321e1cc9d260e172882f719a0c2e9",
+        "56978df4cb0c303711fd8b34a3f7b741a993f6231d71704f8c0132b8cb6dc55c",
+        "df253685f5ef6267d55a6030455b71d0288ed48b0ac2101ab4d39c2e25ec2850",
+        "d59fb51e78000af8f9a05e227f1ea88cb65e493256583401c64ea97e9fa6ddaf"
+      ]
+    },
+    "-1,7": {
+      "geometry": "19d0149832a411378c8592c85939a6b8e3250328cfb5b498ea6a3fd941facfd2",
+      "placements": "152b0d9a451b06c26b4972d9fc32776ae8f584ff42e27e67abd7b2b724f3522b",
+      "triangles": 8566,
+      "boundary": [
+        "24665e7599f9ad2de80ea37b90652a458749261d3fd08cd4997f7ea7b3f22aa4",
+        "021b84f5206541525c3237d1d82d4a8eaf6466854ecdd08d5d37373ab9512e85",
+        "d59fb51e78000af8f9a05e227f1ea88cb65e493256583401c64ea97e9fa6ddaf",
+        "d9ed5ac5decf44b626acc50dfb55e66c880776e7703f0f54fef5240123a22212"
+      ]
+    },
+    "0,-8": {
+      "geometry": "4b06b9516043c5657c68c0acc469e05b88f7d907c32b1969de4032433a76196f",
+      "placements": "930ae76ce12cc8c82d6649147bf3f16b25fc06022dfdf6fde4869afd5e11984c",
+      "triangles": 8764,
+      "boundary": [
+        "4bee60dc3d2922db3c277211b14df4238d27f600eef44d0c3228ca8e880d7349",
+        "d31c5bbd0b1b0d9463693987cd004de398b8ec3f8e960a15dc3316258b694457",
+        "6e2ede75431444b5b1b582a1323f7758536b58f5adc59362599e4dac2a0ff164",
+        "3ca790ec503bda672aef70713f49442f40883962a232f28efa4c1204546afcff"
+      ]
+    },
+    "0,-7": {
+      "geometry": "89cfd472dbd53e3732101906ca0d15c9d84fd3d6bcbc4cabfbb6bfc323b106ca",
+      "placements": "4bc8a3009caaf72264749e85d76f47a607bb7a566661026320a4ba9fc29474ba",
+      "triangles": 9192,
+      "boundary": [
+        "ab550967ef25d955b8e7589994fce55c7ac047ab8c403e156f9d88b6fe63a2a4",
+        "db2d74b93bd9a0d3ca7a85c045f048dea1a1d9a10ac3d5d53b58d243d243f850",
+        "3ca790ec503bda672aef70713f49442f40883962a232f28efa4c1204546afcff",
+        "e2b8890c554de3fddcd0720114b0723b9c295b54425c7931ffae48b8cedb545c"
+      ]
+    },
+    "0,-6": {
+      "geometry": "74d543c848062727e6a66e1c4a8fa68879a21df2bd832e94653ba8968572e608",
+      "placements": "a3bfd61087174a7dbd9dfacb531e520a49ad87055e77e311a5b1df3257c23d05",
+      "triangles": 8632,
+      "boundary": [
+        "5e6683fd0d40a70f62be4ba0b2c3fd96c40b2f0c79ced4a50e0163415404e5ee",
+        "a1c558b2ce86f10918fc6464e5294ea7a287192d9e9219b8bc7ec8ab35a624e2",
+        "e2b8890c554de3fddcd0720114b0723b9c295b54425c7931ffae48b8cedb545c",
+        "7a3c45477aaac68aae88c3562803481d5b69c4d672357ab24c57f27f1be83e60"
+      ]
+    },
+    "0,-5": {
+      "geometry": "01f7c3d0a4abd080474e2ae95c6406ff030244b50b6a944d28baf3ae624950df",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "e4743b56f8caba6dfd1aeefcc023182bd2de2cba152fe0b4e84c0c249b6b20fe",
+        "4a55e7eaac1005288951ed2c03831fb48f7fde21401bdbca161bc7094988cfc7",
+        "7a3c45477aaac68aae88c3562803481d5b69c4d672357ab24c57f27f1be83e60",
+        "c82a531c7ab40fd3958e4448f46518d2191ef4007b80879bda4b62d87b466433"
+      ]
+    },
+    "0,-4": {
+      "geometry": "f4ee379dae633611eed24c34ff89129c495d9aa68dd3d83b81a35ea226e0e385",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "c4aee1b6ccecb269f5ae574bffc475d41a314d730697c710691de0aac50b3341",
+        "7093ffa1837db843a9eb1818bdbdeca18fe462c4a4233fdcb83bfb7cd8d843b6",
+        "c82a531c7ab40fd3958e4448f46518d2191ef4007b80879bda4b62d87b466433",
+        "525971c0cfbca5ee0de3120980c8e2a128699dece601ce9e752528ab9541f6aa"
+      ]
+    },
+    "0,-3": {
+      "geometry": "2454a1432392d47bd812e35a85b462acb3fe0354aed3599b68d7f896b8b2dff0",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "645e8989455d47729b706ef0b1d73002fb37e1f8b2f4070a37d7ffee9b8fce9d",
+        "404143bb04380e54bdc9ef4d8fa0df9b8e26a6d60de899554d4541a2c46070fa",
+        "525971c0cfbca5ee0de3120980c8e2a128699dece601ce9e752528ab9541f6aa",
+        "4bb158249c9a1a9d6308e72644b4fb10f09bf749f856604303df66f15f7241cc"
+      ]
+    },
+    "0,-2": {
+      "geometry": "6b33b66875b0d8028385260703f386ebbdd627cce06aba85e3d6c9a442699609",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "affc9c1d7f93b6d9adf66d12a103ca48017402785241ffa4804f8e0f4f81b06c",
+        "f948d0444869b85f56d385169306c3f23d863c4771ac6b1eec8c8ee316b40429",
+        "4bb158249c9a1a9d6308e72644b4fb10f09bf749f856604303df66f15f7241cc",
+        "f8191525510a55b48ccd816da0fde0e2f67405de2d2dfc14165c8284d6aa6e1c"
+      ]
+    },
+    "0,-1": {
+      "geometry": "ef4f77a9c12a7ef005d6eb3903b016bb99bc262aee76aaaccab95e0dc49ca2cd",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "920b0beb85967479aaf72c83b3bbfa4c461675ae5ec5bd858b872aecccc7f435",
+        "2e84f88d40d41dc49cf560b105345cd06b3d6a2f939adc8444b4d032b223ab7e",
+        "f8191525510a55b48ccd816da0fde0e2f67405de2d2dfc14165c8284d6aa6e1c",
+        "8fa136addaeb5a6f35d67f4e157b7d78c3ce93a51c01bcf62b7120a22f29a85f"
+      ]
+    },
+    "0,0": {
+      "geometry": "ad05bde89cb8e0ab4f5441a173f50b356a4c446ea64b758a7aad8b20deaec7f9",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "f7f9f7a1bbab6719ab53cb003430fbb756c0e54bdcd7fb38ea950355e21c5112",
+        "564a99072c298d0d7906d29cc7d23001130c7300215fd0a5d826f2f5c93f370e",
+        "8fa136addaeb5a6f35d67f4e157b7d78c3ce93a51c01bcf62b7120a22f29a85f",
+        "bf414cacdad35de04a542440bac4920500bb9320363c450ff90f101ea8ba664a"
+      ]
+    },
+    "0,1": {
+      "geometry": "9cfafab76f2139b4f553d45ca5151686ce2234059f5c3764aae06b11dc7835c2",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "58b1fd2ec9cf2c34712f8110d9ece677a32b1cc5cffbbf96cea94e8194d2ceb0",
+        "60e17c5fe91b1b2361da720b36f1376a97faf4512096c2356dfa5f0ab18b45ae",
+        "bf414cacdad35de04a542440bac4920500bb9320363c450ff90f101ea8ba664a",
+        "7e2f772f22b8b70e406ac56b749b6ae4e0d6ad33f9024b1ddb36ac22da98c43a"
+      ]
+    },
+    "0,2": {
+      "geometry": "259fd366f08512b575d235fed986ac91b7623c4caf201f5cdd8bb85c20abf3b1",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "779563a9492c4dc0382b02c8f5338837d37395096193777da66b3e37685343b8",
+        "c4249f03cc3cd5de9f9a445be023f3903a90409669abf5756aedf6122cf9d8d8",
+        "7e2f772f22b8b70e406ac56b749b6ae4e0d6ad33f9024b1ddb36ac22da98c43a",
+        "53ce52dcdbcaf4704fe8a17235eca7fc4a35c1fce40a68dcd8626053f6b4376d"
+      ]
+    },
+    "0,3": {
+      "geometry": "de767bbbd2cf8224b872a698c843c20596eec725fc941a33e86fa4a3d13ad9a0",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "0a2c93c79963e3faebc70e440e5f4c0dc98a52a61fb05c24701f1a690e6addcf",
+        "1b1c4111cadd2e66ab5429ca617ce4e525390a7ada06a312f815a9dd30b92f73",
+        "53ce52dcdbcaf4704fe8a17235eca7fc4a35c1fce40a68dcd8626053f6b4376d",
+        "1c4d1ab1d44b5c863a878a6d0f2d8cd4e79e446a2faa2db305a6ec221e73b33a"
+      ]
+    },
+    "0,4": {
+      "geometry": "e94c4a4ed81a4b6199c35b58933d2e8eeabce2a1b3e407a00c79d2042b150102",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "2afc46f3641d5ac94784ca9304c5d42aa7e0a5eae6f02bb26ca7a3719432003b",
+        "5cecac0bc9c7e7b18ee9c4fb0cb4f212fea9f0d7ad6e2ac9ab98dc3b222caeaf",
+        "1c4d1ab1d44b5c863a878a6d0f2d8cd4e79e446a2faa2db305a6ec221e73b33a",
+        "14fc0e9507f6c947b5c9bfd096ccc6d32c47432d9c1e4b0bf9f85d3042d5dc3f"
+      ]
+    },
+    "0,5": {
+      "geometry": "0eb809e159924005d0964fa232b49f050a33197b0bb300946a1a217c51a89c98",
+      "placements": "8ae73722c372cc1de14be9955707a2a36c8f680a489953e87f1c536dbd860746",
+      "triangles": 9166,
+      "boundary": [
+        "6475e2936b89abbb3ed52e7c16051ba73f223c8aced130c3e4669212db48e86a",
+        "9ebdbc6af772cdde2f9b368555c5a849d11864429bdbe8dd61fc60d192b0de4e",
+        "14fc0e9507f6c947b5c9bfd096ccc6d32c47432d9c1e4b0bf9f85d3042d5dc3f",
+        "2bd8242c4e16a635daab9e18b77d2690fb00982308fd05403d2c7539145cfad5"
+      ]
+    },
+    "0,6": {
+      "geometry": "c584265aad177c728d840ea9587b5530d0906526276174d922346722e866d142",
+      "placements": "ad897f2ba31aa6a0812cff6257bde6f0e57aa58d2e3383f077748e8f976b1b45",
+      "triangles": 8954,
+      "boundary": [
+        "56978df4cb0c303711fd8b34a3f7b741a993f6231d71704f8c0132b8cb6dc55c",
+        "ee913233a54e3c360e94dcbab489642eb0ccc78ea79302bbe2c16c4cb01bb399",
+        "2bd8242c4e16a635daab9e18b77d2690fb00982308fd05403d2c7539145cfad5",
+        "064bf9ea6950cf54e7af7c606094ea0a7e020da6fb394407b9c8f227f614ee49"
+      ]
+    },
+    "0,7": {
+      "geometry": "5f3fd8206694e9cf41cd72782313a126dc6257d02ec0fd0ace91e6525ee3a07f",
+      "placements": "8d7c1c0fe459ab2aaf557d3165075d8c53513a0105fced46a7e16874e54654c7",
+      "triangles": 8720,
+      "boundary": [
+        "021b84f5206541525c3237d1d82d4a8eaf6466854ecdd08d5d37373ab9512e85",
+        "1552dbc1f3ceb2fee2578ea062991dee59124e0c29262ddd797b501e0eea8cf2",
+        "064bf9ea6950cf54e7af7c606094ea0a7e020da6fb394407b9c8f227f614ee49",
+        "2f7bc4d43990c05701a777b949d79c63e4297c2d8486f67ba5d315d08a405b6e"
+      ]
+    },
+    "1,-8": {
+      "geometry": "51932e27e1756f20250ab198ae2e700b91dff0598bf5dfe92da0a9cd03b5a2d4",
+      "placements": "76fe8b644d43a50c76754bc1a998936c8e4598f7c28cca9bb8a211acfc7c59c5",
+      "triangles": 9284,
+      "boundary": [
+        "d31c5bbd0b1b0d9463693987cd004de398b8ec3f8e960a15dc3316258b694457",
+        "f5871581e23fa37afd4facf38604aa0564fba13b498c9192f74b6945aa5c58aa",
+        "e4888c1122147867a06cadb9d9a51dbc8010481a188e822d83110afa42d8c878",
+        "b0cab76ead439d8dc65148c0048dccb809f9969043c75a5e5dbdf547d1daf0c4"
+      ]
+    },
+    "1,-7": {
+      "geometry": "85314cb5d30f464194765a2c4f687b212be055c2ac65ee7092e87d7f2d3b25e9",
+      "placements": "13815c2a0f47fd7150e0d4b72f506d35955a0f42cd4f1504ac9ad3e714035379",
+      "triangles": 8724,
+      "boundary": [
+        "db2d74b93bd9a0d3ca7a85c045f048dea1a1d9a10ac3d5d53b58d243d243f850",
+        "47ab3ca5dc88abe90ab6ddf64e435ce024de2350e4e849374c71471598fc0577",
+        "b0cab76ead439d8dc65148c0048dccb809f9969043c75a5e5dbdf547d1daf0c4",
+        "f002b5187f0a0e0962eec95144070f82f68d578441b9b98d07a8814cf8f6a8f0"
+      ]
+    },
+    "1,-6": {
+      "geometry": "c6e3a7ca8b1883f203791786c31ef352e86923173a954406143ce16c66aefe54",
+      "placements": "539e70ff6fdf9886a67fc1e1cccd9966f0a2bcb1b26bcfaf2227ca8b234c784b",
+      "triangles": 8752,
+      "boundary": [
+        "a1c558b2ce86f10918fc6464e5294ea7a287192d9e9219b8bc7ec8ab35a624e2",
+        "4ffbd7bb1b44f8cea35b17ae7a442fd82280968500aea9dee134bcea54b7a8ad",
+        "f002b5187f0a0e0962eec95144070f82f68d578441b9b98d07a8814cf8f6a8f0",
+        "53e3b9c1853bdea51699bdb3e71d42106ee28ef29d9aa236d08f7e39c3fbbc30"
+      ]
+    },
+    "1,-5": {
+      "geometry": "8b39812f31726be5e71700218b68b0da1cc12a584f136d7d7b2a6a4cd9b04e65",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "4a55e7eaac1005288951ed2c03831fb48f7fde21401bdbca161bc7094988cfc7",
+        "02252fdee656aaef163976245c4c5463b3ff277ae872b078add425235896771c",
+        "53e3b9c1853bdea51699bdb3e71d42106ee28ef29d9aa236d08f7e39c3fbbc30",
+        "f6999b191e78e914d5df79a97a9c2f38479d081607dea7e563317ddf6781fd25"
+      ]
+    },
+    "1,-4": {
+      "geometry": "2a40fabcbe95358707779f5755981d18051d223f487399f592b98ce93201228c",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "7093ffa1837db843a9eb1818bdbdeca18fe462c4a4233fdcb83bfb7cd8d843b6",
+        "708fc52e0c38aab86c89568ec3947a2f22c7d175c5693ce2359a7fff7cec9c6c",
+        "f6999b191e78e914d5df79a97a9c2f38479d081607dea7e563317ddf6781fd25",
+        "a6a5ed916aea16191a8afd1bccc7bdecafbad076864751f657636e55644bacda"
+      ]
+    },
+    "1,-3": {
+      "geometry": "82bc301e684394b7d5235eae9526d4190e3d69c68b1a7273c7462767f1147285",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "404143bb04380e54bdc9ef4d8fa0df9b8e26a6d60de899554d4541a2c46070fa",
+        "7078b706017f167118da4be9be463752a997ab31f106f0a57d9b20a512dbbc37",
+        "a6a5ed916aea16191a8afd1bccc7bdecafbad076864751f657636e55644bacda",
+        "c106c4afae019d61a871a500dff956fc9e2df70d9dfa36728d4111cc155a851f"
+      ]
+    },
+    "1,-2": {
+      "geometry": "00183b909c2a0c443d1ea2398a715e64b6e1341f9b12a9ca845316edec8023eb",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "f948d0444869b85f56d385169306c3f23d863c4771ac6b1eec8c8ee316b40429",
+        "88bfaab3be51e04b69d83459e3434ec6d7ee8b7a4ae76895fe4ba399fa5f53f7",
+        "c106c4afae019d61a871a500dff956fc9e2df70d9dfa36728d4111cc155a851f",
+        "095ed6f5b7764e9d5f6271a7dfdf93633e52aaff1e8cb29f470b86e583e353cb"
+      ]
+    },
+    "1,-1": {
+      "geometry": "65f40672d7b3851ec330470b8875d9741ec11fef95c28e1555143944c6f02f13",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "2e84f88d40d41dc49cf560b105345cd06b3d6a2f939adc8444b4d032b223ab7e",
+        "3787adc81630a6ca0bb62211b2582dba73cf51616870001062d442c1177e3a76",
+        "095ed6f5b7764e9d5f6271a7dfdf93633e52aaff1e8cb29f470b86e583e353cb",
+        "0b8a63710ebf1d0b9421a6928196a884d808f9a72c091780df1e5d27854fc962"
+      ]
+    },
+    "1,0": {
+      "geometry": "86035545751d9bff1fa142638586678d4dbe99f28e9283103c79467ef3edd56c",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "564a99072c298d0d7906d29cc7d23001130c7300215fd0a5d826f2f5c93f370e",
+        "dad83454a9252deeab484c43f074d1e54ac8224274160fc35493e696a72462e5",
+        "0b8a63710ebf1d0b9421a6928196a884d808f9a72c091780df1e5d27854fc962",
+        "7128cdd72f1d4ae0588d4c8b104105cff102e606cb91b087eb79e02730631e14"
+      ]
+    },
+    "1,1": {
+      "geometry": "a780596f24edbb21a035588c5fb729d26a779c77963a78e5ea022e22120d4530",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "60e17c5fe91b1b2361da720b36f1376a97faf4512096c2356dfa5f0ab18b45ae",
+        "8a6eb883a8bbb08605a3175961e02a5dce79f5fc098d5317397bd3b2b07fff74",
+        "7128cdd72f1d4ae0588d4c8b104105cff102e606cb91b087eb79e02730631e14",
+        "26b4921f511c56b753f9e7e49921c77a5e42bc59291292a2f8e1f462d2824b77"
+      ]
+    },
+    "1,2": {
+      "geometry": "c4ba829fce06d2b30181c8ea630b4a62d755df4d464ee21adf911223924a28eb",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "c4249f03cc3cd5de9f9a445be023f3903a90409669abf5756aedf6122cf9d8d8",
+        "00700cf3e4d337fa5f9ffed7313c7bfdd6863bbd640fd0807dca0355bbb620d9",
+        "26b4921f511c56b753f9e7e49921c77a5e42bc59291292a2f8e1f462d2824b77",
+        "e290ebb69dfdbf4200f35bf3b56e88eaf12f1c33a66b5ea049e447ac6d3f7c68"
+      ]
+    },
+    "1,3": {
+      "geometry": "a50fb3e300e1752275d2e16506ac2da6a285ae6031e1871c323c299d07822423",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "1b1c4111cadd2e66ab5429ca617ce4e525390a7ada06a312f815a9dd30b92f73",
+        "b1cc927cb741010971ebb9d455e80fd3269f83b3e4508a159b77cd03fab2e735",
+        "e290ebb69dfdbf4200f35bf3b56e88eaf12f1c33a66b5ea049e447ac6d3f7c68",
+        "a34d2001557b3fdca7ed671758aaeaeba32c8d02f8a7fe36eb541116cff281b8"
+      ]
+    },
+    "1,4": {
+      "geometry": "0383ed774fa88014a14a0f12545ca95881b8c990f57267315ec5036f7c6ed645",
+      "placements": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "triangles": 8192,
+      "boundary": [
+        "5cecac0bc9c7e7b18ee9c4fb0cb4f212fea9f0d7ad6e2ac9ab98dc3b222caeaf",
+        "761cf27285a3526031c1b45843d32cebbc96781793a304768a01427be3334903",
+        "a34d2001557b3fdca7ed671758aaeaeba32c8d02f8a7fe36eb541116cff281b8",
+        "495a14cb97dc28bedbac61eda54dc4a3bace25cfc5509e0a5145885c4632c18a"
+      ]
+    },
+    "1,5": {
+      "geometry": "419652929e889263823d0a1b5d1aa954bf784e57de430dfc2de4278ab7494d56",
+      "placements": "b8f0265678f9c21ac3ba716d42620ee11f5f3ddd6e67efbd14242e5721a6aea3",
+      "triangles": 8858,
+      "boundary": [
+        "9ebdbc6af772cdde2f9b368555c5a849d11864429bdbe8dd61fc60d192b0de4e",
+        "f4b3a30950dc7a8e68a81abab45bdd493ea56b5a02d2cb799391566b0e1b2072",
+        "495a14cb97dc28bedbac61eda54dc4a3bace25cfc5509e0a5145885c4632c18a",
+        "3e32aecc0e0e958aec5b8a59da0da494a121f7eef470df80e854bbe0489e8d34"
+      ]
+    },
+    "1,6": {
+      "geometry": "56dd0e76905565539728fe75f68098b6801a67caf2e3a07934c0fda7d3fd25df",
+      "placements": "8461f9816305577648e339f507ac558db4a003de3214c7bcaf6178337efc7a38",
+      "triangles": 8834,
+      "boundary": [
+        "ee913233a54e3c360e94dcbab489642eb0ccc78ea79302bbe2c16c4cb01bb399",
+        "1c813f47f760a7f11823361a063c445573dc6bfd488ce176a936af762a83a9c7",
+        "3e32aecc0e0e958aec5b8a59da0da494a121f7eef470df80e854bbe0489e8d34",
+        "c719d5ea05221c4c2e562eefab8e186687e7dadfcecad4cbc27b6edb2df1bbd1"
+      ]
+    },
+    "1,7": {
+      "geometry": "a2aff9cfcfb0c8f485d6df49a76994fba5dab9b3dd107af0d1ae0a0813ab8e5a",
+      "placements": "31f8b7016971d9e6cd4199b2036c2c3ed01f6f3b12132057da5573d59c018f00",
+      "triangles": 9362,
+      "boundary": [
+        "1552dbc1f3ceb2fee2578ea062991dee59124e0c29262ddd797b501e0eea8cf2",
+        "b53ba05f53797502ba7aff9e2f7a04866a9d0840c40bcf2dec6e42f886a8bb8e",
+        "c719d5ea05221c4c2e562eefab8e186687e7dadfcecad4cbc27b6edb2df1bbd1",
+        "36c0dda7b7cc59374fddf8120e4611780fd21c94928e21d73cf091640e61e660"
+      ]
+    },
+    "2,-8": {
+      "geometry": "0aa96581799cee8d7b6dcc0edd4fce5a404fc45b9f84ead6aa3f1a02162720d3",
+      "placements": "ff172ece8e393786b8852e70128fa7264d8bb01b000c0e25a10790cf6141aec6",
+      "triangles": 8592,
+      "boundary": [
+        "f5871581e23fa37afd4facf38604aa0564fba13b498c9192f74b6945aa5c58aa",
+        "f4d396ac0b3bd3e38a3865ed03b3f712a9d07249cb462db9fcf0ddc218e3a4fa",
+        "a0ec1cf747be9dd44cac83c1747d1908bce1198381e22998b9cb2ccfdac0258f",
+        "3902b03b4de0cee78057f2fb4541f95ce4f442dcadf8ede7947933aa76b019dd"
+      ]
+    },
+    "2,-7": {
+      "geometry": "4566beabb46e35a1707bd9203d26b0e6b912afeeb7ac5a3c097845a44d121576",
+      "placements": "a22efb1d99c5e22680b4608550818259f71da08eed73487ece3c8875a6cc4624",
+      "triangles": 8952,
+      "boundary": [
+        "47ab3ca5dc88abe90ab6ddf64e435ce024de2350e4e849374c71471598fc0577",
+        "b258c2754d2a96186d7177c7156d64cfccb3845801986321a6a587315aca8646",
+        "3902b03b4de0cee78057f2fb4541f95ce4f442dcadf8ede7947933aa76b019dd",
+        "6eff3e964b0402d1a921948c45ed2d87ad81a287570506c6af98731831780d24"
+      ]
+    },
+    "2,-6": {
+      "geometry": "051c8ed321ca3d5c82b53eee0c172aaa465e368783e1324051303a8f6b472965",
+      "placements": "ff61a5ed9352d2b9ca3a8d83dc6022f96bb1b1ea068242c20d7668d8e9f32db4",
+      "triangles": 9020,
+      "boundary": [
+        "4ffbd7bb1b44f8cea35b17ae7a442fd82280968500aea9dee134bcea54b7a8ad",
+        "e63bac4dd9f5f534e951f3a59f4b1e17c611674674ee2d27a737c56fcae8783e",
+        "6eff3e964b0402d1a921948c45ed2d87ad81a287570506c6af98731831780d24",
+        "ceb815b1d69ba05c5cfe170f66621d0bea7cf387c028f0443240a61fd9741c76"
+      ]
+    },
+    "2,-5": {
+      "geometry": "ea52fa77e14b856d3bd82dcec1605de34951cdc7222b610c5242145fb35ddea1",
+      "placements": "baf1e16b5a3d71af4e77627e1910b2064371f558d537c133fb8347b1401de401",
+      "triangles": 10146,
+      "boundary": [
+        "02252fdee656aaef163976245c4c5463b3ff277ae872b078add425235896771c",
+        "64e1c9386287599cf4cdac0c2aa541f7402ba6f0abe58624341deaa9acd4e07a",
+        "ceb815b1d69ba05c5cfe170f66621d0bea7cf387c028f0443240a61fd9741c76",
+        "991ae387603c0559876ca211b5b6ff7e3d9c0521e37864dd2c0567b9da84c8ae"
+      ]
+    },
+    "2,-4": {
+      "geometry": "7111eaa694e3babe03763e913bb364752c2666ac963cc9e1564517085f79d496",
+      "placements": "e459748c22ec72c90b01d3fde637bbdc0e899d4391d6449facc73d16594b953a",
+      "triangles": 9450,
+      "boundary": [
+        "708fc52e0c38aab86c89568ec3947a2f22c7d175c5693ce2359a7fff7cec9c6c",
+        "964d06429a9b0b83ed9ee5c67a801f868f052bf73183a1d5a7720a8dfdae5109",
+        "991ae387603c0559876ca211b5b6ff7e3d9c0521e37864dd2c0567b9da84c8ae",
+        "6a07ae5c4e1afbce34e1ebd7c024cf0167163168c04d100880ac5e4f82888720"
+      ]
+    },
+    "2,-3": {
+      "geometry": "65a01611d056be8f0baf2e78a4b4bd68513d4c6dd3c7ecd33feb5e7872c0b410",
+      "placements": "1354e97a72eeb93897819fcb619317475ba1895c288523f641375478c4b0b6b6",
+      "triangles": 9212,
+      "boundary": [
+        "7078b706017f167118da4be9be463752a997ab31f106f0a57d9b20a512dbbc37",
+        "6142611672a7e45af955b99125aba89308cc562b51e7bac8d0a93c34cf1f1f58",
+        "6a07ae5c4e1afbce34e1ebd7c024cf0167163168c04d100880ac5e4f82888720",
+        "83bf2b60f0c40bda2fbd1e3a365bf36b1b52d765f5b605ecc2dee2f89f7634bd"
+      ]
+    },
+    "2,-2": {
+      "geometry": "7932dadc7011a2567705ebcddb6a1724a5aa8472f11ab5d2aa77a59f0fcb9253",
+      "placements": "a07839cfd2a35da93f84e60d33f67013f18da2b7db306099156bb7d51c3895e4",
+      "triangles": 9046,
+      "boundary": [
+        "88bfaab3be51e04b69d83459e3434ec6d7ee8b7a4ae76895fe4ba399fa5f53f7",
+        "5ec9874e26ba4c95585f24661bb7692c68f3602c7b90c2ca24241b5d4234b93d",
+        "83bf2b60f0c40bda2fbd1e3a365bf36b1b52d765f5b605ecc2dee2f89f7634bd",
+        "4fd20576b1868e695aef7ddd2589684df1632f8dd9d4270b707d65b2a8d97962"
+      ]
+    },
+    "2,-1": {
+      "geometry": "cc32e5133c83461cc29d6857e96d5a44dcbc34de28f63f09620de7553d7434ef",
+      "placements": "40b36ba1711e434fdf58efeb8912089b9bfd67e66cbe6e2b1f696c8ab1a452a1",
+      "triangles": 8848,
+      "boundary": [
+        "3787adc81630a6ca0bb62211b2582dba73cf51616870001062d442c1177e3a76",
+        "f9a0fa3e01083895472b266e9d9e3f231d2313b973ebef7e3c4d55f11ad37720",
+        "4fd20576b1868e695aef7ddd2589684df1632f8dd9d4270b707d65b2a8d97962",
+        "b9a39d42802f9ea0cf0b8059697ec2917f9219d291c472526014f13b553f2ea0"
+      ]
+    },
+    "2,0": {
+      "geometry": "64fc9eaf8705096e00033215e8670e1db110f201d6ed1d5fe0476157c738fdf5",
+      "placements": "ae73e5853180a65e2908c08c046f2c7cfea3ab1c4f3ddd5dce92a9f2bd9aecc7",
+      "triangles": 9384,
+      "boundary": [
+        "dad83454a9252deeab484c43f074d1e54ac8224274160fc35493e696a72462e5",
+        "0f7ad26703a732639fa4c410165a342307eaea4d739cdcbf453db32960f54a65",
+        "b9a39d42802f9ea0cf0b8059697ec2917f9219d291c472526014f13b553f2ea0",
+        "8a6a3631a54189f65346ba171145073edcbdf3243052f37d4ff01e82424e11c6"
+      ]
+    },
+    "2,1": {
+      "geometry": "adea18d7c90a82dd5496ee6a150e5ff71ed06c47eb5462a7b18d3fda6c4811ef",
+      "placements": "884650d0a4d01c7e835549342033ff81d0da495c3b4b31c9f77e8d4e961cf456",
+      "triangles": 9044,
+      "boundary": [
+        "8a6eb883a8bbb08605a3175961e02a5dce79f5fc098d5317397bd3b2b07fff74",
+        "ef3aebaf51fb562cc7c846860f13033cc3f0b88b855bc9955bdca845420d7dc3",
+        "8a6a3631a54189f65346ba171145073edcbdf3243052f37d4ff01e82424e11c6",
+        "52f6ad11d476c3e61b91874d33b5d6b0bf35a5222acccd678bca9c9f0cd2f333"
+      ]
+    },
+    "2,2": {
+      "geometry": "88e0b63e97ccd7eeed6f955aa8a747265df86cd6eda84fbbef68eece615eeac1",
+      "placements": "f0374ec860ee3879fe82c1e8dc77f6e48fee9b2bc55ac0798144161ac3523e97",
+      "triangles": 10238,
+      "boundary": [
+        "00700cf3e4d337fa5f9ffed7313c7bfdd6863bbd640fd0807dca0355bbb620d9",
+        "fed86bce786bf038d900e1c69d5fa47ac24eda8429039925401e1b52021767ec",
+        "52f6ad11d476c3e61b91874d33b5d6b0bf35a5222acccd678bca9c9f0cd2f333",
+        "f84f566e1dcc4b74f538ee1102e5c740ca7e9ef5eb2eff3d8213cf2c9b09fc9a"
+      ]
+    },
+    "2,3": {
+      "geometry": "8bbb27a3d44cbe0694d402f54e3320e0cb7d58d9f4056a9f510ab121e08a0601",
+      "placements": "452524c9ae571cc625f88265060161e39d580792933979262ca91eea10def547",
+      "triangles": 9694,
+      "boundary": [
+        "b1cc927cb741010971ebb9d455e80fd3269f83b3e4508a159b77cd03fab2e735",
+        "18e7ae621de5a39b89ad9f5f5599fcd7c3c54980ce7ab31fecad2bb8e6ffd916",
+        "f84f566e1dcc4b74f538ee1102e5c740ca7e9ef5eb2eff3d8213cf2c9b09fc9a",
+        "2b4f5e704e27bb7b199c3997f46bf5d9574e883c525992b9f6c2bce88595e594"
+      ]
+    },
+    "2,4": {
+      "geometry": "8c883b9f5340ba1f25fb299a7251f8d3921480d4766d92ee90270fccfbba230c",
+      "placements": "ce92ba78c70c821b03b191459242bb51226ea27775e2907a9a07d478c8f81e6e",
+      "triangles": 9252,
+      "boundary": [
+        "761cf27285a3526031c1b45843d32cebbc96781793a304768a01427be3334903",
+        "6ec487ede17bee2e078f12b742f121030bfa6378f7a3927b4a71a6e8ac3baf30",
+        "2b4f5e704e27bb7b199c3997f46bf5d9574e883c525992b9f6c2bce88595e594",
+        "9d192d59c1d5bda86bc2a855afccc5055af6eb806102871266e935a438db0e01"
+      ]
+    },
+    "2,5": {
+      "geometry": "e905c1f8471e06b8d984cb92222d266ed43c9a7a616d1b4fef746d987e0d4914",
+      "placements": "d7c387c4cc1ee4e246e2aea4e1bc6498412d337aff3f85c748e104c45e6f62ac",
+      "triangles": 9252,
+      "boundary": [
+        "f4b3a30950dc7a8e68a81abab45bdd493ea56b5a02d2cb799391566b0e1b2072",
+        "1eb8035359d9b6e72d5636a09d15f3afac50b86b0f3790d39db9ba1d99e791e4",
+        "9d192d59c1d5bda86bc2a855afccc5055af6eb806102871266e935a438db0e01",
+        "5968e736ab61e6bc6e45d4a07e288b4d2a1baee8237a957b860a1b6b288bb1a7"
+      ]
+    },
+    "2,6": {
+      "geometry": "4d507497e903b2399090a179c86307e910401e1c2914d266857e3b6c3f8c3924",
+      "placements": "4339b35bb5c629ff6c08131fea791b9abf256309bb66c34a60b37d6eab4fea03",
+      "triangles": 8868,
+      "boundary": [
+        "1c813f47f760a7f11823361a063c445573dc6bfd488ce176a936af762a83a9c7",
+        "bf53641a33f62a15f02571717333d7f800f12b0b4ac4b31c612fbe9834c56fab",
+        "5968e736ab61e6bc6e45d4a07e288b4d2a1baee8237a957b860a1b6b288bb1a7",
+        "dc2f7719e79dbefa42312a53c503604b57556271194ade0a9466e75e51e5f2ae"
+      ]
+    },
+    "2,7": {
+      "geometry": "8c247c27b9b1d30508ad82f111dff5bbbb2dfa4404bfbac71cd7ce8f05632ced",
+      "placements": "401a03135ca1bc952e2dda55af01a7c815d3eed16196604d587a5d71c4aa0723",
+      "triangles": 8500,
+      "boundary": [
+        "b53ba05f53797502ba7aff9e2f7a04866a9d0840c40bcf2dec6e42f886a8bb8e",
+        "5cdf145942741ef1a482c5db0fe03d8c26feca1be702510412b22ba665c2f374",
+        "dc2f7719e79dbefa42312a53c503604b57556271194ade0a9466e75e51e5f2ae",
+        "796c671e0706e27f759dfcb252bc886d9790e8727403c5570132e8e827e8127d"
+      ]
+    },
+    "3,-8": {
+      "geometry": "e76f3914585d8cf04ba5799f296ee852116d72754d9a38beb12146582c24a217",
+      "placements": "736a5c95e15c56e101328587f3defba32dbc08c0f7b487c78921845ce35d57e3",
+      "triangles": 8668,
+      "boundary": [
+        "f4d396ac0b3bd3e38a3865ed03b3f712a9d07249cb462db9fcf0ddc218e3a4fa",
+        "68c25c41bf15f91521bcbf3492256b1c78745c204026473775661e2b823b2a6e",
+        "80c7c06dd593af7b490bda36df9ef7a488c7c21bbbc2ae1748d41074996a0e82",
+        "0d6afb52f22e8a376f83643228ee87a9ca1fb62428372f5e03b7a619372c7f2c"
+      ]
+    },
+    "3,-7": {
+      "geometry": "8616da62d56b9734896d8559a7992295cea498208f1239784af209b14b812400",
+      "placements": "d14921cd9f1a5cb01cc66e880fe29fd92f8c2b40a3873a4f953d7cd45420a7f3",
+      "triangles": 9518,
+      "boundary": [
+        "b258c2754d2a96186d7177c7156d64cfccb3845801986321a6a587315aca8646",
+        "040f939a9904463f6b8c470db5eb5e8ef5eece7633f0c134c4650923b43324e6",
+        "0d6afb52f22e8a376f83643228ee87a9ca1fb62428372f5e03b7a619372c7f2c",
+        "235682f7af837200db9a66da889d7283914b979f5e2cac52ab44623f1d39f23c"
+      ]
+    },
+    "3,-6": {
+      "geometry": "7f4245e10bcb4d01df620781c48cfe79800944036ba645e4d22d788be2353d45",
+      "placements": "f6003ad5a4b5a79dfd46f6c1f544644e4be56e9bc9e2199879668bc3c4e193cb",
+      "triangles": 9294,
+      "boundary": [
+        "e63bac4dd9f5f534e951f3a59f4b1e17c611674674ee2d27a737c56fcae8783e",
+        "31737cb70be9b3b41a7badda3b9f6e1b465ebad5233ea4c4d26a96587380638b",
+        "235682f7af837200db9a66da889d7283914b979f5e2cac52ab44623f1d39f23c",
+        "6ac95405a32cc9f24ad49aa5ac575a1a706d19396500b53a39513fbab205688b"
+      ]
+    },
+    "3,-5": {
+      "geometry": "072de58912efb0561ecb29ca2c83e7896917ff4e339fa23f5a69c355ec877a05",
+      "placements": "37e9addae3f4241c7dc3a5565ab645ee823a9bd179c0f4992f1b1e3e9fd10939",
+      "triangles": 8928,
+      "boundary": [
+        "64e1c9386287599cf4cdac0c2aa541f7402ba6f0abe58624341deaa9acd4e07a",
+        "05454a5752d8123622dc3b7d6e0c9a19c2d1aae172fd48d0aaf1ea06a5367976",
+        "6ac95405a32cc9f24ad49aa5ac575a1a706d19396500b53a39513fbab205688b",
+        "29fdca1b6d43de25f5e85ad18f504f725e329022272afd320772b25f672c2452"
+      ]
+    },
+    "3,-4": {
+      "geometry": "dedad61d34f2b0572c3ddfd48d3972d1812370b90e65f946448e97527937da4d",
+      "placements": "1afad0a55f4561f19fcd4e3cf220559a55bb7919f0be57ba2e5697e1718a48f1",
+      "triangles": 8920,
+      "boundary": [
+        "964d06429a9b0b83ed9ee5c67a801f868f052bf73183a1d5a7720a8dfdae5109",
+        "bc29eb70fb74935f7ca2e99c71bb4844e60768fcb18ad72a1cb3414c314a4d5a",
+        "29fdca1b6d43de25f5e85ad18f504f725e329022272afd320772b25f672c2452",
+        "c8f42782ab04f8c51adc27d2f665b80808a931e67e42586f3eed30e536ff111c"
+      ]
+    },
+    "3,-3": {
+      "geometry": "47b8fdd5b41380b39b1d69053b46dac04ab9f617697e74c5d2ba887bfe26cb8a",
+      "placements": "1eda80b9e86f398a811ed11abc580cc8445dbff8c21c4e4651f898d96db1f51c",
+      "triangles": 8916,
+      "boundary": [
+        "6142611672a7e45af955b99125aba89308cc562b51e7bac8d0a93c34cf1f1f58",
+        "66e4a462a6b6ad79050ecf0aae1b1f023f171d0fc992ec12c36920c357229443",
+        "c8f42782ab04f8c51adc27d2f665b80808a931e67e42586f3eed30e536ff111c",
+        "26d87e22ba107e65d91b29fdf24bd1d02a0ea4a08c36fc42245bde3f2cecfdd1"
+      ]
+    },
+    "3,-2": {
+      "geometry": "db4a491076a8f0844db9f112472380bd7798863d04e712a78602a896748d2180",
+      "placements": "2b3ac760792b22830ae9ab1074e2cce7233519891c91040812aff56546784f28",
+      "triangles": 8616,
+      "boundary": [
+        "5ec9874e26ba4c95585f24661bb7692c68f3602c7b90c2ca24241b5d4234b93d",
+        "bc252b90beec8379915facedad814a9e23a11c2b8e0bdf503f72a583221cf40d",
+        "26d87e22ba107e65d91b29fdf24bd1d02a0ea4a08c36fc42245bde3f2cecfdd1",
+        "865ac2b1473e65d4d31401f12d3d8deca443bc80a5d83db75fd4617e549d3cde"
+      ]
+    },
+    "3,-1": {
+      "geometry": "6f73633ab44656e25ae68f76e395e39b936aa39425b05dfbce18b52af146f38d",
+      "placements": "ced33547573624609217dea2c08a5afd2fc223d20fde4043cde76b16aae71366",
+      "triangles": 8998,
+      "boundary": [
+        "f9a0fa3e01083895472b266e9d9e3f231d2313b973ebef7e3c4d55f11ad37720",
+        "4b748568b4e97f9aca06f8a109e259791e8fc10572d2b2733a1d689a0ed46ac3",
+        "865ac2b1473e65d4d31401f12d3d8deca443bc80a5d83db75fd4617e549d3cde",
+        "bae4c41db12dcc4293df706c7fdafebbff67899709d74134d21a52f21ab3b127"
+      ]
+    },
+    "3,0": {
+      "geometry": "e0982cf2b53fadae321ba3fe432e9cfed3073d445145ea65e974f4c958fdbded",
+      "placements": "ca96882f92989da0d0dc85b7e373332c4bd69ce221d3a2dc9b7b3a1f5aa0f734",
+      "triangles": 9020,
+      "boundary": [
+        "0f7ad26703a732639fa4c410165a342307eaea4d739cdcbf453db32960f54a65",
+        "3ab4fbf1427ac1cdcc220db48dddbf0595101d643208d5ec6fcd6ce78235c285",
+        "bae4c41db12dcc4293df706c7fdafebbff67899709d74134d21a52f21ab3b127",
+        "de7a515e08e54024bc042d8ddb924a82623d2a343d92a06685a58854c90b96c9"
+      ]
+    },
+    "3,1": {
+      "geometry": "00b25447b7ed8a2a5758fda67dbf0e6775cbd34882c24da0d7596e6992e11790",
+      "placements": "1d0b2c51258fa8c84682267a1fd1328f992dfcf4be4fb17ee3c0fedecb91cf0f",
+      "triangles": 9288,
+      "boundary": [
+        "ef3aebaf51fb562cc7c846860f13033cc3f0b88b855bc9955bdca845420d7dc3",
+        "942facfe17aacdcc405fd092d4e15403154935d7f68dae3cf5450925161f27f1",
+        "de7a515e08e54024bc042d8ddb924a82623d2a343d92a06685a58854c90b96c9",
+        "4e0d7884650815d130c668dae48e35b26e54663e64b61ff0d06f568a4dad00c8"
+      ]
+    },
+    "3,2": {
+      "geometry": "35fdc0f39662e6162b3ede221c1d5ba393dfed30394eb2cc50c83f39fa5afcca",
+      "placements": "2a0dd6d9fbdaba828fe5d74445c7a00b93763ed513aba020e4f9128786186398",
+      "triangles": 8964,
+      "boundary": [
+        "fed86bce786bf038d900e1c69d5fa47ac24eda8429039925401e1b52021767ec",
+        "a80ace30b3b3bbb243926cb916162a54c3a65df42e50236671df167b71e1c601",
+        "4e0d7884650815d130c668dae48e35b26e54663e64b61ff0d06f568a4dad00c8",
+        "2e02c7a84ef182f1916d940bfd30732b1b6de66ad64cd175c3e319aa234857d7"
+      ]
+    },
+    "3,3": {
+      "geometry": "8a67d4dc10451af555e45fd70c6df32938a355901fb7db762d595761f4c03376",
+      "placements": "4fccaf1eb3b157181b5ddcadd62aa8d2c64fd43c6b35bc92298001c0c8bb4f15",
+      "triangles": 8636,
+      "boundary": [
+        "18e7ae621de5a39b89ad9f5f5599fcd7c3c54980ce7ab31fecad2bb8e6ffd916",
+        "51b836664fbdb3eb42c704d6dda682ff3e6b006e03f69ae4e3383e3fb91933cb",
+        "2e02c7a84ef182f1916d940bfd30732b1b6de66ad64cd175c3e319aa234857d7",
+        "7a19d18050e0efc26712d130f77940e34d51d1b990812a31c10930ed55f3c89b"
+      ]
+    },
+    "3,4": {
+      "geometry": "330085d4c54d933d7edf1bf315259fc5873c1e033a6269601976996683504e0e",
+      "placements": "19b37adf4a43ca193cc3e4e2f0c94e3f5efa0c7744a1d40194fa8fc33ca9c594",
+      "triangles": 9556,
+      "boundary": [
+        "6ec487ede17bee2e078f12b742f121030bfa6378f7a3927b4a71a6e8ac3baf30",
+        "bd15d2b51bc3e0d0a997578f30c11cea380c1762e6a82a31b3278d1c4f40c5e6",
+        "7a19d18050e0efc26712d130f77940e34d51d1b990812a31c10930ed55f3c89b",
+        "f6b5c45b3d2b8c32340f86a044371f6a0d7b6aaea1217d6386eb3df45ed4ab1d"
+      ]
+    },
+    "3,5": {
+      "geometry": "b6d971f41356ea04506490df1d550e324ad5902ae60f0272f0536550fc24bc8d",
+      "placements": "c3956f21ef4ed47f17b1d9438c267ed5eeb38ac083d412736b532dd810afae6a",
+      "triangles": 9126,
+      "boundary": [
+        "1eb8035359d9b6e72d5636a09d15f3afac50b86b0f3790d39db9ba1d99e791e4",
+        "39c49f9d98d2b4d96eace7c11d3f352c58d65b110e88983980193e00d936dfa7",
+        "f6b5c45b3d2b8c32340f86a044371f6a0d7b6aaea1217d6386eb3df45ed4ab1d",
+        "e97cc5c721e648165c2142eb32adbafacea92ccd5700677a7d2e3f1bc932e5c3"
+      ]
+    },
+    "3,6": {
+      "geometry": "5b5204b6aef2c11768fb698c687f352b4f53c57417bc679206ea387c7a3b8552",
+      "placements": "8311963b9e405c0e9ce474a484e7cc8929a62b1be2f6f09cf070718901439386",
+      "triangles": 8938,
+      "boundary": [
+        "bf53641a33f62a15f02571717333d7f800f12b0b4ac4b31c612fbe9834c56fab",
+        "386fcc6a775ef2f093b5e169f63cc6c0d6243150a4c6b534ffe695592af4b9b6",
+        "e97cc5c721e648165c2142eb32adbafacea92ccd5700677a7d2e3f1bc932e5c3",
+        "a8289cee1941e1d2364980c8ccc8c7914d974f11de9e60c0cf5eec6079420648"
+      ]
+    },
+    "3,7": {
+      "geometry": "16e20faa5e5d4a6d86e4a4607b22050c32db990f733ae1d5777996c7d36081f5",
+      "placements": "2537e27c3be09a6adfd2cfe13dbbab836d8951e49fd2642a5401f684b5716799",
+      "triangles": 9212,
+      "boundary": [
+        "5cdf145942741ef1a482c5db0fe03d8c26feca1be702510412b22ba665c2f374",
+        "d95d5139c6b809b023200fd12746bfe9b7f43ee76c2bb508ef797caca9ec5700",
+        "a8289cee1941e1d2364980c8ccc8c7914d974f11de9e60c0cf5eec6079420648",
+        "d9fae5ec4a6fa3d3c6c1acb22819efee0ca9e8aa7f6d7640b84c01bb82c2b5ae"
+      ]
+    },
+    "4,-8": {
+      "geometry": "988a8d9697d7e59a6e77b0fe263119f250596a0c35caa7b66937db45021a0e28",
+      "placements": "b6453d22e422672ac6e150e4a155558e2750f0416828eea6b10fc0d68115610f",
+      "triangles": 9762,
+      "boundary": [
+        "68c25c41bf15f91521bcbf3492256b1c78745c204026473775661e2b823b2a6e",
+        "3297d6ceb4d10bd3f58d3d4e81dcc0cf311d2ec83cbb40788b18c3a3ffaea466",
+        "a874ddfa348e17a8dc00a3329893eff2a50d9850300d0784fbf93c568d6d97bc",
+        "4f8dbf3115cffe65381113eb4edbf97dda420416cd89151987cbcee8817561c8"
+      ]
+    },
+    "4,-7": {
+      "geometry": "e29a9f23d208d7b489ed3f1f458572493845482e0abee57a79c4adee4b4f6d62",
+      "placements": "5d878734da0c24572be614c5d2a50d323a5797c64ec3b34ff7c0933b53e0ae41",
+      "triangles": 10242,
+      "boundary": [
+        "040f939a9904463f6b8c470db5eb5e8ef5eece7633f0c134c4650923b43324e6",
+        "cb1493c399d7e8ff3c1077a3c630594a65ebdd9f56c6f44ad22215aa1bf38034",
+        "4f8dbf3115cffe65381113eb4edbf97dda420416cd89151987cbcee8817561c8",
+        "c875100d243c218bcf3af2c22d4152a68bf111e6a0da76815ef909480c6431ec"
+      ]
+    },
+    "4,-6": {
+      "geometry": "93fa20c9fd4b0e3ad4743cd725e6bfd374752397a118df19a1c18b355382a3eb",
+      "placements": "d2465d02c1fed3ed1bce623d98a07bd832f232b5cbfcb5f502c1e3d2145b5718",
+      "triangles": 10196,
+      "boundary": [
+        "31737cb70be9b3b41a7badda3b9f6e1b465ebad5233ea4c4d26a96587380638b",
+        "a65108c7987276f9fd1a3296f1edf17ee47a8293212ae8066717ad78506aef22",
+        "c875100d243c218bcf3af2c22d4152a68bf111e6a0da76815ef909480c6431ec",
+        "19751834aa19d717e9aeccf8588b1c692342317345328fcf6828b3178302e2f5"
+      ]
+    },
+    "4,-5": {
+      "geometry": "963c608d9789740df7d4c47b8c116af4329f5d18d15c26a75c7db7a867ae8b0a",
+      "placements": "0278cb822da33fcbe0dce4ec32021447ad9cf96a303cef9558d450640d270d48",
+      "triangles": 9132,
+      "boundary": [
+        "05454a5752d8123622dc3b7d6e0c9a19c2d1aae172fd48d0aaf1ea06a5367976",
+        "6be1ef998f8ed8d3f480a871d0eca6fbe9594cccb66b82bc56ef667d03bcc9a8",
+        "19751834aa19d717e9aeccf8588b1c692342317345328fcf6828b3178302e2f5",
+        "e8a239a29b0c4e8031141be65444e4bec1519e332b4fa269be58dd1a63cd7ecc"
+      ]
+    },
+    "4,-4": {
+      "geometry": "e4177557003f1f74cd0bcf1e24b185cd3aa02c5df2f31b329149e8a917801bbc",
+      "placements": "17b77ce9bad789f50af0b49d962070fab71a75311dfa0f50a2a8727068853bef",
+      "triangles": 9222,
+      "boundary": [
+        "bc29eb70fb74935f7ca2e99c71bb4844e60768fcb18ad72a1cb3414c314a4d5a",
+        "657080d8b672ca0ab34150fa4644324a8fec9128fd82f8a14d5f46d4ad0746ea",
+        "e8a239a29b0c4e8031141be65444e4bec1519e332b4fa269be58dd1a63cd7ecc",
+        "f9c3acac5bd8151b085b057dfe7a69dce4cd589e4323f1e9423b7793b18c4072"
+      ]
+    },
+    "4,-3": {
+      "geometry": "4f981a6cfcbc08eb6c3a37a6f28d554b464f96638bf7149efe0b4047804f75c1",
+      "placements": "888d71b0c49f3890eceaa974ac70174dca87ea67670ea6884811064121995c03",
+      "triangles": 8718,
+      "boundary": [
+        "66e4a462a6b6ad79050ecf0aae1b1f023f171d0fc992ec12c36920c357229443",
+        "b10281225b65dba15059f3fd2039e8796f75508803ee06351ff3602a61ec8538",
+        "f9c3acac5bd8151b085b057dfe7a69dce4cd589e4323f1e9423b7793b18c4072",
+        "860a33e93a0729abcdfa2318657933de439922ca6ec8d69d898d8fa05ce644dd"
+      ]
+    },
+    "4,-2": {
+      "geometry": "82fa6e5881976d6a8fcac078fb8bfac53dee5c616df3cdfd78481834d1f23e06",
+      "placements": "5b39083a76645aef6bbdf69251a569440c9bebc1e2dc20b1c56342d5e4a0c54c",
+      "triangles": 8994,
+      "boundary": [
+        "bc252b90beec8379915facedad814a9e23a11c2b8e0bdf503f72a583221cf40d",
+        "a5745f23dcba8760d385c6b37423b9aabcb70a889209be7831dd31ae967bcd89",
+        "860a33e93a0729abcdfa2318657933de439922ca6ec8d69d898d8fa05ce644dd",
+        "af39b0bb7d29eb8ab33c6e48e405039615aa0f0f0050901e389d6b91b176cd72"
+      ]
+    },
+    "4,-1": {
+      "geometry": "7610ea3a814a15b89efeb8cd63116152552a867f68c9709ed995fbd1f874fb91",
+      "placements": "fc9afa1ed4b0e9852617ba941e473525f769ec3e500522c52ca9c0b528896ef2",
+      "triangles": 8946,
+      "boundary": [
+        "4b748568b4e97f9aca06f8a109e259791e8fc10572d2b2733a1d689a0ed46ac3",
+        "a0ef5945cb8c261079344c2d61e0e1099050218d781fa6a9be555d17124d15a2",
+        "af39b0bb7d29eb8ab33c6e48e405039615aa0f0f0050901e389d6b91b176cd72",
+        "cef583c8e2128704f69d76a40afc78755dfff7de7c5daa0bb551f3978fc1e5fb"
+      ]
+    },
+    "4,0": {
+      "geometry": "ce9edc20b861977cbf697613df59b5c02432986ea7656529de13ce9d0b32f70d",
+      "placements": "9a665974ee89cd79ebf2e7d90eea4eacde5789e143006bb4b3afab3417fecabe",
+      "triangles": 9010,
+      "boundary": [
+        "3ab4fbf1427ac1cdcc220db48dddbf0595101d643208d5ec6fcd6ce78235c285",
+        "cf78f17459de93eea836c38779af6bd4ec123db9def039928ffc91f9418285a8",
+        "cef583c8e2128704f69d76a40afc78755dfff7de7c5daa0bb551f3978fc1e5fb",
+        "38e3e579ef2f79e8c15ca4216c527dce98625087c85d1421c56df5038a398057"
+      ]
+    },
+    "4,1": {
+      "geometry": "5d1559972b02b868a6549e122ed6746401bc593386d78c1fc6879023d56f7374",
+      "placements": "b52bcef46124ea9633a61893ed4938b19ea7e10421a4d5bcf8db210c48c935f7",
+      "triangles": 8654,
+      "boundary": [
+        "942facfe17aacdcc405fd092d4e15403154935d7f68dae3cf5450925161f27f1",
+        "f890ccd4c2e5520aa1fb76250576d77b9ed6ac1e81393c17ee3783b055de7836",
+        "38e3e579ef2f79e8c15ca4216c527dce98625087c85d1421c56df5038a398057",
+        "aaa38abc24d81af55a8c9db8167cb714fdc5d2e864e616374a2630d153715aec"
+      ]
+    },
+    "4,2": {
+      "geometry": "733f5c1ea1ef1777cedd05f1aa103937de87d76efdcf7b1836484d6e49cd43a2",
+      "placements": "f3d88592b56cf3d9f45945c61982ddb378b011aeded48b6737f489ac7e281531",
+      "triangles": 9104,
+      "boundary": [
+        "a80ace30b3b3bbb243926cb916162a54c3a65df42e50236671df167b71e1c601",
+        "9229fb111c3c49de29a445be361b8e4f66dd5f4750c83d2b903e96f47f5cd75f",
+        "aaa38abc24d81af55a8c9db8167cb714fdc5d2e864e616374a2630d153715aec",
+        "9e248df74a1ff006fbc86faf370c2ae6f651b2ff74a337d6625f4e4f53f09417"
+      ]
+    },
+    "4,3": {
+      "geometry": "57a73215dcd02ae2115f0f830ae5b875fd748d6808549a516f990905dfef5202",
+      "placements": "f6432dc77e1d1391a76b25ff23f2108c094473a93a52b9548bb4ddbcf744816c",
+      "triangles": 8692,
+      "boundary": [
+        "51b836664fbdb3eb42c704d6dda682ff3e6b006e03f69ae4e3383e3fb91933cb",
+        "18cfc7dd6fbad933afd3965a5ca295845eb56cd5a4664c8a37f82852a657d00a",
+        "9e248df74a1ff006fbc86faf370c2ae6f651b2ff74a337d6625f4e4f53f09417",
+        "96d2816335f0d84940a241b93d7332856d4b807d845d436fa79849b9d2fd3e67"
+      ]
+    },
+    "4,4": {
+      "geometry": "04e5dc3d343ed33f356c32a2c59b430a983130f2b1c6982beba94fe7157aeec8",
+      "placements": "8b6c1462536c1cc31bc53db2f392a45c91d1c1f17832fb00e70f76907d9db472",
+      "triangles": 9296,
+      "boundary": [
+        "bd15d2b51bc3e0d0a997578f30c11cea380c1762e6a82a31b3278d1c4f40c5e6",
+        "0634639c0edcd2eaaf0f2343d5725a262e800a7fc1b029b0f400d15671efcebf",
+        "96d2816335f0d84940a241b93d7332856d4b807d845d436fa79849b9d2fd3e67",
+        "17084e674174933e74b66c6fbed2e0bb619ee120b0e6e067df0d03f5ea4bbb50"
+      ]
+    },
+    "4,5": {
+      "geometry": "7a1841929d0853035add7be53df63505b91526c5ef84370225c330be8f050130",
+      "placements": "17a830f25cffa8092cda6cd8498b04834492e3eac71aa8ecc15ff38fea969fc6",
+      "triangles": 8356,
+      "boundary": [
+        "39c49f9d98d2b4d96eace7c11d3f352c58d65b110e88983980193e00d936dfa7",
+        "10d6126bd761c6da52d3eaba013ece636fbf0cffc3caf54be5bfe4fda39a58ea",
+        "17084e674174933e74b66c6fbed2e0bb619ee120b0e6e067df0d03f5ea4bbb50",
+        "ff4d5d454d21cb78afa70cba77730419ce9309439d5168ed988ae98cd00109ce"
+      ]
+    },
+    "4,6": {
+      "geometry": "2917eb2475675930cb70fa00afe4322963fe5c9259324cb5af0bb512c493da02",
+      "placements": "fb9a6e51442d1f09cffdeea5c0701badd48c982743e2b7c9b97190d9d04f05d0",
+      "triangles": 9200,
+      "boundary": [
+        "386fcc6a775ef2f093b5e169f63cc6c0d6243150a4c6b534ffe695592af4b9b6",
+        "559015dba0bcee48dfacb38afd27ed99e73f9e13ec24f68dc924053a576f69c4",
+        "ff4d5d454d21cb78afa70cba77730419ce9309439d5168ed988ae98cd00109ce",
+        "21c09bd5a99709a1152ac003f77ceeaf15ef5f374a4dd246e8f8547bf4917588"
+      ]
+    },
+    "4,7": {
+      "geometry": "2fabfbd7bcc8654e00991dd0540ec1210b4d510262780f998925f76fad7fde20",
+      "placements": "cf3d5647d46b242748a7e512855e65b75799c916044e6044eb2a710425fc68e0",
+      "triangles": 8734,
+      "boundary": [
+        "d95d5139c6b809b023200fd12746bfe9b7f43ee76c2bb508ef797caca9ec5700",
+        "b88b12f2aa5cd1a182f6a1be412fc49f43f7bbca7b41f5b00ebb31aa9f69b048",
+        "21c09bd5a99709a1152ac003f77ceeaf15ef5f374a4dd246e8f8547bf4917588",
+        "fecded5fa3e94b708a7a07447050b18bc704ea2007f72026feaafc8c97552738"
+      ]
+    },
+    "5,-8": {
+      "geometry": "4c7ea8ec771656f45ba7a70d9cc6ed2d76b48fa55edf97f537a1807fb9f5c3c3",
+      "placements": "2ab3cbeda19bb76c8648909898ae7f912c32288635fee78dfdb1722040355870",
+      "triangles": 11650,
+      "boundary": [
+        "3297d6ceb4d10bd3f58d3d4e81dcc0cf311d2ec83cbb40788b18c3a3ffaea466",
+        "a16b18176cefec2283625dbbade96922db17142cb91d221d79b26034e2e31b50",
+        "4180fb9ecba6accb22a3bbd1c05bee117d21a51729c1202db31a1db83674540f",
+        "c0d3d9c264c41f40d1094729975af36d877ded5a0b9d851b0422f10cddd491ae"
+      ]
+    },
+    "5,-7": {
+      "geometry": "bdccc8c2c9ee6d70d58692281124547a30ba0b6211b361220b13d274dfa6dca8",
+      "placements": "3f5f3a2fc18040da66a8b9dd324e033bcf3da08673d24e7b477180cb259dba2e",
+      "triangles": 15904,
+      "boundary": [
+        "cb1493c399d7e8ff3c1077a3c630594a65ebdd9f56c6f44ad22215aa1bf38034",
+        "601bca98208f9c3ee189f2dd450a7d26649314075843537df919e6f369c77c05",
+        "c0d3d9c264c41f40d1094729975af36d877ded5a0b9d851b0422f10cddd491ae",
+        "899c3437b7163e64d38894c84598733883df9fd049ae0937c732e0fe7cb58fc5"
+      ]
+    },
+    "5,-6": {
+      "geometry": "fe76198500834a40bcf38ff35f58f612fa379fb9b234324dd777002dab4d9274",
+      "placements": "9f0f67f8c163e3818c52a8658e4da47fffdca530017990431b774aeb3e45a903",
+      "triangles": 10002,
+      "boundary": [
+        "a65108c7987276f9fd1a3296f1edf17ee47a8293212ae8066717ad78506aef22",
+        "18998cb97852139d9970c0b45f5911c00a3f19352105683e045e249921670a01",
+        "899c3437b7163e64d38894c84598733883df9fd049ae0937c732e0fe7cb58fc5",
+        "91d5f1a4b6cb7bcdc7d6af16dbdbfebf40758fa1940a9dfdfbcc3d205092278e"
+      ]
+    },
+    "5,-5": {
+      "geometry": "74d8421d160b5c21f07c87917fce1e31eb9989de1503abd1baf9d6159de37a88",
+      "placements": "9aa3a0afe3659da2919df2d3c84b73f9fa753fe801984f486f8f65972fcd5958",
+      "triangles": 8850,
+      "boundary": [
+        "6be1ef998f8ed8d3f480a871d0eca6fbe9594cccb66b82bc56ef667d03bcc9a8",
+        "5ef4eedc1d8de7b07fe94499eb8291b6750b6870de8f5441da9c0068928dab53",
+        "91d5f1a4b6cb7bcdc7d6af16dbdbfebf40758fa1940a9dfdfbcc3d205092278e",
+        "d4af27f8c8c8ec1226bf22b5912b10e64f242d800b89659e98cf63a5fe8edba7"
+      ]
+    },
+    "5,-4": {
+      "geometry": "f21ea4865be579e84f2f98fc92970b2f341658d5a99e87b9f9f25de5d97d0a25",
+      "placements": "0cc6407aba4893aecde09dd9f4c31ee110f69455421e00316fc1eb137243d755",
+      "triangles": 8926,
+      "boundary": [
+        "657080d8b672ca0ab34150fa4644324a8fec9128fd82f8a14d5f46d4ad0746ea",
+        "4d15f22aca05dcb8dfb22fced9e287e44d29f0360bcf010c7b40a723f7721fb4",
+        "d4af27f8c8c8ec1226bf22b5912b10e64f242d800b89659e98cf63a5fe8edba7",
+        "da02a579c4f0d87e2cdd50ceceba5403dd3e3134894fd1a2dd6b636fcdfab7c6"
+      ]
+    },
+    "5,-3": {
+      "geometry": "276c2f6ff7f40589d0eff97af68af321a2f1d798462607f9ab291de35a73f807",
+      "placements": "5c1b680d5586958ccb3e1fd348f2cbcf7aebc31927eae08f607607884cd87f11",
+      "triangles": 12212,
+      "boundary": [
+        "b10281225b65dba15059f3fd2039e8796f75508803ee06351ff3602a61ec8538",
+        "ef704c51d84f5445b26077dab2574f5cd4dd75294bfbe2e586b2adebd8227ebb",
+        "da02a579c4f0d87e2cdd50ceceba5403dd3e3134894fd1a2dd6b636fcdfab7c6",
+        "61f2d67d3aac8720af962bf83c74a7b7124d6fb234733fcf87f46df429f6c154"
+      ]
+    },
+    "5,-2": {
+      "geometry": "edeb6d98c61b525ccf4018de0ff8315a19e9f65f6621233e569f14c2e842d543",
+      "placements": "210565ddaf706105d77c3ab9f6129ead4ad9a91737e8f3ea8d83e4f6588a55c1",
+      "triangles": 12302,
+      "boundary": [
+        "a5745f23dcba8760d385c6b37423b9aabcb70a889209be7831dd31ae967bcd89",
+        "c0f4d6ce7bc5fa6d6d0822162d7e7d27d8f22060a12f29fc2520cf46979ea771",
+        "61f2d67d3aac8720af962bf83c74a7b7124d6fb234733fcf87f46df429f6c154",
+        "f76279a7f952e5cce8818c9fe483d410d0b999307da39adee1fd729aa0bcefa9"
+      ]
+    },
+    "5,-1": {
+      "geometry": "90373683e8ca83b48ccae2058143bb3faf28214dcf66217e259f80b5df697fd2",
+      "placements": "76d3aad9cc2cb2bc1752ecd21abfec99fdedfbb432b99133f7f210d7f7818257",
+      "triangles": 8820,
+      "boundary": [
+        "a0ef5945cb8c261079344c2d61e0e1099050218d781fa6a9be555d17124d15a2",
+        "2e52f6c56a08d3b78a2aaad9d5b60b9f264aa7ce464d8ba88f4288c857f3e0da",
+        "f76279a7f952e5cce8818c9fe483d410d0b999307da39adee1fd729aa0bcefa9",
+        "d3fec87b72520546ab290f5c0d51d44705fefdffeeaff613da7498d1f113c975"
+      ]
+    },
+    "5,0": {
+      "geometry": "1b51c8bb04fbf86901c28459b7cf19eff636fa7b005ecc49c619f6e0adcd3a56",
+      "placements": "f89d1d7e6d974450ca4dad879ee174dab8a7c93c34bad30e203882a1e5cff53d",
+      "triangles": 8886,
+      "boundary": [
+        "cf78f17459de93eea836c38779af6bd4ec123db9def039928ffc91f9418285a8",
+        "9457191bbb405ed0f07fabf9dcba0b2ed43e017c2d0bc3bb0136848606e8055e",
+        "d3fec87b72520546ab290f5c0d51d44705fefdffeeaff613da7498d1f113c975",
+        "8fafdbd4e5610402933b1f7ec1cef8e5bab87015473e9177b6da4f7fb899749b"
+      ]
+    },
+    "5,1": {
+      "geometry": "27b71ec25ccbda61fc15057b7e997d987c12868d498ee3a97c8b00ccdfffd98a",
+      "placements": "9475c38bc4ec7d5334cc4c4e7a34e19324e943a467b377bcfdb3e10489ff5ede",
+      "triangles": 14930,
+      "boundary": [
+        "f890ccd4c2e5520aa1fb76250576d77b9ed6ac1e81393c17ee3783b055de7836",
+        "591d5c699c88261b34810e17720a72152df8a69a08b76aad50eab522c9752294",
+        "8fafdbd4e5610402933b1f7ec1cef8e5bab87015473e9177b6da4f7fb899749b",
+        "3e4fb18efa8764e5a1d0c7c094be0a844ced79c0b3817fd8e8cf118d8634e5f3"
+      ]
+    },
+    "5,2": {
+      "geometry": "378fe1f6b94db737b517e25e4799c2e21ce47f1ca6ee63f542a3330b970d1aca",
+      "placements": "4c6f2f86c4bcd5d5c29678d1efc6d403f23e758071701271103ebc4915fc11b5",
+      "triangles": 14056,
+      "boundary": [
+        "9229fb111c3c49de29a445be361b8e4f66dd5f4750c83d2b903e96f47f5cd75f",
+        "efe2deeb93997327e019cf2564c1696cb6cc2141a6e8523c07d3c152a78684b5",
+        "3e4fb18efa8764e5a1d0c7c094be0a844ced79c0b3817fd8e8cf118d8634e5f3",
+        "47b4745d158342dd052f8e47c7ad54909877c74c155888594c09cdb33bf549e7"
+      ]
+    },
+    "5,3": {
+      "geometry": "e11a0faf2d7355adc8d7804a95213c735253ef32f1a0f77f01bb3067ae27437e",
+      "placements": "b087b5ccddac5a75c569b206622a38525e742212d1ffa928640f51f40e47e635",
+      "triangles": 8724,
+      "boundary": [
+        "18cfc7dd6fbad933afd3965a5ca295845eb56cd5a4664c8a37f82852a657d00a",
+        "75306d96ed215b90bcfdf8fbe24468701036f8b7478be7251aebab5da9c5a820",
+        "47b4745d158342dd052f8e47c7ad54909877c74c155888594c09cdb33bf549e7",
+        "1db54fabddf40f1df17e59f8ccab1e0d821e53e8a51868f67b68c4067ae91fbf"
+      ]
+    },
+    "5,4": {
+      "geometry": "61f1ce95e04d56f7d16abb4c6fe5e4d0d3b3bd0eb0ff4ad1ff87714b51e198d6",
+      "placements": "09bf07908bf774046bd0a0d732c1caab45e9af7a50ae7febf27d3597ae4b0f03",
+      "triangles": 8548,
+      "boundary": [
+        "0634639c0edcd2eaaf0f2343d5725a262e800a7fc1b029b0f400d15671efcebf",
+        "eaa8d21430de84696ab99ff968dd943550d08ff223846607c9adf5f162907bf5",
+        "1db54fabddf40f1df17e59f8ccab1e0d821e53e8a51868f67b68c4067ae91fbf",
+        "1952070c0aba13bb66fb223942b23c25a8e11768e4690bee9996c8b1cc6c34e4"
+      ]
+    },
+    "5,5": {
+      "geometry": "9b0785b15e8338c41978c1523fcfd1c1a07daf19cce15668eef80f8047b0e19b",
+      "placements": "9179c4eeee9906ca710d92d81b96033a89c7c479d3c61eeb174b4e70dcb7802a",
+      "triangles": 12264,
+      "boundary": [
+        "10d6126bd761c6da52d3eaba013ece636fbf0cffc3caf54be5bfe4fda39a58ea",
+        "3d7ebd05499a3dcb8e5cd249791db49dcc61b6d9a5eb78c52cc7616ce3ef2e54",
+        "1952070c0aba13bb66fb223942b23c25a8e11768e4690bee9996c8b1cc6c34e4",
+        "b2234a9fd7a49d714606464f38b308de8d153b794a702fd1875d8478c29339ad"
+      ]
+    },
+    "5,6": {
+      "geometry": "1773443c9335ed31f982285a3b99287ad4165a9877c3f95048b367feef1eda11",
+      "placements": "216ba69c5d0474d85f30b4da2350eef6160d71eb443c2a6ab0a3e0b54b4dfe9c",
+      "triangles": 10148,
+      "boundary": [
+        "559015dba0bcee48dfacb38afd27ed99e73f9e13ec24f68dc924053a576f69c4",
+        "e4a36caf6e3742c6b1f08887c44067a9045e0f5708a4965cc9afc2ae23dfe362",
+        "b2234a9fd7a49d714606464f38b308de8d153b794a702fd1875d8478c29339ad",
+        "3b20215c9b8abb0ac7c2b8d401ab64a0b3a3d7ae303c24724fadbfcbc6add5ea"
+      ]
+    },
+    "5,7": {
+      "geometry": "28003b09a0dc7a085341b722fbb150db96ab9ca79113c9748d90c0c1cef99c18",
+      "placements": "7b6981a7f9ffd85f01bad634940c3b6649ca9cc6bb13eddbb0da384d92ffb101",
+      "triangles": 8548,
+      "boundary": [
+        "b88b12f2aa5cd1a182f6a1be412fc49f43f7bbca7b41f5b00ebb31aa9f69b048",
+        "bb45323f706f2ecc900f6c291bbf32d24b93509f38a8c7c5549b46a8e0e08cf3",
+        "3b20215c9b8abb0ac7c2b8d401ab64a0b3a3d7ae303c24724fadbfcbc6add5ea",
+        "81152ea0bfdd2b888b1b9a3f214a8d4390fc735d6ddda408571cb738f68727db"
+      ]
+    },
+    "6,-8": {
+      "geometry": "3f2a1aa73af69cc8a1ec69e3c7763d58d803081da35224e2f3ace393d28051d3",
+      "placements": "033b918c63e93049464ead321a632dd1965321598020751ab24ce57e38564b32",
+      "triangles": 9174,
+      "boundary": [
+        "a16b18176cefec2283625dbbade96922db17142cb91d221d79b26034e2e31b50",
+        "14dfa185d27958abf0480fa66d04208e739b348b0cfcd172aea0e05f735bd0ba",
+        "35a07c429dbd3e1a457a5a2804ac84a280497a0093a4173acf410c1687025fee",
+        "e4335a01a492a404914ca76961d0fad750bba1344a070dc15ff7723fc1d980f9"
+      ]
+    },
+    "6,-7": {
+      "geometry": "d774659e7aeb10b4857e41dfcc894a8705b6760564a969b25f0a6949dd177d08",
+      "placements": "bb52efe7fb47a5c77d9447bffa541049bdbb921cff0260164a58790f59bff321",
+      "triangles": 13552,
+      "boundary": [
+        "601bca98208f9c3ee189f2dd450a7d26649314075843537df919e6f369c77c05",
+        "e853d9ca019afc62e5732dd15bbcec92299f66f544cdd457e359b85aa5a043cf",
+        "e4335a01a492a404914ca76961d0fad750bba1344a070dc15ff7723fc1d980f9",
+        "0436daeb0ea2bb0e66d0daf9c74021b762c6e1995b8a7649ae91d02677e96e95"
+      ]
+    },
+    "6,-6": {
+      "geometry": "51e96ecba461b32066383adfa1980206591dfbaf1bcb031c56472db155aabcea",
+      "placements": "198de4bc665ea77a9eebb3362bd25bf43c04001f0a31f03bfb7dc88c1b99f1d2",
+      "triangles": 8914,
+      "boundary": [
+        "18998cb97852139d9970c0b45f5911c00a3f19352105683e045e249921670a01",
+        "349dfdd3a9b309d91dc70875ed5b1065df6fb04e02590be6787c05620d84cd19",
+        "0436daeb0ea2bb0e66d0daf9c74021b762c6e1995b8a7649ae91d02677e96e95",
+        "cbb5069fe70fea22bf70b8f65438d267ffb0e6daa0e2ecfbd2d5d2874363a73e"
+      ]
+    },
+    "6,-5": {
+      "geometry": "4fa0cab212aa4d170a834a44a5a0f2c71e267f04e4c0af6bd552427b605abc1a",
+      "placements": "659e3d94e06ebce20db2559e3efd7c69edc435632b549bf80646114091871a47",
+      "triangles": 8750,
+      "boundary": [
+        "5ef4eedc1d8de7b07fe94499eb8291b6750b6870de8f5441da9c0068928dab53",
+        "cdb0d129549f1bbcb649058f5ff940ad2b5560a94117096b9603c49553b1a16d",
+        "cbb5069fe70fea22bf70b8f65438d267ffb0e6daa0e2ecfbd2d5d2874363a73e",
+        "d0b24260015fc23b0fa791d3e653e220a31cc14ffcd8b03ac7351bbef2f99e5d"
+      ]
+    },
+    "6,-4": {
+      "geometry": "cb325be7659ac757a36acad37ad5fe0f75cd5c1e0ee1f0aaa893894ea3ae658b",
+      "placements": "04dcf14f282c9694b4d0da88e89e26fe6a57d494605dd9db4a4246537f40b8aa",
+      "triangles": 8618,
+      "boundary": [
+        "4d15f22aca05dcb8dfb22fced9e287e44d29f0360bcf010c7b40a723f7721fb4",
+        "ad5ebbf7096c955d371dea2d9435e2e45c9a23e1c37c8641d95c8779f0c749a2",
+        "d0b24260015fc23b0fa791d3e653e220a31cc14ffcd8b03ac7351bbef2f99e5d",
+        "1c1765b6af5c4aaf3683eaae35890f957d4fcfbc5fe0bcc51034044315194e7f"
+      ]
+    },
+    "6,-3": {
+      "geometry": "d0c080c063bbbce9157c74e2ce675d6bbe19b0c230b9c3d7aac12ab283b12424",
+      "placements": "376ef7a06b297985a9b9822e3770a405227b4bf62e790f0d1b8e93b432d064f3",
+      "triangles": 10660,
+      "boundary": [
+        "ef704c51d84f5445b26077dab2574f5cd4dd75294bfbe2e586b2adebd8227ebb",
+        "64a5012ae3e4847971328bd14e1da7e40ca7db2f18fa7adc42b981ce06373984",
+        "1c1765b6af5c4aaf3683eaae35890f957d4fcfbc5fe0bcc51034044315194e7f",
+        "92023d9748ccafac217a2131fde121881c6c7f7f120f0b8356a834120d9ee738"
+      ]
+    },
+    "6,-2": {
+      "geometry": "1367de1490bfd3e536488c9f949c67100b8c4ca6f8d58a0eb2723eecc1c8735b",
+      "placements": "1dba51385a15a9cd283fcd94a749a9be22654ffd24daea2da2b0effc54f1c283",
+      "triangles": 14180,
+      "boundary": [
+        "c0f4d6ce7bc5fa6d6d0822162d7e7d27d8f22060a12f29fc2520cf46979ea771",
+        "8cb2ad7f0a94839dbb513143f92dca155e5a3386e9b439bd219b7fc11130737d",
+        "92023d9748ccafac217a2131fde121881c6c7f7f120f0b8356a834120d9ee738",
+        "0cd4d158a7079a289511fdbc8d6db522e22c8d70dd979c85b4547ad336eb31b2"
+      ]
+    },
+    "6,-1": {
+      "geometry": "2214083714b915d0dc59290f0dc5f159df576a9eb72a1722757f2ba2e8f4f6d4",
+      "placements": "de4683f3675f666ce185d9b0cc1cf6831a0da5b60612aadc14718007faa26b64",
+      "triangles": 8818,
+      "boundary": [
+        "2e52f6c56a08d3b78a2aaad9d5b60b9f264aa7ce464d8ba88f4288c857f3e0da",
+        "e98578dfa4add262cb50634e9e6da80392737df3db3a3775c885a9530bff48cf",
+        "0cd4d158a7079a289511fdbc8d6db522e22c8d70dd979c85b4547ad336eb31b2",
+        "c28a679f9b2c02299b0e886fef7b2fc1fc9bbbaeb52d0b9fb158f2b45f99175f"
+      ]
+    },
+    "6,0": {
+      "geometry": "c3618f1332bf44ef10af95ccc7c930be5deeac3fe88b850a0cf8f2414fb3e241",
+      "placements": "c998f846490025bd573c99beff88e076a2eaa036e20cad392ca7ea37c5b349d7",
+      "triangles": 8784,
+      "boundary": [
+        "9457191bbb405ed0f07fabf9dcba0b2ed43e017c2d0bc3bb0136848606e8055e",
+        "815121f4991ce9e93e68a69884fd7de09661d775078fbd9ee3f29d787b8cf5a7",
+        "c28a679f9b2c02299b0e886fef7b2fc1fc9bbbaeb52d0b9fb158f2b45f99175f",
+        "64093dc381c1d67fab81e34424d17f47471244efde27e21b69522cb7e29ea0e0"
+      ]
+    },
+    "6,1": {
+      "geometry": "379f6871b0f2bc79ff47a9872502aad3de0d17e5b1bea9c958727bb9317fec9f",
+      "placements": "934764aedc9633196b24c31661470969272b3f1f16514a921e49a78d9509e0ef",
+      "triangles": 9542,
+      "boundary": [
+        "591d5c699c88261b34810e17720a72152df8a69a08b76aad50eab522c9752294",
+        "c047427c9e060a3cb36c1acfc3049395f73015ce513a23d389f918f2bb6af3a7",
+        "64093dc381c1d67fab81e34424d17f47471244efde27e21b69522cb7e29ea0e0",
+        "85c11dceb6362127a4a699d38e4b3151c88ca1b23d74bb4682348ef7b24390ae"
+      ]
+    },
+    "6,2": {
+      "geometry": "d04bf10c0da30f0cddf9a2c160990f83ac93593560b7c7dfd19b8e526f199808",
+      "placements": "2345d11c26cda9c575a52c8639e91118e6b8b6d6e775e878ade017038d3acc3a",
+      "triangles": 10252,
+      "boundary": [
+        "efe2deeb93997327e019cf2564c1696cb6cc2141a6e8523c07d3c152a78684b5",
+        "a059eeb05fca3c819d7ecef093a7548ee8e94df1c054f2c4e1e56ba392585ba3",
+        "85c11dceb6362127a4a699d38e4b3151c88ca1b23d74bb4682348ef7b24390ae",
+        "0391e90e19c0a0d32234ce1284dc9a2e8f33c8d8eb24f78c1a05e08eb0fab8eb"
+      ]
+    },
+    "6,3": {
+      "geometry": "75a660b15e3b8952e8bb87d178a7750f093eaf4a3529c91ff53d7e85a14f4a73",
+      "placements": "30450b39ba9453aeaac21ca9c30609cf1be3712ac989fafa920afe515c571dbf",
+      "triangles": 8314,
+      "boundary": [
+        "75306d96ed215b90bcfdf8fbe24468701036f8b7478be7251aebab5da9c5a820",
+        "288529f8922c26c77bc1ab0ba1a90f6ae6a59efaee1dc7085052ce5989df0e5d",
+        "0391e90e19c0a0d32234ce1284dc9a2e8f33c8d8eb24f78c1a05e08eb0fab8eb",
+        "e2a897fc8ca2e35497fcaa356679fdeb6e52883e43b214cea39f554941feea8c"
+      ]
+    },
+    "6,4": {
+      "geometry": "962457f13232511b61e9fe5f6c15c8722f3c0e08326a8a402974d6bc713b1b95",
+      "placements": "046a2a5faed95373fda2318c7012ebe6f7f65a90b6ac9fbb7cdd0980d295bf52",
+      "triangles": 8970,
+      "boundary": [
+        "eaa8d21430de84696ab99ff968dd943550d08ff223846607c9adf5f162907bf5",
+        "f3e78e712d8a3d8615e0c70018faf91797fe5b694053f28240c96dc2214b379f",
+        "e2a897fc8ca2e35497fcaa356679fdeb6e52883e43b214cea39f554941feea8c",
+        "e6ddcbe7e55f911a0cfd2f0d3387cb9a0af760fa3992584948206fbca6f5d465"
+      ]
+    },
+    "6,5": {
+      "geometry": "ec447b78c424cffd3292aac703fcc496db1513b8e7064e8d6bef534dfd072ac9",
+      "placements": "6926f115b442a772856e75c40b5fa301df44df1470398497c10d5429e9ca2141",
+      "triangles": 11472,
+      "boundary": [
+        "3d7ebd05499a3dcb8e5cd249791db49dcc61b6d9a5eb78c52cc7616ce3ef2e54",
+        "2d221cb3bff76b4e79c8d87e9743fc89ac4ec46671e9d3b91c68836c0725692b",
+        "e6ddcbe7e55f911a0cfd2f0d3387cb9a0af760fa3992584948206fbca6f5d465",
+        "284ff5044631a143bcddb0f19401d8956773cf33f72cd2b77f5820d1cb5bf9b3"
+      ]
+    },
+    "6,6": {
+      "geometry": "8396bb6344b76e0f568936adf7b56573364cf7284cde9e3d821d8c00b8b867f9",
+      "placements": "980a2bad591978fc8216001fc52d60775af28df6072951e2a2fd458fcfdea427",
+      "triangles": 10406,
+      "boundary": [
+        "e4a36caf6e3742c6b1f08887c44067a9045e0f5708a4965cc9afc2ae23dfe362",
+        "5071af791e70f2014ed6a5255a87bcb67b462fca9429900438337dee571df814",
+        "284ff5044631a143bcddb0f19401d8956773cf33f72cd2b77f5820d1cb5bf9b3",
+        "1b1aebe3953336c40a7493722ee7191b3c85c3d5f86f4c0bfff39fd65c390ea6"
+      ]
+    },
+    "6,7": {
+      "geometry": "471275097e7c707269bbe830ffd7298d8b03bc9c35a60656396322cc27cc586b",
+      "placements": "579d5d13fbc710987479aad45fafa063a94e05064077b7d3ec36b9e677f741ab",
+      "triangles": 8638,
+      "boundary": [
+        "bb45323f706f2ecc900f6c291bbf32d24b93509f38a8c7c5549b46a8e0e08cf3",
+        "5dd4b78a36e7669eaad8d70f58fa57aeda121cd0407dc8d22aeb7a48c51739c3",
+        "1b1aebe3953336c40a7493722ee7191b3c85c3d5f86f4c0bfff39fd65c390ea6",
+        "c6ccbe32eaa4e8eb6816889712e50be747a734a5bda23ce8d924432427780ccc"
+      ]
+    },
+    "7,-8": {
+      "geometry": "62bffe39413c7e72e9dd61209225caffb77a763cedd1d651e25496d5c6042354",
+      "placements": "e8723d3b189da6e196598f2c18c9d8f8ed65eaa64919af9d7ca5ddc604b69fb1",
+      "triangles": 9796,
+      "boundary": [
+        "14dfa185d27958abf0480fa66d04208e739b348b0cfcd172aea0e05f735bd0ba",
+        "d5f6b42913e2f8abc574fda8a6b97db97c29a33473123ed04040a57d12dac097",
+        "7d692090545da86893fb6934dd592c1bca8246e9c2036d7c8e388f14b34e2dfc",
+        "3dc5c7da96aefb0ba26409b120698a45f8b38f547f0d7ae73abef38102ad6c3a"
+      ]
+    },
+    "7,-7": {
+      "geometry": "c3ca7b77851184239669311422c296242dfa3139c617303e705f862aa4276cbd",
+      "placements": "8b68b4cc9a98e55062b1d5569f61c7be059f646437c10fad61a3ee88242b40e0",
+      "triangles": 9098,
+      "boundary": [
+        "e853d9ca019afc62e5732dd15bbcec92299f66f544cdd457e359b85aa5a043cf",
+        "317b52e9e3a428434519b1ee27376cef14c818a964866ee2069ddd0a8d3dbc8d",
+        "3dc5c7da96aefb0ba26409b120698a45f8b38f547f0d7ae73abef38102ad6c3a",
+        "c8c1e401da35ae49f5f7e534aedbe28df01b5c49eaef3355b59abe5d9baf8dbe"
+      ]
+    },
+    "7,-6": {
+      "geometry": "05524cdd5b4793bdf99601f5b1598dc11ddaf858ce4398252c57c4aa55f63211",
+      "placements": "461b265b5f560ee231aeeaad65b6b23b5f63830ed389175fc5c9aa03566f24dc",
+      "triangles": 8974,
+      "boundary": [
+        "349dfdd3a9b309d91dc70875ed5b1065df6fb04e02590be6787c05620d84cd19",
+        "e91568819260b2d2223855a258ca97be3b055d9779281d4fac8b1fc872b655d1",
+        "c8c1e401da35ae49f5f7e534aedbe28df01b5c49eaef3355b59abe5d9baf8dbe",
+        "c0462b322c5ac19d9920a2e9ccc26d1a1c2e4840a38062798f9864f83773bc82"
+      ]
+    },
+    "7,-5": {
+      "geometry": "3b5ec8154df8a34ac63d23f62fad731cd7f5d58b1f4148a44425fc33511a068c",
+      "placements": "b965acabaf8afd360e19554308364bc3baaf51eef73121e05bd1f02ba7c8aeaa",
+      "triangles": 8540,
+      "boundary": [
+        "cdb0d129549f1bbcb649058f5ff940ad2b5560a94117096b9603c49553b1a16d",
+        "4b3c17d69ecc3519e887be9732fa93b0c3cacce3996b74eb1da2091ea759a50d",
+        "c0462b322c5ac19d9920a2e9ccc26d1a1c2e4840a38062798f9864f83773bc82",
+        "0db11292786bdcf3c5638a111b0c86f0a3faf8ccddc68b44563d30cf0833d2a5"
+      ]
+    },
+    "7,-4": {
+      "geometry": "e83cc96667923e3b76f14d19c1871ffbc3df3ca81ed61855a9812f1d728055a1",
+      "placements": "82d18bc40e26cccb4d6dc849b962832d99c7d94cc153be96a48d3f385e24c8b7",
+      "triangles": 8624,
+      "boundary": [
+        "ad5ebbf7096c955d371dea2d9435e2e45c9a23e1c37c8641d95c8779f0c749a2",
+        "f5ff86a61229a1b517762a9b5f8ddc3983e8fd5449de6bef5d3eeec8e97f952b",
+        "0db11292786bdcf3c5638a111b0c86f0a3faf8ccddc68b44563d30cf0833d2a5",
+        "7729a83605eac2a38eb83c604ac8fb5bd47a44aed216be6c402cbe2d939b13bb"
+      ]
+    },
+    "7,-3": {
+      "geometry": "caae653fb553702b5a019b584c22cc5a4513287497d28e2ab3b011617a4302a9",
+      "placements": "0b7f9267d267cf049402688dea5405a81d5d0f488d5aa31319be01e811fe3479",
+      "triangles": 8794,
+      "boundary": [
+        "64a5012ae3e4847971328bd14e1da7e40ca7db2f18fa7adc42b981ce06373984",
+        "0bb471561ab4e0b1b972228cbe5496eccf326dba6b54e9473db2e392063f56c4",
+        "7729a83605eac2a38eb83c604ac8fb5bd47a44aed216be6c402cbe2d939b13bb",
+        "fc3d41b909a8c584f5f3f034ee5ebae158ce5f1b8023bb80dc0f926d663fccda"
+      ]
+    },
+    "7,-2": {
+      "geometry": "0cfd92cc34ca1ca22c63bd1abc21c0fc2c4763d65abc2f22e842b9f1b0ba57fd",
+      "placements": "3ff8e1348b518c36ac60d6dc67df32cfb44c92cd9bc428dbf980a6d1aa569ea3",
+      "triangles": 8464,
+      "boundary": [
+        "8cb2ad7f0a94839dbb513143f92dca155e5a3386e9b439bd219b7fc11130737d",
+        "a8dd4c29bc6cd78782c71d326b6f6a6bf6b5a295fa5aeb8017352afea11a098a",
+        "fc3d41b909a8c584f5f3f034ee5ebae158ce5f1b8023bb80dc0f926d663fccda",
+        "7cabac5022096d682dda912ad0d46a6c708b91a4cb1ddc6c7a5610e81b640870"
+      ]
+    },
+    "7,-1": {
+      "geometry": "873aff8474005c8701b3e6614574c9639b37c81a5f1e553c0d7921a407304597",
+      "placements": "06c451e26b3d0e41670eb1d98cc9bf08076d3d1a8509aef6b27558914bcd7722",
+      "triangles": 8750,
+      "boundary": [
+        "e98578dfa4add262cb50634e9e6da80392737df3db3a3775c885a9530bff48cf",
+        "9920bb00de7168d82fe56b5a607732c126fee7cc54874c1ed5bad40d691050ef",
+        "7cabac5022096d682dda912ad0d46a6c708b91a4cb1ddc6c7a5610e81b640870",
+        "856edd15dc191a2600ebd980dac3992a25d50c3b6d7308b1972f44bc99c51b16"
+      ]
+    },
+    "7,0": {
+      "geometry": "65422050e67ec24fab60b51dbaec201a7a4de163109cfef11383545d242dbcc5",
+      "placements": "734609d6216a0bbe6418342d81f85519a541676c4a3a6d51936968d01d88eb99",
+      "triangles": 8576,
+      "boundary": [
+        "815121f4991ce9e93e68a69884fd7de09661d775078fbd9ee3f29d787b8cf5a7",
+        "72079a8aaa3ea306763bd730290550e0355302960e1c35ef4d3d1cbf87604a5a",
+        "856edd15dc191a2600ebd980dac3992a25d50c3b6d7308b1972f44bc99c51b16",
+        "13e33000b26072a598309fd6b69844136ed23b94fcc9bb40f5584f5a4dbcb0e1"
+      ]
+    },
+    "7,1": {
+      "geometry": "5e2fb50cfba8a1e942d083e63951a56da275a44e1100267f9790477337deda98",
+      "placements": "146ae432459c86c38f2cba48ef827a02bd73504a367d1f37e00c769057b55063",
+      "triangles": 9196,
+      "boundary": [
+        "c047427c9e060a3cb36c1acfc3049395f73015ce513a23d389f918f2bb6af3a7",
+        "6737c15d52f291053e34f6e2c13f98361e0312dd41785a3869df58ad7e310e96",
+        "13e33000b26072a598309fd6b69844136ed23b94fcc9bb40f5584f5a4dbcb0e1",
+        "b6c6492811ac644b88cd35d2d8c6216e47293ee4a1f69d31d87a0a77c0d35010"
+      ]
+    },
+    "7,2": {
+      "geometry": "b806659b3db0d28d0c02ab55c4262279e1543702ac67a4fd96ebd712efcacf29",
+      "placements": "bdc04105dce5772576984dfac6854996bb61104ad2da304e619791f50f2144a2",
+      "triangles": 8876,
+      "boundary": [
+        "a059eeb05fca3c819d7ecef093a7548ee8e94df1c054f2c4e1e56ba392585ba3",
+        "4f979beef3dc9e4076d1ff28cbb0444963dad85b52b3d38b364d2a936b5e453b",
+        "b6c6492811ac644b88cd35d2d8c6216e47293ee4a1f69d31d87a0a77c0d35010",
+        "e7b592e8c44cb88fd77d2db34445bdc04c5a72a62b427e61e28312d7447b5b3a"
+      ]
+    },
+    "7,3": {
+      "geometry": "b48ec64cab9362a6eeda811263762b055965ff91552efc657d1e47b8e1a754b9",
+      "placements": "9ead556a6d2e7b7f20c580995493c8a77829966b0c73b4d2c0c006f818a3ecea",
+      "triangles": 8700,
+      "boundary": [
+        "288529f8922c26c77bc1ab0ba1a90f6ae6a59efaee1dc7085052ce5989df0e5d",
+        "a32805f1eda603f4c8ec35c9dc1a6bd253e96b9fd20fb3c6c5d9696db08a70e4",
+        "e7b592e8c44cb88fd77d2db34445bdc04c5a72a62b427e61e28312d7447b5b3a",
+        "273963f001702d7420bf2ebe0242a18c504490c8358e3f3cb4bd7be9fb52dc3b"
+      ]
+    },
+    "7,4": {
+      "geometry": "6065254eff0bd319dc86f461bea13583dfec2b59648cf21d44071654441e2075",
+      "placements": "bcbb9bdbf0d984dec16ff7b66bd4795028529acaa9d365a85c0db9da14892a09",
+      "triangles": 8756,
+      "boundary": [
+        "f3e78e712d8a3d8615e0c70018faf91797fe5b694053f28240c96dc2214b379f",
+        "0aae85840059b9e2dafdea9ef7c8102da7abb6e6227e680fd070ffe83f5bf3af",
+        "273963f001702d7420bf2ebe0242a18c504490c8358e3f3cb4bd7be9fb52dc3b",
+        "0c37ec4a26a80a929840bfa59f0197bb944972470919eef505d7bd2e670afc14"
+      ]
+    },
+    "7,5": {
+      "geometry": "cabacf59e09c3fd7ee0c7fc7a92ceb1115f07c2375e787e2e935c3876af19ee6",
+      "placements": "acca3f2b2912c4e0011771b3911e79fcf9504ee8715f2d363e00b5784b5da89d",
+      "triangles": 8900,
+      "boundary": [
+        "2d221cb3bff76b4e79c8d87e9743fc89ac4ec46671e9d3b91c68836c0725692b",
+        "776a6e59ae85c0ec7f8d4b59e4f68bd5b87d750dbe2abf167d373e80377e24c4",
+        "0c37ec4a26a80a929840bfa59f0197bb944972470919eef505d7bd2e670afc14",
+        "4f6ffaa3c35099ad539177eddfdcb071f100c6bb07f687879ba50ea93e6e2b42"
+      ]
+    },
+    "7,6": {
+      "geometry": "4c545bb45387f0afb4813cc6dfe246cdf0800657e98598bff7a60cac63a654dc",
+      "placements": "a6eea7626f80dce53dc7ae7a991ed40ec002687f5e5718b396ebb8e2c790feb3",
+      "triangles": 8860,
+      "boundary": [
+        "5071af791e70f2014ed6a5255a87bcb67b462fca9429900438337dee571df814",
+        "1bc993a420d4cf4da60f6ec1138a6ba4e66b8e7173f4e369f6e7596f3795d4a4",
+        "4f6ffaa3c35099ad539177eddfdcb071f100c6bb07f687879ba50ea93e6e2b42",
+        "7f764dc258e1a758319125042e452159811a2ddb6e6973f4ce25224d8dca941f"
+      ]
+    },
+    "7,7": {
+      "geometry": "a0d6e1258a33f332f08e0168ad3f1436f4b8c9f5d645f60ca48af405644350d7",
+      "placements": "abdd44bdb8c1e0d8bdaa851e0c87f61987d0d8d01c9d52af84f42f4d42468d45",
+      "triangles": 8698,
+      "boundary": [
+        "5dd4b78a36e7669eaad8d70f58fa57aeda121cd0407dc8d22aeb7a48c51739c3",
+        "4f98c34f1d2ff5f83df0e201e9ceae519ccab8c8208d2113afeeaa3531dc3e36",
+        "7f764dc258e1a758319125042e452159811a2ddb6e6973f4ce25224d8dca941f",
+        "5742f4bf94365102ae7af4e992f6c73e04ed16fcb1e6555c2f1a7979a3eff69d"
+      ]
+    }
+  }
+}

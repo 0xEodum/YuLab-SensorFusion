@@ -1,0 +1,213 @@
+{
+  "fractions": {
+    "clear": {
+      "isolated": 150,
+      "visible": 150,
+      "fraction": 1
+    },
+    "partial": {
+      "isolated": 213,
+      "visible": 92,
+      "fraction": 0.431924882629108
+    },
+    "hidden": {
+      "isolated": 112,
+      "visible": 0,
+      "fraction": 0
+    }
+  },
+  "sensors": {
+    "keys": [
+      "0,-1@2",
+      "0,0@2",
+      "1,-1@2",
+      "1,0@2",
+      "2,-1@2",
+      "2,0@2"
+    ],
+    "pitch": 2,
+    "ids": [
+      "aerodrome-0-rock-20--7",
+      "aerodrome-0-rock-20--6",
+      "aerodrome-0-rock-20--4",
+      "aerodrome-0-rock-20--2",
+      "aerodrome-0-rock-20--1",
+      "aerodrome-0-rock-21--8",
+      "aerodrome-0-rock-21--7",
+      "aerodrome-0-rock-21--2",
+      "aerodrome-0-rock-21--1",
+      "aerodrome-0-rock-22--8",
+      "aerodrome-0-rock-22--7",
+      "aerodrome-0-rock-22--5",
+      "aerodrome-0-rock-22--4",
+      "aerodrome-0-rock-22--3",
+      "aerodrome-0-rock-22--2",
+      "aerodrome-0-rock-23--8",
+      "aerodrome-0-rock-23--5",
+      "aerodrome-0-rock-23--3",
+      "aerodrome-0-rock-23--2",
+      "aerodrome-0-rock-23--1",
+      "aerodrome-0-rock-20-0",
+      "aerodrome-0-rock-20-1",
+      "aerodrome-0-rock-20-2",
+      "aerodrome-0-rock-20-5",
+      "aerodrome-0-rock-20-6",
+      "aerodrome-0-rock-21-0",
+      "aerodrome-0-rock-21-1",
+      "aerodrome-0-rock-21-4",
+      "aerodrome-0-tree-21-6",
+      "aerodrome-0-rock-21-7",
+      "aerodrome-0-rock-22-0",
+      "aerodrome-0-rock-22-4",
+      "aerodrome-0-tree-22-6",
+      "aerodrome-0-rock-23-0",
+      "aerodrome-0-rock-23-1",
+      "aerodrome-0-rock-23-2",
+      "aerodrome-0-rock-23-3",
+      "aerodrome-0-rock-23-4",
+      "aerodrome-0-rock-23-5",
+      "aerodrome-0-rock-23-7",
+      "aerodrome-0-clear",
+      "aerodrome-0-wide",
+      "aerodrome-0-partial",
+      "aerodrome-0-hidden",
+      "aerodrome-0-service"
+    ],
+    "structures": [
+      "apron",
+      "apron",
+      "apron",
+      "apron",
+      "road",
+      "road",
+      "service-road",
+      "service-road",
+      "apron-guide--75",
+      "apron-guide-0",
+      "apron-guide-0",
+      "apron-guide-70",
+      "open-back",
+      "open-side--1",
+      "open-side-1",
+      "open-roof",
+      "open-door-panel",
+      "open-lintel",
+      "closed-back",
+      "closed-side--1",
+      "closed-side-1",
+      "closed-roof",
+      "closed-door",
+      "tower-cabin",
+      "tower-roof",
+      "perimeter-280--128",
+      "perimeter-280--112",
+      "perimeter-280--96",
+      "perimeter-280--80",
+      "perimeter-280--64",
+      "perimeter-280--48",
+      "perimeter-280--32",
+      "perimeter-280--16",
+      "perimeter-280-0",
+      "perimeter-280-16",
+      "perimeter-280-32",
+      "perimeter-280-48",
+      "perimeter-280-64",
+      "perimeter-280-80",
+      "perimeter-280-96",
+      "perimeter-280-112",
+      "perimeter-280-128"
+    ]
+  },
+  "metrics": {
+    "status": {
+      "ready": true,
+      "chunks": 9,
+      "triangles": 73728,
+      "trees": 0,
+      "rocks": 0,
+      "milliseconds": 24,
+      "x": 60.66668662723775,
+      "z": 2.0565145812128938,
+      "error": ""
+    },
+    "desired": "0,0@4",
+    "keys": [
+      "-1,-1@4",
+      "-1,0@4",
+      "-1,1@4",
+      "0,-1@4",
+      "0,0@4",
+      "0,1@4",
+      "1,-1@4",
+      "1,0@4",
+      "1,1@4"
+    ],
+    "ids": [],
+    "assetIds": [
+      "aerodrome-0-clear",
+      "aerodrome-0-wide",
+      "aerodrome-0-partial",
+      "aerodrome-0-hidden",
+      "aerodrome-0-service"
+    ],
+    "assetTemplates": 3,
+    "cache": {
+      "generated": 24,
+      "evicted": 0,
+      "hits": 75,
+      "peakBytes": 22916656,
+      "peakChunks": 24,
+      "chunks": 24,
+      "bytes": 22916656,
+      "pinned": 9
+    },
+    "sensorCache": {
+      "generated": 6,
+      "evicted": 0,
+      "hits": 0,
+      "peakBytes": 21911128,
+      "peakChunks": 6,
+      "chunks": 6,
+      "bytes": 21911128,
+      "pinned": 0
+    },
+    "worker": {
+      "starts": 1,
+      "cancellations": 0,
+      "completed": 24
+    },
+    "resources": {
+      "created": 370,
+      "disposed": 352,
+      "live": 18
+    },
+    "renderer": {
+      "geometries": 197,
+      "textures": 7,
+      "calls": 104,
+      "triangles": 51804
+    },
+    "frame": {
+      "samples": 703,
+      "p50": 16.699999999999818,
+      "p95": 16.899999999999636,
+      "max": 316.6999999999998
+    },
+    "generation": {
+      "samples": 24,
+      "p50": 115.80000000074506,
+      "p95": 145.2999999988824
+    },
+    "commit": {
+      "p50": 7.900000000372529,
+      "p95": 13.099999999627471
+    },
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "canvas": [
+      1358,
+      620
+    ],
+    "heap": 75916931
+  },
+  "errors": []
+}
