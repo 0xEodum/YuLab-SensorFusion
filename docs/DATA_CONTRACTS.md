@@ -39,6 +39,16 @@ policy. Wire-valid future versions or asset instances are not silently accepted
 by this generator. Biomes are world-space fields owned by the field version.
 No wire-schema change is needed.
 
+SF-03 adds package-local `chunk-residency.v1` and `rig-bookmark.v1`, described in
+[STREAMING.md](STREAMING.md). Bookmarks preserve an exact WorldSpec, metre-space
+camera pose/quaternion and navigation target in the Three.js +Y-up, -Z-forward
+camera convention. They are not a calibrated RigSpec; optical/LiDAR frame
+conversion remains SF-05. Fixed 2 m sensor leases contain every potentially
+in-range terrain/decoration chunk and remain pinned through consumption/readback.
+Display culling and LOD never define sensor geometry. No capture endpoint or
+sensor output is added in this stage.
+
+
 | Payload | Required content | Permitted consumers |
 | --- | --- | --- |
 | `AssetRecord` | ID, content hash, source provenance, units/axes, mesh/sidecar references, subpart and thermal/material definitions | World builder, capture, catalog UI |

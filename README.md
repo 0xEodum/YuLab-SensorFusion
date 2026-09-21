@@ -3,7 +3,9 @@
 A procedural terrain editor being developed into an RGB, thermal IR and LiDAR
 simulation and detection lab. SF-01 adds a frontend workspace, local backend,
 shared contracts and verification. SF-02/SF-02R add a connected deterministic
-world, seeded regional formations, and a nine-chunk preview. Sensor capture,
+world and seeded regional formations. SF-03 adds worker-backed chunk streaming,
+free flight, browser-persisted rig poses, display LOD and independent sensor
+geometry readiness. See [streaming controls and limits](docs/STREAMING.md). Sensor capture,
 datasets, training and inference are
 later stages; no trained model is supplied yet.
 
@@ -49,14 +51,17 @@ region and camera selectors inspect arches, tunnels, outcrops and chunk seams.
 The preview loads nine fixed chunks around any of 16 seeded regions and renders
 regional/local relief, low-poly formations, deterministic trees and rocks.
 Landscape and landmark-detail cameras support overview and close inspection.
-Streaming and free navigation remain SF-03.
+SF-03 streams the surrounding chunks as you orbit/pan or fly; use the Navigation
+and Display detail controls, and Save rig pose to bookmark the current view.
 See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
 mesh tolerances, supported features and reproducibility limits.
 
 `npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
 proxies `/api` in the same way. The current single-file HTML remains an editor
-export, not a self-contained backend. For another backend port, set
-`YULAB_BACKEND_PORT` for Vite and launch uvicorn on that same port. Remote hosts
+export, not a self-contained backend.
+The world worker is a separate generated JavaScript asset: serve/copy the whole
+`frontend/dist/` directory for the explorer. Set `YULAB_BACKEND_PORT` for Vite
+and launch uvicorn on that same port. Remote hosts
 are not accepted by the proxy configuration.
 
 ## Verify
@@ -77,6 +82,12 @@ the full browser suite. For a local download
 failure, explicitly select installed Edge with `$env:PLAYWRIGHT_CHANNEL='msedge'`
 (POSIX: `PLAYWRIGHT_CHANNEL=msedge npm run test:browser`). Browser tests use
 software WebGL for portable functional QA; they are not GPU benchmarks.
+
+For the SF-03 104-boundary traversal performance gate, set
+`$env:PLAYWRIGHT_GPU='1'`. The report records the actual renderer, 1280 × 720
+canvas, frame/generation p50/p95, bounded cache/resource counts and forced-GC
+heap samples under `artifacts/sf03/`. Hardware runs enforce median >=30 fps and
+p95 <=50 ms. Software compatibility runs report latency without that GPU gate.
 
 To run that same browser suite against the production build, run `npm run build`
 and set `$env:PLAYWRIGHT_TEST_BUILT='1'` before `npm run test:browser` (POSIX:

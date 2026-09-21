@@ -95,10 +95,11 @@ colors use that same position and normal.
 The equal-pitch **boundary tolerance is 0.0001 m**. Recorded fixtures match
 exactly, including normals and colors. This is not an analytic-surface error
 bound. Features remain coarse polygonal approximations. Mixing 2 m and 4 m
-neighboring meshes requires transition meshes and is unsupported; LOD is SF-03.
+neighboring meshes is unsupported. SF-03 implements display LOD by atomically
+swapping the complete neighborhood between these pitches; it never mixes them.
 
 There are no internal chunk sidewalls, skirts, stretched bases or hidden ground
-planes. The outer world boundary and nine-chunk preview boundary are open cuts
+planes. The outer world boundary and current resident-neighborhood boundary are open cuts
 through the finite domain, not container walls. The solid base extends below
 the sampled domain. Future capture residency/range handling must respect the
 finite-domain limits.
@@ -114,12 +115,13 @@ dodecahedral rocks. These remain procedural decoration, not imported asset
 instances. Field support and coarse display triangles can differ by
 discretization error; asset contact validation belongs to SF-04.
 
-The editor's **Explore the connected world** link opens `?view=world`: a fixed
-3 × 3 neighborhood centered on any of 16 generated regions, seed controls,
-overview/detail/top/opening cameras and an overlay of actual shared mesh edges.
-The preview uses the same package as numerical acceptance and reports triangle,
-tree, rock and generation counts. Region changes replace the entire preview;
-this is not streaming, cache/LOD acceptance or a performance benchmark.
+The editor's **Explore the connected world** link opens `?view=world`: a moving
+3 ? 3 neighborhood with seed controls, 16 region shortcuts, overview/detail/top/
+opening views, free flight, rig bookmarks, display-detail selection and an actual
+shared-edge overlay. Workers generate chunks; the LRU cache reuses neighbors and
+cancels superseded work. The renderer instances decorations per chunk and disposes
+replaced geometry. [STREAMING.md](STREAMING.md) defines bounds, LOD, cancellation,
+bookmark frames, sensor range coverage and local acceptance.
 
 ## Local verification
 

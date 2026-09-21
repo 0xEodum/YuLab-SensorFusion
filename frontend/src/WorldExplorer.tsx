@@ -1,327 +1,128 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  createWorld,
   defaultWorldSpec,
-  meshChunk,
-  chunkPlacements,
-} from '@yulab/world';
-import { disposeGroup } from './terrain';
-import './world.css';
+  validateBookmark,
+  type RigBookmark,
+} from "@yulab/world";
+import { WorldRuntime, type WorldStatus } from "./WorldRuntime";
+import "./world.css";
 
 const featureNames = {
-  canyon: 'Canyon arch',
-  alpine: 'Alpine ridge',
-  islands: 'Highland outcrops',
-  coast: 'Coastal bluff',
-  aerodrome: 'Aerodrome',
-  harbor: 'Harbor',
+  canyon: "Canyon arch",
+  alpine: "Alpine ridge",
+  islands: "Highland outcrops",
+  coast: "Coastal bluff",
+  aerodrome: "Aerodrome",
+  harbor: "Harbor",
 } as const;
+// Read-only metrics plus the same navigation/rig operations used by the UI, opt-in for local acceptance.
 
 export default function WorldExplorer() {
-  const host = useRef<HTMLDivElement>(null);
-  const [seed, setSeed] = useState(0);
-  const [draftSeed, setDraftSeed] = useState('0');
-  const [location, setLocation] = useState(0);
-  const [boundaries, setBoundaries] = useState(false);
-  const [view, setView] = useState('oblique');
-  const [error, setError] = useState('');
-  const [stats, setStats] = useState({
+  const host = useRef<HTMLDivElement>(null),
+    engine = useRef<WorldRuntime | null>(null);
+  const [seed, setSeed] = useState(0),
+    [draftSeed, setDraftSeed] = useState("0");
+  const [location, setLocation] = useState(0),
+    [view, setView] = useState("oblique");
+  const [boundaries, setBoundaries] = useState(false),
+    [pitch, setPitch] = useState<2 | 4>(4);
+  const [navigation, setNavigation] = useState<"orbit" | "flight">("orbit");
+  const [bookmarkName, setBookmarkName] = useState("Rig 1"),
+    [bookmarks, setBookmarks] = useState<RigBookmark[]>([]);
+  const [rigMessage, setRigMessage] = useState("");
+  const [stats, setStats] = useState<WorldStatus>({
+    ready: false,
+    chunks: 0,
     triangles: 0,
-    rocks: 0,
     trees: 0,
+    rocks: 0,
     milliseconds: 0,
+    x: 0,
+    z: 0,
+    error: "",
   });
   const spec = useMemo(() => defaultWorldSpec(seed), [seed]);
-  const locations = useMemo(
-    () =>
-      spec.features.map((feature, index) => ({
-        id: feature.id,
-        name: `${featureNames[feature.type]} ${index + 1}`,
-        type: feature.type,
-        x: feature.center_m[0],
-        y: feature.center_m[1],
-        z: feature.center_m[2],
-        extent: feature.extent_m,
-      })),
-    [spec],
-  );
-  const center = locations[location] ?? locations[0];
-  const centerChunk = {
-    x: Math.floor(center.x / 128),
-    z: Math.floor(center.z / 128),
-  };
-  const engine = useRef<{
-    camera: THREE.PerspectiveCamera;
-    controls: OrbitControls;
-    seams: THREE.LineSegments;
-  } | null>(null);
-
   useEffect(() => {
-    const mount = host.current;
-    if (!mount) return;
-    const start = performance.now();
-    let renderer: THREE.WebGLRenderer | undefined;
-    let observer: ResizeObserver | undefined;
-    let controls: OrbitControls | undefined;
-    let frame = 0;
-    const scene = new THREE.Scene();
-    setError('');
+    if (!host.current) return;
+    let runtime: WorldRuntime | undefined;
+    setStats((s) => ({ ...s, ready: false, triangles: 0, error: "" }));
     try {
-      const world = createWorld(spec);
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        preserveDrawingBuffer: true,
-      });
-      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.2;
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      mount.appendChild(renderer.domElement);
-      scene.background = new THREE.Color('#e7e9e4');
-      scene.add(new THREE.HemisphereLight('#f9f4e4', '#626856', 2));
-      const sun = new THREE.DirectionalLight('#fff0d5', 3);
-      sun.position.set(center.x - 180, 250, center.z + 170);
-      sun.target.position.set(center.x, center.y, center.z);
-      sun.castShadow = true;
-      Object.assign(sun.shadow.camera, {
-        left: -260,
-        right: 260,
-        top: 260,
-        bottom: -260,
-        near: 1,
-        far: 500,
-      });
-      sun.shadow.mapSize.set(2048, 2048);
-      sun.shadow.normalBias = 0.2;
-      scene.add(sun, sun.target);
-      const material = new THREE.MeshStandardMaterial({
-        vertexColors: true,
-        flatShading: true,
-        roughness: 1,
-      });
-      const rockMaterial = new THREE.MeshStandardMaterial({
-        color: '#82735f',
-        flatShading: true,
-        roughness: 1,
-      });
-      const rockGeometry = new THREE.DodecahedronGeometry(1, 0);
-      const trunkGeometry = new THREE.CylinderGeometry(0.07, 0.1, 0.72, 5);
-      const crownGeometry = new THREE.ConeGeometry(0.46, 0.9, 6);
-      const trunkMaterial = new THREE.MeshStandardMaterial({
-        color: '#5d4933',
-        roughness: 1,
-      });
-      const crownMaterials = ['#344a38', '#425c3d', '#526847'].map(
-        (color) =>
-          new THREE.MeshStandardMaterial({
-            color,
-            roughness: 1,
-            flatShading: true,
-          }),
-      );
-      const seamPoints: number[] = [];
-      let triangles = 0,
-        rocks = 0,
-        trees = 0;
-      const seamX = new Set([centerChunk.x * 128, (centerChunk.x + 1) * 128]);
-      const seamZ = new Set([centerChunk.z * 128, (centerChunk.z + 1) * 128]);
-      for (let x = centerChunk.x - 1; x <= centerChunk.x + 1; x++)
-        for (let z = centerChunk.z - 1; z <= centerChunk.z + 1; z++) {
-          const data = meshChunk(world, { x, z });
-          const geometry = new THREE.BufferGeometry();
-          geometry.setAttribute(
-            'position',
-            new THREE.BufferAttribute(data.positions, 3),
-          );
-          geometry.setAttribute(
-            'normal',
-            new THREE.BufferAttribute(data.normals, 3),
-          );
-          geometry.setAttribute(
-            'color',
-            new THREE.BufferAttribute(data.colors, 3),
-          );
-          const mesh = new THREE.Mesh(geometry, material);
-          mesh.name = `chunk-${x}-${z}`;
-          mesh.castShadow = true;
-          mesh.receiveShadow = true;
-          scene.add(mesh);
-          triangles += data.positions.length / 9;
-          // Show only actual shared mesh edges, following both ground and overhangs.
-          for (let i = 0; i < data.positions.length; i += 9)
-            for (let v = 0; v < 3; v++) {
-              const a = i + v * 3,
-                b = i + ((v + 1) % 3) * 3,
-                p = data.positions;
-              if (
-                (p[a] === p[b] && seamX.has(p[a])) ||
-                (p[a + 2] === p[b + 2] && seamZ.has(p[a + 2]))
-              ) {
-                seamPoints.push(
-                  p[a],
-                  p[a + 1] + 0.08,
-                  p[a + 2],
-                  p[b],
-                  p[b + 1] + 0.08,
-                  p[b + 2],
-                );
-              }
-            }
-          for (const placement of chunkPlacements(world, { x, z })) {
-            if (placement.kind === 'tree') {
-              const tree = new THREE.Group();
-              tree.name = placement.id;
-              const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
-              trunk.position.y = 0.36;
-              trunk.castShadow = true;
-              tree.add(trunk);
-              for (let layer = 0; layer < 3; layer++) {
-                const crown = new THREE.Mesh(
-                  crownGeometry,
-                  crownMaterials[
-                    (layer + Math.abs(x + z)) % crownMaterials.length
-                  ],
-                );
-                crown.position.y = 0.75 + layer * 0.28;
-                crown.scale.setScalar(1 - layer * 0.17);
-                crown.rotation.y = placement.yaw + layer * 0.7;
-                crown.castShadow = true;
-                tree.add(crown);
-              }
-              tree.position.set(...placement.position);
-              tree.scale.setScalar(placement.scale);
-              scene.add(tree);
-              trees++;
-            } else {
-              const rock = new THREE.Mesh(rockGeometry, rockMaterial);
-              rock.name = placement.id;
-              rock.position.set(...placement.position);
-              rock.scale.set(
-                placement.scale * 1.2,
-                placement.scale * 0.65,
-                placement.scale,
-              );
-              rock.rotation.set(
-                placement.yaw * 0.13,
-                placement.yaw,
-                placement.yaw * 0.08,
-              );
-              rock.castShadow = true;
-              scene.add(rock);
-              rocks++;
-            }
-          }
-        }
-      const seams = new THREE.LineSegments(
-        new THREE.BufferGeometry().setAttribute(
-          'position',
-          new THREE.Float32BufferAttribute(seamPoints, 3),
-        ),
-        new THREE.LineBasicMaterial({ color: '#e47633' }),
-      );
-      seams.visible = boundaries;
-      scene.add(seams);
-      const camera = new THREE.PerspectiveCamera(42, 1, 0.5, 2000);
-      controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.minDistance = 25;
-      controls.maxDistance = 650;
-      controls.maxPolarAngle = Math.PI * 0.52;
-      engine.current = { camera, controls, seams };
-      positionCamera();
-      const resize = () => {
-        const { width, height } = mount.getBoundingClientRect();
-        renderer!.setSize(width, height);
-        camera.aspect = width / Math.max(height, 1);
-        camera.updateProjectionMatrix();
-      };
-      observer = new ResizeObserver(resize);
-      observer.observe(mount);
-      resize();
-      const draw = () => {
-        frame = requestAnimationFrame(draw);
-        controls!.update();
-        renderer!.render(scene, camera);
-      };
-      draw();
-      setStats({
-        triangles,
-        rocks,
-        trees,
-        milliseconds: Math.round(performance.now() - start),
-      });
-      return () => {
-        cancelAnimationFrame(frame);
-        observer?.disconnect();
-        controls?.dispose();
-        disposeGroup(scene);
-        seams.geometry.dispose();
-        (seams.material as THREE.Material).dispose();
-        sun.shadow.map?.dispose();
-        renderer?.dispose();
-        renderer?.forceContextLoss();
-        renderer?.domElement.remove();
-        engine.current = null;
-      };
-    } catch (e) {
-      cancelAnimationFrame(frame);
-      observer?.disconnect();
-      controls?.dispose();
-      disposeGroup(scene);
-      renderer?.dispose();
-      renderer?.forceContextLoss();
-      renderer?.domElement.remove();
+      runtime = new WorldRuntime(spec, host.current, setStats);
+      engine.current = runtime;
+      runtime.view(location, view);
+      runtime.setPitch(pitch);
+      runtime.chunks.setBoundaries(boundaries);
+      setNavigation("orbit");
+      if (new URLSearchParams(window.location.search).get("qa") === "1")
+        window.worldQA = runtime;
+      try {
+        const saved: unknown = JSON.parse(
+          localStorage.getItem(`strata-rigs-${seed}`) ?? "[]",
+        );
+        setBookmarks(
+          Array.isArray(saved)
+            ? saved.slice(0, 12).map((b) => validateBookmark(b, spec))
+            : [],
+        );
+      } catch {
+        setBookmarks([]);
+        setRigMessage("Saved rig data could not be read.");
+      }
+    } catch (error) {
+      setStats((s) => ({
+        ...s,
+        error: error instanceof Error ? error.message : String(error),
+      }));
+    }
+    return () => {
+      runtime?.dispose();
       engine.current = null;
-      setError(e instanceof Error ? e.message : 'World preview failed');
-    }
-    // Seed/location create a fixed nine-chunk preview; streaming belongs to SF-03.
-  }, [center.id, seed, spec]);
-
-  function positionCamera() {
-    const e = engine.current;
-    if (!e) return;
-    const x = center.x,
-      y = center.y,
-      z = center.z;
-    if (view === 'top') {
-      e.camera.position.set(x, 540, z + 0.01);
-      e.controls.target.set(x, 12, z);
-    } else if (view === 'opening') {
-      e.camera.position.set(
-        x + center.extent[0] * 0.08,
-        y,
-        z + center.extent[2] * 0.95,
-      );
-      e.controls.target.set(x, y, z);
-    } else if (view === 'detail') {
-      e.camera.position.set(
-        x + center.extent[0] * 0.82,
-        y + center.extent[1] * 0.65,
-        z + center.extent[2] * 0.98,
-      );
-      e.controls.target.set(x, y, z);
-    } else {
-      e.camera.position.set(x + 310, 225, z + 350);
-      e.controls.target.set(x, 20, z);
-    }
-    e.controls.update();
-  }
-  useEffect(positionCamera, [view, center.id]);
+      delete window.worldQA;
+    };
+    // World identity owns worker/cache lifetime; location changes only move the camera.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [spec]);
   useEffect(() => {
-    if (engine.current) engine.current.seams.visible = boundaries;
+    engine.current?.view(location, view);
+    setNavigation("orbit");
+  }, [location, view]);
+  useEffect(() => {
+    engine.current?.setPitch(pitch);
+  }, [pitch]);
+  useEffect(() => {
+    engine.current?.chunks.setBoundaries(boundaries);
   }, [boundaries]);
-
+  const save = () => {
+    try {
+      const bookmark = engine.current!.bookmark(bookmarkName.trim());
+      const next = [
+        ...bookmarks.filter((b) => b.name !== bookmark.name),
+        bookmark,
+      ].slice(-12);
+      localStorage.setItem(`strata-rigs-${seed}`, JSON.stringify(next));
+      setBookmarks(next);
+      setRigMessage(`Saved ${bookmark.name}.`);
+    } catch (error) {
+      setRigMessage(error instanceof Error ? error.message : String(error));
+    }
+  };
+  const restore = (b: RigBookmark) => {
+    try {
+      engine.current!.restore(b);
+      setPitch(b.pitch);
+      setNavigation(b.navigation);
+      setRigMessage(`Restored ${b.name}.`);
+    } catch (error) {
+      setRigMessage(error instanceof Error ? error.message : String(error));
+    }
+  };
   const validSeed = /^\d+$/.test(draftSeed) && Number(draftSeed) <= 4294967295;
   return (
     <main className="world-page">
       <header className="world-header">
         <a href="./">← Preset editor</a>
         <span>STRATA / CONNECTED WORLD</span>
-        <span className="world-version">World preview</span>
+        <span className="world-version">World explorer</span>
       </header>
       <section className="world-intro">
         <div>
@@ -367,9 +168,9 @@ export default function WorldExplorer() {
               value={location}
               onChange={(e) => setLocation(Number(e.target.value))}
             >
-              {locations.map((l, i) => (
-                <option value={i} key={l.name}>
-                  {l.name}
+              {spec.features.map((f, i) => (
+                <option value={i} key={f.id}>
+                  {featureNames[f.type]} {i + 1}
                 </option>
               ))}
             </select>
@@ -387,6 +188,32 @@ export default function WorldExplorer() {
               <option value="opening">Ground level</option>
             </select>
           </label>
+          <label>
+            Display detail
+            <select
+              aria-label="Display detail"
+              value={pitch}
+              onChange={(e) => setPitch(Number(e.target.value) as 2 | 4)}
+            >
+              <option value="4">Landscape · 4 m</option>
+              <option value="2">Fine · 2 m</option>
+            </select>
+          </label>
+          <label>
+            Navigation
+            <select
+              aria-label="Navigation"
+              value={navigation}
+              onChange={(e) => {
+                const n = e.target.value as "orbit" | "flight";
+                setNavigation(n);
+                engine.current?.setNavigation(n);
+              }}
+            >
+              <option value="orbit">Orbit / pan</option>
+              <option value="flight">Free flight</option>
+            </select>
+          </label>
           <label className="world-checkbox">
             <input
               type="checkbox"
@@ -402,30 +229,63 @@ export default function WorldExplorer() {
           aria-label="Connected terrain. Drag to orbit, scroll to zoom."
           data-seed={seed}
           data-location={location}
-          data-triangles={error ? 0 : stats.triangles}
+          data-ready={stats.ready}
+          data-triangles={stats.error ? 0 : stats.triangles}
           data-features={spec.features.length}
           data-trees={stats.trees}
           data-rocks={stats.rocks}
         >
-          {error && <div role="alert">World preview unavailable: {error}</div>}
+          {stats.error && (
+            <div role="alert">World preview unavailable: {stats.error}</div>
+          )}
+          {!stats.ready && !stats.error && (
+            <div className="world-loading">Loading terrain…</div>
+          )}
         </div>
         <div className="world-status" role="status">
-          <span>9 connected chunks · 384 × 384 m preview</span>
           <span>
-            {stats.triangles.toLocaleString()} faces · {stats.trees} trees ·{' '}
-            {stats.rocks} rocks · {stats.milliseconds} ms generation
+            {stats.ready
+              ? `${stats.chunks} connected chunks · ${pitch} m display detail`
+              : "Preparing connected terrain…"}
           </span>
+          <span>
+            {stats.triangles.toLocaleString()} faces · {stats.trees} trees ·{" "}
+            {stats.rocks} rocks · {stats.milliseconds} ms load
+          </span>
+        </div>
+        <div className="world-toolbar world-rigs">
+          <label>
+            Rig pose name
+            <input
+              aria-label="Rig pose name"
+              value={bookmarkName}
+              maxLength={64}
+              onChange={(e) => setBookmarkName(e.target.value)}
+            />
+          </label>
+          <button
+            onClick={save}
+            disabled={!stats.ready || !bookmarkName.trim()}
+          >
+            Save rig pose
+          </button>
+          {bookmarks.map((b, i) => (
+            <button key={i} onClick={() => restore(b)}>
+              Restore {typeof b.name === "string" ? b.name : "invalid bookmark"}
+            </button>
+          ))}
+          <span aria-live="polite">{rigMessage}</span>
         </div>
       </section>
       <footer className="world-footer">
         <p>
-          Viewing X {(centerChunk.x - 1) * 128}…{(centerChunk.x + 2) * 128} m, Z{' '}
-          {(centerChunk.z - 1) * 128}…{(centerChunk.z + 2) * 128} m. Drag to
-          orbit; right-drag to pan.
+          Focus X {Math.round(stats.x)} m, Z {Math.round(stats.z)} m. Orbit:
+          drag / scroll / right-drag. Flight: click canvas, W A S D to move, Q /
+          E down / up, Shift for speed, drag to look.
         </p>
         <p>
-          This preview loads nine fixed chunks. World streaming and free
-          navigation are next.
+          Terrain loads as you move. Rig poses are saved per seed in this
+          browser. Sensor capture arrives in a later stage.
         </p>
       </footer>
     </main>

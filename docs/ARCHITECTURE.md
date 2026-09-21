@@ -1,9 +1,10 @@
 # Sensor-fusion lab architecture
 
-Status: SF-02R procedural landscape correction implemented, 2026-09-21; SF-03
-streaming and navigation is next. Frontend/backend structure,
+Status: SF-03 streaming and navigation implemented, 2026-09-21; local
+acceptance is recorded under docs/evidence. Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
-exist. Streaming, sensors, datasets and models remain planned; no sensor/training
+exist, with worker streaming and independent sensor-geometry residency.
+Sensors, datasets and models remain planned; no sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).
@@ -114,13 +115,16 @@ ground-truth overlay is a separate UI layer, never a source of predictions.
 
 SF-02R implementation: [connected world profile](WORLD_GENERATOR.md). The shared
 package generates the finite domain as independent chunks; the browser shows
-a fixed nine-chunk neighborhood around any of 16 seed-generated regions. The
+a moving, bounded nine-chunk neighborhood, with bookmarks and 16 region shortcuts. The
 legacy editor keeps its characterized geometry. Multi-scale relief, bounded
 formations, trees and rocks are deterministic world-space fields/placements.
 Global marching tetrahedra use consistent face diagonals, field-derived normals
 and world-space biome colors; the preview renders their triangles flat-shaded.
 Mesh pitches are 4 m and 2 m with equal-pitch boundary tolerance of 0.0001 m.
-Streaming, mixed LOD, sensor residency and their performance gates remain SF-03.
+SF-03 adds worker generation, bounded LRU caches, atomic neighborhood LOD and
+independent fixed-pitch sensor residency; see [streaming policy](STREAMING.md).
+Mixed-pitch adjacency is deliberately not used: 2 m/4 m detail changes swap the
+entire display neighborhood after readiness, preserving equal-pitch seams.
 Full-domain numerical acceptance is not an interactive all-chunks-resident
 performance claim.
 

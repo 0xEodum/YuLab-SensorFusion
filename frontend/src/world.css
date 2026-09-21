@@ -84,7 +84,7 @@
   font-size: 10px;
   color: #69775f;
 }
-.world-toolbar input[type='number'],
+.world-toolbar input[type="number"],
 .world-toolbar select {
   border: 1px solid #cbd1c2;
   border-radius: 5px;
@@ -95,7 +95,7 @@
   font-size: 12px;
   height: 35px;
 }
-.world-toolbar input[type='number'] {
+.world-toolbar input[type="number"] {
   width: 120px;
 }
 .world-toolbar input:focus-visible,
@@ -137,7 +137,7 @@
   width: 100%;
   height: 100%;
 }
-.world-canvas [role='alert'] {
+.world-canvas [role="alert"] {
   position: absolute;
   inset: 30%;
   color: #8e3b28;
@@ -186,4 +186,32 @@
     flex-direction: column;
     gap: 0;
   }
+}
+.world-loading {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border-radius: 6px;
+  padding: 9px 14px;
+  background: #fffef9e8;
+  color: #53654e;
+  font-size: 12px;
+  pointer-events: none;
+}
+.world-canvas canvas:focus-visible {
+  outline: 2px solid #596d4e;
+  outline-offset: -2px;
+}
+.world-rigs {
+  border-top: 1px solid #d7dcd0;
+}
+.world-rigs input {
+  max-width: 140px;
+  padding: 8px;
+  border: 1px solid #cbd1c2;
+  border-radius: 5px;
+}
+.world-rigs span {
+  font-size: 12px;
+  align-self: center;
 }
