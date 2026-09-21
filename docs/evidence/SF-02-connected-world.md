@@ -1,8 +1,9 @@
 # SF-02 connected world verification
 
 Date: 2026-09-21. Implementation starts from SF-01 closure `690ed6b`.
-The final verification manifest identifies the tested implementation revision
-and source Git-blob hashes without requiring a self-referential evidence commit.
+Tested implementation: `b314e99`. The [verification manifest](sf02-verification-manifest.json)
+records the full revision, source Git-blob hashes, fixture/artifact hashes and
+environment without requiring a self-referential evidence commit.
 No GitHub workflows were executed for this stage.
 
 ## Delivered behavior
@@ -106,3 +107,7 @@ sensor residency, cancellation and measured resource bounds are SF-03. Asset
 imports/contact validation are SF-04. There are no sensor, capture, dataset or
 model capabilities added by SF-02. The world API rejects unsupported types and
 versions rather than silently substituting geometry.
+
+SF-02 is DONE; SF-03 is the sole READY item. The implementation checkpoint was
+pushed successfully to `origin/main`. This closure changes documentation only;
+the tested source and dependency files are unchanged.

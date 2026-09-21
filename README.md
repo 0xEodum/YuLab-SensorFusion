@@ -97,7 +97,8 @@ Changing generated code directly fails the drift check. See
 - `tests/`, `tools/`: browser/contract checks and repeatable tooling.
 - `docs/`: [architecture](docs/ARCHITECTURE.md), [backlog](docs/BACKLOG.md),
   [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and
-  [SF-01 evidence](docs/evidence/SF-01-foundation.md).
+  [SF-01 evidence](docs/evidence/SF-01-foundation.md) and
+  [SF-02 evidence](docs/evidence/SF-02-connected-world.md).
 
 Datasets, imported asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned

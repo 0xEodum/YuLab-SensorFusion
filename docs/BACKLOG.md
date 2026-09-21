@@ -1,6 +1,6 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-01 is closed; SF-02 is in progress.
+Updated: 2026-09-21. SF-01 and SF-02 are closed; SF-03 is READY.
 Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -34,8 +34,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | --- | --- | --- | --- |
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
-| SF-02 | Connected deterministic world-space terrain | SF-01 | IN PROGRESS |
-| SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | PLANNED |
+| SF-02 | Connected deterministic world-space terrain | SF-01 | DONE |
+| SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | READY |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
@@ -117,6 +117,12 @@ Acceptance:
   normals/lighting and material transitions pass browser edge inspection.
 - Geometry tests retain a through-arch/tunnel, overhang and occluded cavity;
   legacy preset characterization changes are intentional and recorded.
+
+Completed in `b314e99` with local core, full-world and production-browser checks.
+See [SF-02 evidence](evidence/SF-02-connected-world.md) and
+[verification manifest](evidence/sf02-verification-manifest.json). Both full
+256-chunk seed sweeps pass; legacy geometry/color hashes remain unchanged.
+The preview deliberately loads four fixed chunks. Streaming remains SF-03.
 
 ## SF-03 — Streaming and navigation
 
