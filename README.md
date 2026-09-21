@@ -45,7 +45,9 @@ states; terrain editing and exports also work with the backend stopped.
 Choose **Explore the connected world** above the editor (or open `?view=world`)
 to view connected 128 m chunks within a 2,048 × 2,048 m world. Seed zero works;
 region and camera selectors inspect arches, tunnels, outcrops and chunk seams.
-The preview loads four fixed chunks; streaming/navigation is the next stage.
+The preview loads four fixed chunks. Its terrain and formation detail currently
+falls short of the original scenes; SF-02R restores procedural landscape quality
+before streaming/navigation work proceeds.
 See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
 mesh tolerances, supported features and reproducibility limits.
 

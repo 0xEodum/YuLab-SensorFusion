@@ -1,5 +1,12 @@
 # Connected world profile
 
+Quality status (2026-09-21 user review): this profile is a connectivity foundation.
+Its gentle base and four fixed, simple formation definitions do not meet the
+intended procedural landscape richness or the original editor's visual quality.
+[SF-02R](BACKLOG.md#sf-02r--restore-procedural-landscape-quality) is the required
+correction before streaming; the specification below describes current behavior,
+not the final visual target.
+
 SF-02 implements `connected-world.v1` / `connected-field.v1` in `packages/world`.
 The public entry point generates typed mesh arrays and procedural placement
 records without a renderer or resident-neighbor state. `@yulab/world/legacy`

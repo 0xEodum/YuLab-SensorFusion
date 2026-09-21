@@ -1,6 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-01 and SF-02 are closed; SF-03 is READY.
+Updated: 2026-09-21. SF-02 connectivity foundation passed; landscape quality
+requires correction. SF-02R is READY; SF-03 waits for that correction.
 Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -34,8 +35,9 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | --- | --- | --- | --- |
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
-| SF-02 | Connected deterministic world-space terrain | SF-01 | DONE |
-| SF-03 | Chunk streaming, navigation and sensor residency | SF-02 | READY |
+| SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
+| SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | READY |
+| SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | PLANNED |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
@@ -53,7 +55,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 
 | User request | Delivering tasks |
 | --- | --- |
-| 1. Expand maps | SF-02, SF-03, SF-09 |
+| 1. Expand maps | SF-02, SF-02R, SF-03, SF-09 |
 | 2. RGB + IR + viewpoint-limited LiDAR | SF-05 through SF-08 |
 | 3. Generated models, heat, aerodrome | SF-04, SF-06, SF-09 |
 | 4. Weather/time/noisy varied data | SF-08, SF-10, SF-13 |
@@ -123,6 +125,43 @@ See [SF-02 evidence](evidence/SF-02-connected-world.md) and
 [verification manifest](evidence/sf02-verification-manifest.json). Both full
 256-chunk seed sweeps pass; legacy geometry/color hashes remain unchanged.
 The preview deliberately loads four fixed chunks. Streaming remains SF-03.
+
+User review on 2026-09-21 rejected the connected preview's visual simplification:
+nearly flat ground and coarse primary forms are substantially poorer than the
+original scenes. The recorded connectivity/geometry tests remain valid, but do
+not establish full procedural landscape quality. SF-02 closure is therefore
+limited to its technical foundation; SF-02R is required before SF-03 proceeds.
+
+## SF-02R — Restore procedural landscape quality
+
+Deliver: a connected procedural landscape with terrain and formation detail
+comparable to the original editor, retaining SF-02's world-space contracts.
+This is a required correction, not optional polish deferred to asset imports.
+
+Acceptance:
+
+- Replace the nearly flat presentation with visible, coherent terrain relief at
+  regional and local scales: hills/ridges, valleys and irregular rock/ground
+  transitions. The ground between landmarks must also carry procedural detail.
+- Generate feature distribution and formation variation from the world seed.
+  Four fixed showcase primitives are insufficient as the generated map. Seed
+  changes must visibly affect layout and formations, not only colors or rocks.
+- Adapt the original presets' density detail and low-poly visual character to
+  world space: irregular arches, cliffs, overhangs, cavities and appropriate
+  surface detail/decorations. Increasing triangle count alone is insufficient.
+  Retain actual volumetric openings and the existing legacy editor behavior.
+- Record side-by-side browser views against the original Canyon, Alpine,
+  Islands and Coast scenes at comparable framing and scale. Include close-up
+  and multi-chunk overview views for at least three fixed seeds, including zero.
+  Explicitly assess formation shape, ground relief, surface detail and material
+  transitions; do not infer visual parity from topology tests or face counts.
+- Rerun deterministic order/placement, negative-coordinate, seam/normal/color,
+  full-domain coverage/topology, opening/occlusion and browser regressions on
+  the final profile. Version changed field/geometry semantics and preserve
+  prior evidence instead of silently replacing its hashes.
+- Record generation cost and preview mesh counts, keeping quality/resource
+  tradeoffs explicit. All verification remains local. Streaming, mixed-pitch
+  LOD and navigation stay in SF-03 after this quality correction.
 
 ## SF-03 — Streaming and navigation
 

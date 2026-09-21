@@ -111,3 +111,18 @@ versions rather than silently substituting geometry.
 SF-02 is DONE; SF-03 is the sole READY item. The implementation checkpoint was
 pushed successfully to `origin/main`. This closure changes documentation only;
 the tested source and dependency files are unchanged.
+
+## Subsequent user review: landscape quality correction
+
+On 2026-09-21 the user identified a substantial loss of terrain and formation
+detail versus the original scenes. The previous closure above is historical:
+the tests establish connectivity, determinism and volumetric geometry, but not
+satisfactory procedural landscape richness. Current code uses a gentle base and
+four fixed showcase forms; preserving the separate legacy editor did not
+preserve that quality in the connected world.
+
+The backlog now limits SF-02 completion to its technical foundation and makes
+SF-02R the sole READY item, before SF-03. It requires seeded landscape/formation
+variation, detailed ground and original-scene visual comparisons while retaining
+the existing geometry contracts. This planning correction changes no runtime
+code and leaves the prior source/artifact evidence intact.

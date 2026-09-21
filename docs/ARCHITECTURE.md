@@ -1,6 +1,8 @@
 # Sensor-fusion lab architecture
 
-Status: SF-02 connected world implemented, 2026-09-21. Frontend/backend structure,
+Status: SF-02 connectivity foundation implemented, 2026-09-21; its connected
+preview's landscape detail is below the original editor's quality. SF-02R is
+the required correction before streaming. Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist. Streaming, sensors, datasets and models remain planned; no sensor/training
 capability is advertised. Verification is local only by user instruction.
