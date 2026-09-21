@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
 Updated: 2026-09-21. SF-02 connectivity foundation passed; landscape quality
-requires correction. SF-02R is READY; SF-03 waits for that correction.
+requires correction. SF-02R is IN PROGRESS; SF-03 waits for that correction.
 Dataset generation and training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -36,7 +36,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
 | SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
-| SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | READY |
+| SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | IN PROGRESS |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | PLANNED |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |

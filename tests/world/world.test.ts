@@ -146,6 +146,82 @@ test('request order and feature order do not change geometry, normals, colors or
   );
 });
 
+test('default worlds distribute a rich seeded formation layout across the full map', () => {
+  const zero = defaultWorldSpec(0);
+  const other = defaultWorldSpec(48291);
+  assert.ok(zero.features.length >= 12, 'world needs more than four showcase forms');
+  assert.equal(zero.features.length, other.features.length);
+  for (const type of ['canyon', 'alpine', 'islands', 'coast'])
+    assert.ok(
+      zero.features.filter((feature) => feature.type === type).length >= 2,
+      `world needs multiple ${type} regions`,
+    );
+  const span = (axis: 0 | 2) => {
+    const values = zero.features.map((feature) => feature.center_m[axis]);
+    return Math.max(...values) - Math.min(...values);
+  };
+  assert.ok(span(0) >= 1200, 'formations should span most of world X');
+  assert.ok(span(2) >= 1200, 'formations should span most of world Z');
+  const changed = zero.features.filter((feature, index) => {
+    const next = other.features[index];
+    return (
+      feature.type !== next.type ||
+      feature.center_m.some((value, axis) => value !== next.center_m[axis]) ||
+      feature.extent_m.some((value, axis) => value !== next.extent_m[axis])
+    );
+  });
+  assert.ok(
+    changed.length >= Math.ceil(zero.features.length * 0.75),
+    'seed should visibly change formation layout and scale',
+  );
+});
+
+test('base terrain has regional elevation and local relief instead of a nearly flat plane', () => {
+  for (const seed of [0, 48291, 77123]) {
+    const world = createWorld(defaultWorldSpec(seed));
+    const heights: number[] = [];
+    const localChanges: number[] = [];
+    for (let z = -896; z <= 896; z += 64)
+      for (let x = -896; x <= 896; x += 64) {
+        const height = world.baseHeight(x, z);
+        heights.push(height);
+        localChanges.push(Math.abs(height - world.baseHeight(x + 24, z + 16)));
+      }
+    const average = heights.reduce((sum, value) => sum + value, 0) / heights.length;
+    const deviation = Math.sqrt(
+      heights.reduce((sum, value) => sum + (value - average) ** 2, 0) /
+        heights.length,
+    );
+    const sortedChanges = localChanges.sort((a, b) => a - b);
+    assert.ok(Math.max(...heights) - Math.min(...heights) >= 34, `seed ${seed}: regional relief`);
+    assert.ok(deviation >= 7, `seed ${seed}: broad terrain variation`);
+    assert.ok(
+      sortedChanges[Math.floor(sortedChanges.length * 0.75)] >= 2.2,
+      `seed ${seed}: local terrain detail`,
+    );
+  }
+});
+
+test('formation seeds produce irregular geometry for every procedural feature family', () => {
+  for (const type of ['canyon', 'alpine', 'islands', 'coast'] as const) {
+    const spec = defaultWorldSpec(17);
+    spec.world_id = `feature-${type}`;
+    spec.features = [
+      {
+        id: `fixture-${type}`,
+        type,
+        center_m: [64, 40, 64],
+        extent_m: [112, 72, 96],
+        seed: 101,
+      },
+    ];
+    const first = meshHash(meshChunk(createWorld(spec), { x: 0, z: 0 }));
+    spec.features[0].seed = 202;
+    const second = meshHash(meshChunk(createWorld(spec), { x: 0, z: 0 }));
+    assert.notEqual(first, second, `${type} geometry must respond to its feature seed`);
+  }
+});
+
 function boundary(
   m: ReturnType<typeof meshChunk>,
   axis: number,
