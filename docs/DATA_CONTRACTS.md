@@ -31,8 +31,8 @@ simulation, file contents or labels. See [contract guidance](../contracts/README
 
 ## 2. Authoritative payload families
 
-SF-02 consumes the existing `WorldSpec` shape with generator version
-`connected-world.v1` and field version `connected-field.v1`. The
+SF-02R consumes the existing `WorldSpec` shape with generator version
+`connected-world.v2` and field version `connected-field.v2`. The
 [supported profile](WORLD_GENERATOR.md) adds semantic bounds, unique feature IDs,
 immutable snapshot behavior, supported feature types and meshing/placement
 policy. Wire-valid future versions or asset instances are not silently accepted

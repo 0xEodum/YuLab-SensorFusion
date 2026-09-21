@@ -2,8 +2,9 @@
 
 A procedural terrain editor being developed into an RGB, thermal IR and LiDAR
 simulation and detection lab. SF-01 adds a frontend workspace, local backend,
-shared contracts and verification. SF-02 adds a connected deterministic world
-and four-chunk preview. Sensor capture, datasets, training and inference are
+shared contracts and verification. SF-02/SF-02R add a connected deterministic
+world, seeded regional formations, and a nine-chunk preview. Sensor capture,
+datasets, training and inference are
 later stages; no trained model is supplied yet.
 
 ## Setup
@@ -45,9 +46,10 @@ states; terrain editing and exports also work with the backend stopped.
 Choose **Explore the connected world** above the editor (or open `?view=world`)
 to view connected 128 m chunks within a 2,048 × 2,048 m world. Seed zero works;
 region and camera selectors inspect arches, tunnels, outcrops and chunk seams.
-The preview loads four fixed chunks. Its terrain and formation detail currently
-falls short of the original scenes; SF-02R restores procedural landscape quality
-before streaming/navigation work proceeds.
+The preview loads nine fixed chunks around any of 16 seeded regions and renders
+regional/local relief, low-poly formations, deterministic trees and rocks.
+Landscape and landmark-detail cameras support overview and close inspection.
+Streaming and free navigation remain SF-03.
 See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
 mesh tolerances, supported features and reproducibility limits.
 
@@ -100,7 +102,8 @@ Changing generated code directly fails the drift check. See
 - `docs/`: [architecture](docs/ARCHITECTURE.md), [backlog](docs/BACKLOG.md),
   [data semantics](docs/DATA_CONTRACTS.md), [ESSRF design](docs/ESSRF.md), and
   [SF-01 evidence](docs/evidence/SF-01-foundation.md) and
-  [SF-02 evidence](docs/evidence/SF-02-connected-world.md).
+  [SF-02 evidence](docs/evidence/SF-02-connected-world.md) plus its
+  [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md).
 
 Datasets, imported asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned

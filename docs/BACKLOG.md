@@ -1,8 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-02 connectivity foundation passed; landscape quality
-requires correction. SF-02R is IN PROGRESS; SF-03 waits for that correction.
-Dataset generation and training remain later stages.
+Updated: 2026-09-21. SF-02R procedural landscape quality passed local acceptance.
+SF-03 streaming and navigation is READY. Dataset generation and training remain
+later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -36,8 +36,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-00 | Architecture, data semantics, implementation plan | Baseline inspection | DONE (planning only) |
 | SF-01 | Frontend/backend split, schema and verification foundation | SF-00 | DONE |
 | SF-02 | Connected deterministic world-space terrain foundation | SF-01 | DONE (foundation only; quality correction below) |
-| SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | IN PROGRESS |
-| SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | PLANNED |
+| SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
+| SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | READY |
 | SF-04 | Asset import and first aerodrome | SF-03 | PLANNED |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | PLANNED |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
@@ -162,6 +162,15 @@ Acceptance:
 - Record generation cost and preview mesh counts, keeping quality/resource
   tradeoffs explicit. All verification remains local. Streaming, mixed-pitch
   LOD and navigation stay in SF-03 after this quality correction.
+
+Completed in implementation checkpoint `c21a562` after the RED/GREEN commits
+recorded in [SF-02R evidence](evidence/SF-02R-procedural-quality.md). The v2
+profile generates 16 seeded regions with multi-scale terrain, volumetric
+openings, trees and rocks; the browser renders a nine-chunk overview and
+landmark-detail view. Legacy/current comparisons cover all four families and
+three connected-world seeds. Two complete 256-chunk sweeps, repository-wide
+checks, coverage, and development plus production-built Edge suites passed
+locally. Prior v1 reports and hashes remain unchanged.
 
 ## SF-03 — Streaming and navigation
 

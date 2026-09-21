@@ -121,8 +121,13 @@ satisfactory procedural landscape richness. Current code uses a gentle base and
 four fixed showcase forms; preserving the separate legacy editor did not
 preserve that quality in the connected world.
 
-The backlog now limits SF-02 completion to its technical foundation and makes
-SF-02R the sole READY item, before SF-03. It requires seeded landscape/formation
+At that review point, the backlog limited SF-02 completion to its technical
+foundation and made SF-02R the sole READY item, before SF-03. It required seeded landscape/formation
 variation, detailed ground and original-scene visual comparisons while retaining
 the existing geometry contracts. This planning correction changes no runtime
 code and leaves the prior source/artifact evidence intact.
+
+SF-02R subsequently passed local acceptance. Its implementation, explicit visual
+assessment and separate v2 artifact hashes are recorded in
+[SF-02R procedural quality evidence](SF-02R-procedural-quality.md). SF-03 is now
+the sole READY item.

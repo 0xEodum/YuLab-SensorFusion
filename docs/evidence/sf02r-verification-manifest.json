@@ -1,0 +1,62 @@
+{
+  "schema": "sf02r-verification-manifest.v1",
+  "created_at": "2026-09-21",
+  "verification_policy": "local-only",
+  "source_revision": "c21a56249fb8cfbdc48bde64520e15f333a6b998",
+  "profile": {
+    "generator_version": "connected-world.v2",
+    "field_version": "connected-field.v2",
+    "world_extent_m": [2048, 128, 2048],
+    "chunk_size_m": 128,
+    "preview_chunks": 9,
+    "generated_regions": 16
+  },
+  "commands": [
+    {"command": "npm run typecheck", "exit": 0},
+    {"command": "npm run test:world", "exit": 0, "passed": 11},
+    {"command": "node --experimental-strip-types --experimental-test-coverage --test tests/world/*.test.ts", "exit": 0, "line_coverage_percent": 95.86},
+    {"command": "npm run verify:world", "exit": 0, "seeds": [0, 48291], "chunks_per_seed": 256, "seams_per_seed": 480},
+    {"command": "npm run verify", "exit": 0, "contract_tests": 62, "world_tests": 11, "backend_tests": 72},
+    {"command": "PLAYWRIGHT_CHANNEL=msedge npm run test:browser", "exit": 0, "passed": 8},
+    {"command": "PLAYWRIGHT_CHANNEL=msedge PLAYWRIGHT_TEST_BUILT=1 npm run test:browser", "exit": 0, "passed": 8}
+  ],
+  "source_sha256": {
+    "packages/world/src/field.ts": "8468bb2b421f0550b0253b6a38256f254c87621484ecc76fa68625f375d83971",
+    "packages/world/src/placement.ts": "cd033822756a94df191a61b7772dbedebc443b0762d199fe6b25dab25b70ac42",
+    "frontend/src/WorldExplorer.tsx": "59fb17e73dac5c1192ac2579e3e9df1080061e13464a52d4ee1cb42d9d52e09e",
+    "tests/world/world.test.ts": "b0c22e4b4f72e40d382843b10394fcd8856a212db964dc318419eaea41e79bd7",
+    "tests/browser/world.spec.ts": "6b294cfa06bca1d394eadb58801614fa10b2bd03c17c10ff13e907a31a6e6aa1",
+    "tools/verify-world.ts": "6e75040c7da162bf2120d8c8036bc789e6c45213bdcad15589bca96828800a9a"
+  },
+  "artifact_sha256": {
+    "artifacts/sf02r-red.log": "9b442b9391ca35b4aff3abc8c9dcebe8e8246dffc8475d4a4e900fc6ddefdebc",
+    "artifacts/sf02r-decoration-red.log": "c67a7fcca6478363f4660a976d8b91423c7a1e1756ea18547e7a413ef7fe83bd",
+    "artifacts/sf02r-browser-red.log": "10dea43fd23910cf805a5ed207f4bbb09c890dd06360b1a857d8b41abeb9d2cf",
+    "artifacts/sf02r/typecheck.log": "95fe4504cf2f84d8b39e3d233fc03eebc2d7d285677c1e2ce6f89337428790e6",
+    "artifacts/sf02r/world-tests.log": "3513ae618ebb65e8862ab9bf8ec2125c48e753b7dcb841c4dedf54ef189e0cc7",
+    "artifacts/sf02r/world-coverage.log": "3bc90fc17ee9fe1df28bb376c48ed5759adbe31f6091e8130be1add20874177b",
+    "artifacts/sf02r/full-world.log": "ad7e950d7b08b0ca5048142b5c19d76dd92e622826296c55035824bd7448f946",
+    "artifacts/sf02r/core-verification.log": "4cd61784bb203ffd5425ccc5fbf4cd9ae402a19d6ed32940288295de7e174df5",
+    "artifacts/sf02r/browser-dev.log": "da8368b321109f95907c54431f2eb584ca4a3975a24ee61a0df97f557d34de26",
+    "artifacts/sf02r/browser-built.log": "39956eca38e9477fca37bceb7b446544c5d6d0fc66d070fd883d19907bda44b3",
+    "artifacts/sf02r/world-verification-0.json": "1a9990efb6d4da208a020a76c3270cb22ca397b25a9d7678f0ccb0ce56c87b55",
+    "artifacts/sf02r/world-verification-48291.json": "948888277a9acb27b3e50e3ed7aaac8c06c9c669a779e9b1b05465818347a704",
+    "artifacts/browser/sf02r-legacy-canyon.png": "b0d091b2dccae23fe003e2b4eae1f2e99c42ab182c87581f980f49065d88491b",
+    "artifacts/browser/sf02r-legacy-alpine.png": "64fae32c1544f981ea2aedbd7eb66782f57a2af5b42e9f6a68f5db4b9f5b729b",
+    "artifacts/browser/sf02r-legacy-islands.png": "0013ea8309af930f6dc01fb6858690726694a355140654618cb7ff1ea7613cc1",
+    "artifacts/browser/sf02r-legacy-coast.png": "1903b55b4c865430ff403444f31cb9216d9bceb483df4f2bbe0c953e860a757a",
+    "artifacts/browser/sf02r-connected-canyon-detail-seed-0.png": "9786e090270c1e07ca07554271b6b7da2824ddd81096851237239b6f488e4837",
+    "artifacts/browser/sf02r-connected-alpine-detail-seed-0.png": "b61087a93343b54c68bb7dd24fddd1cc383e1d7cdbc9195b1cd9f34108e9b58d",
+    "artifacts/browser/sf02r-connected-islands-detail-seed-0.png": "b0211330bdbd216b29e1ded00470873110070f0b0aaa8faf3d2f7d91de157da6",
+    "artifacts/browser/sf02r-connected-coast-detail-seed-0.png": "111511ff0a6b68d5d3590ce15bdccaa48551e5a68247b8378a8fc6c336f2b3ae",
+    "artifacts/browser/sf02r-connected-canyon-overview-seed-0.png": "054a9fb36221e75924c2177653371b1e7760cc6f8ed0e414828be4cd48bd345d",
+    "artifacts/browser/sf02r-connected-canyon-overview-seed-48291.png": "6f16918427614db1c9e4b82ffc32e69764596c358cd70acf1f3f21bdd3811f8e",
+    "artifacts/browser/sf02r-connected-canyon-overview-seed-77123.png": "327f906a157f9cb3314ead9e63ecb5f9980ca3d1bec31d0e35fcd8fabaa6dd9e",
+    "artifacts/browser/sf02r-connected-canyon-detail-seed-48291.png": "3d80f61ebbab1e2fc74efa83b4336f5952e7ac41cb5285463a6da0c969e554ce",
+    "artifacts/browser/sf02r-connected-canyon-detail-seed-77123.png": "da8a57db059963f289df62342672ca927521d2a693aa35e1e8e8700645e9e479",
+    "artifacts/browser/world-oblique.png": "80ade409d3946695fe19ca0237f211b32b56b763efaaf966777d3c814935e87b",
+    "artifacts/browser/world-opening.png": "e1636c435420220c9579b24e8d78e78bb99ac1d8ba04521ccc482e832da4c84d",
+    "artifacts/browser/world-top-seams.png": "28f6abbd6b9dd884dd6cc4038a7024156a023636dea07dfab4a9c67c5fb7949e",
+    "artifacts/browser/world-mobile.png": "987919a2fc18d612dd28c96fc690d0613db46f403d1501d9e4a72f8c642cbbb1"
+  }
+}
