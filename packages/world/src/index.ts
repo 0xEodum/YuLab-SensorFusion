@@ -4,6 +4,7 @@ export {
   chunkAddress,
   chunkCoordinates,
   biomeWeight,
+  terrainHeight,
   CHUNK_SIZE,
   GENERATOR_VERSION,
   FIELD_VERSION,
