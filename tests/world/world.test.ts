@@ -222,6 +222,24 @@ test('formation seeds produce irregular geometry for every procedural feature fa
   }
 });
 
+test('world-space decoration includes deterministic trees and rocks on suitable terrain', () => {
+  const world = createWorld(defaultWorldSpec(48291));
+  const placements = [
+    { x: -7, z: -7 },
+    { x: -2, z: -2 },
+    { x: 1, z: 2 },
+    { x: 6, z: 6 },
+  ].flatMap((coord) => chunkPlacements(world, coord));
+  assert.ok(placements.some((placement) => placement.kind === 'tree'));
+  assert.ok(placements.some((placement) => placement.kind === 'rock'));
+  assert.equal(new Set(placements.map((placement) => placement.id)).size, placements.length);
+  for (const placement of placements) {
+    assert.ok(placement.position.every(Number.isFinite));
+    assert.ok(placement.scale > 0);
+    assert.ok(world.normal(...placement.position)[1] >= 0.72);
+  }
+});
+
 function boundary(
   m: ReturnType<typeof meshChunk>,
   axis: number,
