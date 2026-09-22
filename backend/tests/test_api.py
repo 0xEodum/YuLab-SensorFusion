@@ -25,7 +25,7 @@ def test_real_health_and_capabilities_obey_contract(monkeypatch):
     assert capabilities["device"] == "device fixture"
     assert "Chromium fixture" in capabilities["capture_renderer"]
     assert capabilities["sensors"]["rgb"]["available"]
-    assert not capabilities["sensors"]["ir"]["available"]
+    assert capabilities["sensors"]["ir"]["available"]
     assert capabilities["services"]["capture"]["available"]
     assert not capabilities["services"]["datasets"]["available"]
 

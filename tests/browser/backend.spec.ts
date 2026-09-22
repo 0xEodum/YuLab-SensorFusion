@@ -7,7 +7,7 @@ test('real backend is reachable through Vite and reports only implemented capabi
   const capabilities = await (await request.get('/api/v1/capabilities')).json();
   expect(capabilities.sensors.rgb.available).toBe(true);
   expect(capabilities.services.capture.available).toBe(true);
-  expect(capabilities.sensors.ir.available).toBe(false);
+  expect(capabilities.sensors.ir.available).toBe(true);
   expect(capabilities.services.training.available).toBe(false);
   await page.goto('/');
   await expect(page.getByLabel('Lab backend')).toContainText('Backend connected');

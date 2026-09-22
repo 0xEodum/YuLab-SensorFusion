@@ -1,13 +1,15 @@
 import { test, expect, type Page } from "@playwright/test";
 
-function npy(bytes: ArrayBuffer, kind: "f32" | "u32") {
+function npy(bytes: ArrayBuffer, kind: "f32" | "u32" | "u8") {
   const view = new DataView(bytes);
   expect(String.fromCharCode(...new Uint8Array(bytes, 1, 5))).toBe("NUMPY");
   const headerLength = view.getUint16(8, true);
   const offset = 10 + headerLength;
   return kind === "f32"
     ? new Float32Array(bytes, offset)
-    : new Uint32Array(bytes, offset);
+    : kind === "u32"
+      ? new Uint32Array(bytes, offset)
+      : new Uint8Array(bytes, offset);
 }
 
 async function worldReady(page: Page) {
@@ -17,17 +19,17 @@ async function worldReady(page: Page) {
   ).toBe(true);
 }
 
-test("saved rig capture publishes synchronized fixed-size RGB, depth and ID panes", async ({ page }) => {
+test("saved rig capture publishes synchronized RGB, IR, depth and ID panes with calibrated raw IR", async ({ page }) => {
   test.setTimeout(180_000);
   await page.goto("/?view=world&site=aerodrome&qa=1");
   await worldReady(page);
   await page.getByRole("button", { name: "Unobstructed F-16" }).click();
   await worldReady(page);
   await page.getByRole("button", { name: "Save rig pose" }).click();
-  await page.getByRole("button", { name: "Capture RGB and references" }).click();
+  await page.getByRole("button", { name: "Capture RGB, IR and references" }).click();
   await expect(page.getByRole("status", { name: "Capture status" })).toContainText("succeeded", { timeout: 120_000 });
   const panes = page.locator("[data-capture-id]");
-  await expect(panes).toHaveCount(3);
+  await expect(panes).toHaveCount(4);
   const ids = await panes.evaluateAll((nodes) => nodes.map((n) => n.getAttribute("data-capture-id")));
   expect(new Set(ids).size).toBe(1);
   for (const pane of await panes.all()) {
@@ -38,7 +40,7 @@ test("saved rig capture publishes synchronized fixed-size RGB, depth and ID pane
   const job = await page.evaluate(async (jobId) =>
     fetch(`/api/v1/jobs/${jobId}`).then((response) => response.json()), jobId,
   );
-  const raw = await page.evaluate(async ({ jobId, depthId, instanceId }) => {
+  const raw = await page.evaluate(async ({ jobId, depthId, instanceId, radianceId, validityId, saturationId, stateId, metadataId }) => {
     const load = async (id: string) => {
       const response = await fetch(`/api/v1/jobs/${jobId}/artifacts/${id}`);
       const bytes = new Uint8Array(await response.arrayBuffer());
@@ -46,18 +48,60 @@ test("saved rig capture publishes synchronized fixed-size RGB, depth and ID pane
       for (const byte of bytes) result.push(byte);
       return result;
     };
-    return { depth: await load(depthId), instance: await load(instanceId) };
+    const text = async (id: string) => {
+      const response = await fetch(`/api/v1/jobs/${jobId}/artifacts/${id}`);
+      return response.text();
+    };
+    return {
+      depth: await load(depthId),
+      instance: await load(instanceId),
+      radiance: await load(radianceId),
+      validity: await load(validityId),
+      saturation: await load(saturationId),
+      state: await text(stateId),
+      metadata: await text(metadataId),
+    };
   }, {
     jobId,
     depthId: job.result.artifacts.depth.id,
     instanceId: job.result.artifacts.instance.id,
+    radianceId: job.result.artifacts.ir_radiance.id,
+    validityId: job.result.artifacts.ir_validity.id,
+    saturationId: job.result.artifacts.ir_saturation.id,
+    stateId: job.result.artifacts.thermal_state.id,
+    metadataId: job.result.artifacts.metadata.id,
   });
   const depthBytes = new Uint8Array(raw.depth as number[]).buffer;
   const instanceBytes = new Uint8Array(raw.instance as number[]).buffer;
   const depth = npy(depthBytes, "f32") as Float32Array;
   const instance = npy(instanceBytes, "u32") as Uint32Array;
+  const radiance = npy(new Uint8Array(raw.radiance as number[]).buffer, "f32") as Float32Array;
+  const validity = npy(new Uint8Array(raw.validity as number[]).buffer, "u8") as Uint8Array;
+  const saturation = npy(new Uint8Array(raw.saturation as number[]).buffer, "u8") as Uint8Array;
   expect(depth).toHaveLength(640 * 384);
   expect(instance).toHaveLength(640 * 384);
+  expect(radiance).toHaveLength(640 * 384);
+  expect(validity).toHaveLength(640 * 384);
+  expect(saturation).toHaveLength(640 * 384);
+  expect([...validity].some((value) => value === 1)).toBe(true);
+  expect([...radiance].some((value) => value > 0)).toBe(true);
+  for (let i = 0; i < radiance.length; i++) {
+    if (!validity[i]) expect(radiance[i]).toBe(0);
+    expect(saturation[i]).toBeLessThanOrEqual(1);
+  }
+  const thermalState = JSON.parse(raw.state as string);
+  expect(thermalState.version).toBe("thermal-state.v1");
+  const f16 = thermalState.nodes.filter((node: any) => node.instance_id === "aerodrome-0-clear");
+  const body = f16.find((node: any) => node.region_id === "body-surface").temperature_k;
+  const exhaust = f16.find((node: any) => node.region_id === "exhaust-surface").temperature_k;
+  expect(exhaust).toBeGreaterThan(body + 20);
+  const metadata = JSON.parse(raw.metadata as string);
+  expect(metadata.ir_calibration).toMatchObject({
+    response_version: "lwir-8-14um.v1",
+    band_um: [8, 14],
+    radiance_units: "W/m2/sr",
+    palette_applies_to_raw: false,
+  });
   expect(depth[320]).toBe(0);
   expect(depth[(383 * 640) + 320]).toBeGreaterThan(0);
   const visibleId = job.result.instance_ids["aerodrome-0-clear"];
@@ -78,7 +122,7 @@ test("capture cancellation is explicit and never exposes synchronized panes", as
   await page.goto("/?view=world&site=aerodrome&qa=1&captureDelay=1500");
   await worldReady(page);
   await page.getByRole("button", { name: "Save rig pose" }).click();
-  await page.getByRole("button", { name: "Capture RGB and references" }).click();
+  await page.getByRole("button", { name: "Capture RGB, IR and references" }).click();
   await expect(page.getByRole("button", { name: "Cancel capture" })).toBeEnabled();
   await page.getByRole("button", { name: "Cancel capture" }).click();
   await expect(page.getByRole("status", { name: "Capture status" })).toContainText("cancelled", { timeout: 30_000 });
@@ -95,7 +139,7 @@ test("closing the submitting browser does not stop an accepted backend job", asy
   const accepted = page.waitForResponse((response) =>
     response.url().endsWith("/api/v1/captures") && response.request().method() === "POST",
   );
-  await page.getByRole("button", { name: "Capture RGB and references" }).click();
+  await page.getByRole("button", { name: "Capture RGB, IR and references" }).click();
   const job = await (await accepted).json();
   expect(job.state).toBe("queued");
   await page.close();
@@ -106,6 +150,7 @@ test("closing the submitting browser does not stop an accepted backend job", asy
   const status = await request.get(`/api/v1/jobs/${job.job_id}`);
   const completed = await status.json();
   expect(Object.keys(completed.result.artifacts).sort()).toEqual([
-    "depth", "depth_preview", "instance", "instance_preview", "metadata", "rgb",
+    "depth", "depth_preview", "instance", "instance_preview", "ir_preview",
+    "ir_radiance", "ir_saturation", "ir_validity", "metadata", "rgb", "thermal_state",
   ]);
 });
