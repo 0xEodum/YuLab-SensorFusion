@@ -14,8 +14,8 @@
       },
       "metadata": {
         "id": "f16-metadata",
-        "sha256": "53c7f6469a12f63c05b808ab72639f6832fc37f1664c9e6775b3afca295daf02",
-        "byte_length": 1866,
+        "sha256": "fc7764d1a113290d20307b145e8aa427b476b445b3ba169a9cc3935e81660afa",
+        "byte_length": 1936,
         "media_type": "application/json"
       },
       "source": {
@@ -400,636 +400,636 @@
       "materials": [
         {
           "id": "material-0",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-1",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-2",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-3",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-4",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-5",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
+          "emissivity": 0.92,
+          "solar_absorption": 0.7,
+          "thermal_capacity_j_per_k": 60000,
           "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "convection_w_per_m2_k": 20,
+          "response_time_s": 3000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-6",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
+          "emissivity": 0.92,
+          "solar_absorption": 0.7,
+          "thermal_capacity_j_per_k": 60000,
           "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "convection_w_per_m2_k": 20,
+          "response_time_s": 3000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-7",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
+          "emissivity": 0.92,
+          "solar_absorption": 0.7,
+          "thermal_capacity_j_per_k": 60000,
           "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "convection_w_per_m2_k": 20,
+          "response_time_s": 3000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-8",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-9",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-10",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-11",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-12",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-13",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-14",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-15",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-16",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-17",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-18",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-19",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-20",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-21",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-22",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-23",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-24",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-25",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-26",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-27",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-28",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-29",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-30",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-31",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-32",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-33",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-34",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-35",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-36",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-37",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": false,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-38",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": false,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-39",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-40",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-41",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-42",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-43",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-44",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-45",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-46",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-47",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-48",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-49",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-50",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-51",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-52",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
@@ -1037,25 +1037,31 @@
       ],
       "heat_sources": [
         {
-          "part_id": "part-0005",
-          "power_w": 0,
+          "part_id": "part-0003",
+          "power_w": 4000,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0005",
+          "power_w": 12000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
         },
         {
           "part_id": "part-0006",
-          "power_w": 0,
+          "power_w": 12000,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-0007",
-          "power_w": 0,
+          "power_w": 12000,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         }
       ],
-      "thermal_model_version": "surface-regions.v1"
+      "thermal_model_version": "thermal-surface.v1"
     },
     {
       "schema_version": "lab.v1",
@@ -1070,8 +1076,8 @@
       },
       "metadata": {
         "id": "rq4-metadata",
-        "sha256": "296714970710eac972d02af050b229db2308929de21ce23e71cee6cf622169c2",
-        "byte_length": 1819,
+        "sha256": "ca7f91d9b72f921d50c5c8467019ebc97ca14aba5edabdbfaba7997fac150327",
+        "byte_length": 1889,
         "media_type": "application/json"
       },
       "source": {
@@ -1564,852 +1570,852 @@
       "materials": [
         {
           "id": "material-0",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-1",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-2",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-3",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-4",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-5",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-6",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-7",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-8",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-9",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-10",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-11",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-12",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-13",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-14",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-15",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-16",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-17",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-18",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-19",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-20",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-21",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-22",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-23",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-24",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
+          "emissivity": 0.92,
+          "solar_absorption": 0.7,
+          "thermal_capacity_j_per_k": 60000,
           "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "convection_w_per_m2_k": 20,
+          "response_time_s": 3000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-25",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-26",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-27",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-28",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-29",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-30",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-31",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-32",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-33",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-34",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-35",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-36",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-37",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-38",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-39",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-40",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-41",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-42",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-43",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-44",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-45",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-46",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-47",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-48",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-49",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-50",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-51",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-52",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-53",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-54",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-55",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-56",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-57",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-58",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-59",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-60",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-61",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-62",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-63",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-64",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-65",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-66",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-67",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-68",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-69",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-70",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
@@ -2417,13 +2423,19 @@
       ],
       "heat_sources": [
         {
-          "part_id": "part-0024",
-          "power_w": 0,
+          "part_id": "part-0009",
+          "power_w": 4000,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0024",
+          "power_w": 12000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
         }
       ],
-      "thermal_model_version": "surface-regions.v1"
+      "thermal_model_version": "thermal-surface.v1"
     },
     {
       "schema_version": "lab.v1",
@@ -2438,8 +2450,8 @@
       },
       "metadata": {
         "id": "ground-vehicle-metadata",
-        "sha256": "42e8eeedeacceeff5a90e7677fa92cee760baebd770d2b4ba1a5b4812bc80307",
-        "byte_length": 2053,
+        "sha256": "32f50d63c7b85da7f3875ac7785858d821bf0169e547732b4bb1a7e9b1e23be5",
+        "byte_length": 2123,
         "media_type": "application/json"
       },
       "source": {
@@ -7479,7 +7491,7 @@
         {
           "id": "part-0829",
           "mesh_node": "part-0829",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
@@ -7611,13 +7623,13 @@
         {
           "id": "part-0851",
           "mesh_node": "part-0851",
-          "material_id": "material-6",
+          "material_id": "material-7",
           "semantic": "body-surface"
         },
         {
           "id": "part-0852",
           "mesh_node": "part-0852",
-          "material_id": "material-6",
+          "material_id": "material-7",
           "semantic": "body-surface"
         },
         {
@@ -8283,7 +8295,7 @@
         {
           "id": "part-0963",
           "mesh_node": "part-0963",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
@@ -8415,43 +8427,43 @@
         {
           "id": "part-0985",
           "mesh_node": "part-0985",
-          "material_id": "material-6",
+          "material_id": "material-7",
           "semantic": "body-surface"
         },
         {
           "id": "part-0986",
           "mesh_node": "part-0986",
-          "material_id": "material-6",
+          "material_id": "material-7",
           "semantic": "body-surface"
         },
         {
           "id": "part-0987",
           "mesh_node": "part-0987",
-          "material_id": "material-1",
+          "material_id": "material-8",
           "semantic": "engine-surface"
         },
         {
           "id": "part-0988",
           "mesh_node": "part-0988",
-          "material_id": "material-1",
+          "material_id": "material-8",
           "semantic": "engine-surface"
         },
         {
           "id": "part-0989",
           "mesh_node": "part-0989",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-0990",
           "mesh_node": "part-0990",
-          "material_id": "material-7",
+          "material_id": "material-10",
           "semantic": "engine-surface"
         },
         {
           "id": "part-0991",
           "mesh_node": "part-0991",
-          "material_id": "material-3",
+          "material_id": "material-11",
           "semantic": "engine-surface"
         },
         {
@@ -8463,7 +8475,7 @@
         {
           "id": "part-0993",
           "mesh_node": "part-0993",
-          "material_id": "material-7",
+          "material_id": "material-12",
           "semantic": "body-surface"
         },
         {
@@ -8493,67 +8505,67 @@
         {
           "id": "part-0998",
           "mesh_node": "part-0998",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-0999",
           "mesh_node": "part-0999",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1000",
           "mesh_node": "part-1000",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1001",
           "mesh_node": "part-1001",
-          "material_id": "material-5",
+          "material_id": "material-13",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1002",
           "mesh_node": "part-1002",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1003",
           "mesh_node": "part-1003",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1004",
           "mesh_node": "part-1004",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1005",
           "mesh_node": "part-1005",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1006",
           "mesh_node": "part-1006",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1007",
           "mesh_node": "part-1007",
-          "material_id": "material-7",
+          "material_id": "material-10",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1008",
           "mesh_node": "part-1008",
-          "material_id": "material-3",
+          "material_id": "material-11",
           "semantic": "engine-surface"
         },
         {
@@ -8565,7 +8577,7 @@
         {
           "id": "part-1010",
           "mesh_node": "part-1010",
-          "material_id": "material-7",
+          "material_id": "material-12",
           "semantic": "body-surface"
         },
         {
@@ -8595,523 +8607,523 @@
         {
           "id": "part-1015",
           "mesh_node": "part-1015",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1016",
           "mesh_node": "part-1016",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1017",
           "mesh_node": "part-1017",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1018",
           "mesh_node": "part-1018",
-          "material_id": "material-5",
+          "material_id": "material-13",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1019",
           "mesh_node": "part-1019",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1020",
           "mesh_node": "part-1020",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1021",
           "mesh_node": "part-1021",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1022",
           "mesh_node": "part-1022",
-          "material_id": "material-8",
+          "material_id": "material-14",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1023",
           "mesh_node": "part-1023",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1024",
           "mesh_node": "part-1024",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1025",
           "mesh_node": "part-1025",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1026",
           "mesh_node": "part-1026",
-          "material_id": "material-2",
+          "material_id": "material-6",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1027",
           "mesh_node": "part-1027",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1028",
           "mesh_node": "part-1028",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1029",
           "mesh_node": "part-1029",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1030",
           "mesh_node": "part-1030",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1031",
           "mesh_node": "part-1031",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1032",
           "mesh_node": "part-1032",
-          "material_id": "material-0",
+          "material_id": "material-9",
           "semantic": "engine-surface"
         },
         {
           "id": "part-1033",
           "mesh_node": "part-1033",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1034",
           "mesh_node": "part-1034",
-          "material_id": "material-0",
+          "material_id": "material-16",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1035",
           "mesh_node": "part-1035",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1036",
           "mesh_node": "part-1036",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1037",
           "mesh_node": "part-1037",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1038",
           "mesh_node": "part-1038",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1039",
           "mesh_node": "part-1039",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1040",
           "mesh_node": "part-1040",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1041",
           "mesh_node": "part-1041",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1042",
           "mesh_node": "part-1042",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1043",
           "mesh_node": "part-1043",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1044",
           "mesh_node": "part-1044",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1045",
           "mesh_node": "part-1045",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1046",
           "mesh_node": "part-1046",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1047",
           "mesh_node": "part-1047",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1048",
           "mesh_node": "part-1048",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1049",
           "mesh_node": "part-1049",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1050",
           "mesh_node": "part-1050",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1051",
           "mesh_node": "part-1051",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1052",
           "mesh_node": "part-1052",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1053",
           "mesh_node": "part-1053",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1054",
           "mesh_node": "part-1054",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1055",
           "mesh_node": "part-1055",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1056",
           "mesh_node": "part-1056",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1057",
           "mesh_node": "part-1057",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1058",
           "mesh_node": "part-1058",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1059",
           "mesh_node": "part-1059",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1060",
           "mesh_node": "part-1060",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1061",
           "mesh_node": "part-1061",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1062",
           "mesh_node": "part-1062",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1063",
           "mesh_node": "part-1063",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1064",
           "mesh_node": "part-1064",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1065",
           "mesh_node": "part-1065",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1066",
           "mesh_node": "part-1066",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1067",
           "mesh_node": "part-1067",
-          "material_id": "material-0",
+          "material_id": "material-16",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1068",
           "mesh_node": "part-1068",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1069",
           "mesh_node": "part-1069",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1070",
           "mesh_node": "part-1070",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1071",
           "mesh_node": "part-1071",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1072",
           "mesh_node": "part-1072",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1073",
           "mesh_node": "part-1073",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1074",
           "mesh_node": "part-1074",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1075",
           "mesh_node": "part-1075",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1076",
           "mesh_node": "part-1076",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1077",
           "mesh_node": "part-1077",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1078",
           "mesh_node": "part-1078",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1079",
           "mesh_node": "part-1079",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1080",
           "mesh_node": "part-1080",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1081",
           "mesh_node": "part-1081",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1082",
           "mesh_node": "part-1082",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1083",
           "mesh_node": "part-1083",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1084",
           "mesh_node": "part-1084",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1085",
           "mesh_node": "part-1085",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1086",
           "mesh_node": "part-1086",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1087",
           "mesh_node": "part-1087",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1088",
           "mesh_node": "part-1088",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1089",
           "mesh_node": "part-1089",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1090",
           "mesh_node": "part-1090",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1091",
           "mesh_node": "part-1091",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1092",
           "mesh_node": "part-1092",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1093",
           "mesh_node": "part-1093",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1094",
           "mesh_node": "part-1094",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1095",
           "mesh_node": "part-1095",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1096",
           "mesh_node": "part-1096",
-          "material_id": "material-1",
+          "material_id": "material-17",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1097",
           "mesh_node": "part-1097",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1098",
           "mesh_node": "part-1098",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1099",
           "mesh_node": "part-1099",
-          "material_id": "material-2",
+          "material_id": "material-15",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1100",
           "mesh_node": "part-1100",
-          "material_id": "material-6",
+          "material_id": "material-18",
           "semantic": "radiator-surface"
         },
         {
           "id": "part-1101",
           "mesh_node": "part-1101",
-          "material_id": "material-6",
+          "material_id": "material-18",
           "semantic": "radiator-surface"
         },
         {
@@ -9219,7 +9231,7 @@
         {
           "id": "part-1119",
           "mesh_node": "part-1119",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9297,13 +9309,13 @@
         {
           "id": "part-1132",
           "mesh_node": "part-1132",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1133",
           "mesh_node": "part-1133",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9381,7 +9393,7 @@
         {
           "id": "part-1146",
           "mesh_node": "part-1146",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9399,13 +9411,13 @@
         {
           "id": "part-1149",
           "mesh_node": "part-1149",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1150",
           "mesh_node": "part-1150",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9429,7 +9441,7 @@
         {
           "id": "part-1154",
           "mesh_node": "part-1154",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9441,7 +9453,7 @@
         {
           "id": "part-1156",
           "mesh_node": "part-1156",
-          "material_id": "material-7",
+          "material_id": "material-12",
           "semantic": "body-surface"
         },
         {
@@ -9459,7 +9471,7 @@
         {
           "id": "part-1159",
           "mesh_node": "part-1159",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9525,25 +9537,25 @@
         {
           "id": "part-1170",
           "mesh_node": "part-1170",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1171",
           "mesh_node": "part-1171",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1172",
           "mesh_node": "part-1172",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1173",
           "mesh_node": "part-1173",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9555,7 +9567,7 @@
         {
           "id": "part-1175",
           "mesh_node": "part-1175",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9621,25 +9633,25 @@
         {
           "id": "part-1186",
           "mesh_node": "part-1186",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1187",
           "mesh_node": "part-1187",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1188",
           "mesh_node": "part-1188",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1189",
           "mesh_node": "part-1189",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9651,7 +9663,7 @@
         {
           "id": "part-1191",
           "mesh_node": "part-1191",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9717,25 +9729,25 @@
         {
           "id": "part-1202",
           "mesh_node": "part-1202",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1203",
           "mesh_node": "part-1203",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1204",
           "mesh_node": "part-1204",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1205",
           "mesh_node": "part-1205",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9747,7 +9759,7 @@
         {
           "id": "part-1207",
           "mesh_node": "part-1207",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9813,25 +9825,25 @@
         {
           "id": "part-1218",
           "mesh_node": "part-1218",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1219",
           "mesh_node": "part-1219",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1220",
           "mesh_node": "part-1220",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1221",
           "mesh_node": "part-1221",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9843,7 +9855,7 @@
         {
           "id": "part-1223",
           "mesh_node": "part-1223",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9909,25 +9921,25 @@
         {
           "id": "part-1234",
           "mesh_node": "part-1234",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1235",
           "mesh_node": "part-1235",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1236",
           "mesh_node": "part-1236",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1237",
           "mesh_node": "part-1237",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -9939,7 +9951,7 @@
         {
           "id": "part-1239",
           "mesh_node": "part-1239",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10005,25 +10017,25 @@
         {
           "id": "part-1250",
           "mesh_node": "part-1250",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1251",
           "mesh_node": "part-1251",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1252",
           "mesh_node": "part-1252",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1253",
           "mesh_node": "part-1253",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10137,7 +10149,7 @@
         {
           "id": "part-1272",
           "mesh_node": "part-1272",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10203,25 +10215,25 @@
         {
           "id": "part-1283",
           "mesh_node": "part-1283",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1284",
           "mesh_node": "part-1284",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1285",
           "mesh_node": "part-1285",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1286",
           "mesh_node": "part-1286",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10233,7 +10245,7 @@
         {
           "id": "part-1288",
           "mesh_node": "part-1288",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10299,25 +10311,25 @@
         {
           "id": "part-1299",
           "mesh_node": "part-1299",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1300",
           "mesh_node": "part-1300",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1301",
           "mesh_node": "part-1301",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1302",
           "mesh_node": "part-1302",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10329,7 +10341,7 @@
         {
           "id": "part-1304",
           "mesh_node": "part-1304",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10395,25 +10407,25 @@
         {
           "id": "part-1315",
           "mesh_node": "part-1315",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1316",
           "mesh_node": "part-1316",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1317",
           "mesh_node": "part-1317",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1318",
           "mesh_node": "part-1318",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10425,7 +10437,7 @@
         {
           "id": "part-1320",
           "mesh_node": "part-1320",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10491,25 +10503,25 @@
         {
           "id": "part-1331",
           "mesh_node": "part-1331",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1332",
           "mesh_node": "part-1332",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1333",
           "mesh_node": "part-1333",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1334",
           "mesh_node": "part-1334",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10521,7 +10533,7 @@
         {
           "id": "part-1336",
           "mesh_node": "part-1336",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10587,25 +10599,25 @@
         {
           "id": "part-1347",
           "mesh_node": "part-1347",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1348",
           "mesh_node": "part-1348",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1349",
           "mesh_node": "part-1349",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1350",
           "mesh_node": "part-1350",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10617,7 +10629,7 @@
         {
           "id": "part-1352",
           "mesh_node": "part-1352",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10683,25 +10695,25 @@
         {
           "id": "part-1363",
           "mesh_node": "part-1363",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1364",
           "mesh_node": "part-1364",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1365",
           "mesh_node": "part-1365",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
           "id": "part-1366",
           "mesh_node": "part-1366",
-          "material_id": "material-9",
+          "material_id": "material-19",
           "semantic": "body-surface"
         },
         {
@@ -10804,120 +10816,240 @@
       "materials": [
         {
           "id": "material-0",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-1",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-2",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-3",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-4",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-5",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-6",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-7",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-8",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
         },
         {
           "id": "material-9",
-          "emissivity": 0.9,
-          "solar_absorption": 0.6,
-          "thermal_capacity_j_per_k": 1000,
-          "area_m2": 1,
-          "convection_w_per_m2_k": 10,
-          "response_time_s": 100,
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-10",
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-11",
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-12",
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-13",
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-14",
+          "emissivity": 0.88,
+          "solar_absorption": 0.65,
+          "thermal_capacity_j_per_k": 120000,
+          "area_m2": 2,
+          "convection_w_per_m2_k": 12,
+          "response_time_s": 5000,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-15",
+          "emissivity": 0.94,
+          "solar_absorption": 0.75,
+          "thermal_capacity_j_per_k": 100000,
+          "area_m2": 1.5,
+          "convection_w_per_m2_k": 16,
+          "response_time_s": 4166.666666666667,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-16",
+          "emissivity": 0.94,
+          "solar_absorption": 0.75,
+          "thermal_capacity_j_per_k": 100000,
+          "area_m2": 1.5,
+          "convection_w_per_m2_k": 16,
+          "response_time_s": 4166.666666666667,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-17",
+          "emissivity": 0.94,
+          "solar_absorption": 0.75,
+          "thermal_capacity_j_per_k": 100000,
+          "area_m2": 1.5,
+          "convection_w_per_m2_k": 16,
+          "response_time_s": 4166.666666666667,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-18",
+          "emissivity": 0.94,
+          "solar_absorption": 0.75,
+          "thermal_capacity_j_per_k": 100000,
+          "area_m2": 1.5,
+          "convection_w_per_m2_k": 16,
+          "response_time_s": 4166.666666666667,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-19",
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
@@ -10925,421 +11057,637 @@
       ],
       "heat_sources": [
         {
-          "part_id": "part-1033",
-          "power_w": 0,
+          "part_id": "part-0829",
+          "power_w": 4000,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0963",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0987",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0988",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0989",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0990",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0991",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0998",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-0999",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1000",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1001",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1002",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1003",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1004",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1005",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1006",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1007",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1008",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1015",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1016",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1017",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1018",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1019",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1020",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1021",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1022",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1023",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1024",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1025",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1026",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1027",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1028",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1029",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1030",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1031",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1032",
+          "power_w": 4000,
+          "coupling_fraction": 1,
+          "operating_state": "running"
+        },
+        {
+          "part_id": "part-1033",
+          "power_w": 2500,
+          "coupling_fraction": 1,
+          "operating_state": "running"
         },
         {
           "part_id": "part-1034",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1035",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1036",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1037",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1038",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1039",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1040",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1041",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1042",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1043",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1044",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1045",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1046",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1047",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1048",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1049",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1050",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1051",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1052",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1053",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1054",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1055",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1056",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1057",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1058",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1059",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1060",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1061",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1062",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1063",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1064",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1065",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1066",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1067",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1068",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1069",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1070",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1071",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1072",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1073",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1074",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1075",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1076",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1077",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1078",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1079",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1080",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1081",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1082",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1083",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1084",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1085",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1086",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1087",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1088",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1089",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1090",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1091",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1092",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1093",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1094",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1095",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1096",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1097",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1098",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1099",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1100",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         },
         {
           "part_id": "part-1101",
-          "power_w": 0,
+          "power_w": 2500,
           "coupling_fraction": 1,
-          "operating_state": "off"
+          "operating_state": "running"
         }
       ],
-      "thermal_model_version": "surface-regions.v1"
+      "thermal_model_version": "thermal-surface.v1"
     }
   ]
 }

@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./capture": "./src/capture.ts"
+    "./capture": "./src/capture.ts",
+    "./thermal": "./src/thermal.ts"
   },
   "scripts": { "typecheck": "tsc --noEmit" },
   "dependencies": {

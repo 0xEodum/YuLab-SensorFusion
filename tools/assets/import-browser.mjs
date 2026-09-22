@@ -220,17 +220,27 @@ window.importAssets = async () => {
         if (center.z < -5.3 && center.y > 1.2 && center.y < 2.5)
           semantic = "radiator-surface";
       }
-      if (!materialIds.has(node.material.uuid)) {
+      const thermalProfiles = {
+        "body-surface": [0.82, 0.55, 250000, 4, 8],
+        "engine-surface": [0.88, 0.65, 120000, 2, 12],
+        "exhaust-surface": [0.92, 0.7, 60000, 1, 20],
+        "radiator-surface": [0.94, 0.75, 100000, 1.5, 16],
+      };
+      const materialKey = `${node.material.uuid}:${semantic}`;
+      if (!materialIds.has(materialKey)) {
         const id = `material-${materials.length}`;
-        materialIds.set(node.material.uuid, id);
+        materialIds.set(materialKey, id);
+        const [emissivity, solar_absorption, thermal_capacity_j_per_k,
+          area_m2, convection_w_per_m2_k] = thermalProfiles[semantic];
         materials.push({
           id,
-          emissivity: 0.9,
-          solar_absorption: 0.6,
-          thermal_capacity_j_per_k: 1000,
-          area_m2: 1,
-          convection_w_per_m2_k: 10,
-          response_time_s: 100,
+          emissivity,
+          solar_absorption,
+          thermal_capacity_j_per_k,
+          area_m2,
+          convection_w_per_m2_k,
+          response_time_s: thermal_capacity_j_per_k /
+            (convection_w_per_m2_k * area_m2),
           opaque_rgb: !material.transparent,
           opaque_ir: true,
           opaque_lidar: true,
@@ -244,7 +254,7 @@ window.importAssets = async () => {
       parts.push({
         id,
         mesh_node: id,
-        material_id: materialIds.get(node.material.uuid),
+        material_id: materialIds.get(materialKey),
         semantic,
       });
     }
@@ -315,7 +325,7 @@ window.importAssets = async () => {
         scale_basis:
           "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
         thermal_policy:
-          "Named exterior regions only; synthetic placeholder material coefficients, all sources off. Thermal evolution is SF-06.",
+          "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
       },
     });
   }

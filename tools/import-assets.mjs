@@ -186,15 +186,19 @@ try {
       materials: result.materials,
       heat_sources: result.parts
         .filter((p) =>
-          ["exhaust-surface", "radiator-surface"].includes(p.semantic),
+          ["engine-surface", "exhaust-surface", "radiator-surface"].includes(p.semantic),
         )
         .map((p) => ({
           part_id: p.id,
-          power_w: 0,
+          power_w: p.semantic === "exhaust-surface"
+            ? 12_000
+            : p.semantic === "radiator-surface"
+              ? 2_500
+              : 4_000,
           coupling_fraction: 1,
-          operating_state: "off",
+          operating_state: "running",
         })),
-      thermal_model_version: "surface-regions.v1",
+      thermal_model_version: "thermal-surface.v1",
     };
     validatePayload("AssetRecord", record);
     await writeFile(path.join(output, `${result.id}.glb`), glb);

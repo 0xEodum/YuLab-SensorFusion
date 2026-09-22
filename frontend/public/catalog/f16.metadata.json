@@ -50,7 +50,7 @@
   },
   "frozen_pose": "gear down; engine off; no frame callbacks, stores, projectiles or source app",
   "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
-  "thermal_policy": "Named exterior regions only; synthetic placeholder material coefficients, all sources off. Thermal evolution is SF-06.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
   "source_files": [
     {
       "path": "src/model/Airframe.tsx",
