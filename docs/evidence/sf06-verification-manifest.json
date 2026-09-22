@@ -1,0 +1,133 @@
+{
+  "schema": "sf06-verification-manifest.v1",
+  "date": "2026-09-22",
+  "source_revision": "14b65365a69958b9518cc4d4d696b5bd81a2a30e",
+  "policy": "local-only",
+  "source_archive": {
+    "path": "artifacts/sf06/sf06-source-14b6536.zip",
+    "byte_length": 3053035,
+    "sha256": "f84437f25841d70df3483555d25eded6689ffaddeaddedc94b70edae20283817"
+  },
+  "checkpoints": [
+    {"revision": "3e43ad8", "role": "RED pure thermal acceptance tests"},
+    {"revision": "f0427d8", "role": "GREEN deterministic thermal core and catalog"},
+    {"revision": "e01f468", "role": "RED raw IR worker and UI acceptance"},
+    {"revision": "14b6536", "role": "GREEN synchronized thermal IR capture"}
+  ],
+  "environment": {
+    "os": "Windows 11 Pro 10.0.26200 x64",
+    "cpu": "Intel Core i5-12400",
+    "node": "25.6.1",
+    "npm": "11.9.0",
+    "python": "3.13.10",
+    "uv": "0.12.17 through tools/uv.mjs",
+    "playwright": "1.63.0",
+    "browser": "Chromium 153.0.4234.48 via local Edge channel",
+    "gpu": "ANGLE NVIDIA GeForce RTX 3090 Direct3D11",
+    "driver": "591.86",
+    "gpu_memory_mib": 24576,
+    "max_texture_size": 16384
+  },
+  "commands": [
+    {
+      "command": "node --experimental-strip-types --test tests/sensors/thermal.test.ts",
+      "phase": "RED",
+      "exit": 1,
+      "signal": "ERR_MODULE_NOT_FOUND for packages/sensors/src/thermal.ts"
+    },
+    {
+      "command": "node tools/uv.mjs run --project backend --locked pytest backend/tests/test_api.py -q",
+      "phase": "capture RED",
+      "exit": 1,
+      "signal": "IR capability was unavailable before worker integration"
+    },
+    {
+      "command": "npm run verify",
+      "exit": 0,
+      "contract_tests": 64,
+      "world_tests": 19,
+      "sensor_tests": 15,
+      "asset_tests": 4,
+      "backend_tests": 81,
+      "typecheck": true,
+      "build": true
+    },
+    {
+      "command": "node --experimental-strip-types --experimental-test-coverage --test tests/sensors/*.test.ts",
+      "exit": 0,
+      "tests": 15,
+      "line_percent": 99.56,
+      "branch_percent": 83.54,
+      "function_percent": 100.0
+    },
+    {
+      "command": "assets:import source -> reimport-a and reimport-b",
+      "exit": 0,
+      "repeats": 2,
+      "files_per_run": 7,
+      "all_equal_to_committed": true
+    },
+    {
+      "command": "PLAYWRIGHT_CHANNEL=msedge PLAYWRIGHT_GPU=1 PLAYWRIGHT_TEST_BUILT=1 npx playwright test",
+      "exit": 0,
+      "tests": 16,
+      "duration_minutes": 3.3
+    },
+    {
+      "command": "PLAYWRIGHT_CHANNEL=msedge PLAYWRIGHT_GPU=1 npm run capture:capabilities",
+      "exit": 0,
+      "webgl2": true,
+      "float_readback": true
+    }
+  ],
+  "capture": {
+    "capture_id": "capture-mucjgpcj",
+    "tick_s": 0,
+    "width": 640,
+    "height": 384,
+    "valid_pixels": 150417,
+    "valid_fraction": 0.61204833984375,
+    "saturated_pixels": 5,
+    "radiance_min_valid": 49.28171920776367,
+    "radiance_max_valid": 200.0,
+    "radiance_mean_valid": 49.900776409285434,
+    "raw_artifacts": {
+      "rgb_png": {"bytes": 19724, "sha256": "404fcd96ac4dc40d5ffb4a2fe306fbf629e02d439bccc7f77eacff3fabfe071f"},
+      "depth_npy": {"bytes": 983120, "sha256": "4c6de3009eaa0972b5f2e3562d9f25405ce95ccb7b3444d429863e832e998149"},
+      "instance_npy": {"bytes": 983120, "sha256": "ff5af82d8826f2ca6f9963795300979ac2181c78e85b75135957c6c495508bc5"},
+      "ir_radiance_npy": {"bytes": 983120, "sha256": "3f4f526ac87c92592d6d62040f696c363a6037c24ae38c041f387621c91541b4"},
+      "ir_validity_npy": {"bytes": 245840, "sha256": "9a62e90b2672168150f6d7be5fb6286983024832720defa49899f3478841b962"},
+      "ir_saturation_npy": {"bytes": 245840, "sha256": "019325cef85e9b9b9a3e40c638923c7dfac500d730c1bbad8ca0322ff81dd84d"},
+      "ir_preview_png": {"bytes": 58207, "sha256": "a47a63079e0b2e5ea40fe342a8de276d4c853388d2e4bb0973088496e59d46de"},
+      "thermal_state_json": {"bytes": 2583, "sha256": "f51d4bd297bb4d98e03ed5254afeb0b8187c78b1c4b0266a26b3a8d5bc1b0c12"}
+    }
+  },
+  "benchmark": {
+    "path": "sf06/capture-benchmark.json",
+    "samples": 3,
+    "elapsed_ms_p50": 13691.2023,
+    "render_elapsed_ms_p50": 634.8,
+    "captures_per_minute_at_median": 4.3823762651,
+    "node_rss_bytes_p50": 133304320,
+    "browser_heap_bytes_p50": 154839169,
+    "gpu_memory_bytes": null,
+    "queue_capacity": 1,
+    "identical_ir_radiance_and_state_hashes": true
+  },
+  "evidence_artifacts": {
+    "capture-benchmark.json": "2ddbaaa34ac10ed99221c4d72fb89c41cee51b25075f4c7f63927efb7fba29a1",
+    "capture-metadata.json": "20b96a3c4101c23fa4aa8549a5d83eb14cfe5ce0648070d0ac776f1986992cfd",
+    "ir-capture-desktop.png": "2ef851361d018c57acb1ec0f22787fcf36c52cbd98ff0cf4e79b9fc10d9d02d9",
+    "ir-capture-mobile.png": "b0da4aaea58668405ab371abc511dc2768c0463221f1c43d00ce1d04bd2029cd",
+    "ir-preview.png": "a47a63079e0b2e5ea40fe342a8de276d4c853388d2e4bb0973088496e59d46de",
+    "thermal-state.json": "f51d4bd297bb4d98e03ed5254afeb0b8187c78b1c4b0266a26b3a8d5bc1b0c12"
+  },
+  "known_limits": [
+    "Thermal coefficients and source powers are synthetic and uncalibrated.",
+    "Atmospheric LWIR attenuation/path emission and rich backgrounds remain SF-08.",
+    "The initial synchronized RGB/IR profile requires matching 640 x 384 dimensions.",
+    "Cross-device float raster byte identity is not claimed; pinned renderer repeats are identical.",
+    "GPU allocation telemetry is unavailable, so queue capacity remains one.",
+    "No prior four-pane screenshot baseline exists; visual regression comparison is inconclusive."
+  ]
+}

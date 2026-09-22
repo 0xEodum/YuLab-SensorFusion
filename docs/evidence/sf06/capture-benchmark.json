@@ -1,0 +1,49 @@
+{
+  "schema": "sf06-capture-benchmark.v1",
+  "source_revision": "14b65365a69958b9518cc4d4d696b5bd81a2a30e",
+  "profile": {
+    "width": 640,
+    "height": 384,
+    "modalities": ["rgb", "ir"],
+    "reference_passes": ["depth", "instance"],
+    "renderer": "Chromium 153.0.4234.48 / ANGLE NVIDIA GeForce RTX 3090 Direct3D11",
+    "browser_channel": "msedge"
+  },
+  "samples": [
+    {
+      "elapsed_ms": 13580.5068,
+      "render_elapsed_ms": 592.7,
+      "node_rss_bytes": 133001216,
+      "browser_heap_bytes": 156210857,
+      "gpu_memory_bytes": null
+    },
+    {
+      "elapsed_ms": 13691.2023,
+      "render_elapsed_ms": 634.8,
+      "node_rss_bytes": 133595136,
+      "browser_heap_bytes": 154837457,
+      "gpu_memory_bytes": null
+    },
+    {
+      "elapsed_ms": 13691.9632,
+      "render_elapsed_ms": 639.2,
+      "node_rss_bytes": 133304320,
+      "browser_heap_bytes": 154839169,
+      "gpu_memory_bytes": null
+    }
+  ],
+  "summary": {
+    "elapsed_ms_p50": 13691.2023,
+    "render_elapsed_ms_p50": 634.8,
+    "captures_per_minute_at_median": 4.3823762651,
+    "node_rss_bytes_p50": 133304320,
+    "browser_heap_bytes_p50": 154839169,
+    "gpu_memory_bytes": null,
+    "queue_capacity": 1
+  },
+  "repeatability": {
+    "ir_radiance_sha256": "3f4f526ac87c92592d6d62040f696c363a6037c24ae38c041f387621c91541b4",
+    "thermal_state_sha256": "f51d4bd297bb4d98e03ed5254afeb0b8187c78b1c4b0266a26b3a8d5bc1b0c12",
+    "identical_across_samples": true
+  }
+}

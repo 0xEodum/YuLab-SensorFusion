@@ -1,0 +1,98 @@
+{
+  "version": "thermal-state.v1",
+  "thermal_model_version": "thermal-surface.v1",
+  "simulation_time_s": 0,
+  "ambient_temperature_k": 293.15,
+  "nodes": [
+    {
+      "instance_id": "aerodrome-0-clear",
+      "asset_id": "f16",
+      "region_id": "body-surface",
+      "temperature_k": 325.68289494256385
+    },
+    {
+      "instance_id": "aerodrome-0-clear",
+      "asset_id": "f16",
+      "region_id": "engine-surface",
+      "temperature_k": 412.9445353716069
+    },
+    {
+      "instance_id": "aerodrome-0-clear",
+      "asset_id": "f16",
+      "region_id": "exhaust-surface",
+      "temperature_k": 600.7269445528482
+    },
+    {
+      "instance_id": "aerodrome-0-hidden",
+      "asset_id": "f16",
+      "region_id": "body-surface",
+      "temperature_k": 325.68289494256385
+    },
+    {
+      "instance_id": "aerodrome-0-hidden",
+      "asset_id": "f16",
+      "region_id": "engine-surface",
+      "temperature_k": 322.314778129725
+    },
+    {
+      "instance_id": "aerodrome-0-hidden",
+      "asset_id": "f16",
+      "region_id": "exhaust-surface",
+      "temperature_k": 314.7980388380154
+    },
+    {
+      "instance_id": "aerodrome-0-partial",
+      "asset_id": "f16",
+      "region_id": "body-surface",
+      "temperature_k": 325.68289494256385
+    },
+    {
+      "instance_id": "aerodrome-0-partial",
+      "asset_id": "f16",
+      "region_id": "engine-surface",
+      "temperature_k": 347.92562302447334
+    },
+    {
+      "instance_id": "aerodrome-0-partial",
+      "asset_id": "f16",
+      "region_id": "exhaust-surface",
+      "temperature_k": 413.87825015553335
+    },
+    {
+      "instance_id": "aerodrome-0-service",
+      "asset_id": "ground-vehicle",
+      "region_id": "body-surface",
+      "temperature_k": 325.68289494256317
+    },
+    {
+      "instance_id": "aerodrome-0-service",
+      "asset_id": "ground-vehicle",
+      "region_id": "engine-surface",
+      "temperature_k": 412.9445353716069
+    },
+    {
+      "instance_id": "aerodrome-0-service",
+      "asset_id": "ground-vehicle",
+      "region_id": "radiator-surface",
+      "temperature_k": 385.69636761836546
+    },
+    {
+      "instance_id": "aerodrome-0-wide",
+      "asset_id": "rq4",
+      "region_id": "body-surface",
+      "temperature_k": 325.68289494256385
+    },
+    {
+      "instance_id": "aerodrome-0-wide",
+      "asset_id": "rq4",
+      "region_id": "engine-surface",
+      "temperature_k": 347.92562302447334
+    },
+    {
+      "instance_id": "aerodrome-0-wide",
+      "asset_id": "rq4",
+      "region_id": "exhaust-surface",
+      "temperature_k": 413.87825015553335
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 # World, observation and annotation contracts
 
-Status: `lab.v1` wire foundation implemented in SF-01 and extended in SF-05 with
-`CaptureRequest` and `CaptureJob`. Canonical
+Status: `lab.v1` wire foundation implemented in SF-01, extended in SF-05 with
+`CaptureRequest` / `CaptureJob`, and extended in SF-06 with optional IR artifacts
+plus required nullable IR calibration. Canonical
 [JSON Schema](../contracts/lab.schema.json) and [OpenAPI](../contracts/openapi.json)
 define payload validation and generated language bindings. Shared fixtures cover
 all ten payload families and the three foundation API envelopes in both runtimes.
@@ -34,7 +35,8 @@ simulation, file contents or labels. See [contract guidance](../contracts/README
 
 SF-05 binds `CapturePlan` hashes to submitted WorldSpec, RigSpec and
 EnvironmentSpec snapshots. `CaptureJob` is the durable state/result envelope;
-only a succeeded job carries the complete six-artifact RGB/reference result.
+only a succeeded job carries a complete result. RGB-only capture has six
+artifacts; requested IR adds five artifacts and non-null calibration metadata.
 See [capture semantics](CAPTURE.md).
 
 SF-04 consumes canonical `AssetRecord` entries and WorldSpec instances without a
@@ -42,8 +44,8 @@ wire-schema change. The separate `aerodrome-world.v1` / `aerodrome-field.v1`
 profile supports graded terrain and rigid yaw-only asset placement. The
 `connected-world.v2` profile continues to reject asset instances. Hash-verified
 GLBs and `asset-import.v1` sidecars define source transforms, actual tread
-contacts, bounds and named exterior heat regions. `surface-regions.v1` contains
-off-state placeholders, not an implemented thermal model. See
+contacts, bounds and named exterior heat regions. SF-06 upgrades those records
+to implemented `thermal-surface.v1` synthetic coefficients and rated sources. See
 [asset and aerodrome semantics](ASSETS_AND_AERODROME.md).
 
 SF-02R consumes the existing `WorldSpec` shape with generator version
@@ -166,7 +168,7 @@ ignore arbitrary false positives in empty space near hidden objects.
 
 ## 5. Thermal and weather semantics
 
-V1 proposed surface-node energy balance:
+SF-06 implements this V1 surface-node energy balance:
 
 `C * dT/dt = Q_source + Q_solar - h*A*(T-T_air) - epsilon*sigma*A*(T^4-T_env^4)`.
 
@@ -177,12 +179,12 @@ numerical stability/energy direction must be tested. Internal engine power
 reaches modeled exterior surface nodes through an explicit coupling model;
 it is not directly visible through the enclosing body.
 
-Proposed sensor radiance:
+Implemented SF-06 sensor radiance before SF-08 atmosphere terms:
 
-`L = tau(d) * [epsilon * B_band(T) + (1-epsilon) * L_reflected] + L_path`.
+`L = epsilon * B_band(T) + (1-epsilon) * L_reflected`.
 
 `B_band` integrates blackbody radiance over the declared LWIR response band,
-initially 8..14 micrometres; units are W/(m² sr) after band integration. The v1
+8..14 micrometres; units are W/(m² sr) after band integration. The v1
 gray-body approximation assumes band-constant emissivity. Response/noise,
 clipping and quantization follow radiance formation. UI normalization is excluded
 from the training input unless explicitly declared as a preprocessing variant.
@@ -190,10 +192,11 @@ from the training input unless explicitly declared as a preprocessing variant.
 The separation of emitted, reflected and atmospheric radiance follows the
 measurement components described in [FLIR's thermographic measurement
 guidance](https://support.flir.com/docdownload/assets/web/2p5q/en-us/T505000.xml.html).
-Our proposed numerical coefficients and simplified heat dynamics still require
-their own calibration; the reference does not validate the simulator.
+Our implemented numerical coefficients and simplified heat dynamics still require
+calibration; the reference does not validate the simulator. See the exact
+[SF-06 thermal profile](THERMAL_IR.md).
 
-Attenuation uses `tau(d)=exp(-beta*d)` with beta in m^-1, with separate spectral
+SF-08 attenuation will use `tau(d)=exp(-beta*d)` with beta in m^-1, with separate spectral
 coefficients for RGB, LWIR and LiDAR. LiDAR surface-return attenuation uses the
 round trip. Fog/rain/snow presets select documented coefficient distributions;
 their numeric mapping to real weather remains uncalibrated until measured.

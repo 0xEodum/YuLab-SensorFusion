@@ -1,0 +1,127 @@
+{
+  "protocol": "capture-worker.v1",
+  "capture_id": "capture-mucjgpcj",
+  "sequence_id": "sequence-mucjgpcj",
+  "tick_s": 0,
+  "width": 640,
+  "height": 384,
+  "renderer": "Chromium 153.0.4234.48 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "device": "Google Inc. (NVIDIA)",
+  "browser_channel": "msedge",
+  "elapsed_ms": 13580.506800000001,
+  "render_elapsed_ms": 592.6999999992549,
+  "node_rss_bytes": 133001216,
+  "browser_heap_bytes": 156210857,
+  "gpu_memory_bytes": null,
+  "resident_chunks": [
+    "-2,-1@2",
+    "-2,0@2",
+    "-2,1@2",
+    "-2,2@2",
+    "-1,-2@2",
+    "-1,-1@2",
+    "-1,0@2",
+    "-1,1@2",
+    "-1,2@2",
+    "0,-2@2",
+    "0,-1@2",
+    "0,0@2",
+    "0,1@2",
+    "0,2@2",
+    "1,-2@2",
+    "1,-1@2",
+    "1,0@2",
+    "1,1@2",
+    "1,2@2",
+    "2,-1@2",
+    "2,0@2",
+    "2,1@2"
+  ],
+  "instance_ids": {
+    "aerodrome-0-clear": 1,
+    "aerodrome-0-hidden": 2,
+    "aerodrome-0-partial": 3,
+    "aerodrome-0-service": 4,
+    "aerodrome-0-wide": 5
+  },
+  "ir_calibration": {
+    "response_version": "lwir-8-14um.v1",
+    "band_um": [
+      8,
+      14
+    ],
+    "radiance_units": "W/m2/sr",
+    "noise_sigma_w_per_m2_sr": 0.02,
+    "saturation_w_per_m2_sr": 200,
+    "thermal_model_version": "thermal-surface.v1",
+    "thermal_state_version": "thermal-state.v1",
+    "preview_palette": "iron-v1",
+    "preview_scale": [
+      33.18015905542081,
+      265.1210033096392
+    ],
+    "palette_applies_to_raw": false
+  },
+  "artifacts": {
+    "rgb": {
+      "id": "rgb_png",
+      "sha256": "404fcd96ac4dc40d5ffb4a2fe306fbf629e02d439bccc7f77eacff3fabfe071f",
+      "byte_length": 19724,
+      "media_type": "image/png"
+    },
+    "depth_preview": {
+      "id": "depth_preview_png",
+      "sha256": "eb0007cc42fa9d8cbb3f0261b4f2995a7bcfed4b464483e01cd988964c3385ab",
+      "byte_length": 11221,
+      "media_type": "image/png"
+    },
+    "instance_preview": {
+      "id": "instance_preview_png",
+      "sha256": "6c91b5eb0a9ad2e7f6d731e8844e79e1d4d910ec7e7ca43dd575958bf38e6dac",
+      "byte_length": 7569,
+      "media_type": "image/png"
+    },
+    "depth": {
+      "id": "depth_npy",
+      "sha256": "4c6de3009eaa0972b5f2e3562d9f25405ce95ccb7b3444d429863e832e998149",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "instance": {
+      "id": "instance_npy",
+      "sha256": "ff5af82d8826f2ca6f9963795300979ac2181c78e85b75135957c6c495508bc5",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "ir_preview": {
+      "id": "ir_preview_png",
+      "sha256": "a47a63079e0b2e5ea40fe342a8de276d4c853388d2e4bb0973088496e59d46de",
+      "byte_length": 58207,
+      "media_type": "image/png"
+    },
+    "ir_radiance": {
+      "id": "ir_radiance_npy",
+      "sha256": "3f4f526ac87c92592d6d62040f696c363a6037c24ae38c041f387621c91541b4",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "ir_validity": {
+      "id": "ir_validity_npy",
+      "sha256": "9a62e90b2672168150f6d7be5fb6286983024832720defa49899f3478841b962",
+      "byte_length": 245840,
+      "media_type": "application/x-npy"
+    },
+    "ir_saturation": {
+      "id": "ir_saturation_npy",
+      "sha256": "019325cef85e9b9b9a3e40c638923c7dfac500d730c1bbad8ca0322ff81dd84d",
+      "byte_length": 245840,
+      "media_type": "application/x-npy"
+    },
+    "thermal_state": {
+      "id": "thermal_state_json",
+      "sha256": "f51d4bd297bb4d98e03ed5254afeb0b8187c78b1c4b0266a26b3a8d5bc1b0c12",
+      "byte_length": 2583,
+      "media_type": "application/json"
+    }
+  }
+}

@@ -1,8 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-22. SF-05 shared capture worker and RGB/reference passes passed
-local acceptance. SF-06 heat and thermal IR is READY. Dataset generation and
-training remain later stages.
+Updated: 2026-09-22. SF-06 surface heat and thermal IR passed local acceptance.
+SF-07 occlusion-correct LiDAR is READY. Dataset generation and training remain
+later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -40,8 +40,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
 | SF-04 | Asset import and first aerodrome | SF-03 | DONE |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | DONE |
-| SF-06 | Surface heat and thermal IR | SF-05 | IN PROGRESS |
-| SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
+| SF-06 | Surface heat and thermal IR | SF-05 | DONE |
+| SF-07 | Occlusion-correct LiDAR | SF-06 | READY |
 | SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
 | SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | PLANNED |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | PLANNED |
@@ -267,6 +267,16 @@ Acceptance:
   sources. Engine-off cooldown is reproducible after save/reload of thermal state.
 - Raw radiance/calibration is independent of display color palette/auto-scaling;
   no RGB-derived heat colors or class-ID shortcut appears in training input.
+
+Completed in implementation checkpoint `14b6536`. Versioned synthetic surface
+nodes, deterministic equilibrium/fixed-step evolution, replayable thermal state,
+8..14 um radiance/noise and a depth-tested raw LWIR worker pass passed analytical,
+contract, backend and production-browser acceptance. Three RTX 3090 captures
+repeated the same radiance/state hashes; the full built Edge suite passed 16/16.
+See [SF-06 evidence](evidence/SF-06-thermal-ir.md),
+[verification manifest](evidence/sf06-verification-manifest.json) and
+[thermal profile](THERMAL_IR.md). Coefficients remain explicitly synthetic;
+atmosphere/weather effects remain SF-08.
 
 ## SF-07 — LiDAR first-return geometry
 

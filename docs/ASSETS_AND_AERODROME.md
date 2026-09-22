@@ -64,12 +64,13 @@ F-16 rear fuselage/nozzle and RQ-4 nacelle/exhaust retain named engine/exhaust
 surface regions. The vehicle has front engine-cover and rear radiator regions;
 its source has no separate exhaust mesh. Regions identify exterior surfaces.
 
-`surface-regions.v1` is preparatory metadata: all sources are off with zero
-power. Material coefficients are synthetic placeholders, including unit
-area/capacity fields. They do not claim computed thermal mass, real signatures,
-temperature evolution or IR imagery. SF-06 replaces this profile with validated
-thermal parameters/dynamics. RGB canopy transparency is retained; IR/LiDAR
-metadata declares an opaque approximation.
+SF-06 replaces the preparatory `surface-regions.v1` values with
+`thermal-surface.v1`: positive synthetic capacities/areas, semantic emissivity
+and absorption, and rated engine/exhaust/radiator power. World instances select
+off/idle/running state; internal power couples to opaque exterior nodes and is
+not visible as geometry. These coefficients are deterministic research presets,
+not measured signatures. See [thermal and IR semantics](THERMAL_IR.md). RGB
+canopy transparency is retained; IR/LiDAR use the declared opaque approximation.
 
 ## Grading and placement
 

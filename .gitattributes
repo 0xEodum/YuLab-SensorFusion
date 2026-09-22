@@ -5,3 +5,6 @@ frontend/public/catalog/*.json text eol=lf
 docs/evidence/sf04/* -text -whitespace
 docs/evidence/sf05/*.log -text -whitespace
 docs/evidence/sf05/*.json -text
+# SF-06 retained artifacts are addressed by the raw hashes in its manifest.
+docs/evidence/sf06/*.json -text
+docs/evidence/sf06/*.png binary

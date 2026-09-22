@@ -1,11 +1,12 @@
-# SF-05 RGB and reference capture
+# SF-05/SF-06 synchronized capture
 
 SF-05 adds a backend-owned, single-host capture queue and a Node-managed
 headless Chromium worker. The browser preview and worker both use
 `@yulab/sensors` for rigid calibration, optical/Three.js frame conversion,
-projection and fixed capture dimensions. This stage implements RGB plus
-geometric depth and instance-ID references; it does not implement thermal IR,
-LiDAR, dataset annotations or inference.
+projection and fixed capture dimensions. SF-05 implements RGB plus geometric
+depth and instance-ID references. SF-06 adds surface heat, calibrated raw LWIR,
+validity/saturation masks, thermal-state replay and a display-only IR preview.
+LiDAR, dataset annotations and inference remain unimplemented.
 
 ## Frozen capture contract
 
@@ -18,17 +19,21 @@ motion and UI overlays cannot change an accepted job.
 World/rig transforms are row-major `T_A_from_B`. A saved Three.js camera uses
 the rig's +X right, +Y up, -Z forward frame. Each optical camera uses +X right,
 +Y down, +Z forward, with the proper rotation `diag(1,-1,-1)` represented in
-`T_rig_from_sensor`. The initial IR camera has a separate 0.35 m baseline for
-calibration/parallax fixtures, but no IR radiance is captured in SF-05.
+`T_rig_from_sensor`. The IR camera has a separate 0.35 m baseline; RGB reference
+passes and IR therefore use distinct, calibrated viewpoints.
 
 The worker loads every conservative 2 m sensor-residency chunk within the RGB
 maximum range before rendering. It reconstructs the same world generator,
 catalog GLBs and aerodrome structures used by the interactive app. Editor grids,
 helpers, decorative shadow floors and UI overlays are not sensor surfaces.
 
+Thermal semantics and declared approximations are specified in
+[THERMAL_IR.md](THERMAL_IR.md).
+
 ## Passes and artifacts
 
-All passes use the same frozen scene, camera and tick:
+All passes use the same frozen scene and tick. Each optical pass uses its own
+saved sensor extrinsic:
 
 - `rgb_png`: 640 x 384 sRGB PNG in the initial saved-rig profile.
 - `depth_npy`: top-left H x W little-endian float32 optical depth in metres;
@@ -40,8 +45,14 @@ All passes use the same frozen scene, camera and tick:
 - `depth_preview_png` and `instance_preview_png`: display-only previews. The ID
   preview deliberately remaps exact low integer IDs to visible colors; it is not
   a training or truth artifact.
+- `ir_radiance_npy`: top-left H x W little-endian float32 band-integrated
+  radiance in W/(m2 sr), independent of palette and RGB material color.
+- `ir_validity_npy` / `ir_saturation_npy`: top-left H x W NPY boolean masks.
+- `ir_preview_png`: display-only `iron-v1` fixed-scale color mapping.
+- `thermal_state_json`: versioned, hash-addressed surface temperatures used for
+  reproducible continued-history capture.
 - `metadata_json`: renderer/device handshake, timings, CPU/browser memory,
-  resident chunks, stable ID map and hashes for the other outputs.
+  resident chunks, stable ID map, IR calibration and hashes for other outputs.
 
 The worker requires WebGL2 plus `EXT_color_buffer_float`. Capability failure or
 context loss is explicit; it is never replaced by RGB recoloring, amodal boxes

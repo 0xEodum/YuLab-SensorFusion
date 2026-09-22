@@ -1,12 +1,11 @@
 # Sensor-fusion lab architecture
 
-Status: SF-05 shared capture worker and RGB/reference passes passed acceptance;
-SF-06 heat and thermal IR is READY,
-2026-09-22.
+Status: SF-06 surface heat and thermal IR passed local acceptance; SF-07
+occlusion-correct LiDAR is next, 2026-09-22.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
-RGB capture and geometric depth/instance references are implemented; thermal IR,
+RGB capture, geometric depth/instance references and raw thermal IR are implemented;
 LiDAR, datasets and models remain planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
@@ -49,8 +48,9 @@ will choose supported toolchain versions and lock an isolated backend environmen
 | A07 | Separate raw observations, training labels, and simulator truth | Inference cannot read object lists, oracle masks, weather truth, or boxes |
 | A08 | Implement and measure simple baselines before full temporal ESSRF | Catch generator/label defects and establish whether routing improves accuracy |
 
-A04 passed its initial WebGL2/float-readback capability gate in SF-05; measured
-throughput and memory remain environment-specific and are recorded in SF-05 evidence.
+A04 passed its initial WebGL2/float-readback capability gate in SF-05 and its
+depth-tested float LWIR extension in SF-06; measured throughput and memory remain
+environment-specific and are recorded in the corresponding evidence.
 If headless GPU rendering, float readback, or throughput is inadequate, record an
 ADR and update this document before replacing the renderer. Replacements must
 consume the same canonical assets/world snapshots and pass the same fixtures.
@@ -165,6 +165,7 @@ geometry. Free orbit is an inspection tool; capture uses a named rig and pose.
 
 SF-04 implementation: [asset adapters, scales and aerodrome](ASSETS_AND_AERODROME.md).
 SF-05 implementation: [RGB/reference capture and job semantics](CAPTURE.md).
+SF-06 implementation: [surface heat and thermal IR](THERMAL_IR.md).
 Three self-contained GLBs and hash-verified metadata ship in
 `frontend/public/catalog/`; `@yulab/assets` builds the same background/object
 geometry for display and independent sensor residency. The small initial bundle
@@ -198,7 +199,7 @@ the remaining aircraft/ground assets and ships. Detection classes initially are
 fine-grained classification extension. Aerodrome buildings, trees and terrain
 are background occluders. Add classes only with class-map versioning.
 
-Thermal metadata must describe surfaces, not only whole-object class colors:
+Implemented thermal metadata describes surfaces, not whole-object class colors:
 emissivity, solar absorption, thermal response time, operating state, heat-source
 power, and source-to-surface coupling. Engines/exhaust regions can heat locally;
 parked/off objects cool toward environmental equilibrium. Infrastructure may
@@ -213,13 +214,14 @@ attenuation, exposure, shot/read noise, blur, and configurable sensor saturation
 Save machine input separately from UI contrast/tone-map controls. Night reduces
 available illumination; any compensation through exposure must affect blur/noise.
 
-IR uses surface thermal state and emissivity, environmental reflected radiance,
+SF-06 IR uses surface thermal state and emissivity, environmental reflected radiance,
 band-integrated emission, path attenuation/emission, and sensor noise/quantization.
 Store linear sensor values and calibration, plus an optional colorized preview.
 It must work at night without relying on RGB lights. A hot background can reduce
 contrast; a hotter engine can remain visible. Thermal images do not see through
 opaque walls. Canopy/window transparency is modality-specific; unsupported
 transmission must have an explicit opaque approximation recorded in the manifest.
+Atmospheric/path terms and richer environmental presets remain SF-08.
 
 LiDAR emits a finite set of beams from its own pose, intersects the first opaque
 surface, and applies range/intensity response, receiver noise, detection threshold,

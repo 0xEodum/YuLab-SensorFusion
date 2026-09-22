@@ -5,9 +5,10 @@ simulation and detection lab. SF-01 adds a frontend workspace, local backend,
 shared contracts and verification. SF-02/SF-02R add a connected deterministic
 world and seeded regional formations. SF-03 adds worker-backed chunk streaming,
 free flight, browser-persisted rig poses, display LOD and independent sensor
-geometry readiness. See [streaming controls and limits](docs/STREAMING.md). Sensor capture,
-datasets, training and inference are
-later stages; no trained model is supplied yet.
+geometry readiness. SF-04 adds the initial metre-scale model catalog/aerodrome;
+SF-05/SF-06 add backend-owned synchronized RGB, reference and raw thermal IR
+capture. See [streaming controls and limits](docs/STREAMING.md). LiDAR, datasets,
+training and inference are later stages; no trained model is supplied yet.
 
 ## Setup
 
@@ -41,8 +42,8 @@ npm run dev
 
 Vite prints the frontend URL (normally `http://127.0.0.1:5173`). The backend binds
 to `127.0.0.1:8000`; Vite proxies `/api` to it. Backend API documentation is at
-`http://127.0.0.1:8000/docs`. Health and capabilities are the only implemented
-operations. The editor shows connected, unavailable and incompatible-response
+`http://127.0.0.1:8000/docs`. Health/capabilities plus capture submission,
+polling, cancellation and artifact reads are implemented. The editor shows connected, unavailable and incompatible-response
 states; terrain editing and exports also work with the backend stopped.
 
 Choose **Explore the connected world** above the editor (or open `?view=world`)
@@ -55,6 +56,11 @@ SF-03 streams the surrounding chunks as you orbit/pan or fly; use the Navigation
 and Display detail controls, and Save rig pose to bookmark the current view.
 See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
 mesh tolerances, supported features and reproducibility limits.
+
+On the aerodrome, save a rig and choose **Capture RGB, IR and references**. The
+four panes share one capture ID/tick; raw IR radiance, masks and replayable thermal
+state remain downloadable job artifacts. The palette is preview-only. See the
+[thermal/IR profile](docs/THERMAL_IR.md) and [capture contract](docs/CAPTURE.md).
 
 `npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
 proxies `/api` in the same way. The current single-file HTML remains an editor
@@ -134,9 +140,10 @@ hashes, mesh normals, scale, contacts, clearances and graded seams. See
   [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md), and
   [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md), and
   [SF-04 assets and aerodrome](docs/evidence/SF-04-assets-aerodrome.md), and
-  [SF-05 calibrated capture acceptance](docs/evidence/SF-05-capture-worker.md).
+  [SF-05 calibrated capture acceptance](docs/evidence/SF-05-capture-worker.md), and
+  [SF-06 thermal IR acceptance](docs/evidence/SF-06-thermal-ir.md).
 
-SF-05 capture worker details and raw reference formats are documented in
+SF-05/SF-06 capture worker details and raw reference/IR formats are documented in
 [docs/CAPTURE.md](docs/CAPTURE.md). With a local Chromium channel available:
 
 ```powershell
