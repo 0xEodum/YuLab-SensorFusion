@@ -1,0 +1,197 @@
+import { createServer } from "node:http";
+import { createHash } from "node:crypto";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
+import { build } from "esbuild";
+import { chromium } from "@playwright/test";
+
+const root = resolve(fileURLToPath(new URL("../../", import.meta.url)));
+const catalogRoot = resolve(root, "frontend/public/catalog");
+
+function fail(message) {
+  process.stderr.write(`${message}\n`);
+  process.exitCode = 1;
+}
+
+function parseArgs() {
+  const args = process.argv.slice(2), result = {};
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--capabilities") result.capabilities = true;
+    else if (["--request", "--output"].includes(args[i])) result[args[i].slice(2)] = args[++i];
+    else throw new Error(`Unknown worker argument: ${args[i]}`);
+  }
+  if (!result.capabilities && (!result.request || !result.output))
+    throw new Error("Worker requires --request and --output");
+  return result;
+}
+
+async function browserBundle() {
+  const result = await build({
+    entryPoints: [resolve(root, "workers/capture/browser.ts")],
+    bundle: true,
+    format: "esm",
+    platform: "browser",
+    target: "es2022",
+    write: false,
+    sourcemap: false,
+    logLevel: "silent",
+  });
+  return result.outputFiles[0].text;
+}
+
+async function server(bundle) {
+  const value = createServer(async (request, response) => {
+    try {
+      const url = new URL(request.url ?? "/", "http://127.0.0.1");
+      if (url.pathname === "/") {
+        response.setHeader("content-type", "text/html; charset=utf-8");
+        response.end('<!doctype html><html><body><script type="module" src="/browser.js"></script></body></html>');
+        return;
+      }
+      if (url.pathname === "/browser.js") {
+        response.setHeader("content-type", "text/javascript; charset=utf-8");
+        response.end(bundle);
+        return;
+      }
+      if (url.pathname === "/favicon.ico") {
+        response.statusCode = 204;
+        response.end();
+        return;
+      }
+      if (url.pathname.startsWith("/catalog/")) {
+        const relative = decodeURIComponent(url.pathname.slice("/catalog/".length));
+        const path = resolve(catalogRoot, relative);
+        if (!path.startsWith(catalogRoot + sep)) throw new Error("Invalid catalog path");
+        const bytes = await readFile(path);
+        response.setHeader("content-type", path.endsWith(".json") ? "application/json" : "model/gltf-binary");
+        response.end(bytes);
+        return;
+      }
+      response.statusCode = 404;
+      response.end("not found");
+    } catch (error) {
+      response.statusCode = 500;
+      response.end(error instanceof Error ? error.message : String(error));
+    }
+  });
+  await new Promise((accept, reject) => {
+    value.once("error", reject);
+    value.listen(0, "127.0.0.1", accept);
+  });
+  const address = value.address();
+  if (!address || typeof address === "string") throw new Error("Worker server did not bind TCP");
+  return { value, url: `http://127.0.0.1:${address.port}/` };
+}
+
+async function launch() {
+  const attempts = [];
+  const choices = [process.env.PLAYWRIGHT_CHANNEL || null, null, process.platform === "win32" ? "msedge" : null]
+    .filter((value, index, values) => values.indexOf(value) === index);
+  for (const channel of choices) {
+    try {
+      const browser = await chromium.launch({
+        headless: true,
+        channel: channel || undefined,
+        args: process.env.PLAYWRIGHT_GPU === "1" ? [] : ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+      });
+      return { browser, channel: channel || "playwright-chromium" };
+    } catch (error) {
+      attempts.push(`${channel || "playwright-chromium"}: ${error instanceof Error ? error.message.split("\n")[0] : String(error)}`);
+    }
+  }
+  throw new Error(`No Chromium runtime available (${attempts.join("; ")})`);
+}
+
+function npy(bytes, descr, shape) {
+  const magic = Buffer.from([0x93, 0x4e, 0x55, 0x4d, 0x50, 0x59, 1, 0]);
+  const tuple = shape.length === 1 ? `${shape[0]},` : shape.join(", ");
+  const body = `{'descr': '${descr}', 'fortran_order': False, 'shape': (${tuple}), }`;
+  const padding = " ".repeat((16 - ((10 + Buffer.byteLength(body) + 1) % 16)) % 16);
+  const header = Buffer.from(`${body}${padding}\n`, "ascii");
+  const length = Buffer.alloc(2);
+  length.writeUInt16LE(header.length);
+  return Buffer.concat([magic, length, header, bytes]);
+}
+
+const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+async function artifact(output, name, bytes, mediaType) {
+  await writeFile(resolve(output, name), bytes);
+  return { id: name, sha256: sha256(bytes), byte_length: bytes.length, media_type: mediaType };
+}
+
+async function run() {
+  const args = parseArgs();
+  const bundle = await browserBundle();
+  const http = await server(bundle);
+  const { browser, channel } = await launch();
+  const version = browser.version();
+  try {
+    const page = await browser.newPage({ viewport: { width: 640, height: 384 }, deviceScaleFactor: 1 });
+    page.on("console", (message) => {
+      if (message.type() === "error") process.stderr.write(`browser: ${message.text()}\n`);
+    });
+    await page.goto(http.url, { waitUntil: "load" });
+    await page.waitForFunction(() => typeof window.captureCapabilities === "function");
+    if (args.capabilities) {
+      const capabilities = await page.evaluate(() => window.captureCapabilities());
+      process.stdout.write(`${JSON.stringify({
+        protocol: "capture-worker.v1",
+        browser: `Chromium ${version}`,
+        channel,
+        ...capabilities,
+      })}\n`);
+      return;
+    }
+    const requestPath = resolve(args.request);
+    const outputPath = resolve(args.output);
+    if (!requestPath.startsWith(root + sep) || !outputPath.startsWith(root + sep))
+      throw new Error("Worker paths must remain inside the repository");
+    const request = JSON.parse(await readFile(requestPath, "utf8"));
+    await mkdir(outputPath, { recursive: true });
+    const started = performance.now();
+    const capture = await page.evaluate((value) => window.captureJob(value), request);
+    const artifacts = {};
+    artifacts.rgb = await artifact(outputPath, "rgb_png", Buffer.from(capture.rgb_png_base64, "base64"), "image/png");
+    artifacts.depth_preview = await artifact(outputPath, "depth_preview_png", Buffer.from(capture.depth_preview_png_base64, "base64"), "image/png");
+    artifacts.instance_preview = await artifact(outputPath, "instance_preview_png", Buffer.from(capture.instance_preview_png_base64, "base64"), "image/png");
+    artifacts.depth = await artifact(
+      outputPath, "depth_npy",
+      npy(Buffer.from(capture.depth_f32_base64, "base64"), "<f4", [capture.height, capture.width]),
+      "application/x-npy",
+    );
+    artifacts.instance = await artifact(
+      outputPath, "instance_npy",
+      npy(Buffer.from(capture.instance_u32_base64, "base64"), "<u4", [capture.height, capture.width]),
+      "application/x-npy",
+    );
+    const result = {
+      protocol: "capture-worker.v1",
+      capture_id: request.plan.capture_id,
+      sequence_id: request.plan.sequence_id,
+      tick_s: capture.tick_s,
+      width: capture.width,
+      height: capture.height,
+      renderer: `Chromium ${version} / ${capture.capabilities.renderer}`,
+      device: capture.capabilities.vendor,
+      browser_channel: channel,
+      elapsed_ms: performance.now() - started,
+      render_elapsed_ms: capture.elapsed_ms,
+      node_rss_bytes: process.memoryUsage().rss,
+      browser_heap_bytes: await page.evaluate(() => performance.memory?.usedJSHeapSize ?? null),
+      gpu_memory_bytes: null,
+      resident_chunks: capture.resident_chunks,
+      instance_ids: capture.instance_ids,
+      artifacts,
+    };
+    const metadata = Buffer.from(`${JSON.stringify(result, null, 2)}\n`);
+    result.artifacts.metadata = await artifact(outputPath, "metadata_json", metadata, "application/json");
+    await writeFile(resolve(outputPath, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
+    process.stdout.write(`${JSON.stringify(result)}\n`);
+  } finally {
+    await browser.close();
+    await new Promise((accept) => http.value.close(accept));
+  }
+}
+
+run().catch((error) => fail(error instanceof Error ? (error.stack || error.message) : String(error)));

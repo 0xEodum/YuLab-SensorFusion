@@ -7,6 +7,7 @@ import {
   aerodromeFixtures,
 } from "@yulab/world";
 import { loadCatalog, type Catalog } from "@yulab/assets";
+import { validatePayload, type CaptureJob, type CaptureRequest, type RigSpec } from "@yulab/contracts";
 import { WorldRuntime, type WorldStatus } from "./WorldRuntime";
 import "./world.css";
 
@@ -33,6 +34,9 @@ export default function WorldExplorer() {
   const [bookmarkName, setBookmarkName] = useState("Rig 1"),
     [bookmarks, setBookmarks] = useState<RigBookmark[]>([]);
   const [rigMessage, setRigMessage] = useState("");
+  const [captureRig, setCaptureRig] = useState<RigSpec | null>(null);
+  const [captureJob, setCaptureJob] = useState<CaptureJob | null>(null);
+  const [captureError, setCaptureError] = useState("");
   const [aerodrome, setAerodrome] = useState(
     new URLSearchParams(window.location.search).get("site") === "aerodrome",
   );
@@ -78,6 +82,8 @@ export default function WorldExplorer() {
         catalog ?? undefined,
       );
       engine.current = runtime;
+      setCaptureRig(null);
+      setCaptureJob(null);
       runtime.view(location, view);
       runtime.setPitch(pitch);
       runtime.chunks.setBoundaries(boundaries);
@@ -135,6 +141,7 @@ export default function WorldExplorer() {
         JSON.stringify(next),
       );
       setBookmarks(next);
+      setCaptureRig(engine.current!.captureRig(bookmark.name));
       setRigMessage(`Saved ${bookmark.name}.`);
     } catch (error) {
       setRigMessage(error instanceof Error ? error.message : String(error));
@@ -143,11 +150,81 @@ export default function WorldExplorer() {
   const restore = (b: RigBookmark) => {
     try {
       engine.current!.restore(b);
+      setCaptureRig(engine.current!.captureRig(b.name));
       setPitch(b.pitch);
       setNavigation(b.navigation);
       setRigMessage(`Restored ${b.name}.`);
     } catch (error) {
       setRigMessage(error instanceof Error ? error.message : String(error));
+    }
+  };
+  const canonical = (value: unknown): string => {
+    if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
+    if (value && typeof value === "object")
+      return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonical((value as Record<string, unknown>)[key])}`).join(",")}}`;
+    return JSON.stringify(value);
+  };
+  const digest = async (value: unknown) =>
+    Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonical(value)))))
+      .map((byte) => byte.toString(16).padStart(2, "0")).join("");
+  const capture = async () => {
+    if (!captureRig) return;
+    setCaptureError("");
+    setCaptureJob(null);
+    const captureId = `capture-${Date.now().toString(36)}`;
+    const environment = {
+      schema_version: "lab.v1" as const, kind: "EnvironmentSpec" as const,
+      environment_id: "clear-day", simulation_time_s: 0, solar_time_hour: 12,
+      latitude_rad: 0.9, sun_direction_world: [0, 1, 0] as [number, number, number],
+      ambient_temperature_k: 293.15, fog_extinction_per_m: 0,
+      rain_mm_per_h: 0, snow_mm_per_h: 0,
+      wind_m_per_s: [0, 0, 0] as [number, number, number], wetness: 0,
+      parameter_set_version: "clear.v1", thermal_history: "equilibrated" as const,
+      thermal_state: null,
+    };
+    const request: CaptureRequest = {
+      schema_version: "lab.v1", kind: "CaptureRequest", world: spec,
+      rig: captureRig, environment,
+      plan: {
+        schema_version: "lab.v1", kind: "CapturePlan", capture_id: captureId,
+        sequence_id: `sequence-${Date.now().toString(36)}`,
+        world_sha256: await digest(spec), rig_sha256: await digest(captureRig),
+        environment_sha256: await digest(environment), simulation_time_s: 0,
+        geometry_policy: "fixed-sensor-geometry", quality_version: "capture-quality.v1",
+        seed_channels: { world: spec.seed, weather: 0, rgb: 0, ir: 0, lidar: 0 },
+        modalities: ["rgb"],
+      },
+    };
+    try {
+      validatePayload("CaptureRequest", request);
+      const response = await fetch("/api/v1/captures", {
+        method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify(request),
+      });
+      if (!response.ok) throw new Error(`Capture request failed (HTTP ${response.status})`);
+      let job = await response.json() as CaptureJob;
+      validatePayload("CaptureJob", job);
+      setCaptureJob(job);
+      while (!["succeeded", "failed", "cancelled"].includes(job.state)) {
+        await new Promise((resolve) => setTimeout(resolve, 250));
+        const status = await fetch(`/api/v1/jobs/${job.job_id}`, { cache: "no-store" });
+        if (!status.ok) throw new Error(`Capture status failed (HTTP ${status.status})`);
+        job = await status.json() as CaptureJob;
+        validatePayload("CaptureJob", job);
+        setCaptureJob(job);
+      }
+      if (job.state === "failed") throw new Error(job.error?.message ?? "Capture failed");
+    } catch (error) {
+      setCaptureError(error instanceof Error ? error.message : String(error));
+    }
+  };
+  const cancelCapture = async () => {
+    if (!captureJob) return;
+    const response = await fetch(`/api/v1/jobs/${captureJob.job_id}/cancel`, { method: "POST" });
+    if (response.ok) {
+      const job = await response.json() as CaptureJob;
+      validatePayload("CaptureJob", job);
+      setCaptureJob(job);
     }
   };
   const validSeed = /^\d+$/.test(draftSeed) && Number(draftSeed) <= 4294967295;
@@ -338,6 +415,39 @@ export default function WorldExplorer() {
           ))}
           <span aria-live="polite">{rigMessage}</span>
         </div>
+        <section className="capture-panel" aria-label="RGB and reference capture">
+          <div className="world-toolbar">
+            <button onClick={() => void capture()} disabled={!captureRig || Boolean(captureJob && ["queued", "running", "cancelling"].includes(captureJob.state))}>
+              Capture RGB and references
+            </button>
+            <button onClick={() => void cancelCapture()} disabled={!captureJob || !["queued", "running", "cancelling"].includes(captureJob.state)}>
+              Cancel capture
+            </button>
+            <span role="status" aria-label="Capture status">
+              {captureError || (captureJob ? `Capture ${captureJob.state}` : captureRig ? "Rig ready for capture" : "Save a rig pose before capture")}
+            </span>
+          </div>
+          {captureJob?.state === "succeeded" && captureJob.result && (
+            <div className="capture-grid">
+              {([
+                ["RGB", captureJob.result.artifacts.rgb.id],
+                ["Depth", captureJob.result.artifacts.depth_preview.id],
+                ["Instance IDs", captureJob.result.artifacts.instance_preview.id],
+              ] as const).map(([label, artifact]) => (
+                <figure key={label}>
+                  <img
+                    src={`/api/v1/jobs/${captureJob.job_id}/artifacts/${artifact}`}
+                    alt={`${label} capture ${captureJob.capture_id}`}
+                    data-capture-id={captureJob.capture_id}
+                    data-width={captureJob.result!.width}
+                    data-height={captureJob.result!.height}
+                  />
+                  <figcaption>{label} · tick {captureJob.result!.tick_s.toFixed(3)} s</figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+        </section>
         <section className="world-catalog" aria-label="Model catalog">
           <div>
             <h2>Objects at world scale</h2>

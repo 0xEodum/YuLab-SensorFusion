@@ -9,7 +9,11 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_real_health_and_capabilities_obey_contract():
+def test_real_health_and_capabilities_obey_contract(monkeypatch):
+    from app import main
+    monkeypatch.setattr(main, "probe_capture_worker", lambda: {
+        "browser": "Chromium fixture", "renderer": "WebGL fixture", "vendor": "device fixture",
+    })
     for route, name in [("health", "Health"), ("capabilities", "Capabilities")]:
         response = client.get(f"/api/v1/{route}")
         assert response.status_code == 200
@@ -18,10 +22,55 @@ def test_real_health_and_capabilities_obey_contract():
         assert response.headers["cache-control"] == "no-store"
     capabilities = client.get("/api/v1/capabilities").json()
     assert not capabilities["checkpoints"]
-    assert capabilities["device"] is None
-    assert capabilities["capture_renderer"] is None
-    assert all(not c["available"] for c in capabilities["sensors"].values())
-    assert all(not c["available"] for c in capabilities["services"].values())
+    assert capabilities["device"] == "device fixture"
+    assert "Chromium fixture" in capabilities["capture_renderer"]
+    assert capabilities["sensors"]["rgb"]["available"]
+    assert not capabilities["sensors"]["ir"]["available"]
+    assert capabilities["services"]["capture"]["available"]
+    assert not capabilities["services"]["datasets"]["available"]
+
+
+def test_capture_request_hashes_are_validated_before_acceptance(monkeypatch):
+    from app import main
+    payload = json.loads((CONTRACTS / "fixtures" / "CaptureRequest.json").read_text())
+    for field, key in [
+        ("world_sha256", "world"),
+        ("rig_sha256", "rig"),
+        ("environment_sha256", "environment"),
+    ]:
+        payload["plan"][field] = main.canonical_hash(payload[key])
+
+    class Coordinator:
+        def submit(self, request):
+            assert request == payload
+            return {
+                "schema_version": "lab.v1", "kind": "CaptureJob",
+                "job_id": "capture-job-api", "capture_id": "capture-fixture",
+                "state": "queued", "progress": 0, "result": None, "error": None,
+                "created_at": "2026-09-22T00:00:00Z",
+                "updated_at": "2026-09-22T00:00:00Z",
+            }
+    monkeypatch.setattr(main, "capture_coordinator", Coordinator())
+    response = client.post("/api/v1/captures", json=payload)
+    assert response.status_code == 202
+    validate_payload("CaptureJob", response.json())
+    payload["plan"]["world_sha256"] = "0" * 64
+    response = client.post("/api/v1/captures", json=payload)
+    assert response.status_code == 422
+    assert response.json()["code"] == "validation_error"
+
+
+def test_unknown_capture_job_and_artifact_are_explicit_404s():
+    for path in [
+        "/api/v1/jobs/unknown-job",
+        "/api/v1/jobs/unknown-job/artifacts/rgb.png",
+    ]:
+        response = client.get(path)
+        assert response.status_code == 404
+        validate_payload("ApiError", response.json())
+    response = client.post("/api/v1/jobs/unknown-job/cancel")
+    assert response.status_code == 404
+    validate_payload("ApiError", response.json())
 
 
 @pytest.mark.parametrize("method,path,status,code", [

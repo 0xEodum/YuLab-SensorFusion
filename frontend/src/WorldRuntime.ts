@@ -15,6 +15,8 @@ import { ChunkWorker } from "./ChunkWorker";
 import { ChunkScene } from "./ChunkScene";
 import { AssetLibrary, buildAerodromeScene, type Catalog } from "@yulab/assets";
 import { aerodromeFixtures } from "@yulab/world";
+import { cameraPoseToRig } from "@yulab/sensors";
+import type { RigSpec } from "@yulab/contracts";
 
 declare global {
   interface Window {
@@ -454,6 +456,16 @@ export class WorldRuntime {
       },
       this.spec,
     );
+  }
+  captureRig(name: string): RigSpec {
+    return cameraPoseToRig({
+      rigId: name.toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/^-|-$/g, "") || "saved-rig",
+      position: this.camera.position.toArray(),
+      quaternion: this.camera.quaternion.toArray(),
+      width: 640,
+      height: 384,
+      verticalFovRadians: THREE.MathUtils.degToRad(this.camera.fov),
+    });
   }
   restore(value: unknown) {
     const b = validateBookmark(value, this.spec);

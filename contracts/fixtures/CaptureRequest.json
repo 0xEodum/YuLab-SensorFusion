@@ -1,0 +1,99 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "CaptureRequest",
+  "world": {
+    "schema_version": "lab.v1",
+    "kind": "WorldSpec",
+    "world_id": "capture-world",
+    "seed": 0,
+    "units": {
+      "length": "m", "temperature": "K", "angle": "rad", "time": "s",
+      "world_frame": "east-up-south", "matrix_layout": "row-major"
+    },
+    "extent_m": [2048, 128, 2048],
+    "origin_m": [-1024, 0, -1024],
+    "chunk_size_m": 128,
+    "generator_version": "connected-world.v2",
+    "field_version": "connected-field.v2",
+    "features": [],
+    "instances": []
+  },
+  "rig": {
+    "schema_version": "lab.v1",
+    "kind": "RigSpec",
+    "rig_id": "capture-rig",
+    "calibration_version": "cal.v1",
+    "T_world_from_rig": [1, 0, 0, 0, 0, 1, 0, 30, 0, 0, 1, 100, 0, 0, 0, 1],
+    "sensors": [
+      {
+        "sensor_id": "rgb-1", "modality": "rgb", "available": true,
+        "T_rig_from_sensor": [1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1],
+        "timestamp_offset_s": 0, "exposure_s": 0.01, "scan_duration_s": 0,
+        "min_range_m": 0.1, "max_range_m": 250,
+        "camera": {
+          "frame": "optical-right-down-forward", "width_px": 640, "height_px": 384,
+          "fx_px": 500, "fy_px": 500, "cx_px": 320, "cy_px": 192,
+          "distortion": "ideal-pinhole"
+        },
+        "lidar": null, "sensor_model_version": "rgb.v1"
+      },
+      {
+        "sensor_id": "ir-1", "modality": "ir", "available": true,
+        "T_rig_from_sensor": [1, 0, 0, 0.35, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1],
+        "timestamp_offset_s": 0, "exposure_s": 0.01, "scan_duration_s": 0,
+        "min_range_m": 0.1, "max_range_m": 250,
+        "camera": {
+          "frame": "optical-right-down-forward", "width_px": 640, "height_px": 384,
+          "fx_px": 500, "fy_px": 500, "cx_px": 320, "cy_px": 192,
+          "distortion": "ideal-pinhole"
+        },
+        "lidar": null, "sensor_model_version": "ir.v1"
+      },
+      {
+        "sensor_id": "lidar-1", "modality": "lidar", "available": false,
+        "T_rig_from_sensor": [0, 0, -1, 0, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+        "timestamp_offset_s": 0, "exposure_s": 0, "scan_duration_s": 0,
+        "min_range_m": 0.1, "max_range_m": 250, "camera": null,
+        "lidar": {
+          "frame": "lidar-forward-left-up", "rows": 64, "columns": 512,
+          "horizontal_fov_rad": 1.2, "vertical_fov_rad": 0.6,
+          "return_policy": "single-first-opaque"
+        },
+        "sensor_model_version": "lidar.v1"
+      }
+    ],
+    "timing_profile": "synchronized-static"
+  },
+  "environment": {
+    "schema_version": "lab.v1",
+    "kind": "EnvironmentSpec",
+    "environment_id": "clear-day",
+    "simulation_time_s": 0,
+    "solar_time_hour": 12,
+    "latitude_rad": 0.9,
+    "sun_direction_world": [0, 1, 0],
+    "ambient_temperature_k": 293.15,
+    "fog_extinction_per_m": 0,
+    "rain_mm_per_h": 0,
+    "snow_mm_per_h": 0,
+    "wind_m_per_s": [0, 0, 0],
+    "wetness": 0,
+    "parameter_set_version": "clear.v1",
+    "thermal_history": "equilibrated",
+    "thermal_state": null
+  },
+  "plan": {
+    "schema_version": "lab.v1",
+    "kind": "CapturePlan",
+    "capture_id": "capture-fixture",
+    "sequence_id": "sequence-fixture",
+    "world_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "rig_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "environment_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "simulation_time_s": 0,
+    "geometry_policy": "fixed-sensor-geometry",
+    "quality_version": "capture-quality.v1",
+    "seed_channels": { "world": 0, "weather": 0, "rgb": 0, "ir": 0, "lidar": 0 },
+    "modalities": ["rgb"]
+  }
+}

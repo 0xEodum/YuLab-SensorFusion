@@ -63,6 +63,165 @@
           }
         }
       }
+    },
+    "/api/v1/captures": {
+      "post": {
+        "operationId": "createCapture",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaptureRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Capture accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureJob"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid capture request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "getCaptureJob",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Capture job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureJob"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown capture job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/cancel": {
+      "post": {
+        "operationId": "cancelCaptureJob",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancellation requested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptureJob"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown capture job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/artifacts/{artifact_id}": {
+      "get": {
+        "operationId": "getCaptureArtifact",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "artifact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published capture artifact",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown or unpublished artifact",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1219,6 +1378,291 @@
           "quality_version",
           "seed_channels",
           "modalities"
+        ]
+      },
+      "CaptureRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "lab.v1"
+          },
+          "kind": {
+            "const": "CaptureRequest"
+          },
+          "world": {
+            "$ref": "#/components/schemas/WorldSpec"
+          },
+          "rig": {
+            "$ref": "#/components/schemas/RigSpec"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/EnvironmentSpec"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/CapturePlan"
+          }
+        },
+        "required": [
+          "schema_version",
+          "kind",
+          "world",
+          "rig",
+          "environment",
+          "plan"
+        ]
+      },
+      "CaptureJobError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "worker_crash",
+              "worker_timeout",
+              "worker_context_lost",
+              "worker_interrupted",
+              "worker_error"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ]
+      },
+      "CaptureArtifacts": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rgb": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "depth_preview": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "instance_preview": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "depth": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "instance": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Artifact"
+          }
+        },
+        "required": [
+          "rgb",
+          "depth_preview",
+          "instance_preview",
+          "depth",
+          "instance",
+          "metadata"
+        ]
+      },
+      "CaptureResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "protocol": {
+            "const": "capture-worker.v1"
+          },
+          "capture_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "sequence_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "tick_s": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8192
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8192
+          },
+          "renderer": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "device": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "browser_channel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "elapsed_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "render_elapsed_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "node_rss_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "browser_heap_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gpu_memory_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resident_chunks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "minItems": 1,
+            "maxItems": 256,
+            "uniqueItems": true
+          },
+          "instance_ids": {
+            "type": "object",
+            "propertyNames": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 16777215
+            },
+            "maxProperties": 100000
+          },
+          "artifacts": {
+            "$ref": "#/components/schemas/CaptureArtifacts"
+          }
+        },
+        "required": [
+          "protocol",
+          "capture_id",
+          "sequence_id",
+          "tick_s",
+          "width",
+          "height",
+          "renderer",
+          "device",
+          "browser_channel",
+          "elapsed_ms",
+          "render_elapsed_ms",
+          "node_rss_bytes",
+          "browser_heap_bytes",
+          "gpu_memory_bytes",
+          "resident_chunks",
+          "instance_ids",
+          "artifacts"
+        ]
+      },
+      "CaptureJob": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "lab.v1"
+          },
+          "kind": {
+            "const": "CaptureJob"
+          },
+          "job_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "capture_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "state": {
+            "enum": [
+              "queued",
+              "running",
+              "cancelling",
+              "cancelled",
+              "succeeded",
+              "failed"
+            ]
+          },
+          "progress": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaptureResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaptureJobError"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "schema_version",
+          "kind",
+          "job_id",
+          "capture_id",
+          "state",
+          "progress",
+          "result",
+          "error",
+          "created_at",
+          "updated_at"
         ]
       },
       "Unavailable": {

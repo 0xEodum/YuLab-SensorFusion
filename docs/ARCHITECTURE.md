@@ -1,11 +1,12 @@
 # Sensor-fusion lab architecture
 
-Status: SF-04 asset import and first aerodrome accepted locally, 2026-09-21.
-SF-05 shared capture worker and reference passes is next.
+Status: SF-05 shared capture worker and RGB/reference passes is in acceptance,
+2026-09-22.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
-Sensors, datasets and models remain planned; no sensor/training
+RGB capture and geometric depth/instance references are implemented; thermal IR,
+LiDAR, datasets and models remain planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).
@@ -47,7 +48,8 @@ will choose supported toolchain versions and lock an isolated backend environmen
 | A07 | Separate raw observations, training labels, and simulator truth | Inference cannot read object lists, oracle masks, weather truth, or boxes |
 | A08 | Implement and measure simple baselines before full temporal ESSRF | Catch generator/label defects and establish whether routing improves accuracy |
 
-A04 is subject to a measured sensor-worker capability/performance gate in SF-05.
+A04 passed its initial WebGL2/float-readback capability gate in SF-05; measured
+throughput and memory remain environment-specific and are recorded in SF-05 evidence.
 If headless GPU rendering, float readback, or throughput is inadequate, record an
 ADR and update this document before replacing the renderer. Replacements must
 consume the same canonical assets/world snapshots and pass the same fixtures.
@@ -69,14 +71,14 @@ and tests; world/sensor/capture/asset packages are added in their named stages.
 frontend/                     React app, editor, lab and prediction views
 packages/
   world/                      deterministic fields, chunks, placement, snapshots
-  sensors/                    shared Three.js capture and LiDAR kernels
+  sensors/                    shared calibration and Three.js reference capture
   contracts/                  generated TypeScript contract types
 backend/
   app/                        Python API and job coordinator
   datasets/                   validation, splits, training-only loaders
   models/                     unimodal, fusion, ESSRF, losses and evaluation
   tests/                      API, dataset and model tests
-workers/capture/              Node + pinned Chromium capture process
+workers/capture/              Node + headless Chromium capture process
 contracts/                    canonical JSON Schema and OpenAPI artifacts
 assets/catalog/               metadata, adapters and source provenance
 tools/                        import, validation, benchmarks, local launch
@@ -161,6 +163,7 @@ geometry. Free orbit is an inspection tool; capture uses a named rig and pose.
 ## 5. Asset ingestion and heat
 
 SF-04 implementation: [asset adapters, scales and aerodrome](ASSETS_AND_AERODROME.md).
+SF-05 implementation: [RGB/reference capture and job semantics](CAPTURE.md).
 Three self-contained GLBs and hash-verified metadata ship in
 `frontend/public/catalog/`; `@yulab/assets` builds the same background/object
 geometry for display and independent sensor residency. The small initial bundle
@@ -243,9 +246,9 @@ Do not infer calibrated real-world performance from these synthetic presets.
 
 ## 7. Backend and jobs
 
-Proposed consumer operations are listed below. SF-01 implements GET
-`/api/v1/health` and `/api/v1/capabilities` only; the remaining operations are not
-exposed as stubs. Canonical OpenAPI and JSON Schema in `contracts/` precede
+Implemented consumer operations are listed below. SF-05 adds capture submission,
+job polling/cancellation and published-artifact reads; the remaining operations
+are not exposed as stubs. Canonical OpenAPI and JSON Schema in `contracts/` precede
 provider/client code. TypeScript and Python types are generated from them;
 runtime boundary validators enforce the same schema with shared fixtures.
 

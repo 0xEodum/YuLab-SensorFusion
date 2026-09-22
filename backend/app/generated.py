@@ -270,6 +270,73 @@ class CapturePlan(TypedDict):
     modalities: list[Literal['rgb', 'ir', 'lidar']]
 
 
+class CaptureRequest(TypedDict):
+    schema_version: Literal['lab.v1']
+    kind: Literal['CaptureRequest']
+    world: WorldSpec
+    rig: RigSpec
+    environment: EnvironmentSpec
+    plan: CapturePlan
+
+
+class CaptureJobError(TypedDict):
+    code: Literal[
+        'worker_crash',
+        'worker_timeout',
+        'worker_context_lost',
+        'worker_interrupted',
+        'worker_error',
+    ]
+    message: str
+
+
+class CaptureArtifacts(TypedDict):
+    rgb: Artifact
+    depth_preview: Artifact
+    instance_preview: Artifact
+    depth: Artifact
+    instance: Artifact
+    metadata: Artifact
+
+
+type ResidentChunk = str
+
+
+class CaptureResult(TypedDict):
+    protocol: Literal['capture-worker.v1']
+    capture_id: Id
+    sequence_id: Id
+    tick_s: float
+    width: int
+    height: int
+    renderer: str
+    device: str
+    browser_channel: str
+    elapsed_ms: float
+    render_elapsed_ms: float
+    node_rss_bytes: int
+    browser_heap_bytes: int | None
+    gpu_memory_bytes: int | None
+    resident_chunks: list[ResidentChunk]
+    instance_ids: dict[Id, int]
+    artifacts: CaptureArtifacts
+
+
+class CaptureJob(TypedDict):
+    schema_version: Literal['lab.v1']
+    kind: Literal['CaptureJob']
+    job_id: Id
+    capture_id: Id
+    state: Literal[
+        'queued', 'running', 'cancelling', 'cancelled', 'succeeded', 'failed'
+    ]
+    progress: float
+    result: CaptureResult | None
+    error: CaptureJobError | None
+    created_at: str
+    updated_at: str
+
+
 class Unavailable(TypedDict):
     status: Literal['unavailable']
     reason: Literal['not_implemented', 'disabled', 'hardware_failure']
@@ -611,4 +678,4 @@ class ApiError(TypedDict):
     details: list[Detail]
 
 
-type LabPayload = AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError
+type LabPayload = AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | CaptureRequest | CaptureJob | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError

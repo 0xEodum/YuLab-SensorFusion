@@ -135,6 +135,14 @@ hashes, mesh normals, scale, contacts, clearances and graded seams. See
   [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md), and
   [SF-04 assets and aerodrome](docs/evidence/SF-04-assets-aerodrome.md).
 
+SF-05 capture worker details and raw reference formats are documented in
+[docs/CAPTURE.md](docs/CAPTURE.md). With a local Chromium channel available:
+
+```powershell
+$env:PLAYWRIGHT_CHANNEL='msedge'
+npm run capture:capabilities
+```
+
 Datasets, larger future asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned
 manifests identify them when their implementation stages are reached.

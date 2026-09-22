@@ -1,7 +1,7 @@
 /* Generated from contracts/lab.schema.json. Do not edit. */
 
 /**
- * Canonical lab.v1 wire shapes. Only health/capabilities APIs are implemented in SF-01.
+ * Canonical lab.v1 wire shapes. SF-05 adds backend-owned RGB/reference capture jobs.
  */
 export type LabPayload =
   | AssetRecord
@@ -9,6 +9,8 @@ export type LabPayload =
   | RigSpec
   | EnvironmentSpec
   | CapturePlan
+  | CaptureRequest
+  | CaptureJob
   | ObservationBundle
   | AnnotationBundle
   | TruthBundle
@@ -333,6 +335,63 @@ export interface CapturePlan {
     | ["rgb" | "ir" | "lidar"]
     | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"]
     | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"];
+}
+export interface CaptureRequest {
+  schema_version: "lab.v1";
+  kind: "CaptureRequest";
+  world: WorldSpec;
+  rig: RigSpec;
+  environment: EnvironmentSpec;
+  plan: CapturePlan;
+}
+export interface CaptureJob {
+  schema_version: "lab.v1";
+  kind: "CaptureJob";
+  job_id: Id;
+  capture_id: Id;
+  state: "queued" | "running" | "cancelling" | "cancelled" | "succeeded" | "failed";
+  progress: number;
+  result: CaptureResult | null;
+  error: CaptureJobError | null;
+  created_at: string;
+  updated_at: string;
+}
+export interface CaptureResult {
+  protocol: "capture-worker.v1";
+  capture_id: Id;
+  sequence_id: Id;
+  tick_s: number;
+  width: number;
+  height: number;
+  renderer: string;
+  device: string;
+  browser_channel: string;
+  elapsed_ms: number;
+  render_elapsed_ms: number;
+  node_rss_bytes: number;
+  browser_heap_bytes: number | null;
+  gpu_memory_bytes: number | null;
+  /**
+   * @minItems 1
+   * @maxItems 256
+   */
+  resident_chunks: [string, ...string[]];
+  instance_ids: {
+    [k: string]: number;
+  };
+  artifacts: CaptureArtifacts;
+}
+export interface CaptureArtifacts {
+  rgb: Artifact;
+  depth_preview: Artifact;
+  instance_preview: Artifact;
+  depth: Artifact;
+  instance: Artifact;
+  metadata: Artifact;
+}
+export interface CaptureJobError {
+  code: "worker_crash" | "worker_timeout" | "worker_context_lost" | "worker_interrupted" | "worker_error";
+  message: string;
 }
 export interface ObservationBundle {
   schema_version: "lab.v1";

@@ -1,9 +1,10 @@
 # lab.v1 wire contracts
 
-`lab.schema.json` is the canonical JSON Schema 2020-12 source for the ten lab
-payload families in DATA_CONTRACTS plus Health, Capabilities and ApiError.
-`openapi.json` is the canonical HTTP surface; it exposes only the two implemented
-GET operations. Future operations in ARCHITECTURE are plans, not callable stubs.
+`lab.schema.json` is the canonical JSON Schema 2020-12 source for the lab payload
+families in DATA_CONTRACTS plus Health, Capabilities and ApiError. SF-05 adds
+CaptureRequest and CaptureJob. `openapi.json` is the canonical HTTP surface; it
+exposes health/capabilities and the implemented capture job operations. Future
+operations in ARCHITECTURE remain plans, not callable stubs.
 
 Generated outputs (do not edit):
 

@@ -6,8 +6,10 @@ import {
   captureCamera,
   fixedCaptureViewport,
   projectWorldPoint,
+  worldRayForPixel,
   validateRigGeometry,
 } from "../../packages/sensors/src/index.ts";
+import * as THREE from "three";
 
 const identity = [
   1, 0, 0, 0,
@@ -121,4 +123,25 @@ test("non-rigid, reflected, duplicate and malformed rigs fail explicitly", () =>
   const reflected = fixtureRig();
   reflected.T_world_from_rig[10] = -1;
   assert.throws(() => validateRigGeometry(reflected), /right-handed/i);
+});
+
+test("separate camera extrinsics change physical occlusion, not only pixel coordinates", () => {
+  const rig = fixtureRig();
+  const target = new THREE.Mesh(new THREE.SphereGeometry(0.3), new THREE.MeshBasicMaterial());
+  target.position.set(0, 0, -10);
+  target.updateMatrixWorld(true);
+  const occluder = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 0.2), new THREE.MeshBasicMaterial());
+  occluder.position.set(0, 0, -5);
+  occluder.updateMatrixWorld(true);
+  const rgbPixel = projectWorldPoint(rig, "rgb", [0, 0, -10]);
+  const irPixel = projectWorldPoint(rig, "ir", [0, 0, -10]);
+  const first = (modality: "rgb" | "ir", u: number, v: number) => {
+    const ray = worldRayForPixel(rig, modality, u, v);
+    return new THREE.Raycaster(
+      new THREE.Vector3(...ray.origin),
+      new THREE.Vector3(...ray.direction),
+    ).intersectObjects([occluder, target])[0]?.object;
+  };
+  assert.equal(first("rgb", rgbPixel.u, rgbPixel.v), occluder);
+  assert.equal(first("ir", irPixel.u, irPixel.v), target);
 });

@@ -4,6 +4,7 @@ import time
 from app.jobs import (
     CaptureCoordinator,
     CaptureJobStore,
+    WorkerContextLost,
     WorkerCrashed,
     WorkerTimedOut,
 )
@@ -43,6 +44,7 @@ def test_crash_and_timeout_are_explicit_failures_without_partial_frames(tmp_path
     for failure, code in [
         (WorkerCrashed("browser exited 19"), "worker_crash"),
         (WorkerTimedOut("capture exceeded 5 s"), "worker_timeout"),
+        (WorkerContextLost("WebGL context lost"), "worker_context_lost"),
     ]:
         store = CaptureJobStore(tmp_path / f"{code}.sqlite3")
         def run(_request, _cancel, failure=failure):
@@ -82,3 +84,33 @@ def test_interrupted_running_jobs_fail_on_coordinator_restart(tmp_path):
     assert terminal["state"] == "failed"
     assert terminal["error"]["code"] == "worker_interrupted"
     assert terminal["result"] is None
+
+
+def test_capture_queue_runs_one_worker_at_a_time(tmp_path):
+    first_entered = threading.Event()
+    release_first = threading.Event()
+    active = 0
+    peak = 0
+    lock = threading.Lock()
+    def run(request, _cancel):
+        nonlocal active, peak
+        with lock:
+            active += 1
+            peak = max(peak, active)
+        if request["capture_id"] == "first":
+            first_entered.set()
+            assert release_first.wait(1)
+        with lock:
+            active -= 1
+        return result(request["capture_id"])
+    store = CaptureJobStore(tmp_path / "jobs.sqlite3")
+    coordinator = CaptureCoordinator(store, run)
+    first = coordinator.submit(request("first"))
+    assert first_entered.wait(1)
+    second = coordinator.submit(request("second"))
+    time.sleep(0.05)
+    assert store.get(second["job_id"])["state"] == "queued"
+    release_first.set()
+    assert wait_terminal(store, first["job_id"])["state"] == "succeeded"
+    assert wait_terminal(store, second["job_id"])["state"] == "succeeded"
+    assert peak == 1

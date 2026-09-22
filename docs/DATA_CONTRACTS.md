@@ -1,6 +1,7 @@
 # World, observation and annotation contracts
 
-Status: `lab.v1` wire foundation implemented in SF-01. Canonical
+Status: `lab.v1` wire foundation implemented in SF-01 and extended in SF-05 with
+`CaptureRequest` and `CaptureJob`. Canonical
 [JSON Schema](../contracts/lab.schema.json) and [OpenAPI](../contracts/openapi.json)
 define payload validation and generated language bindings. Shared fixtures cover
 all ten payload families and the three foundation API envelopes in both runtimes.
@@ -30,6 +31,11 @@ simulation, file contents or labels. See [contract guidance](../contracts/README
   versions. Unsupported versions fail explicitly; migrations preserve originals.
 
 ## 2. Authoritative payload families
+
+SF-05 binds `CapturePlan` hashes to submitted WorldSpec, RigSpec and
+EnvironmentSpec snapshots. `CaptureJob` is the durable state/result envelope;
+only a succeeded job carries the complete six-artifact RGB/reference result.
+See [capture semantics](CAPTURE.md).
 
 SF-04 consumes canonical `AssetRecord` entries and WorldSpec instances without a
 wire-schema change. The separate `aerodrome-world.v1` / `aerodrome-field.v1`

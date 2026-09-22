@@ -42,6 +42,20 @@
     "patches": []
   },
   {
+    "name": "CaptureRequest valid",
+    "schema": "CaptureRequest",
+    "base": "CaptureRequest.json",
+    "valid": true,
+    "patches": []
+  },
+  {
+    "name": "CaptureJob valid",
+    "schema": "CaptureJob",
+    "base": "CaptureJob.json",
+    "valid": true,
+    "patches": []
+  },
+  {
     "name": "AnnotationBundle valid",
     "schema": "AnnotationBundle",
     "base": "AnnotationBundle.json",

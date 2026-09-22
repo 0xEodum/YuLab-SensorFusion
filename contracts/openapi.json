@@ -63,6 +63,116 @@
           }
         }
       }
+    },
+    "/api/v1/captures": {
+      "post": {
+        "operationId": "createCapture",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "./lab.schema.json#/$defs/CaptureRequest" }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Capture accepted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/CaptureJob" }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid capture request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/ApiError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "operationId": "getCaptureJob",
+        "parameters": [
+          { "name": "job_id", "in": "path", "required": true, "schema": { "$ref": "./lab.schema.json#/$defs/Id" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Capture job",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/CaptureJob" }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown capture job",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/ApiError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/cancel": {
+      "post": {
+        "operationId": "cancelCaptureJob",
+        "parameters": [
+          { "name": "job_id", "in": "path", "required": true, "schema": { "$ref": "./lab.schema.json#/$defs/Id" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cancellation requested",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/CaptureJob" }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown capture job",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/ApiError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/artifacts/{artifact_id}": {
+      "get": {
+        "operationId": "getCaptureArtifact",
+        "parameters": [
+          { "name": "job_id", "in": "path", "required": true, "schema": { "$ref": "./lab.schema.json#/$defs/Id" } },
+          { "name": "artifact_id", "in": "path", "required": true, "schema": { "type": "string", "minLength": 1, "maxLength": 128 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published capture artifact",
+            "content": {
+              "application/octet-stream": {
+                "schema": { "type": "string", "format": "binary" }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown or unpublished artifact",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "./lab.schema.json#/$defs/ApiError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -81,6 +191,12 @@
       },
       "CapturePlan": {
         "$ref": "./lab.schema.json#/$defs/CapturePlan"
+      },
+      "CaptureRequest": {
+        "$ref": "./lab.schema.json#/$defs/CaptureRequest"
+      },
+      "CaptureJob": {
+        "$ref": "./lab.schema.json#/$defs/CaptureJob"
       },
       "ObservationBundle": {
         "$ref": "./lab.schema.json#/$defs/ObservationBundle"

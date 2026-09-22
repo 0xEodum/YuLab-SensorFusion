@@ -13,6 +13,7 @@
     "@types/three": "0.185.4",
     "@yulab/assets": "0.1.0",
     "@yulab/contracts": "0.1.0",
+    "@yulab/sensors": "0.1.0",
     "@yulab/world": "0.1.0",
     "clsx": "2.1.1",
     "lucide-react": "1.43.0",
