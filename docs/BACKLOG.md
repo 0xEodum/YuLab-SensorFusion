@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
 Updated: 2026-09-21. SF-04 assets and aerodrome passed local acceptance.
-SF-05 shared capture worker and reference passes is READY. Dataset generation and training remain
+SF-05 shared capture worker and reference passes is IN PROGRESS. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -39,7 +39,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
 | SF-04 | Asset import and first aerodrome | SF-03 | DONE |
-| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | READY |
+| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | IN PROGRESS |
 | SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
 | SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
