@@ -83,12 +83,20 @@ test("saved rig capture publishes synchronized RGB, IR, depth and ID panes with 
   expect(radiance).toHaveLength(640 * 384);
   expect(validity).toHaveLength(640 * 384);
   expect(saturation).toHaveLength(640 * 384);
-  expect([...validity].some((value) => value === 1)).toBe(true);
-  expect([...radiance].some((value) => value > 0)).toBe(true);
+  let hasValid = false;
+  let hasRadiance = false;
+  let invalidPixelsAreZero = true;
+  let saturationMaskIsBinary = true;
   for (let i = 0; i < radiance.length; i++) {
-    if (!validity[i]) expect(radiance[i]).toBe(0);
-    expect(saturation[i]).toBeLessThanOrEqual(1);
+    hasValid ||= validity[i] === 1;
+    hasRadiance ||= radiance[i] > 0;
+    invalidPixelsAreZero &&= validity[i] !== 0 || radiance[i] === 0;
+    saturationMaskIsBinary &&= saturation[i] === 0 || saturation[i] === 1;
   }
+  expect(hasValid).toBe(true);
+  expect(hasRadiance).toBe(true);
+  expect(invalidPixelsAreZero).toBe(true);
+  expect(saturationMaskIsBinary).toBe(true);
   const thermalState = JSON.parse(raw.state as string);
   expect(thermalState.version).toBe("thermal-state.v1");
   const f16 = thermalState.nodes.filter((node: any) => node.instance_id === "aerodrome-0-clear");
@@ -102,6 +110,7 @@ test("saved rig capture publishes synchronized RGB, IR, depth and ID panes with 
     radiance_units: "W/m2/sr",
     palette_applies_to_raw: false,
   });
+  await page.screenshot({ path: "artifacts/sf06/browser/ir-capture-desktop.png", fullPage: true });
   expect(depth[320]).toBe(0);
   expect(depth[(383 * 640) + 320]).toBeGreaterThan(0);
   const visibleId = job.result.instance_ids["aerodrome-0-clear"];
@@ -116,6 +125,8 @@ test("saved rig capture publishes synchronized RGB, IR, depth and ID panes with 
   await page.mouse.move(600, 430);
   await page.mouse.up();
   expect(await panes.evaluateAll((nodes) => nodes.map((n) => n.getAttribute("src")))).toEqual(before);
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.screenshot({ path: "artifacts/sf06/browser/ir-capture-mobile.png", fullPage: true });
 });
 
 test("capture cancellation is explicit and never exposes synchronized panes", async ({ page }) => {

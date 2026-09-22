@@ -192,7 +192,7 @@ export default function WorldExplorer() {
         environment_sha256: await digest(environment), simulation_time_s: 0,
         geometry_policy: "fixed-sensor-geometry", quality_version: "capture-quality.v1",
         seed_channels: { world: spec.seed, weather: 0, rgb: 0, ir: 0, lidar: 0 },
-        modalities: ["rgb"],
+        modalities: ["rgb", "ir"],
       },
     };
     try {
@@ -415,10 +415,10 @@ export default function WorldExplorer() {
           ))}
           <span aria-live="polite">{rigMessage}</span>
         </div>
-        <section className="capture-panel" aria-label="RGB and reference capture">
+        <section className="capture-panel" aria-label="RGB, thermal IR and reference capture">
           <div className="world-toolbar">
             <button onClick={() => void capture()} disabled={!captureRig || Boolean(captureJob && ["queued", "running", "cancelling"].includes(captureJob.state))}>
-              Capture RGB and references
+              Capture RGB, IR and references
             </button>
             <button onClick={() => void cancelCapture()} disabled={!captureJob || !["queued", "running", "cancelling"].includes(captureJob.state)}>
               Cancel capture
@@ -433,11 +433,14 @@ export default function WorldExplorer() {
           </div>
           {captureJob?.state === "succeeded" && captureJob.result && (
             <div className="capture-grid">
-              {([
+              {(([
                 ["RGB", captureJob.result.artifacts.rgb.id],
+                ["Thermal IR", captureJob.result.artifacts.ir_preview?.id],
                 ["Depth", captureJob.result.artifacts.depth_preview.id],
                 ["Instance IDs", captureJob.result.artifacts.instance_preview.id],
-              ] as const).map(([label, artifact]) => (
+              ] as const) as ReadonlyArray<readonly [string, string | undefined]>)
+                .filter((entry): entry is readonly [string, string] => typeof entry[1] === "string")
+                .map(([label, artifact]) => (
                 <figure key={label}>
                   <img
                     src={`/api/v1/jobs/${captureJob.job_id}/artifacts/${artifact}`}
@@ -520,7 +523,7 @@ export default function WorldExplorer() {
         </p>
         <p>
           Terrain loads as you move. Rig poses are saved per seed in this
-          browser. Sensor capture arrives in a later stage.
+          browser. Captures publish synchronized RGB, thermal IR, depth and instance references.
         </p>
       </footer>
     </main>

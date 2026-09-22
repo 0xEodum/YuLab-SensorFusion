@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { resolve, sep } from "node:path";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { basename, dirname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 import { chromium } from "@playwright/test";
@@ -120,6 +120,35 @@ async function artifact(output, name, bytes, mediaType) {
   return { id: name, sha256: sha256(bytes), byte_length: bytes.length, media_type: mediaType };
 }
 
+async function continuedThermalState(request, outputPath) {
+  const environment = request.environment;
+  if (environment.thermal_history !== "continued") {
+    if (environment.thermal_state !== null)
+      throw new Error("Equilibrated thermal capture must not reference prior state");
+    return null;
+  }
+  const reference = environment.thermal_state;
+  if (!reference || reference.media_type !== "application/json")
+    throw new Error("Continued thermal capture requires a JSON thermal-state artifact");
+  if (basename(reference.id) !== reference.id)
+    throw new Error("Thermal-state artifact ID must be a file name");
+  const artifactRoot = resolve(outputPath, "..");
+  for (const entry of await readdir(artifactRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name.endsWith(".partial")) continue;
+    const directory = resolve(artifactRoot, entry.name);
+    const candidate = resolve(directory, reference.id);
+    if (dirname(candidate) !== directory) continue;
+    try {
+      const bytes = await readFile(candidate);
+      if (bytes.length === reference.byte_length && sha256(bytes) === reference.sha256)
+        return bytes.toString("utf8");
+    } catch (error) {
+      if (error?.code !== "ENOENT") throw error;
+    }
+  }
+  throw new Error("Referenced thermal-state artifact is unavailable or has the wrong hash");
+}
+
 async function run() {
   const args = parseArgs();
   const bundle = await browserBundle();
@@ -150,7 +179,11 @@ async function run() {
     const request = JSON.parse(await readFile(requestPath, "utf8"));
     await mkdir(outputPath, { recursive: true });
     const started = performance.now();
-    const capture = await page.evaluate((value) => window.captureJob(value), request);
+    const thermalState = await continuedThermalState(request, outputPath);
+    const browserRequest = thermalState === null
+      ? request
+      : { ...request, _thermal_state_json: thermalState };
+    const capture = await page.evaluate((value) => window.captureJob(value), browserRequest);
     const artifacts = {};
     artifacts.rgb = await artifact(outputPath, "rgb_png", Buffer.from(capture.rgb_png_base64, "base64"), "image/png");
     artifacts.depth_preview = await artifact(outputPath, "depth_preview_png", Buffer.from(capture.depth_preview_png_base64, "base64"), "image/png");
@@ -165,6 +198,33 @@ async function run() {
       npy(Buffer.from(capture.instance_u32_base64, "base64"), "<u4", [capture.height, capture.width]),
       "application/x-npy",
     );
+    if (capture.ir_calibration) {
+      artifacts.ir_preview = await artifact(
+        outputPath, "ir_preview_png",
+        Buffer.from(capture.ir_preview_png_base64, "base64"),
+        "image/png",
+      );
+      artifacts.ir_radiance = await artifact(
+        outputPath, "ir_radiance_npy",
+        npy(Buffer.from(capture.ir_radiance_f32_base64, "base64"), "<f4", [capture.height, capture.width]),
+        "application/x-npy",
+      );
+      artifacts.ir_validity = await artifact(
+        outputPath, "ir_validity_npy",
+        npy(Buffer.from(capture.ir_validity_u8_base64, "base64"), "|b1", [capture.height, capture.width]),
+        "application/x-npy",
+      );
+      artifacts.ir_saturation = await artifact(
+        outputPath, "ir_saturation_npy",
+        npy(Buffer.from(capture.ir_saturation_u8_base64, "base64"), "|b1", [capture.height, capture.width]),
+        "application/x-npy",
+      );
+      artifacts.thermal_state = await artifact(
+        outputPath, "thermal_state_json",
+        Buffer.from(capture.thermal_state_json, "utf8"),
+        "application/json",
+      );
+    }
     const result = {
       protocol: "capture-worker.v1",
       capture_id: request.plan.capture_id,
@@ -182,6 +242,7 @@ async function run() {
       gpu_memory_bytes: null,
       resident_chunks: capture.resident_chunks,
       instance_ids: capture.instance_ids,
+      ir_calibration: capture.ir_calibration,
       artifacts,
     };
     const metadata = Buffer.from(`${JSON.stringify(result, null, 2)}\n`);

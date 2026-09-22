@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { RigSpec } from "@yulab/contracts";
+import type { AssetRecord, EnvironmentSpec, RigSpec } from "@yulab/contracts";
 import {
   captureCamera,
   decodeInstanceId,
@@ -7,6 +7,21 @@ import {
   flipRows,
   shouldCaptureObject,
 } from "./index.ts";
+import {
+  LWIR_BAND_UM,
+  LWIR_RESPONSE_VERSION,
+  THERMAL_MODEL_VERSION,
+  THERMAL_STATE_VERSION,
+  bandRadiance,
+  radianceRaster,
+  surfaceRadiance,
+  thermalPreviewRgba,
+  type ThermalState,
+} from "./thermal.ts";
+
+export const IR_NOISE_SIGMA_W_PER_M2_SR = 0.02;
+export const IR_SATURATION_W_PER_M2_SR = 200;
+export const IR_PREVIEW_SCALE_W_PER_M2_SR = [bandRadiance(270), bandRadiance(450)] as const;
 
 export type ReferenceCapture = {
   width: number;
@@ -19,6 +34,27 @@ export type ReferenceCapture = {
   instanceIds: Record<string, number>;
 };
 
+export type ThermalCapture = {
+  width: number;
+  height: number;
+  previewPng: string;
+  radiance: Float32Array;
+  validity: Uint8Array;
+  saturation: Uint8Array;
+  calibration: {
+    response_version: typeof LWIR_RESPONSE_VERSION;
+    band_um: [8, 14];
+    radiance_units: "W/m2/sr";
+    noise_sigma_w_per_m2_sr: number;
+    saturation_w_per_m2_sr: number;
+    thermal_model_version: typeof THERMAL_MODEL_VERSION;
+    thermal_state_version: typeof THERMAL_STATE_VERSION;
+    preview_palette: "iron-v1";
+    preview_scale: [number, number];
+    palette_applies_to_raw: false;
+  };
+};
+
 function pngDataUrl(bytes: Uint8Array, width: number, height: number) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -29,8 +65,8 @@ function pngDataUrl(bytes: Uint8Array, width: number, height: number) {
   return canvas.toDataURL("image/png");
 }
 
-function makeCamera(rig: RigSpec) {
-  const capture = captureCamera(rig, "rgb"), c = capture.camera;
+function makeCamera(rig: RigSpec, modality: "rgb" | "ir") {
+  const capture = captureCamera(rig, modality), c = capture.camera;
   const camera = new THREE.PerspectiveCamera();
   camera.near = capture.min_range_m;
   camera.far = capture.max_range_m;
@@ -76,7 +112,7 @@ export function renderReferencePasses(
   const gl = renderer.getContext();
   if (!gl.getExtension("EXT_color_buffer_float"))
     throw new Error("worker_context_lost: float color-buffer readback unavailable");
-  const { camera, capture } = makeCamera(rig), c = capture.camera;
+  const { camera, capture } = makeCamera(rig, "rgb"), c = capture.camera;
   const width = c.width_px, height = c.height_px;
   renderer.setPixelRatio(1);
   renderer.setSize(width, height, false);
@@ -229,6 +265,168 @@ export function renderReferencePasses(
     rgbTarget.dispose();
     depthTarget.dispose();
     idTarget.dispose();
+  }
+}
+
+function owningInstance(object: THREE.Object3D) {
+  let current: THREE.Object3D | null = object;
+  while (current) {
+    if (typeof current.userData.instance_id === "string") return current;
+    current = current.parent;
+  }
+  return null;
+}
+
+function meshEmissivity(mesh: THREE.Mesh, record: AssetRecord) {
+  const partByNode = new Map(record.parts.map((part) => [part.mesh_node, part]));
+  const materialById = new Map(record.materials.map((material) => [material.id, material]));
+  const names = Array.isArray(mesh.userData.source_parts)
+    ? mesh.userData.source_parts.map(String)
+    : [];
+  let weighted = 0;
+  let area = 0;
+  for (const name of names) {
+    const part = partByNode.get(name);
+    const material = part && materialById.get(part.material_id);
+    if (!material) continue;
+    weighted += material.emissivity * material.area_m2;
+    area += material.area_m2;
+  }
+  return area > 0 ? weighted / area : 0.9;
+}
+
+/** Depth-tested LWIR pass. Scene lights and RGB material colors are deliberately ignored. */
+export function renderThermalPass(
+  renderer: THREE.WebGLRenderer,
+  scene: THREE.Scene,
+  rig: RigSpec,
+  assets: readonly AssetRecord[],
+  state: ThermalState,
+  environment: EnvironmentSpec,
+  noiseSeed: number,
+): ThermalCapture {
+  const gl = renderer.getContext();
+  if (!gl.getExtension("EXT_color_buffer_float"))
+    throw new Error("worker_context_lost: float color-buffer readback unavailable");
+  const { camera, capture } = makeCamera(rig, "ir"), c = capture.camera;
+  const width = c.width_px, height = c.height_px;
+  renderer.setPixelRatio(1);
+  renderer.setSize(width, height, false);
+  scene.updateMatrixWorld(true);
+  const assetById = new Map(assets.map((asset) => [asset.asset_id, asset]));
+  const temperatureByRegion = new Map(state.nodes.map((node) => [
+    `${node.instance_id}\0${node.region_id}`,
+    node.temperature_k,
+  ]));
+  const reflected = bandRadiance(environment.ambient_temperature_k);
+  const originalMaterials = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
+  const originalVisibility = new Map<THREE.Object3D, boolean>();
+  const thermalMaterials = new Map<string, THREE.ShaderMaterial>();
+  const materialFor = (radiance: number) => {
+    const key = radiance.toPrecision(12);
+    let material = thermalMaterials.get(key);
+    if (!material) {
+      material = new THREE.ShaderMaterial({
+        vertexShader: `
+          void main() {
+            vec4 p = vec4(position, 1.0);
+            #ifdef USE_INSTANCING
+              p = instanceMatrix * p;
+            #endif
+            gl_Position = projectionMatrix * modelViewMatrix * p;
+          }
+        `,
+        fragmentShader: `
+          precision highp float;
+          void main() { gl_FragColor = vec4(${radiance.toPrecision(12)}, 0.0, 0.0, 1.0); }
+        `,
+        side: THREE.DoubleSide,
+        toneMapped: false,
+      });
+      thermalMaterials.set(key, material);
+    }
+    return material;
+  };
+  scene.traverse((object) => {
+    originalVisibility.set(object, object.visible);
+    if (!shouldCaptureObject(object)) object.visible = false;
+    if (!(object instanceof THREE.Mesh)) return;
+    originalMaterials.set(object, object.material);
+    const owner = owningInstance(object);
+    const instanceId = owner?.userData.instance_id;
+    const assetId = owner?.userData.asset_id;
+    const semantic = String(object.userData.semantic ?? "background-surface");
+    const record = typeof assetId === "string" ? assetById.get(assetId) : undefined;
+    const temperature = typeof instanceId === "string"
+      ? temperatureByRegion.get(`${instanceId}\0${semantic}`) ?? environment.ambient_temperature_k
+      : environment.ambient_temperature_k;
+    const emissivity = record ? meshEmissivity(object, record) : 0.95;
+    object.material = materialFor(surfaceRadiance(temperature, emissivity, reflected));
+  });
+  const renderTarget = target(width, height, THREE.FloatType);
+  const previousTarget = renderer.getRenderTarget();
+  const previousToneMapping = renderer.toneMapping;
+  const previousColorSpace = renderer.outputColorSpace;
+  const previousBackground = scene.background;
+  const previousClear = renderer.getClearColor(new THREE.Color()).clone();
+  const previousClearAlpha = renderer.getClearAlpha();
+  try {
+    scene.background = null;
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setClearColor(0x000000, 1);
+    renderer.setRenderTarget(renderTarget);
+    renderer.clear(true, true, true);
+    renderer.render(scene, camera);
+    const bottom = new Float32Array(width * height * 4);
+    renderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, bottom);
+    const rgba = flipRows(bottom, width, height, 4);
+    const clean = new Float32Array(width * height);
+    const validity = new Uint8Array(width * height);
+    for (let i = 0; i < clean.length; i++) {
+      clean[i] = rgba[i * 4];
+      validity[i] = clean[i] > 0 ? 1 : 0;
+    }
+    const response = radianceRaster(clean, validity, {
+      seed: noiseSeed,
+      noise_sigma: IR_NOISE_SIGMA_W_PER_M2_SR,
+      saturation_w_per_m2_sr: IR_SATURATION_W_PER_M2_SR,
+    });
+    const preview = thermalPreviewRgba(response.radiance, validity, {
+      min_w_per_m2_sr: IR_PREVIEW_SCALE_W_PER_M2_SR[0],
+      max_w_per_m2_sr: IR_PREVIEW_SCALE_W_PER_M2_SR[1],
+      palette: "iron-v1",
+    });
+    return {
+      width,
+      height,
+      previewPng: pngDataUrl(preview, width, height),
+      radiance: response.radiance,
+      validity,
+      saturation: response.saturation,
+      calibration: {
+        response_version: LWIR_RESPONSE_VERSION,
+        band_um: [...LWIR_BAND_UM],
+        radiance_units: "W/m2/sr",
+        noise_sigma_w_per_m2_sr: IR_NOISE_SIGMA_W_PER_M2_SR,
+        saturation_w_per_m2_sr: IR_SATURATION_W_PER_M2_SR,
+        thermal_model_version: THERMAL_MODEL_VERSION,
+        thermal_state_version: THERMAL_STATE_VERSION,
+        preview_palette: "iron-v1",
+        preview_scale: [...IR_PREVIEW_SCALE_W_PER_M2_SR],
+        palette_applies_to_raw: false,
+      },
+    };
+  } finally {
+    originalMaterials.forEach((material, mesh) => mesh.material = material);
+    originalVisibility.forEach((visible, object) => object.visible = visible);
+    thermalMaterials.forEach((material) => material.dispose());
+    scene.background = previousBackground;
+    renderer.toneMapping = previousToneMapping;
+    renderer.outputColorSpace = previousColorSpace;
+    renderer.setClearColor(previousClear, previousClearAlpha);
+    renderer.setRenderTarget(previousTarget);
+    renderTarget.dispose();
   }
 }
 

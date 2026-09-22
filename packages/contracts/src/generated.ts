@@ -379,7 +379,28 @@ export interface CaptureResult {
   instance_ids: {
     [k: string]: number;
   };
+  ir_calibration: IrCalibration | null;
   artifacts: CaptureArtifacts;
+}
+export interface IrCalibration {
+  response_version: "lwir-8-14um.v1";
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  band_um: [8, 14];
+  radiance_units: "W/m2/sr";
+  noise_sigma_w_per_m2_sr: number;
+  saturation_w_per_m2_sr: number;
+  thermal_model_version: "thermal-surface.v1";
+  thermal_state_version: "thermal-state.v1";
+  preview_palette: "iron-v1";
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  preview_scale: [number, number];
+  palette_applies_to_raw: false;
 }
 export interface CaptureArtifacts {
   rgb: Artifact;
@@ -387,6 +408,11 @@ export interface CaptureArtifacts {
   instance_preview: Artifact;
   depth: Artifact;
   instance: Artifact;
+  ir_preview?: Artifact;
+  ir_radiance?: Artifact;
+  ir_validity?: Artifact;
+  ir_saturation?: Artifact;
+  thermal_state?: Artifact;
   metadata: Artifact;
 }
 export interface CaptureJobError {

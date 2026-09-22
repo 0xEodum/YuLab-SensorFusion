@@ -46,7 +46,14 @@ export function aerodromeWorldSpec(
     extent_m: [448, 8, 1280],
     seed,
   });
-  const add = (id: string, assetId: string, x: number, z: number, yaw = 0) => {
+  const add = (
+    id: string,
+    assetId: string,
+    x: number,
+    z: number,
+    yaw = 0,
+    operatingState: WorldSpec["instances"][number]["operating_state"] = "off",
+  ) => {
     const asset = catalog.find((a) => a.asset_id === assetId);
     if (!asset)
       throw new Error(`${assetId}: required catalog asset is missing`);
@@ -74,13 +81,13 @@ export function aerodromeWorldSpec(
         0,
         1,
       ],
-      operating_state: "off",
+      operating_state: operatingState,
     });
   };
   const jitter = (channel: number) => (hash(0, channel, 0, seed) - 0.5) * 8;
-  add("clear", "f16", 40 + jitter(101), 70 + jitter(102), jitter(103) * 0.03);
-  add("wide", "rq4", 60 + jitter(104), 0 + jitter(105));
-  add("partial", "f16", 180, 50); // partial line of sight through the open hangar entrance
+  add("clear", "f16", 40 + jitter(101), 70 + jitter(102), jitter(103) * 0.03, "running");
+  add("wide", "rq4", 60 + jitter(104), 0 + jitter(105), 0, "idle");
+  add("partial", "f16", 180, 50, 0, "idle"); // partial line of sight through the open hangar entrance
   add("hidden", "f16", 210, -40);
   add(
     "service",
@@ -88,6 +95,7 @@ export function aerodromeWorldSpec(
     110 + jitter(106),
     105 + jitter(107),
     Math.PI / 2,
+    "running",
   );
   return spec;
 }

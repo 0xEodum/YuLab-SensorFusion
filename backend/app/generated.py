@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 type Id = str
 
@@ -296,7 +296,28 @@ class CaptureArtifacts(TypedDict):
     instance_preview: Artifact
     depth: Artifact
     instance: Artifact
+    ir_preview: NotRequired[Artifact]
+    ir_radiance: NotRequired[Artifact]
+    ir_validity: NotRequired[Artifact]
+    ir_saturation: NotRequired[Artifact]
+    thermal_state: NotRequired[Artifact]
     metadata: Artifact
+
+
+type PreviewScaleItem = float
+
+
+class IrCalibration(TypedDict):
+    response_version: Literal['lwir-8-14um.v1']
+    band_um: tuple[Literal[8], Literal[14]]
+    radiance_units: Literal['W/m2/sr']
+    noise_sigma_w_per_m2_sr: float
+    saturation_w_per_m2_sr: float
+    thermal_model_version: Literal['thermal-surface.v1']
+    thermal_state_version: Literal['thermal-state.v1']
+    preview_palette: Literal['iron-v1']
+    preview_scale: tuple[PreviewScaleItem, PreviewScaleItem]
+    palette_applies_to_raw: Literal[False]
 
 
 type ResidentChunk = str
@@ -319,6 +340,7 @@ class CaptureResult(TypedDict):
     gpu_memory_bytes: int | None
     resident_chunks: list[ResidentChunk]
     instance_ids: dict[Id, int]
+    ir_calibration: IrCalibration | None
     artifacts: CaptureArtifacts
 
 

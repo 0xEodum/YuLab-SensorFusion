@@ -90,6 +90,12 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
     if result.get("capture_id") != wire_request["plan"]["capture_id"]:
         raise WorkerCrashed("Capture worker returned the wrong capture identity.")
     required = {"rgb", "depth_preview", "instance_preview", "depth", "instance", "metadata"}
+    if "ir" in wire_request["plan"]["modalities"]:
+        required.update({
+            "ir_preview", "ir_radiance", "ir_validity", "ir_saturation", "thermal_state",
+        })
+        if result.get("ir_calibration") is None:
+            raise WorkerCrashed("Capture worker omitted IR calibration metadata.")
     if set(result.get("artifacts", {})) != required:
         raise WorkerCrashed("Capture worker returned an incomplete artifact set.")
     for artifact in result["artifacts"].values():

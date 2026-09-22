@@ -83,7 +83,7 @@ def capabilities() -> Capabilities:
         "schema_version": "lab.v1", "kind": "Capabilities",
         "service_version": "0.1.0", "contracts_version": "lab.v1",
         "capture_renderer": renderer, "device": device,
-        "sensors": {"rgb": capture, "ir": unavailable(), "lidar": unavailable()},
+        "sensors": {"rgb": capture, "ir": capture, "lidar": unavailable()},
         "services": {
             "worlds": unavailable(), "capture": capture, "datasets": unavailable(),
             "training": unavailable(), "inference": unavailable(),

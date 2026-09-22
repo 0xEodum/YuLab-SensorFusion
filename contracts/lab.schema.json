@@ -1244,9 +1244,50 @@
         "instance_preview": { "$ref": "#/$defs/Artifact" },
         "depth": { "$ref": "#/$defs/Artifact" },
         "instance": { "$ref": "#/$defs/Artifact" },
+        "ir_preview": { "$ref": "#/$defs/Artifact" },
+        "ir_radiance": { "$ref": "#/$defs/Artifact" },
+        "ir_validity": { "$ref": "#/$defs/Artifact" },
+        "ir_saturation": { "$ref": "#/$defs/Artifact" },
+        "thermal_state": { "$ref": "#/$defs/Artifact" },
         "metadata": { "$ref": "#/$defs/Artifact" }
       },
       "required": ["rgb", "depth_preview", "instance_preview", "depth", "instance", "metadata"]
+    },
+    "IrCalibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "response_version": { "const": "lwir-8-14um.v1" },
+        "band_um": {
+          "type": "array",
+          "prefixItems": [{ "const": 8 }, { "const": 14 }],
+          "minItems": 2,
+          "maxItems": 2,
+          "items": false
+        },
+        "radiance_units": { "const": "W/m2/sr" },
+        "noise_sigma_w_per_m2_sr": { "type": "number", "minimum": 0 },
+        "saturation_w_per_m2_sr": { "type": "number", "exclusiveMinimum": 0 },
+        "thermal_model_version": { "const": "thermal-surface.v1" },
+        "thermal_state_version": { "const": "thermal-state.v1" },
+        "preview_palette": { "const": "iron-v1" },
+        "preview_scale": {
+          "type": "array",
+          "prefixItems": [
+            { "type": "number", "minimum": 0 },
+            { "type": "number", "exclusiveMinimum": 0 }
+          ],
+          "minItems": 2,
+          "maxItems": 2,
+          "items": false
+        },
+        "palette_applies_to_raw": { "const": false }
+      },
+      "required": [
+        "response_version", "band_um", "radiance_units", "noise_sigma_w_per_m2_sr",
+        "saturation_w_per_m2_sr", "thermal_model_version", "thermal_state_version",
+        "preview_palette", "preview_scale", "palette_applies_to_raw"
+      ]
     },
     "CaptureResult": {
       "type": "object",
@@ -1280,13 +1321,16 @@
           "additionalProperties": { "type": "integer", "minimum": 1, "maximum": 16777215 },
           "maxProperties": 100000
         },
+        "ir_calibration": {
+          "anyOf": [{ "$ref": "#/$defs/IrCalibration" }, { "type": "null" }]
+        },
         "artifacts": { "$ref": "#/$defs/CaptureArtifacts" }
       },
       "required": [
         "protocol", "capture_id", "sequence_id", "tick_s", "width", "height",
         "renderer", "device", "browser_channel", "elapsed_ms", "render_elapsed_ms",
         "node_rss_bytes", "browser_heap_bytes", "gpu_memory_bytes", "resident_chunks",
-        "instance_ids", "artifacts"
+        "instance_ids", "ir_calibration", "artifacts"
       ]
     },
     "CaptureJob": {

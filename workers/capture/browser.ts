@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { AssetLibrary, buildAerodromeScene, loadCatalog } from "@yulab/assets";
+import { AssetLibrary, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
 import { validatePayload } from "@yulab/contracts";
 import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec } from "@yulab/contracts";
 import {
@@ -13,13 +13,20 @@ import {
   captureCamera,
   validateRigGeometry,
 } from "@yulab/sensors";
-import { renderReferencePasses, rendererCapabilities } from "@yulab/sensors/capture";
+import { renderReferencePasses, renderThermalPass, rendererCapabilities } from "@yulab/sensors/capture";
+import {
+  advanceThermalState,
+  decodeThermalState,
+  encodeThermalState,
+  initializeThermalState,
+} from "@yulab/sensors/thermal";
 
 type Request = {
   world: WorldSpec;
   rig: RigSpec;
   environment: EnvironmentSpec;
   plan: CapturePlan;
+  _thermal_state_json?: string;
 };
 
 function bytesBase64(bytes: Uint8Array) {
@@ -74,7 +81,7 @@ async function capture(request: Request) {
   if (request.plan.simulation_time_s !== request.environment.simulation_time_s)
     throw new Error("Capture plan and environment ticks differ");
   if (!request.plan.modalities.includes("rgb"))
-    throw new Error("SF-05 requires an RGB capture request");
+    throw new Error("Capture requires the synchronized RGB/reference passes");
   const world = createWorld(request.world);
   const rgb = captureCamera(request.rig, "rgb");
   const position = [
@@ -99,8 +106,9 @@ async function capture(request: Request) {
   scene.add(root);
   let assets: AssetLibrary | null = null;
   let site: ReturnType<typeof buildAerodromeScene> | null = null;
+  let catalog: Catalog | null = null;
   if (request.world.instances.length) {
-    const catalog = await loadCatalog();
+    catalog = await loadCatalog();
     assets = new AssetLibrary(catalog);
     await assets.load(request.world, AbortSignal.timeout(30_000));
     site = buildAerodromeScene(request.world, assets, coords);
@@ -123,6 +131,31 @@ async function capture(request: Request) {
       request.rig,
       request.world.instances.map((item) => item.instance_id).sort(),
     );
+    let thermal: ReturnType<typeof renderThermalPass> | null = null;
+    let thermalStateJson: string | null = null;
+    if (request.plan.modalities.includes("ir")) {
+      const records = catalog?.assets ?? [];
+      const thermalState = request.environment.thermal_history === "continued"
+        ? advanceThermalState(
+            decodeThermalState(request._thermal_state_json ?? ""),
+            request.world,
+            records,
+            request.environment,
+          )
+        : initializeThermalState(request.world, records, request.environment);
+      thermalStateJson = encodeThermalState(thermalState);
+      thermal = renderThermalPass(
+        renderer,
+        scene,
+        request.rig,
+        records,
+        thermalState,
+        request.environment,
+        request.plan.seed_channels.ir,
+      );
+      if (thermal.width !== capture.width || thermal.height !== capture.height)
+        throw new Error("The synchronized v1 RGB and IR cameras require matching raster dimensions");
+    }
     return {
       width: capture.width,
       height: capture.height,
@@ -133,6 +166,12 @@ async function capture(request: Request) {
       instance_preview_png_base64: dataUrlBase64(capture.instancePreviewPng),
       depth_f32_base64: bytesBase64(new Uint8Array(capture.depth.buffer)),
       instance_u32_base64: bytesBase64(new Uint8Array(capture.instance.buffer)),
+      ir_preview_png_base64: thermal ? dataUrlBase64(thermal.previewPng) : null,
+      ir_radiance_f32_base64: thermal ? bytesBase64(new Uint8Array(thermal.radiance.buffer)) : null,
+      ir_validity_u8_base64: thermal ? bytesBase64(thermal.validity) : null,
+      ir_saturation_u8_base64: thermal ? bytesBase64(thermal.saturation) : null,
+      thermal_state_json: thermalStateJson,
+      ir_calibration: thermal?.calibration ?? null,
       capabilities,
       elapsed_ms: performance.now() - started,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),
