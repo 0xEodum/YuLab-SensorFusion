@@ -11,10 +11,9 @@ import {
 } from "@yulab/world";
 import {
   captureCamera,
-  renderReferencePasses,
-  rendererCapabilities,
   validateRigGeometry,
 } from "@yulab/sensors";
+import { renderReferencePasses, rendererCapabilities } from "@yulab/sensors/capture";
 
 type Request = {
   world: WorldSpec;

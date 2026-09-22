@@ -15,6 +15,8 @@ test("24-bit instance IDs round trip exactly and reserve zero for background", (
   assert.deepEqual(encodeInstanceId(0), [0, 0, 0]);
   assert.throws(() => encodeInstanceId(-1), /instance ID/i);
   assert.throws(() => encodeInstanceId(0x1_00_00_00), /instance ID/i);
+  assert.throws(() => decodeInstanceId([1, 2]), /three bytes/i);
+  assert.throws(() => decodeInstanceId([1, -1, 2]), /three bytes/i);
 });
 
 test("GPU bottom-left rows are converted to the top-left image contract", () => {
@@ -26,6 +28,7 @@ test("GPU bottom-left rows are converted to the top-left image contract", () => 
     [...flipRows(source, 2, 2, 3)],
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   );
+  assert.throws(() => flipRows(source, 3, 2, 3), /dimensions/i);
 });
 
 test("editor helpers, grids and decorative floors never enter sensor passes", () => {

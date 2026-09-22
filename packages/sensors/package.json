@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts",
+    "./capture": "./src/capture.ts"
+  },
   "scripts": { "typecheck": "tsc --noEmit" },
   "dependencies": {
     "@yulab/assets": "0.1.0",

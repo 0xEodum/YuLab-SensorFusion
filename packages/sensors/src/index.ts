@@ -289,6 +289,3 @@ export function shouldCaptureObject(object: {
   return !new Set(["helper", "grid", "decorative-shadow-floor", "ui-overlay"])
     .has(String(object.userData?.renderRole ?? ""));
 }
-
-export { renderReferencePasses, rendererCapabilities } from "./capture.ts";
-export type { ReferenceCapture } from "./capture.ts";

@@ -123,6 +123,12 @@ test("non-rigid, reflected, duplicate and malformed rigs fail explicitly", () =>
   const reflected = fixtureRig();
   reflected.T_world_from_rig[10] = -1;
   assert.throws(() => validateRigGeometry(reflected), /right-handed/i);
+  const missing = fixtureRig() as unknown as { sensors: RigSpec["sensors"][number][] };
+  missing.sensors = missing.sensors.slice(0, 2);
+  assert.throws(() => validateRigGeometry(missing as RigSpec), /Missing lidar/i);
+  const invalidCamera = fixtureRig();
+  invalidCamera.sensors[0].camera!.fx_px = 0;
+  assert.throws(() => validateRigGeometry(invalidCamera), /intrinsics/i);
 });
 
 test("separate camera extrinsics change physical occlusion, not only pixel coordinates", () => {
@@ -144,4 +150,21 @@ test("separate camera extrinsics change physical occlusion, not only pixel coord
   };
   assert.equal(first("rgb", rgbPixel.u, rgbPixel.v), occluder);
   assert.equal(first("ir", irPixel.u, irPixel.v), target);
+});
+
+test("camera and ray boundaries reject invalid inputs and mark out-of-frame points", () => {
+  const base = {
+    rigId: "rig", position: [0, 0, 0] as [number, number, number],
+    quaternion: [0, 0, 0, 1] as [number, number, number, number],
+    width: 640, height: 384, verticalFovRadians: 0.7,
+  };
+  assert.throws(() => cameraPoseToRig({ ...base, rigId: "" }), /Rig ID/i);
+  assert.throws(() => cameraPoseToRig({ ...base, width: 0 }), /viewport/i);
+  assert.throws(() => cameraPoseToRig({ ...base, verticalFovRadians: Math.PI }), /field of view/i);
+  assert.throws(() => cameraPoseToRig({ ...base, quaternion: [0, 0, 0, 2] }), /normalized/i);
+  const rig = fixtureRig();
+  assert.equal(projectWorldPoint(rig, "rgb", [100, 0, -1]).in_frame, false);
+  assert.throws(() => worldRayForPixel(rig, "rgb", Number.NaN, 0), /finite/i);
+  rig.sensors[0].available = false;
+  assert.throws(() => fixedCaptureViewport(rig, "rgb"), /unavailable/i);
 });
