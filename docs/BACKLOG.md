@@ -40,7 +40,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
 | SF-04 | Asset import and first aerodrome | SF-03 | DONE |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | DONE |
-| SF-06 | Surface heat and thermal IR | SF-05 | READY |
+| SF-06 | Surface heat and thermal IR | SF-05 | IN PROGRESS |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
 | SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
 | SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | PLANNED |
