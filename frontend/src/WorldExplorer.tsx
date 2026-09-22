@@ -423,7 +423,11 @@ export default function WorldExplorer() {
             <button onClick={() => void cancelCapture()} disabled={!captureJob || !["queued", "running", "cancelling"].includes(captureJob.state)}>
               Cancel capture
             </button>
-            <span role="status" aria-label="Capture status">
+            <span
+              role={captureJob || captureError ? "status" : undefined}
+              aria-label="Capture status"
+              aria-live="polite"
+            >
               {captureError || (captureJob ? `Capture ${captureJob.state}` : captureRig ? "Rig ready for capture" : "Save a rig pose before capture")}
             </span>
           </div>

@@ -5,11 +5,13 @@ test('real backend is reachable through Vite and reports only implemented capabi
   expect(health.status()).toBe(200);
   expect((await health.json()).status).toBe('ok');
   const capabilities = await (await request.get('/api/v1/capabilities')).json();
+  expect(capabilities.sensors.rgb.available).toBe(true);
+  expect(capabilities.services.capture.available).toBe(true);
   expect(capabilities.sensors.ir.available).toBe(false);
   expect(capabilities.services.training.available).toBe(false);
   await page.goto('/');
   await expect(page.getByLabel('Lab backend')).toContainText('Backend connected');
-  await expect(page.getByLabel('Lab backend')).toContainText('not implemented yet');
+  await expect(page.getByLabel('Lab backend')).toContainText('Sensor services available');
 });
 
 test('connection loss and recovery are explicit without disabling the editor', async ({ page }) => {
