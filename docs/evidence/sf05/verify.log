@@ -1,0 +1,233 @@
+
+> yulab-sensor-fusion@0.1.0 verify
+> npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:world && npm run test:sensors && npm run test:assets && npm run test:backend && npm run build
+
+
+> yulab-sensor-fusion@0.1.0 contracts:check
+> node tools/generate-contracts.mjs --check
+
+node.exe : K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\datamodel_code_g
+enerator\format.py:542: FutureWarning: Black/isort will become optional. Declare the corresponding extras; see --help.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (K:\PycharmProje...as; see --help.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warn_deprecated("dependency.external-formatters-optional", stacklevel=2)
+Contract generation verified (15 payload types).
+
+> yulab-sensor-fusion@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json
+
+
+> @yulab/frontend@0.0.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/assets@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/contracts@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/sensors@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/world@0.1.0 typecheck
+> tsc --noEmit
+
+
+> yulab-sensor-fusion@0.1.0 test:contracts
+> node --experimental-strip-types --test tests/contracts/*.test.ts
+
+✔ WorldSpec valid (99.1635ms)
+✔ RigSpec valid (7.3795ms)
+✔ EnvironmentSpec valid (3.51ms)
+✔ ObservationBundle valid (4.6839ms)
+✔ AssetRecord valid (7.2373ms)
+✔ CapturePlan valid (4.0638ms)
+✔ CaptureRequest valid (3.1923ms)
+✔ CaptureJob valid (3.0381ms)
+✔ AnnotationBundle valid (4.0111ms)
+✔ TruthBundle valid (3.0047ms)
+✔ DatasetManifest valid (3.3387ms)
+✔ PredictionBundle valid (1.9972ms)
+✔ Health valid (0.869ms)
+✔ Capabilities valid (8.9086ms)
+✔ ApiError valid (2.9354ms)
+✔ unknown version (0.5054ms)
+✔ wrong units (0.2698ms)
+✔ wrong world frame (0.2295ms)
+✔ negative seed (0.2119ms)
+✔ boolean seed (0.2417ms)
+✔ string seed (0.2332ms)
+✔ fractional seed (0.1714ms)
+✔ seed upper boundary (0.1754ms)
+✔ seed overflow (0.1878ms)
+✔ missing world id (0.2565ms)
+✔ path as id (0.1852ms)
+✔ oversized extent (0.1844ms)
+✔ wrong camera frame (0.2969ms)
+✔ short transform (0.2569ms)
+✔ bad homogeneous transform (0.2501ms)
+✔ duplicate rig modality (0.241ms)
+✔ wrong sensor intrinsics (0.2802ms)
+✔ cold temperature invalid (0.24ms)
+✔ wetness overflow (0.1818ms)
+✔ duplicate modalities (0.1723ms)
+✔ unknown camera modality (0.1625ms)
+✔ unknown property (0.4978ms)
+✔ truth boxes forbidden (0.3921ms)
+✔ nested truth forbidden (0.3565ms)
+✔ available image missing (0.432ms)
+✔ wrong RGB dtype (0.3913ms)
+✔ wrong RGB channels (0.4127ms)
+✔ wrong IR units (0.728ms)
+✔ wrong LiDAR frame (0.548ms)
+✔ valid unavailable IR (0.4759ms)
+✔ unavailable with data (0.3861ms)
+✔ invalid hash (0.2757ms)
+✔ negative thermal capacity (0.2447ms)
+✔ visibility overflow (0.2104ms)
+✔ zero box extent (0.2224ms)
+✔ truth id in prediction (0.1466ms)
+✔ confidence overflow (0.1466ms)
+✔ bad timestamp (0.196ms)
+✔ bad split (0.1579ms)
+✔ empty dataset (0.1264ms)
+✔ capability reason required (0.1509ms)
+✔ error job nullable (0.1084ms)
+✔ unknown error code (0.0988ms)
+✔ non-finite JSON NaN (0.0447ms)
+✔ non-finite JSON Infinity (0.0259ms)
+✔ non-finite JSON -Infinity (0.0294ms)
+✔ non-finite JSON 1e999 (0.0347ms)
+✔ in-memory non-finite numbers cannot bypass JSON parsing (0.5426ms)
+✔ every public family has a positive fixture (1.0077ms)
+ℹ tests 64
+ℹ suites 0
+ℹ pass 64
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 369.1417
+
+> yulab-sensor-fusion@0.1.0 test:world
+> node --experimental-strip-types --test tests/world/*.test.ts
+
+✔ bounded LRU keeps active leases pinned through 110 boundary transitions and releases all data (8.6416ms)
+✔ cancellation discards late generation, preserves displayed lease, and allows retry (0.4237ms)
+✔ capacity, failed generation and wrong identity never expose a partial capture (0.6968ms)
+✔ range union includes off-frustum and cross-boundary occluders, negative chunks and protruding placements (0.5187ms)
+✔ capture waits for final occluder and pins geometry through asynchronous readback (2.5766ms)
+✔ real sensor triangles block a ray across the display boundary behind a west-facing display (4533.3319ms)
+✔ bookmark validation isolates the pose and rejects mismatched world, units and corrupt values (1.3228ms)
+✔ consumer failure and cancellation during readback release leases without successful publication (0.8953ms)
+✔ legacy extraction preserves every preset geometry, colors and placement counts (528.8513ms)
+✔ finite world addresses all 256 chunks using floor, including zero and negative boundaries (112.0376ms)
+✔ runtime rejects unsupported or undersampled worlds and isolates mutable caller state (2.7119ms)
+✔ request order and feature order do not change geometry, normals, colors or placement identities (2562.647ms)
+✔ default worlds distribute a rich seeded formation layout across the full map (0.6269ms)
+✔ base terrain has regional elevation and local relief instead of a nearly flat plane (5.4559ms)
+✔ formation seeds produce irregular geometry for every procedural feature family (1121.7098ms)
+✔ world-space decoration includes deterministic trees and rocks on suitable terrain (29.1019ms)
+✔ both seam axes match exactly at vertices, gradient normals and biome colors, including a four-chunk arch (503.397ms)
+✔ actual triangles retain arch and tunnel passages, an underside and an occluded cavity (2750.6945ms)
+✔ continuous base is solid below and has a ray-visible surface throughout negative and positive chunks (4649.4751ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12540.855
+
+> yulab-sensor-fusion@0.1.0 test:sensors
+> node --experimental-strip-types --test tests/sensors/*.test.ts
+
+✔ known pinhole fixtures project within half a pixel and preserve parallax (1.6301ms)
+✔ a saved Three.js camera becomes an exact calibrated rig view (0.4703ms)
+✔ capture dimensions and pose come only from the saved rig (0.335ms)
+✔ non-rigid, reflected, duplicate and malformed rigs fail explicitly (0.558ms)
+✔ separate camera extrinsics change physical occlusion, not only pixel coordinates (6.135ms)
+✔ camera and ray boundaries reject invalid inputs and mark out-of-frame points (0.5407ms)
+✔ 24-bit instance IDs round trip exactly and reserve zero for background (1.9689ms)
+✔ GPU bottom-left rows are converted to the top-left image contract (0.2815ms)
+✔ editor helpers, grids and decorative floors never enter sensor passes (0.237ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.9953
+
+> yulab-sensor-fusion@0.1.0 test:assets
+> node --experimental-strip-types --test tests/assets/*.test.ts
+
+✔ invalid catalog identities and non-rigid instance transforms fail explicitly (8.5884ms)
+✔ graded site is deterministic, metre-scaled and free of ground / building / placement intersections (9.4171ms)
+✔ graded chunk geometry agrees at boundaries in both display pitches and reverse request order (3070.6622ms)
+✔ self-contained catalog preserves provenance, physical scale and semantic mesh references (282.0641ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3463.5989
+
+> yulab-sensor-fusion@0.1.0 test:backend
+> node tools/uv.mjs run --project backend --locked pytest backend/tests
+
+============================= test session starts =============================
+platform win32 -- Python 3.13.10, pytest-9.0.2, pluggy-1.6.0
+rootdir: K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend
+configfile: pyproject.toml
+plugins: anyio-4.15.1, typeguard-4.6.0
+collected 81 items
+
+backend\tests\test_api.py .........                                      [ 11%]
+backend\tests\test_capture_jobs.py .....                                 [ 17%]
+backend\tests\test_contracts.py ........................................ [ 66%]
+...........................                                              [100%]
+
+============================== warnings summary ===============================
+backend\.venv\Lib\site-packages\fastapi\testclient.py:1
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+backend\.venv\Lib\site-packages\starlette\testclient.py:53
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 81 passed, 2 warnings in 0.96s ========================
+
+> yulab-sensor-fusion@0.1.0 build
+> npm run build --workspace @yulab/frontend
+
+
+> @yulab/frontend@0.0.0 build
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 2080 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-D4GZ_nEE.js
+[plugin vite:singlefile] Inlining: style-B2wZhw1r.css
+computing gzip size...
+dist/chunk.worker-Dm8iE-_P.js    192.33 kB
+dist/index.html                1,229.67 kB │ gzip: 339.22 kB
+✓ built in 18.59s

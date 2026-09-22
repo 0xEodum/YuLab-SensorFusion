@@ -1,8 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-21. SF-04 assets and aerodrome passed local acceptance.
-SF-05 shared capture worker and reference passes is IN PROGRESS. Dataset generation and training remain
-later stages.
+Updated: 2026-09-22. SF-05 shared capture worker and RGB/reference passes passed
+local acceptance. SF-06 heat and thermal IR is READY. Dataset generation and
+training remain later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -39,8 +39,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-02R | Procedural landscape richness and legacy visual quality | SF-02 | DONE |
 | SF-03 | Chunk streaming, navigation and sensor residency | SF-02R | DONE |
 | SF-04 | Asset import and first aerodrome | SF-03 | DONE |
-| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | IN PROGRESS |
-| SF-06 | Surface heat and thermal IR | SF-05 | PLANNED |
+| SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | DONE |
+| SF-06 | Surface heat and thermal IR | SF-05 | READY |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | PLANNED |
 | SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
 | SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | PLANNED |
@@ -240,6 +240,17 @@ Acceptance:
 - Worker crash, timeout, context loss and cancellation yield explicit failed or
   cancelled jobs, never completed partial frames. Browser closure does not stop
   accepted jobs. Measure throughput and GPU/CPU memory before choosing queue size.
+
+Completed in implementation checkpoint `68258b0`. The persistent backend job
+coordinator, Node/Chromium worker, shared calibrated sensor package and synchronized
+RGB/depth/instance panes passed deterministic unit/API acceptance and all 16
+production Edge browser journeys. Five RTX 3090 captures reproduced identical raw
+artifact hashes; median end-to-end latency was 14.422 s (4.16 captures/minute),
+with 135.4 MiB median Node RSS and 132.1 MiB median browser heap. GPU allocation
+telemetry is unavailable, so the intentionally conservative queue capacity remains
+one. See [SF-05 evidence](evidence/SF-05-capture-worker.md),
+[verification manifest](evidence/sf05-verification-manifest.json), and
+[capture semantics](CAPTURE.md).
 
 ## SF-06 — Heat and IR
 

@@ -1,0 +1,5 @@
+
+> yulab-sensor-fusion@0.1.0 capture:capabilities
+> node workers/capture/index.mjs --capabilities
+
+{"protocol":"capture-worker.v1","browser":"Chromium 153.0.4234.48","channel":"msedge","webgl2":true,"float_readback":true,"renderer":"ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)","vendor":"Google Inc. (NVIDIA)","max_texture_size":16384}

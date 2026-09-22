@@ -1,0 +1,29 @@
+✔ known pinhole fixtures project within half a pixel and preserve parallax (2.2255ms)
+✔ a saved Three.js camera becomes an exact calibrated rig view (0.5186ms)
+✔ capture dimensions and pose come only from the saved rig (0.363ms)
+✔ non-rigid, reflected, duplicate and malformed rigs fail explicitly (0.5754ms)
+✔ separate camera extrinsics change physical occlusion, not only pixel coordinates (6.5613ms)
+✔ camera and ray boundaries reject invalid inputs and mark out-of-frame points (0.3912ms)
+✔ 24-bit instance IDs round trip exactly and reserve zero for background (2.7815ms)
+✔ GPU bottom-left rows are converted to the top-left image contract (0.3805ms)
+✔ editor helpers, grids and decorative floors never enter sensor passes (0.1747ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 166.9546
+ℹ start of coverage report
+ℹ ------------------------------------------------------------
+ℹ file        | line % | branch % | funcs % | uncovered lines
+ℹ ------------------------------------------------------------
+ℹ packages    |        |          |         | 
+ℹ  sensors    |        |          |         | 
+ℹ   src       |        |          |         | 
+ℹ    index.ts | 100.00 |    94.44 |  100.00 | 
+ℹ ------------------------------------------------------------
+ℹ all files   | 100.00 |    94.44 |  100.00 | 
+ℹ ------------------------------------------------------------
+ℹ end of coverage report

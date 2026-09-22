@@ -1,0 +1,169 @@
+node.exe : [WebServer] INFO:     Started server process [27304]
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] INF...process [27304]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[WebServer] INFO:     Waiting for application startup.
+
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+
+[WebServer] (node:28288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 16 tests using 1 worker
+
+(node:26464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] tests\browser\assets.spec.ts:26:1 › self-contained catalog, aircraft scale, streamed airfield and real geometry visibility fixtures
+[2/16] tests\browser\assets.spec.ts:138:1 › missing or corrupt asset fails by name and reason, without a substitute
+[3/16] tests\browser\backend.spec.ts:3:1 › real backend is reachable through Vite and reports only implemented capabilities
+  1) tests\browser\backend.spec.ts:3:1 › real backend is reachable through Vite and reports only implemented capabilities 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('Lab backend')
+    Expected substring: "not implemented yet"
+    Received string:    "Backend connected · Sensor services availableCheck connection"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByLabel('Lab backend') with timeout 5000ms
+      - waiting for getByLabel('Lab backend')
+        13 × locator resolved to <aside aria-label="Lab backend" class="backend-status online">…</aside>
+           - unexpected value "Backend connected · Sensor services availableCheck connection"
+
+
+      10 |   await page.goto('/');
+      11 |   await expect(page.getByLabel('Lab backend')).toContainText('Backend connected');
+    > 12 |   await expect(page.getByLabel('Lab backend')).toContainText('not implemented yet');
+         |                                                ^
+      13 | });
+      14 |
+      15 | test('connection loss and recovery are explicit without disabling the editor', async ({ page }) => {
+        at K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\tests\browser\backend.spec.ts:12:48
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\backend-real-backend-is-re-9643f-ly-implemented-capabilities\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\backend-real-backend-is-re-9643f-ly-implemented-capabilities\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\backend-real-backend-is-re-9643f-ly-implemented-capabilities\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\backend-real-backend-is-re-9643f-ly-implemented-capabilities\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:30668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/16] tests\browser\backend.spec.ts:15:1 › connection loss and recovery are explicit without disabling the editor
+[5/16] tests\browser\backend.spec.ts:28:1 › incompatible response is not presented as connected
+[6/16] tests\browser\capture.spec.ts:20:1 › saved rig capture publishes synchronized fixed-size RGB, depth and ID panes
+[7/16] tests\browser\capture.spec.ts:77:1 › capture cancellation is explicit and never exposes synchronized panes
+[8/16] tests\browser\capture.spec.ts:88:1 › closing the submitting browser does not stop an accepted backend job
+[9/16] tests\browser\editor.spec.ts:8:1 › legacy presets, seed, navigation and real exports survive the workspace move
+[10/16] tests\browser\editor.spec.ts:58:1 › editor remains usable on a narrow viewport
+[11/16] tests\browser\streaming.spec.ts:16:1 › worker failure is visible and world edges clip residency without out-of-domain requests
+[12/16] tests\browser\streaming.spec.ts:44:1 › flight, persisted rig bookmarks, cancellation, display LOD and independent sensor readiness
+[13/16] tests\browser\streaming.spec.ts:136:1 › 104 adjacent chunk crossings preserve seams and IDs with bounded production resources
+[14/16] tests\browser\world.spec.ts:12:1 › connected preview shows seams and formations, supports seed zero and world-space regions
+  2) tests\browser\world.spec.ts:12:1 › connected preview shows seams and formations, supports seed zero and world-space regions 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "9 connected chunks"
+    Error: strict mode violation: getByRole('status') resolved to 2 elements:
+        1) <div role="status" class="world-status">…</div> aka getByText('connected chunks · 4 m display detail95,022 faces · 198 trees · 114 rocks ·')
+        2) <span role="status" aria-label="Capture status">Save a rig pose before capture</span> aka getByRole('status', { name: 'Capture status' })
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      21 |   await expect(page.getByRole("alert")).toHaveCount(0);
+      22 |   await ready(page);
+    > 23 |   await expect(page.getByRole("status")).toContainText("9 connected chunks");
+         |                                          ^
+      24 |   await expect(page.getByLabel("World location").locator("option")).toHaveCount(
+      25 |     16,
+      26 |   );
+        at K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\tests\browser\world.spec.ts:23:42
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\world-connected-preview-sh-bd00f-ero-and-world-space-regions\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\world-connected-preview-sh-bd00f-ero-and-world-space-regions\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\world-connected-preview-sh-bd00f-ero-and-world-space-regions\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\world-connected-preview-sh-bd00f-ero-and-world-space-regions\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+(node:28240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[15/16] tests\browser\world.spec.ts:110:1 › captures original and connected formations at comparable browser framing
+[16/16] tests\browser\world.spec.ts:183:1 › world controls and preview fit a narrow viewport
+  3) tests\browser\world.spec.ts:183:1 › world controls and preview fit a narrow viewport ──────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('status')
+    Expected substring: "9 connected chunks"
+    Error: strict mode violation: getByRole('status') resolved to 2 elements:
+        1) <div role="status" class="world-status">…</div> aka getByText('connected chunks · 4 m display detail92,570 faces · 165 trees · 155 rocks ·')
+        2) <span role="status" aria-label="Capture status">Save a rig pose before capture</span> aka getByRole('status', { name: 'Capture status' })
+
+    Call log:
+      - Expect "toContainText" getByRole('status') with timeout 5000ms
+      - waiting for getByRole('status')
+
+
+      190 |   await page.getByLabel("World location").selectOption("5");
+      191 |   await ready(page);
+    > 192 |   await expect(page.getByRole("status")).toContainText("9 connected chunks");
+          |                                          ^
+      193 |   await ready(page);
+      194 |   await page.screenshot({
+      195 |     path: "artifacts/browser/world-mobile.png",
+        at K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\tests\browser\world.spec.ts:192:42
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\world-world-controls-and-preview-fit-a-narrow-viewport\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\world-world-controls-and-preview-fit-a-narrow-viewport\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\world-world-controls-and-preview-fit-a-narrow-viewport\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\world-world-controls-and-preview-fit-a-narrow-viewport\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  3 failed
+    tests\browser\backend.spec.ts:3:1 › real backend is reachable through Vite and reports only implemented capabilities 
+    tests\browser\world.spec.ts:12:1 › connected preview shows seams and formations, supports seed zero and world-space regions 
+    tests\browser\world.spec.ts:183:1 › world controls and preview fit a narrow viewport ───────────
+  13 passed (3.8m)

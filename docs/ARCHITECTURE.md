@@ -1,6 +1,7 @@
 # Sensor-fusion lab architecture
 
-Status: SF-05 shared capture worker and RGB/reference passes is in acceptance,
+Status: SF-05 shared capture worker and RGB/reference passes passed acceptance;
+SF-06 heat and thermal IR is READY,
 2026-09-22.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation

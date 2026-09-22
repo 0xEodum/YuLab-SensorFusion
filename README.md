@@ -133,7 +133,8 @@ hashes, mesh normals, scale, contacts, clearances and graded seams. See
   [SF-02 evidence](docs/evidence/SF-02-connected-world.md) plus its
   [SF-02R quality correction](docs/evidence/SF-02R-procedural-quality.md), and
   [SF-03 streaming acceptance](docs/evidence/SF-03-streaming-navigation.md), and
-  [SF-04 assets and aerodrome](docs/evidence/SF-04-assets-aerodrome.md).
+  [SF-04 assets and aerodrome](docs/evidence/SF-04-assets-aerodrome.md), and
+  [SF-05 calibrated capture acceptance](docs/evidence/SF-05-capture-worker.md).
 
 SF-05 capture worker details and raw reference formats are documented in
 [docs/CAPTURE.md](docs/CAPTURE.md). With a local Chromium channel available:

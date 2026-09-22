@@ -1,0 +1,39 @@
+
+> yulab-sensor-fusion@0.1.0 test:browser
+> playwright test
+
+node.exe : [WebServer] INFO:     Started server process [13308]
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] INF...process [13308]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+[WebServer] (node:26756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:28208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 tests\browser\assets.spec.ts:26:1 › self-contained catalog, aircraft scale, streamed airfield and real geometry visibility fixtures (15.8s)
+  ok  2 tests\browser\assets.spec.ts:138:1 › missing or corrupt asset fails by name and reason, without a substitute (2.6s)
+  ok  3 tests\browser\backend.spec.ts:3:1 › real backend is reachable through Vite and reports only implemented capabilities (4.1s)
+  ok  4 tests\browser\backend.spec.ts:17:1 › connection loss and recovery are explicit without disabling the editor (2.6s)
+  ok  5 tests\browser\backend.spec.ts:30:1 › incompatible response is not presented as connected (2.3s)
+  ok  6 tests\browser\capture.spec.ts:20:1 › saved rig capture publishes synchronized fixed-size RGB, depth and ID panes (29.6s)
+  ok  7 tests\browser\capture.spec.ts:77:1 › capture cancellation is explicit and never exposes synchronized panes (3.6s)
+  ok  8 tests\browser\capture.spec.ts:88:1 › closing the submitting browser does not stop an accepted backend job (19.4s)
+  ok  9 tests\browser\editor.spec.ts:8:1 › legacy presets, seed, navigation and real exports survive the workspace move (5.3s)
+  ok 10 tests\browser\editor.spec.ts:58:1 › editor remains usable on a narrow viewport (2.3s)
+  ok 11 tests\browser\streaming.spec.ts:16:1 › worker failure is visible and world edges clip residency without out-of-domain requests (4.4s)
+  ok 12 tests\browser\streaming.spec.ts:44:1 › flight, persisted rig bookmarks, cancellation, display LOD and independent sensor readiness (20.1s)
+  ok 13 tests\browser\streaming.spec.ts:136:1 › 104 adjacent chunk crossings preserve seams and IDs with bounded production resources (1.3m)
+  ok 14 tests\browser\world.spec.ts:12:1 › connected preview shows seams and formations, supports seed zero and world-space regions (15.7s)
+  ok 15 tests\browser\world.spec.ts:110:1 › captures original and connected formations at comparable browser framing (18.1s)
+  ok 16 tests\browser\world.spec.ts:183:1 › world controls and preview fit a narrow viewport (4.1s)
+
+  16 passed (3.9m)

@@ -3,3 +3,5 @@ frontend/public/catalog/*.json text eol=lf
 *.glb binary
 # Captured evidence retains CRLF and diagnostic-line whitespace byte-for-byte.
 docs/evidence/sf04/* -text -whitespace
+docs/evidence/sf05/*.log -text -whitespace
+docs/evidence/sf05/*.json -text

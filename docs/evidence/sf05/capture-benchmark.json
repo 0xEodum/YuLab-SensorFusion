@@ -1,0 +1,42 @@
+{
+  "schema": "sf05-capture-benchmark.v1",
+  "source_revision": "68258b020e184c0a6746512f16d2ca26732be2c5",
+  "date": "2026-09-22",
+  "profile": {
+    "capture_id": "capture-muchd0c6",
+    "resolution": [640, 384],
+    "resident_chunks": 22,
+    "browser": "Chromium 153.0.4234.48",
+    "channel": "msedge",
+    "renderer": "ANGLE NVIDIA GeForce RTX 3090 Direct3D11"
+  },
+  "samples": [
+    {"elapsed_ms": 14238.0920, "render_ms": 561.7000, "node_rss_bytes": 142528512, "browser_heap_bytes": 137159845},
+    {"elapsed_ms": 14457.4109, "render_ms": 494.4000, "node_rss_bytes": 128430080, "browser_heap_bytes": 137161333},
+    {"elapsed_ms": 14317.0136, "render_ms": 531.3000, "node_rss_bytes": 141967360, "browser_heap_bytes": 139906477},
+    {"elapsed_ms": 14421.9799, "render_ms": 541.4000, "node_rss_bytes": 130445312, "browser_heap_bytes": 139896029},
+    {"elapsed_ms": 14427.5994, "render_ms": 504.6000, "node_rss_bytes": 142352384, "browser_heap_bytes": 138515401}
+  ],
+  "summary": {
+    "percentile_method": "nearest-rank",
+    "elapsed_ms_p50": 14421.9799,
+    "elapsed_ms_p95": 14457.4109,
+    "render_ms_p50": 531.3000,
+    "render_ms_p95": 561.7000,
+    "node_rss_bytes_p50": 141967360,
+    "node_rss_bytes_p95": 142528512,
+    "browser_heap_bytes_p50": 138515401,
+    "browser_heap_bytes_p95": 139906477,
+    "captures_per_minute_at_median": 4.1603164348,
+    "gpu_memory_bytes": null
+  },
+  "determinism": {
+    "unique_rgb_hashes": 1,
+    "unique_depth_hashes": 1,
+    "unique_instance_hashes": 1,
+    "rgb_sha256": "404fcd96ac4dc40d5ffb4a2fe306fbf629e02d439bccc7f77eacff3fabfe071f",
+    "depth_sha256": "4c6de3009eaa0972b5f2e3562d9f25405ce95ccb7b3444d429863e832e998149",
+    "instance_sha256": "ff5af82d8826f2ca6f9963795300979ac2181c78e85b75135957c6c495508bc5"
+  },
+  "queue_decision": "Capacity remains one because browser GPU allocation telemetry is unavailable and concurrent capture has not been characterized."
+}
