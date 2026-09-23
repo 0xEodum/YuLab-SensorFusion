@@ -1,6 +1,6 @@
 # Sensor-fusion lab architecture
 
-Status: SF-07 first-return LiDAR is implemented and under local acceptance,
+Status: SF-07 first-return LiDAR passed local acceptance; SF-08 is next,
 2026-09-23.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation

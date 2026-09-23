@@ -62,6 +62,8 @@ The six panes share one capture ID/tick; raw IR radiance, masks, replayable ther
 state and sparse LiDAR arrays remain downloadable job artifacts. The palettes
 are preview-only. See the [thermal/IR profile](docs/THERMAL_IR.md),
 [LiDAR profile](docs/LIDAR.md) and [capture contract](docs/CAPTURE.md).
+Local LiDAR acceptance and raw artifact identities are recorded in
+[SF-07 evidence](docs/evidence/SF-07-lidar.md).
 
 `npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
 proxies `/api` in the same way. The current single-file HTML remains an editor

@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-22. SF-06 surface heat and thermal IR passed local acceptance.
-SF-07 occlusion-correct LiDAR is READY. Dataset generation and training remain
+Updated: 2026-09-23. SF-07 occlusion-correct LiDAR passed local acceptance.
+SF-08 weather, time and sensor noise is READY. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -41,8 +41,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-04 | Asset import and first aerodrome | SF-03 | DONE |
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | DONE |
 | SF-06 | Surface heat and thermal IR | SF-05 | DONE |
-| SF-07 | Occlusion-correct LiDAR | SF-06 | READY |
-| SF-08 | Weather, time and sensor noise | SF-07 | PLANNED |
+| SF-07 | Occlusion-correct LiDAR | SF-06 | DONE |
+| SF-08 | Weather, time and sensor noise | SF-07 | READY |
 | SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | PLANNED |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | PLANNED |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | PLANNED |
@@ -293,6 +293,15 @@ Acceptance:
   within 1 mm range tolerance away from ties; ties have deterministic policy.
 - Point coordinates and camera projection agree with rig transforms. No sampled
   mesh vertices, full-scene point clouds or omniscient depth are fed as LiDAR.
+
+Completed in implementation checkpoint `a8587eb`. Triangle and scene BVHs,
+calibrated beam order/timing, nearest-opaque response, sparse raw/truth exports
+and display previews passed local fixtures and production Edge acceptance.
+The full browser suite passed 16/16, and three pinned-renderer captures repeated
+the same XYZ/status hashes. See the [SF-07 evidence](evidence/SF-07-lidar.md),
+[verification manifest](evidence/sf07-verification-manifest.json) and
+[LiDAR profile](LIDAR.md). Response coefficients remain synthetic; atmosphere
+and condition sweeps belong to SF-08.
 
 ## SF-08 — Weather, time, noise
 
