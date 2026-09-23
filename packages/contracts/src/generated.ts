@@ -419,6 +419,27 @@ export interface LidarCalibration {
   T_world_from_rig: Transform;
   T_rig_from_sensor: Transform;
   beam_order: "row-major; rows top-to-bottom, columns left-to-right";
+  class_schema_version?: "lidar-semantic.v1";
+  /**
+   * @minItems 12
+   * @maxItems 12
+   */
+  class_table?: [
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry,
+    LidarClassEntry
+  ];
+  cloud_preview_projection?: "rgb-camera-perspective";
+  topdown_preview_projection?: "lidar-sensor-overhead";
   status_codes: {
     no_return: 0;
     surface: 1;
@@ -430,6 +451,23 @@ export interface LidarCalibration {
     dropout_probability: number;
     intensity_model: "synthetic-incidence-exponential.v1";
   };
+}
+export interface LidarClassEntry {
+  id: number;
+  name:
+    | "unclassified"
+    | "terrain"
+    | "pavement"
+    | "marking"
+    | "building"
+    | "vegetation"
+    | "rock"
+    | "fence"
+    | "aircraft"
+    | "ground_vehicle"
+    | "ship"
+    | "water";
+  color: string;
 }
 export interface CaptureArtifacts {
   rgb: Artifact;
@@ -447,11 +485,14 @@ export interface CaptureArtifacts {
   lidar_beam_id?: Artifact;
   lidar_time_offset?: Artifact;
   lidar_validity?: Artifact;
+  lidar_class_ref?: Artifact;
   lidar_beam_status?: Artifact;
   lidar_ideal_range?: Artifact;
   lidar_ideal_instance?: Artifact;
+  lidar_ideal_class?: Artifact;
   lidar_range_preview?: Artifact;
   lidar_cloud_preview?: Artifact;
+  lidar_topdown_preview?: Artifact;
   metadata: Artifact;
 }
 export interface CaptureJobError {

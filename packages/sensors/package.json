@@ -7,6 +7,7 @@
     ".": "./src/index.ts",
     "./capture": "./src/capture.ts",
     "./lidar": "./src/lidar.ts",
+    "./lidarClass": "./src/lidarClass.ts",
     "./thermal": "./src/thermal.ts"
   },
   "scripts": {

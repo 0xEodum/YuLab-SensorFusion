@@ -55,9 +55,14 @@ saved sensor extrinsic:
   reproducible continued-history capture.
 - `lidar_xyz_npy`, `lidar_intensity_npy`, `lidar_beam_id_npy`,
   `lidar_time_offset_npy`, `lidar_validity_npy`: sparse detected returns.
+- `lidar_class_ref_npy`: per-return simulator class truth aligned to XYZ;
+  labels are excluded from the measured LiDAR observation.
 - `lidar_beam_status_npy`: full beam table including no-return/dropout status.
-  `lidar_ideal_range_npy` and `lidar_ideal_instance_npy` are separate truth.
-- `lidar_range_preview_png` and `lidar_cloud_preview_png`: display-only views.
+  `lidar_ideal_range_npy`, `lidar_ideal_instance_npy` and
+  `lidar_ideal_class_npy` are separate pre-response truth.
+- `lidar_cloud_preview_png`: class-colored camera-perspective view.
+  `lidar_topdown_preview_png` is the secondary overhead view;
+  `lidar_range_preview_png` is the angular range image. All are display only.
 - `metadata_json`: renderer/device handshake, timings, CPU/browser memory,
   resident chunks, stable ID map, IR/LiDAR calibration and output hashes.
 

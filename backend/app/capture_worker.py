@@ -106,8 +106,9 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
     if "lidar" in wire_request["plan"]["modalities"]:
         required.update({
             "lidar_xyz", "lidar_intensity", "lidar_beam_id", "lidar_time_offset",
-            "lidar_validity", "lidar_beam_status", "lidar_ideal_range",
-            "lidar_ideal_instance", "lidar_range_preview", "lidar_cloud_preview",
+            "lidar_validity", "lidar_class_ref", "lidar_beam_status", "lidar_ideal_range",
+            "lidar_ideal_instance", "lidar_ideal_class", "lidar_range_preview",
+            "lidar_cloud_preview", "lidar_topdown_preview",
         })
         if result.get("lidar_calibration") is None:
             raise WorkerCrashed("Capture worker omitted LiDAR calibration metadata.")

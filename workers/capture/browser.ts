@@ -14,6 +14,7 @@ import {
   validateRigGeometry,
 } from "@yulab/sensors";
 import { beamFor, buildLidarScene, scanLidar } from "@yulab/sensors/lidar";
+import { LIDAR_CLASS_TABLE } from "@yulab/sensors/lidarClass";
 import { renderReferencePasses, renderThermalPass, rendererCapabilities } from "@yulab/sensors/capture";
 import {
   advanceThermalState,
@@ -45,7 +46,7 @@ function dataUrlBase64(value: string) {
 }
 
 function lidarPreviews(
-  scan: ReturnType<typeof scanLidar>, maxRange: number,
+  scan: ReturnType<typeof scanLidar>, rig: RigSpec, maxRange: number,
 ) {
   const range = document.createElement("canvas");
   range.width = scan.columns;
@@ -65,26 +66,77 @@ function lidarPreviews(
     pixels.data[offset + 3] = 255;
   }
   rangeContext.putImageData(pixels, 0, 0);
+  const rgb = captureCamera(rig, "rgb");
+  const toMatrix = (values: readonly number[]) => new THREE.Matrix4().set(
+    ...values as Parameters<THREE.Matrix4["set"]>,
+  );
+  const worldFromLidar = toMatrix(rig.T_world_from_rig).multiply(
+    toMatrix(rig.sensors.find((sensor) => sensor.modality === "lidar")!.T_rig_from_sensor),
+  );
+  const cameraFromWorld = toMatrix(rgb.T_world_from_sensor).invert();
+  const lidarToCamera = cameraFromWorld.multiply(worldFromLidar);
   const cloud = document.createElement("canvas");
-  cloud.width = 640;
-  cloud.height = 384;
+  cloud.width = rgb.camera.width_px;
+  cloud.height = rgb.camera.height_px;
   const cloudContext = cloud.getContext("2d");
-  if (!cloudContext) throw new Error("LiDAR point cloud preview canvas unavailable");
-  cloudContext.fillStyle = "#06121d";
-  cloudContext.fillRect(0, 0, cloud.width, cloud.height);
+  if (!cloudContext) throw new Error("LiDAR camera-perspective preview canvas unavailable");
+  const cameraPixels = cloudContext.createImageData(cloud.width, cloud.height);
+  const cameraDepth = new Float32Array(cloud.width * cloud.height).fill(Infinity);
+  const overhead = document.createElement("canvas");
+  overhead.width = cloud.width;
+  overhead.height = cloud.height;
+  const overheadContext = overhead.getContext("2d");
+  if (!overheadContext) throw new Error("LiDAR top-down preview canvas unavailable");
+  const overheadPixels = overheadContext.createImageData(overhead.width, overhead.height);
+  const overheadHeight = new Float32Array(overhead.width * overhead.height).fill(-Infinity);
+  for (const data of [cameraPixels.data, overheadPixels.data]) {
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = 6; data[i + 1] = 18; data[i + 2] = 29; data[i + 3] = 255;
+    }
+  }
+  const rgbBytes = LIDAR_CLASS_TABLE.map(({ color }) => [
+    Number.parseInt(color.slice(1, 3), 16),
+    Number.parseInt(color.slice(3, 5), 16),
+    Number.parseInt(color.slice(5, 7), 16),
+  ]);
+  const projected = new THREE.Vector3();
+  const worldPoint = new THREE.Vector3();
+  const paint = (pixels: ImageData, depth: Float32Array, x: number, y: number,
+    value: number, color: number[], closer: boolean) => {
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const px = x + dx, py = y + dy;
+      if (px < 0 || px >= pixels.width || py < 0 || py >= pixels.height) continue;
+      const index = py * pixels.width + px;
+      if (closer ? value >= depth[index] : value <= depth[index]) continue;
+      depth[index] = value;
+      const offset = index * 4;
+      pixels.data[offset] = color[0];
+      pixels.data[offset + 1] = color[1];
+      pixels.data[offset + 2] = color[2];
+    }
+  };
   const lateral = maxRange * Math.tan(0.7);
   for (const point of scan.points) {
+    const color = rgbBytes[point.class_id] ?? rgbBytes[0];
+    projected.set(...point.xyz_sensor).applyMatrix4(lidarToCamera);
+    if (projected.z >= rgb.min_range_m && projected.z <= rgb.max_range_m) {
+      const u = rgb.camera.fx_px * projected.x / projected.z + rgb.camera.cx_px;
+      const v = rgb.camera.fy_px * projected.y / projected.z + rgb.camera.cy_px;
+      if (u >= 0 && u < cloud.width && v >= 0 && v < cloud.height)
+        paint(cameraPixels, cameraDepth, Math.floor(u), Math.floor(v), projected.z, color, true);
+    }
     const [forward, left] = point.xyz_sensor;
-    const x = Math.floor(cloud.width * (0.5 - left / (2 * lateral)));
-    const y = Math.floor(cloud.height * (1 - forward / maxRange));
-    if (x < 0 || x >= cloud.width || y < 0 || y >= cloud.height) continue;
-    const brightness = Math.round(145 + 110 * Math.sqrt(point.intensity));
-    cloudContext.fillStyle = `rgb(${Math.round(brightness * 0.38)},${Math.round(brightness * 0.82)},${brightness})`;
-    cloudContext.fillRect(x, y, 3, 3);
+    const x = Math.floor(overhead.width * (0.5 - left / (2 * lateral)));
+    const y = Math.floor(overhead.height * (1 - forward / maxRange));
+    worldPoint.set(...point.xyz_sensor).applyMatrix4(worldFromLidar);
+    paint(overheadPixels, overheadHeight, x, y, worldPoint.y, color, false);
   }
+  cloudContext.putImageData(cameraPixels, 0, 0);
+  overheadContext.putImageData(overheadPixels, 0, 0);
   return {
     range_png_base64: dataUrlBase64(range.toDataURL("image/png")),
     cloud_png_base64: dataUrlBase64(cloud.toDataURL("image/png")),
+    topdown_png_base64: dataUrlBase64(overhead.toDataURL("image/png")),
   };
 }
 
@@ -97,6 +149,7 @@ function addChunk(root: THREE.Group, data: ChunkData) {
     vertexColors: true, flatShading: true, roughness: 1,
   }));
   terrain.name = `terrain:${data.mesh.coord.x},${data.mesh.coord.z}`;
+  terrain.userData.lidar_class = "terrain";
   terrain.receiveShadow = true;
   root.add(terrain);
   for (const placement of data.placements) {
@@ -110,6 +163,7 @@ function addChunk(root: THREE.Group, data: ChunkData) {
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.name = placement.id;
+    mesh.userData.lidar_class = placement.kind === "tree" ? "vegetation" : "rock";
     mesh.position.set(...placement.position);
     mesh.rotation.y = placement.yaw;
     if (placement.kind === "tree") mesh.position.y += 1.25 * placement.scale;
@@ -216,7 +270,7 @@ async function capture(request: Request) {
       if (lidarRequested) {
         lidarGeometry = buildLidarScene(scene, catalog?.assets ?? []);
         lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar);
-        lidarPreview = lidarPreviews(lidar, lidarRig!.max_range_m);
+        lidarPreview = lidarPreviews(lidar, request.rig, lidarRig!.max_range_m);
       }
     } finally {
       lidarGeometry?.dispose();
@@ -227,6 +281,7 @@ async function capture(request: Request) {
     const beamIds = new Uint32Array(count);
     const timeOffsets = new Float32Array(count);
     const validity = new Uint8Array(count);
+    const classRef = new Uint8Array(count);
     for (let i = 0; i < count; i++) {
       const point = lidar!.points[i];
       xyz.set(point.xyz_sensor, i * 3);
@@ -234,14 +289,17 @@ async function capture(request: Request) {
       beamIds[i] = point.beam_id;
       timeOffsets[i] = point.time_offset_s;
       validity[i] = 1;
+      classRef[i] = point.class_id;
     }
     const idealRange = new Float32Array(lidar?.beam_status.length ?? 0);
     const idealInstance = new Uint32Array(idealRange.length);
+    const idealClass = new Uint8Array(idealRange.length);
     for (let i = 0; i < idealRange.length; i++) {
       const hit = lidar!.ideal_hits[i];
       if (!hit) continue;
       idealRange[i] = hit.range_m;
       idealInstance[i] = hit.instance_id ? capture.instanceIds[hit.instance_id] ?? 0 : 0;
+      idealClass[i] = hit.class_id;
     }
     return {
       width: capture.width,
@@ -272,6 +330,10 @@ async function capture(request: Request) {
         beam_order: "row-major; rows top-to-bottom, columns left-to-right",
         status_codes: { no_return: 0, surface: 1, receiver_dropout: 2 },
         response: lidar.response,
+        class_schema_version: "lidar-semantic.v1",
+        class_table: LIDAR_CLASS_TABLE,
+        cloud_preview_projection: "rgb-camera-perspective",
+        topdown_preview_projection: "lidar-sensor-overhead",
       } : null,
       lidar_point_count: count,
       lidar_xyz_f32_base64: lidar ? bytesBase64(new Uint8Array(xyz.buffer)) : null,
@@ -279,11 +341,14 @@ async function capture(request: Request) {
       lidar_beam_id_u32_base64: lidar ? bytesBase64(new Uint8Array(beamIds.buffer)) : null,
       lidar_time_offset_f32_base64: lidar ? bytesBase64(new Uint8Array(timeOffsets.buffer)) : null,
       lidar_validity_u8_base64: lidar ? bytesBase64(validity) : null,
+      lidar_class_ref_u8_base64: lidar ? bytesBase64(classRef) : null,
       lidar_beam_status_u8_base64: lidar ? bytesBase64(lidar.beam_status) : null,
       lidar_ideal_range_f32_base64: lidar ? bytesBase64(new Uint8Array(idealRange.buffer)) : null,
       lidar_ideal_instance_u32_base64: lidar ? bytesBase64(new Uint8Array(idealInstance.buffer)) : null,
+      lidar_ideal_class_u8_base64: lidar ? bytesBase64(idealClass) : null,
       lidar_range_preview_png_base64: lidarPreview?.range_png_base64 ?? null,
       lidar_cloud_preview_png_base64: lidarPreview?.cloud_png_base64 ?? null,
+      lidar_topdown_preview_png_base64: lidarPreview?.topdown_png_base64 ?? null,
       capabilities,
       elapsed_ms: performance.now() - started,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),

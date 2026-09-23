@@ -110,8 +110,11 @@ allowed and must be distinguished from failed capture or unavailable hardware.
 
 SF-07 implements the raw LiDAR beam table and sparse arrays in
 [LIDAR.md](LIDAR.md). Its `lidar_ideal_range_npy` and
-`lidar_ideal_instance_npy` artifacts are reference truth, separate from
-observation returns. Weather-conditioned attenuation and particles remain
+`lidar_ideal_instance_npy` and `lidar_ideal_class_npy` artifacts are
+pre-response reference truth. `lidar_class_ref_npy` labels each sparse return;
+it is reference markup, excluded from model sensor input. The calibrated
+camera-perspective class preview is primary and the top-down plot is secondary.
+Weather-conditioned attenuation and particles remain
 SF-08; observation/truth bundle publication remains SF-10.
 
 ## 4. Visibility and labels

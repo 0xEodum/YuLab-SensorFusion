@@ -176,12 +176,16 @@ test("104 adjacent chunk crossings preserve seams and IDs with bounded productio
       ({ x, z }) => window.worldQA!.moveTo(x * 128 + 64, z * 128 + 64),
       c,
     );
-    await ready(page);
-    const m = await metrics(page);
-    expect(m.desired).toBe(`${c.x},${c.z}@4`);
-    const expected = [];
+    const expected: string[] = [];
     for (let x = c.x - 1; x <= c.x + 1; x++)
       for (let z = c.z - 1; z <= c.z + 1; z++) expected.push(`${x},${z}@4`);
+    await expect.poll(async () => {
+      const current = await metrics(page);
+      return current.desired === `${c.x},${c.z}@4` && current.status.ready &&
+        JSON.stringify([...current.keys].sort()) === JSON.stringify([...expected].sort());
+    }, { timeout: 45_000 }).toBe(true);
+    const m = await metrics(page);
+    expect(m.desired).toBe(`${c.x},${c.z}@4`);
     expect(m.keys.sort()).toEqual(expected.sort());
     expect(m.status.error).toBe("");
     expect(m.cache.chunks).toBeLessThanOrEqual(24);

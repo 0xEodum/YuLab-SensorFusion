@@ -239,16 +239,22 @@ async function run() {
         npy(binary("lidar_time_offset_f32_base64"), "<f4", pointShape), "application/x-npy");
       artifacts.lidar_validity = await artifact(outputPath, "lidar_validity_npy",
         npy(binary("lidar_validity_u8_base64"), "|b1", pointShape), "application/x-npy");
+      artifacts.lidar_class_ref = await artifact(outputPath, "lidar_class_ref_npy",
+        npy(binary("lidar_class_ref_u8_base64"), "|u1", pointShape), "application/x-npy");
       artifacts.lidar_beam_status = await artifact(outputPath, "lidar_beam_status_npy",
         npy(binary("lidar_beam_status_u8_base64"), "|u1", beamShape), "application/x-npy");
       artifacts.lidar_ideal_range = await artifact(outputPath, "lidar_ideal_range_npy",
         npy(binary("lidar_ideal_range_f32_base64"), "<f4", beamShape), "application/x-npy");
       artifacts.lidar_ideal_instance = await artifact(outputPath, "lidar_ideal_instance_npy",
         npy(binary("lidar_ideal_instance_u32_base64"), "<u4", beamShape), "application/x-npy");
+      artifacts.lidar_ideal_class = await artifact(outputPath, "lidar_ideal_class_npy",
+        npy(binary("lidar_ideal_class_u8_base64"), "|u1", beamShape), "application/x-npy");
       artifacts.lidar_range_preview = await artifact(outputPath, "lidar_range_preview_png",
         binary("lidar_range_preview_png_base64"), "image/png");
       artifacts.lidar_cloud_preview = await artifact(outputPath, "lidar_cloud_preview_png",
         binary("lidar_cloud_preview_png_base64"), "image/png");
+      artifacts.lidar_topdown_preview = await artifact(outputPath, "lidar_topdown_preview_png",
+        binary("lidar_topdown_preview_png_base64"), "image/png");
     }
     const result = {
       protocol: "capture-worker.v1",

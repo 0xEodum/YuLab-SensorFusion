@@ -306,11 +306,14 @@ class CaptureArtifacts(TypedDict):
     lidar_beam_id: NotRequired[Artifact]
     lidar_time_offset: NotRequired[Artifact]
     lidar_validity: NotRequired[Artifact]
+    lidar_class_ref: NotRequired[Artifact]
     lidar_beam_status: NotRequired[Artifact]
     lidar_ideal_range: NotRequired[Artifact]
     lidar_ideal_instance: NotRequired[Artifact]
+    lidar_ideal_class: NotRequired[Artifact]
     lidar_range_preview: NotRequired[Artifact]
     lidar_cloud_preview: NotRequired[Artifact]
+    lidar_topdown_preview: NotRequired[Artifact]
     metadata: Artifact
 
 
@@ -328,6 +331,25 @@ class IrCalibration(TypedDict):
     preview_palette: Literal['iron-v1']
     preview_scale: tuple[PreviewScaleItem, PreviewScaleItem]
     palette_applies_to_raw: Literal[False]
+
+
+class LidarClassEntry(TypedDict):
+    id: int
+    name: Literal[
+        'unclassified',
+        'terrain',
+        'pavement',
+        'marking',
+        'building',
+        'vegetation',
+        'rock',
+        'fence',
+        'aircraft',
+        'ground_vehicle',
+        'ship',
+        'water',
+    ]
+    color: str
 
 
 class StatusCodes(TypedDict):
@@ -358,6 +380,10 @@ class LidarCalibration(TypedDict):
     T_world_from_rig: Transform
     T_rig_from_sensor: Transform
     beam_order: Literal['row-major; rows top-to-bottom, columns left-to-right']
+    class_schema_version: NotRequired[Literal['lidar-semantic.v1']]
+    class_table: NotRequired[list[LidarClassEntry]]
+    cloud_preview_projection: NotRequired[Literal['rgb-camera-perspective']]
+    topdown_preview_projection: NotRequired[Literal['lidar-sensor-overhead']]
     status_codes: StatusCodes
     response: Response
 

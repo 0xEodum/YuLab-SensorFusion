@@ -34,6 +34,20 @@ test('in-memory non-finite numbers cannot bypass JSON parsing', () => {
   }
 });
 
+test('the SF-07 capture stored before semantic labels remains readable', () => {
+  const job = JSON.parse(readFileSync(new URL('CaptureJob.json', dir), 'utf8'));
+  const result = JSON.parse(readFileSync(new URL('../../docs/evidence/sf07/capture-metadata.json', import.meta.url), 'utf8'));
+  // metadata_json is written before its own artifact entry is added to result.json.
+  result.artifacts.metadata = {
+    id: 'metadata_json', sha256: '0'.repeat(64), byte_length: 1, media_type: 'application/json',
+  };
+  job.state = 'succeeded';
+  job.progress = 1;
+  job.capture_id = result.capture_id;
+  job.result = result;
+  assert.doesNotThrow(() => validatePayload('CaptureJob', job));
+});
+
 test('every public family has a positive fixture', () => {
   const schema = JSON.parse(readFileSync(new URL('../../contracts/lab.schema.json', import.meta.url), 'utf8'));
   const names = schema.oneOf.map((r: { $ref: string }) => r.$ref.split('/').at(-1));

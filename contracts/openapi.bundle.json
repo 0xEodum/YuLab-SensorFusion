@@ -1485,6 +1485,9 @@
           "lidar_validity": {
             "$ref": "#/components/schemas/Artifact"
           },
+          "lidar_class_ref": {
+            "$ref": "#/components/schemas/Artifact"
+          },
           "lidar_beam_status": {
             "$ref": "#/components/schemas/Artifact"
           },
@@ -1494,10 +1497,16 @@
           "lidar_ideal_instance": {
             "$ref": "#/components/schemas/Artifact"
           },
+          "lidar_ideal_class": {
+            "$ref": "#/components/schemas/Artifact"
+          },
           "lidar_range_preview": {
             "$ref": "#/components/schemas/Artifact"
           },
           "lidar_cloud_preview": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "lidar_topdown_preview": {
             "$ref": "#/components/schemas/Artifact"
           },
           "metadata": {
@@ -1587,6 +1596,42 @@
           "palette_applies_to_raw"
         ]
       },
+      "LidarClassEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "name": {
+            "enum": [
+              "unclassified",
+              "terrain",
+              "pavement",
+              "marking",
+              "building",
+              "vegetation",
+              "rock",
+              "fence",
+              "aircraft",
+              "ground_vehicle",
+              "ship",
+              "water"
+            ]
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "color"
+        ]
+      },
       "LidarCalibration": {
         "type": "object",
         "additionalProperties": false,
@@ -1641,6 +1686,23 @@
           },
           "beam_order": {
             "const": "row-major; rows top-to-bottom, columns left-to-right"
+          },
+          "class_schema_version": {
+            "const": "lidar-semantic.v1"
+          },
+          "class_table": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LidarClassEntry"
+            },
+            "minItems": 12,
+            "maxItems": 12
+          },
+          "cloud_preview_projection": {
+            "const": "rgb-camera-perspective"
+          },
+          "topdown_preview_projection": {
+            "const": "lidar-sensor-overhead"
           },
           "status_codes": {
             "type": "object",

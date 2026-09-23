@@ -435,11 +435,14 @@ export default function WorldExplorer() {
             <div className="capture-grid">
               {(([
                 ["RGB", captureJob.result.artifacts.rgb.id],
+                [captureJob.result.lidar_calibration?.cloud_preview_projection === "rgb-camera-perspective"
+                  ? "LiDAR camera view · reference class"
+                  : "LiDAR top-down · legacy", captureJob.result.artifacts.lidar_cloud_preview?.id],
                 ["Thermal IR", captureJob.result.artifacts.ir_preview?.id],
                 ["Depth", captureJob.result.artifacts.depth_preview.id],
                 ["Instance IDs", captureJob.result.artifacts.instance_preview.id],
+                ["LiDAR top-down · reference class", captureJob.result.artifacts.lidar_topdown_preview?.id],
                 ["LiDAR range", captureJob.result.artifacts.lidar_range_preview?.id],
-                ["LiDAR point cloud", captureJob.result.artifacts.lidar_cloud_preview?.id],
               ] as const) as ReadonlyArray<readonly [string, string | undefined]>)
                 .filter((entry): entry is readonly [string, string] => typeof entry[1] === "string")
                 .map(([label, artifact]) => {
@@ -459,7 +462,18 @@ export default function WorldExplorer() {
                   />
                   <figcaption>{label} · tick {captureJob.result!.tick_s.toFixed(3)} s</figcaption>
                 </figure>;
-              })}
+                })}
+              {captureJob.result.lidar_calibration?.class_table && (
+                <div className="lidar-class-legend" aria-label="LiDAR reference class legend">
+                  {captureJob.result.lidar_calibration.class_table.map(({ id, name, color }) => (
+                    <span key={id}>
+                      <i style={{ backgroundColor: color }} aria-hidden="true" />
+                      {name.replace(/_/g, " ")}
+                    </span>
+                  ))}
+                  <small>Class colors are simulator reference labels; LiDAR intensity remains a separate measurement.</small>
+                </div>
+              )}
             </div>
           )}
         </section>

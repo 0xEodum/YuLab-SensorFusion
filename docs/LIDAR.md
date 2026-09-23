@@ -54,13 +54,33 @@ The sparse observation arrays use NPY, little-endian data in sensor metres:
 | `lidar_beam_id_npy` | N uint32 | Original row-major beam ID |
 | `lidar_time_offset_npy` | N float32 | Seconds from frozen capture tick |
 | `lidar_validity_npy` | N bool | One for each published point |
+| `lidar_class_ref_npy` | N uint8 | Simulator reference class aligned one-to-one with published XYZ, not a sensor measurement |
 | `lidar_beam_status_npy` | rows x columns uint8 | 0 no return, 1 surface, 2 receiver dropout |
 | `lidar_ideal_range_npy` | rows x columns float32 | Pre-response nearest range; zero for no surface |
 | `lidar_ideal_instance_npy` | rows x columns uint32 | Pre-response stable instance ID; zero for background |
+| `lidar_ideal_class_npy` | rows x columns uint8 | Pre-response first-hit class; zero for no surface or unclassified |
+
+`lidar-semantic.v1` assigns stable class IDs: 0 unclassified, 1 terrain,
+2 pavement, 3 marking, 4 building, 5 vegetation, 6 rock, 7 fence,
+8 aircraft, 9 ground vehicle, 10 ship, 11 water. The calibration metadata
+includes the ID, name and display color table. An `AssetRecord` class supplies
+catalog-object labels; terrain, placements and aerodrome structures supply
+their own surface labels. An asset with only the generic `background` class is
+unclassified. No-return and unclassified hits both have class 0 in the ideal
+class table; the beam-status table distinguishes them. Receiver dropout keeps
+the ideal class but publishes no sparse point. These class arrays are reference
+truth for labeling and evaluation; a model's LiDAR observation is XYZ,
+intensity, beam ID, time, validity and status without class input.
 
 `lidar_range_preview_png` visualizes the beam grid with a fixed logarithmic
-0..max-range display scale. `lidar_cloud_preview_png`
-plots sparse returns from above in the sensor frame. Both are display only.
+0..max-range display scale. `lidar_cloud_preview_png` projects sparse returns
+through the calibrated RGB camera at the saved rig pose, with nearest-point
+depth ordering and semantic class colors. `lidar_topdown_preview_png` is the
+secondary plot from above in the LiDAR sensor frame. The class legend in the
+capture UI uses the calibration table. Calibration metadata names both preview
+projections explicitly. All three PNGs are display only.
+Older completed jobs without class metadata remain valid; new captures always
+publish the class table and both projection names.
 `metadata_json` records the pattern, FOV, timing, ranges, extrinsics, response,
 point count and file hashes. An empty valid scan has N=0 and a full beam table
 of no-return statuses. The ideal arrays are reference truth and must not be
@@ -70,7 +90,6 @@ fed into an inference input; SF-10 will package observation and truth bundles.
 
 The v1 ray/triangle tests use discrete angular beams and a static scene.
 Return intensity is a simple incidence/range proxy, not a measured
-reflectance or laser-power calibration. The point-cloud preview is a top-down
-plot, not a perspective RGB-camera projection. The worker remains a
+reflectance or laser-power calibration. The worker remains a
 single-host, one-job queue with a 120 s limit. GPU memory telemetry is still
 unavailable; the LiDAR BVH runs on CPU in the capture browser.

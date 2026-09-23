@@ -4,6 +4,7 @@ import * as THREE from "three";
 import type { AssetRecord } from "../../packages/contracts/src/generated.ts";
 import { cameraPoseToRig, projectWorldPoint } from "../../packages/sensors/src/index.ts";
 import { beamFor, buildLidarScene, scanLidar } from "../../packages/sensors/src/lidar.ts";
+import { LIDAR_CLASS } from "../../packages/sensors/src/lidarClass.ts";
 
 function rig(rows = 1, columns = 1) {
   const value = cameraPoseToRig({
@@ -43,6 +44,27 @@ test("first opaque wall wins; receiver dropout never exposes a hidden object", (
   const open = buildLidarScene(scene);
   assert.equal(scanLidar(open, rig(), 7, { dropout_probability: 0 }).ideal_hits[0]?.object_name, "target");
   open.dispose();
+});
+
+test("reference classes follow first hits and sparse returns through occlusion and dropout", () => {
+  const scene = new THREE.Scene();
+  const rear = box(scene, "aircraft", 0, -10, 8);
+  rear.userData.lidar_class = "aircraft";
+  const front = box(scene, "building", 0, -5, 2);
+  front.userData.lidar_class = "building";
+  const value = rig(1, 9);
+  const geometry = buildLidarScene(scene);
+  const clear = scanLidar(geometry, value, 7, {
+    dropout_probability: 0, range_sigma_m: 0, intensity_sigma: 0,
+  });
+  assert.equal(clear.ideal_hits[4]?.class_id, LIDAR_CLASS.building);
+  assert.ok(clear.ideal_hits.some((hit) => hit?.class_id === LIDAR_CLASS.aircraft));
+  for (const point of clear.points)
+    assert.equal(point.class_id, clear.ideal_hits[point.beam_id]?.class_id);
+  const dropped = scanLidar(geometry, value, 7, { dropout_probability: 1 });
+  assert.equal(dropped.points.length, 0);
+  assert.equal(dropped.ideal_hits[4]?.class_id, LIDAR_CLASS.building);
+  geometry.dispose();
 });
 
 test("partial occlusion, opening, range limits and empty scans preserve beam identities", () => {

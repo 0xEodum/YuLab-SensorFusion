@@ -220,7 +220,7 @@ export function buildAerodromeScene(
     mesh.position.set(...center);
     mesh.castShadow = s.kind === "building";
     mesh.receiveShadow = true;
-    mesh.userData = { background: true };
+    mesh.userData = { background: true, lidar_class: s.kind };
     root.add(mesh);
     owned.push(mesh);
   };

@@ -303,6 +303,13 @@ the same XYZ/status hashes. See the [SF-07 evidence](evidence/SF-07-lidar.md),
 [LiDAR profile](LIDAR.md). Response coefficients remain synthetic; atmosphere
 and condition sweeps belong to SF-08.
 
+SF-07 display/class follow-up: the saved RGB camera perspective is now the
+primary class-colored LiDAR cloud preview; the top-down view remains a separate
+diagnostic. Sparse returns and ideal first-hit beams publish versioned simulator
+class reference labels for later model evaluation, separate from measured
+intensity. The original SF-07 acceptance evidence is preserved; see the
+[camera/class follow-up](evidence/SF-07-camera-classes.md). SF-08 remains READY.
+
 ## SF-08 — Weather, time, noise
 
 Deliver: common environment/time state; clear/day/night/fog/rain/snow/hot-background

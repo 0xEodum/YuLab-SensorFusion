@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from "three-mesh-bvh";
 import type { AssetRecord, RigSpec } from "@yulab/contracts";
 import { shouldCaptureObject, validateRigGeometry } from "./index.ts";
+import { lidarClassId } from "./lidarClass.ts";
 
 export const LIDAR_MODEL_VERSION = "lidar-first-return.v1";
 export const LIDAR_STATUS = { no_return: 0, surface: 1, receiver_dropout: 2 } as const;
@@ -12,9 +13,10 @@ export type LidarHit = {
   normal_world: Vec3;
   object_name: string;
   instance_id: string | null;
+  class_id: number;
   face_index: number;
 };
-type Entry = { mesh: THREE.Mesh; box: THREE.Box3; order: number };
+type Entry = { mesh: THREE.Mesh; box: THREE.Box3; order: number; class_id: number };
 type Node = { box: THREE.Box3; left?: Node; right?: Node; entries?: Entry[] };
 
 function lidarSensor(rig: RigSpec) {
@@ -119,7 +121,10 @@ export function buildLidarScene(root: THREE.Object3D, catalog: readonly AssetRec
     mesh.matrixWorld.copy(object.matrixWorld);
     mesh.raycast = acceleratedRaycast;
     const box = new THREE.Box3().setFromObject(mesh);
-    if (!box.isEmpty()) entries.push({ mesh, box, order: entries.length });
+    const { asset_id } = instanceOf(object);
+    const assetClass = asset_id ? catalog.find((item) => item.asset_id === asset_id)?.class_name : undefined;
+    const class_id = lidarClassId(assetClass ?? object.userData.lidar_class);
+    if (!box.isEmpty()) entries.push({ mesh, box, order: entries.length, class_id });
   });
   const tree = entries.length ? nodeFor(entries.slice()) : null;
   const raycaster = new THREE.Raycaster();
@@ -153,6 +158,7 @@ export function buildLidarScene(root: THREE.Object3D, catalog: readonly AssetRec
               normal_world: normal.toArray() as Vec3,
               object_name: entry.mesh.name,
               instance_id: instanceOf(entry.mesh).instance_id,
+              class_id: entry.class_id,
               face_index: faceIndex, order: entry.order,
             };
           }
@@ -167,7 +173,7 @@ export function buildLidarScene(root: THREE.Object3D, catalog: readonly AssetRec
       return {
         range_m: found.range_m, point_world: found.point_world,
         normal_world: found.normal_world, object_name: found.object_name,
-        instance_id: found.instance_id, face_index: found.face_index,
+        instance_id: found.instance_id, class_id: found.class_id, face_index: found.face_index,
       };
     },
     dispose() {
@@ -202,7 +208,7 @@ export function scanLidar(
   const worldFromSensor = matrix(rig.T_world_from_rig).multiply(matrix(sensor.T_rig_from_sensor));
   const beamStatus = new Uint8Array(total);
   const idealHits: (LidarHit | null)[] = new Array(total).fill(null);
-  const points: { xyz_sensor: Vec3; intensity: number; beam_id: number; time_offset_s: number; range_m: number }[] = [];
+  const points: { xyz_sensor: Vec3; intensity: number; beam_id: number; time_offset_s: number; range_m: number; class_id: number }[] = [];
   const sensorFromWorld = worldFromSensor.clone().invert();
   for (let row = 0; row < pattern.rows; row++) for (let column = 0; column < pattern.columns; column++) {
     const beam = beamAt(sensor, worldFromSensor, row, column);
@@ -226,6 +232,7 @@ export function scanLidar(
       xyz_sensor: sensorPoint.toArray() as Vec3,
       intensity: Math.max(0, Math.min(1, idealIntensity + intensitySigma * gaussian(seed, beam.beam_id, 3))),
       beam_id: beam.beam_id, time_offset_s: beam.time_offset_s, range_m: range,
+      class_id: hit.class_id,
     });
     beamStatus[beam.beam_id] = LIDAR_STATUS.surface;
   }

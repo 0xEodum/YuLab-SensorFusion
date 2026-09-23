@@ -29,7 +29,9 @@ test("saved rig capture publishes synchronized RGB, IR, LiDAR, depth and ID pane
   await page.getByRole("button", { name: "Capture RGB, IR, LiDAR and references" }).click();
   await expect(page.getByRole("status", { name: "Capture status" })).toContainText("succeeded", { timeout: 120_000 });
   const panes = page.locator("[data-capture-id]");
-  await expect(panes).toHaveCount(6);
+  await expect(panes).toHaveCount(7);
+  await expect(page.getByRole("img", { name: /LiDAR camera view/ })).toBeVisible();
+  await expect(page.getByLabel("LiDAR reference class legend")).toContainText("aircraft");
   const ids = await panes.evaluateAll((nodes) => nodes.map((n) => n.getAttribute("data-capture-id")));
   expect(new Set(ids).size).toBe(1);
   for (const pane of await panes.all()) {
@@ -92,20 +94,53 @@ test("saved rig capture publishes synchronized RGB, IR, LiDAR, depth and ID pane
   expect(metadata.lidar_calibration).toMatchObject({
     version: "lidar-first-return.v1", frame: "lidar-forward-left-up",
     rows: 64, columns: 512,
+    class_schema_version: "lidar-semantic.v1",
+    cloud_preview_projection: "rgb-camera-perspective",
+    topdown_preview_projection: "lidar-sensor-overhead",
   });
+  const classIds = Object.fromEntries(metadata.lidar_calibration.class_table.map(
+    ({ id, name }: { id: number; name: string }) => [name, id],
+  ));
+  expect(new Set(metadata.lidar_calibration.class_table.map((item: { id: number }) => item.id)).size).toBe(12);
   const xyz = await readNpy("lidar_xyz", "f32") as Float32Array;
   const beams = await readNpy("lidar_beam_id", "u32") as Uint32Array;
+  const classRef = await readNpy("lidar_class_ref", "u8") as Uint8Array;
   const statuses = await readNpy("lidar_beam_status", "u8") as Uint8Array;
   const idealInstance = await readNpy("lidar_ideal_instance", "u32") as Uint32Array;
+  const idealClass = await readNpy("lidar_ideal_class", "u8") as Uint8Array;
   expect(xyz.length).toBe(metadata.lidar_point_count * 3);
   expect(beams.length).toBe(metadata.lidar_point_count);
+  expect(classRef.length).toBe(metadata.lidar_point_count);
   expect(statuses.length).toBe(64 * 512);
+  expect(idealClass.length).toBe(statuses.length);
   expect(metadata.lidar_point_count).toBeGreaterThan(0);
   expect([...statuses].filter((status) => status === 1).length).toBe(metadata.lidar_point_count);
   expect([...beams].every((id) => id < statuses.length && statuses[id] === 1)).toBe(true);
+  expect([...beams].every((id, i) => classRef[i] === idealClass[id])).toBe(true);
+  expect([...classRef].some((id) => id === classIds.aircraft)).toBe(true);
+  expect([...classRef].some((id) => id === classIds.pavement)).toBe(true);
   expect([...xyz].every(Number.isFinite)).toBe(true);
   expect([...idealInstance].filter((id) => id === job.result.instance_ids["aerodrome-0-clear"]).length).toBeGreaterThan(0);
   expect([...idealInstance].some((id) => id === job.result.instance_ids["aerodrome-0-hidden"])).toBe(false);
+  const cloudBytes = await readArtifact("lidar_cloud_preview");
+  const topdownBytes = await readArtifact("lidar_topdown_preview");
+  expect(cloudBytes.equals(topdownBytes)).toBe(false);
+  const cloudColors = await page.evaluate(async (url) => {
+    const image = await createImageBitmap(await (await fetch(url)).blob());
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width; canvas.height = image.height;
+    const context = canvas.getContext("2d")!;
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(0, 0, image.width, image.height).data;
+    const colors = new Set<string>();
+    for (let i = 0; i < pixels.length; i += 4)
+      colors.add(`#${[pixels[i], pixels[i + 1], pixels[i + 2]].map((v) => v.toString(16).padStart(2, "0")).join("")}`);
+    return [...colors];
+  }, `/api/v1/jobs/${jobId}/artifacts/${job.result.artifacts.lidar_cloud_preview.id}`);
+  for (const name of ["aircraft", "pavement"])
+    expect(cloudColors).toContain(metadata.lidar_calibration.class_table.find(
+      (item: { name: string }) => item.name === name,
+    ).color);
   await page.screenshot({ path: "artifacts/sf07/browser/capture-desktop.png", fullPage: true });
   expect(depth[320]).toBe(0);
   expect(depth[(383 * 640) + 320]).toBeGreaterThan(0);
@@ -159,8 +194,9 @@ test("closing the submitting browser does not stop an accepted backend job", asy
   expect(Object.keys(completed.result.artifacts).sort()).toEqual([
     "depth", "depth_preview", "instance", "instance_preview", "ir_preview",
     "ir_radiance", "ir_saturation", "ir_validity", "lidar_beam_id",
-    "lidar_beam_status", "lidar_cloud_preview", "lidar_ideal_instance", "lidar_ideal_range",
-    "lidar_intensity", "lidar_range_preview", "lidar_time_offset", "lidar_validity",
+    "lidar_beam_status", "lidar_class_ref", "lidar_cloud_preview", "lidar_ideal_class",
+    "lidar_ideal_instance", "lidar_ideal_range", "lidar_intensity", "lidar_range_preview",
+    "lidar_time_offset", "lidar_topdown_preview", "lidar_validity",
     "lidar_xyz", "metadata", "rgb", "thermal_state",
   ]);
 });
