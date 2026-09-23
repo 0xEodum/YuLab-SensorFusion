@@ -225,6 +225,31 @@ async function run() {
         "application/json",
       );
     }
+    if (capture.lidar_calibration) {
+      const pointShape = [capture.lidar_point_count];
+      const beamShape = [capture.lidar_calibration.rows, capture.lidar_calibration.columns];
+      const binary = (field) => Buffer.from(capture[field], "base64");
+      artifacts.lidar_xyz = await artifact(outputPath, "lidar_xyz_npy",
+        npy(binary("lidar_xyz_f32_base64"), "<f4", [capture.lidar_point_count, 3]), "application/x-npy");
+      artifacts.lidar_intensity = await artifact(outputPath, "lidar_intensity_npy",
+        npy(binary("lidar_intensity_f32_base64"), "<f4", pointShape), "application/x-npy");
+      artifacts.lidar_beam_id = await artifact(outputPath, "lidar_beam_id_npy",
+        npy(binary("lidar_beam_id_u32_base64"), "<u4", pointShape), "application/x-npy");
+      artifacts.lidar_time_offset = await artifact(outputPath, "lidar_time_offset_npy",
+        npy(binary("lidar_time_offset_f32_base64"), "<f4", pointShape), "application/x-npy");
+      artifacts.lidar_validity = await artifact(outputPath, "lidar_validity_npy",
+        npy(binary("lidar_validity_u8_base64"), "|b1", pointShape), "application/x-npy");
+      artifacts.lidar_beam_status = await artifact(outputPath, "lidar_beam_status_npy",
+        npy(binary("lidar_beam_status_u8_base64"), "|u1", beamShape), "application/x-npy");
+      artifacts.lidar_ideal_range = await artifact(outputPath, "lidar_ideal_range_npy",
+        npy(binary("lidar_ideal_range_f32_base64"), "<f4", beamShape), "application/x-npy");
+      artifacts.lidar_ideal_instance = await artifact(outputPath, "lidar_ideal_instance_npy",
+        npy(binary("lidar_ideal_instance_u32_base64"), "<u4", beamShape), "application/x-npy");
+      artifacts.lidar_range_preview = await artifact(outputPath, "lidar_range_preview_png",
+        binary("lidar_range_preview_png_base64"), "image/png");
+      artifacts.lidar_cloud_preview = await artifact(outputPath, "lidar_cloud_preview_png",
+        binary("lidar_cloud_preview_png_base64"), "image/png");
+    }
     const result = {
       protocol: "capture-worker.v1",
       capture_id: request.plan.capture_id,
@@ -243,6 +268,8 @@ async function run() {
       resident_chunks: capture.resident_chunks,
       instance_ids: capture.instance_ids,
       ir_calibration: capture.ir_calibration,
+      lidar_calibration: capture.lidar_calibration,
+      lidar_point_count: capture.lidar_point_count,
       artifacts,
     };
     const metadata = Buffer.from(`${JSON.stringify(result, null, 2)}\n`);

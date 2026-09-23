@@ -1,5 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
+const backendPort = process.env.YULAB_TEST_BACKEND_PORT ?? "8765";
+
 export default defineConfig({
   testDir: "./tests/browser",
   timeout: 90_000,
@@ -25,8 +27,8 @@ export default defineConfig({
   webServer: [
     {
       command:
-        "node tools/uv.mjs run --project backend --locked uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8765",
-      url: "http://127.0.0.1:8765/api/v1/health",
+        `node tools/uv.mjs run --project backend --locked uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port ${backendPort}`,
+      url: `http://127.0.0.1:${backendPort}/api/v1/health`,
       reuseExistingServer: false,
       timeout: 30_000,
     },
@@ -38,7 +40,7 @@ export default defineConfig({
       url: "http://127.0.0.1:4173",
       reuseExistingServer: false,
       timeout: 30_000,
-      env: { YULAB_BACKEND_PORT: "8765" },
+      env: { YULAB_BACKEND_PORT: backendPort },
     },
   ],
 });

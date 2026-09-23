@@ -108,6 +108,12 @@ not serialized in JSON. Binary invalid values use a validity mask. Failed frames
 are absent from completed manifests. Completely empty but valid LiDAR scans are
 allowed and must be distinguished from failed capture or unavailable hardware.
 
+SF-07 implements the raw LiDAR beam table and sparse arrays in
+[LIDAR.md](LIDAR.md). Its `lidar_ideal_range_npy` and
+`lidar_ideal_instance_npy` artifacts are reference truth, separate from
+observation returns. Weather-conditioned attenuation and particles remain
+SF-08; observation/truth bundle publication remains SF-10.
+
 ## 4. Visibility and labels
 
 At a frozen world time, render an integer instance-ID and depth pass from EACH

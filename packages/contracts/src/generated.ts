@@ -380,6 +380,8 @@ export interface CaptureResult {
     [k: string]: number;
   };
   ir_calibration: IrCalibration | null;
+  lidar_calibration: LidarCalibration | null;
+  lidar_point_count: number;
   artifacts: CaptureArtifacts;
 }
 export interface IrCalibration {
@@ -402,6 +404,33 @@ export interface IrCalibration {
   preview_scale: [number, number];
   palette_applies_to_raw: false;
 }
+export interface LidarCalibration {
+  version: "lidar-first-return.v1";
+  sensor_id: Id;
+  frame: "lidar-forward-left-up";
+  rows: number;
+  columns: number;
+  horizontal_fov_rad: number;
+  vertical_fov_rad: number;
+  scan_duration_s: number;
+  timestamp_offset_s: number;
+  min_range_m: number;
+  max_range_m: number;
+  T_world_from_rig: Transform;
+  T_rig_from_sensor: Transform;
+  beam_order: "row-major; rows top-to-bottom, columns left-to-right";
+  status_codes: {
+    no_return: 0;
+    surface: 1;
+    receiver_dropout: 2;
+  };
+  response: {
+    range_sigma_m: number;
+    intensity_sigma: number;
+    dropout_probability: number;
+    intensity_model: "synthetic-incidence-exponential.v1";
+  };
+}
 export interface CaptureArtifacts {
   rgb: Artifact;
   depth_preview: Artifact;
@@ -413,6 +442,16 @@ export interface CaptureArtifacts {
   ir_validity?: Artifact;
   ir_saturation?: Artifact;
   thermal_state?: Artifact;
+  lidar_xyz?: Artifact;
+  lidar_intensity?: Artifact;
+  lidar_beam_id?: Artifact;
+  lidar_time_offset?: Artifact;
+  lidar_validity?: Artifact;
+  lidar_beam_status?: Artifact;
+  lidar_ideal_range?: Artifact;
+  lidar_ideal_instance?: Artifact;
+  lidar_range_preview?: Artifact;
+  lidar_cloud_preview?: Artifact;
   metadata: Artifact;
 }
 export interface CaptureJobError {

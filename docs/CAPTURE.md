@@ -1,4 +1,4 @@
-# SF-05/SF-06 synchronized capture
+# SF-05 through SF-07 synchronized capture
 
 SF-05 adds a backend-owned, single-host capture queue and a Node-managed
 headless Chromium worker. The browser preview and worker both use
@@ -6,7 +6,8 @@ headless Chromium worker. The browser preview and worker both use
 projection and fixed capture dimensions. SF-05 implements RGB plus geometric
 depth and instance-ID references. SF-06 adds surface heat, calibrated raw LWIR,
 validity/saturation masks, thermal-state replay and a display-only IR preview.
-LiDAR, dataset annotations and inference remain unimplemented.
+SF-07 adds nearest-surface LiDAR, sparse raw returns and range/point previews.
+Dataset annotations and inference remain unimplemented.
 
 ## Frozen capture contract
 
@@ -22,13 +23,14 @@ the rig's +X right, +Y up, -Z forward frame. Each optical camera uses +X right,
 `T_rig_from_sensor`. The IR camera has a separate 0.35 m baseline; RGB reference
 passes and IR therefore use distinct, calibrated viewpoints.
 
-The worker loads every conservative 2 m sensor-residency chunk within the RGB
-maximum range before rendering. It reconstructs the same world generator,
+The worker loads every conservative 2 m sensor-residency chunk within the union
+of the RGB and LiDAR maximum ranges before capture. It reconstructs the same world generator,
 catalog GLBs and aerodrome structures used by the interactive app. Editor grids,
 helpers, decorative shadow floors and UI overlays are not sensor surfaces.
 
 Thermal semantics and declared approximations are specified in
 [THERMAL_IR.md](THERMAL_IR.md).
+LiDAR beam, response and export semantics are in [LIDAR.md](LIDAR.md).
 
 ## Passes and artifacts
 
@@ -51,8 +53,13 @@ saved sensor extrinsic:
 - `ir_preview_png`: display-only `iron-v1` fixed-scale color mapping.
 - `thermal_state_json`: versioned, hash-addressed surface temperatures used for
   reproducible continued-history capture.
+- `lidar_xyz_npy`, `lidar_intensity_npy`, `lidar_beam_id_npy`,
+  `lidar_time_offset_npy`, `lidar_validity_npy`: sparse detected returns.
+- `lidar_beam_status_npy`: full beam table including no-return/dropout status.
+  `lidar_ideal_range_npy` and `lidar_ideal_instance_npy` are separate truth.
+- `lidar_range_preview_png` and `lidar_cloud_preview_png`: display-only views.
 - `metadata_json`: renderer/device handshake, timings, CPU/browser memory,
-  resident chunks, stable ID map, IR calibration and hashes for other outputs.
+  resident chunks, stable ID map, IR/LiDAR calibration and output hashes.
 
 The worker requires WebGL2 plus `EXT_color_buffer_float`. Capability failure or
 context loss is explicit; it is never replaced by RGB recoloring, amodal boxes

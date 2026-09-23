@@ -6,14 +6,18 @@
   "exports": {
     ".": "./src/index.ts",
     "./capture": "./src/capture.ts",
+    "./lidar": "./src/lidar.ts",
     "./thermal": "./src/thermal.ts"
   },
-  "scripts": { "typecheck": "tsc --noEmit" },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "@yulab/assets": "0.1.0",
     "@yulab/contracts": "0.1.0",
     "@yulab/world": "0.1.0",
-    "three": "0.186.0"
+    "three": "0.186.0",
+    "three-mesh-bvh": "0.9.15"
   },
   "devDependencies": {
     "@types/three": "0.185.4",

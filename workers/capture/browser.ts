@@ -13,6 +13,7 @@ import {
   captureCamera,
   validateRigGeometry,
 } from "@yulab/sensors";
+import { beamFor, buildLidarScene, scanLidar } from "@yulab/sensors/lidar";
 import { renderReferencePasses, renderThermalPass, rendererCapabilities } from "@yulab/sensors/capture";
 import {
   advanceThermalState,
@@ -41,6 +42,50 @@ function dataUrlBase64(value: string) {
   const index = value.indexOf(marker);
   if (index < 0) throw new Error("Preview encoder did not return base64 PNG");
   return value.slice(index + marker.length);
+}
+
+function lidarPreviews(
+  scan: ReturnType<typeof scanLidar>, maxRange: number,
+) {
+  const range = document.createElement("canvas");
+  range.width = scan.columns;
+  range.height = scan.rows;
+  const rangeContext = range.getContext("2d");
+  if (!rangeContext) throw new Error("LiDAR range preview canvas unavailable");
+  const pixels = rangeContext.createImageData(scan.columns, scan.rows);
+  for (let i = 0; i < scan.beam_status.length; i++) {
+    const offset = i * 4;
+    const status = scan.beam_status[i];
+    const value = status === 1
+      ? Math.round(255 * (1 - Math.log1p(scan.ideal_hits[i]!.range_m) / Math.log1p(maxRange)))
+      : 0;
+    pixels.data[offset] = status === 2 ? 120 : Math.round(value * 0.38);
+    pixels.data[offset + 1] = status === 2 ? 20 : Math.round(value * 0.78);
+    pixels.data[offset + 2] = status === 2 ? 160 : value;
+    pixels.data[offset + 3] = 255;
+  }
+  rangeContext.putImageData(pixels, 0, 0);
+  const cloud = document.createElement("canvas");
+  cloud.width = 640;
+  cloud.height = 384;
+  const cloudContext = cloud.getContext("2d");
+  if (!cloudContext) throw new Error("LiDAR point cloud preview canvas unavailable");
+  cloudContext.fillStyle = "#06121d";
+  cloudContext.fillRect(0, 0, cloud.width, cloud.height);
+  const lateral = maxRange * Math.tan(0.7);
+  for (const point of scan.points) {
+    const [forward, left] = point.xyz_sensor;
+    const x = Math.floor(cloud.width * (0.5 - left / (2 * lateral)));
+    const y = Math.floor(cloud.height * (1 - forward / maxRange));
+    if (x < 0 || x >= cloud.width || y < 0 || y >= cloud.height) continue;
+    const brightness = Math.round(145 + 110 * Math.sqrt(point.intensity));
+    cloudContext.fillStyle = `rgb(${Math.round(brightness * 0.38)},${Math.round(brightness * 0.82)},${brightness})`;
+    cloudContext.fillRect(x, y, 3, 3);
+  }
+  return {
+    range_png_base64: dataUrlBase64(range.toDataURL("image/png")),
+    cloud_png_base64: dataUrlBase64(cloud.toDataURL("image/png")),
+  };
 }
 
 function addChunk(root: THREE.Group, data: ChunkData) {
@@ -89,7 +134,15 @@ async function capture(request: Request) {
     rgb.T_world_from_sensor[7],
     rgb.T_world_from_sensor[11],
   ] as [number, number, number];
-  const coords = sensorChunks(world, [{ position, range: rgb.max_range_m }]);
+  const lidarRequested = request.plan.modalities.includes("lidar");
+  const lidarRig = request.rig.sensors.find((sensor) => sensor.modality === "lidar");
+  if (lidarRequested && !lidarRig?.available)
+    throw new Error("Requested LiDAR sensor is unavailable");
+  const lidarOrigin = lidarRequested ? beamFor(request.rig, 0, 0).origin : null;
+  const coords = sensorChunks(world, [
+    { position, range: rgb.max_range_m },
+    ...(lidarOrigin && lidarRig ? [{ position: lidarOrigin, range: lidarRig.max_range_m }] : []),
+  ]);
   const chunks = coords.map((coord) => ({
     mesh: meshChunk(world, coord, 2),
     placements: chunkPlacements(world, coord),
@@ -156,6 +209,40 @@ async function capture(request: Request) {
       if (thermal.width !== capture.width || thermal.height !== capture.height)
         throw new Error("The synchronized v1 RGB and IR cameras require matching raster dimensions");
     }
+    let lidar: ReturnType<typeof scanLidar> | null = null;
+    let lidarPreview: ReturnType<typeof lidarPreviews> | null = null;
+    let lidarGeometry: ReturnType<typeof buildLidarScene> | null = null;
+    try {
+      if (lidarRequested) {
+        lidarGeometry = buildLidarScene(scene, catalog?.assets ?? []);
+        lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar);
+        lidarPreview = lidarPreviews(lidar, lidarRig!.max_range_m);
+      }
+    } finally {
+      lidarGeometry?.dispose();
+    }
+    const count = lidar?.points.length ?? 0;
+    const xyz = new Float32Array(count * 3);
+    const intensity = new Float32Array(count);
+    const beamIds = new Uint32Array(count);
+    const timeOffsets = new Float32Array(count);
+    const validity = new Uint8Array(count);
+    for (let i = 0; i < count; i++) {
+      const point = lidar!.points[i];
+      xyz.set(point.xyz_sensor, i * 3);
+      intensity[i] = point.intensity;
+      beamIds[i] = point.beam_id;
+      timeOffsets[i] = point.time_offset_s;
+      validity[i] = 1;
+    }
+    const idealRange = new Float32Array(lidar?.beam_status.length ?? 0);
+    const idealInstance = new Uint32Array(idealRange.length);
+    for (let i = 0; i < idealRange.length; i++) {
+      const hit = lidar!.ideal_hits[i];
+      if (!hit) continue;
+      idealRange[i] = hit.range_m;
+      idealInstance[i] = hit.instance_id ? capture.instanceIds[hit.instance_id] ?? 0 : 0;
+    }
     return {
       width: capture.width,
       height: capture.height,
@@ -172,6 +259,31 @@ async function capture(request: Request) {
       ir_saturation_u8_base64: thermal ? bytesBase64(thermal.saturation) : null,
       thermal_state_json: thermalStateJson,
       ir_calibration: thermal?.calibration ?? null,
+      lidar_calibration: lidar ? {
+        version: lidar.version, sensor_id: lidar.sensor_id,
+        frame: "lidar-forward-left-up", rows: lidar.rows, columns: lidar.columns,
+        horizontal_fov_rad: lidarRig!.lidar!.horizontal_fov_rad,
+        vertical_fov_rad: lidarRig!.lidar!.vertical_fov_rad,
+        scan_duration_s: lidarRig!.scan_duration_s,
+        timestamp_offset_s: lidarRig!.timestamp_offset_s,
+        min_range_m: lidarRig!.min_range_m, max_range_m: lidarRig!.max_range_m,
+        T_world_from_rig: request.rig.T_world_from_rig,
+        T_rig_from_sensor: lidarRig!.T_rig_from_sensor,
+        beam_order: "row-major; rows top-to-bottom, columns left-to-right",
+        status_codes: { no_return: 0, surface: 1, receiver_dropout: 2 },
+        response: lidar.response,
+      } : null,
+      lidar_point_count: count,
+      lidar_xyz_f32_base64: lidar ? bytesBase64(new Uint8Array(xyz.buffer)) : null,
+      lidar_intensity_f32_base64: lidar ? bytesBase64(new Uint8Array(intensity.buffer)) : null,
+      lidar_beam_id_u32_base64: lidar ? bytesBase64(new Uint8Array(beamIds.buffer)) : null,
+      lidar_time_offset_f32_base64: lidar ? bytesBase64(new Uint8Array(timeOffsets.buffer)) : null,
+      lidar_validity_u8_base64: lidar ? bytesBase64(validity) : null,
+      lidar_beam_status_u8_base64: lidar ? bytesBase64(lidar.beam_status) : null,
+      lidar_ideal_range_f32_base64: lidar ? bytesBase64(new Uint8Array(idealRange.buffer)) : null,
+      lidar_ideal_instance_u32_base64: lidar ? bytesBase64(new Uint8Array(idealInstance.buffer)) : null,
+      lidar_range_preview_png_base64: lidarPreview?.range_png_base64 ?? null,
+      lidar_cloud_preview_png_base64: lidarPreview?.cloud_png_base64 ?? null,
       capabilities,
       elapsed_ms: performance.now() - started,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),

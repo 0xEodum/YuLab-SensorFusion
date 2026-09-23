@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import tempfile
 import threading
 import time
 from functools import lru_cache
@@ -63,25 +64,31 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
     wire_request = {key: value for key, value in request.items() if not key.startswith("_")}
     request_path = partial / "request.json"
     request_path.write_text(json.dumps(wire_request, sort_keys=True, separators=(",", ":")), encoding="utf-8")
-    process = subprocess.Popen(
-        _command("--request", str(request_path), "--output", str(partial)),
-        cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-    )
-    started = time.monotonic()
-    while process.poll() is None:
-        if cancel.wait(0.05):
-            process.terminate()
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
+    # Files are drained by the OS while the worker runs. A large JSON result must
+    # never fill a PIPE and block process exit before communicate() is reached.
+    with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stdout_file, \
+         tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stderr_file:
+        process = subprocess.Popen(
+            _command("--request", str(request_path), "--output", str(partial)),
+            cwd=ROOT, stdout=stdout_file, stderr=stderr_file, text=True,
+        )
+        started = time.monotonic()
+        while process.poll() is None:
+            if cancel.wait(0.05):
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+                raise WorkerCrashed("Capture worker was cancelled before publication.")
+            if time.monotonic() - started > TIMEOUT_S:
                 process.kill()
                 process.wait(timeout=5)
-            raise WorkerCrashed("Capture worker was cancelled before publication.")
-        if time.monotonic() - started > TIMEOUT_S:
-            process.kill()
-            process.wait(timeout=5)
-            raise WorkerTimedOut(f"Capture exceeded the {TIMEOUT_S:g} second worker limit.")
-    stdout, stderr = process.communicate()
+                raise WorkerTimedOut(f"Capture exceeded the {TIMEOUT_S:g} second worker limit.")
+        stdout_file.seek(0)
+        stderr_file.seek(0)
+        stdout, stderr = stdout_file.read(), stderr_file.read()
     if process.returncode != 0:
         if "worker_context_lost" in stderr:
             raise WorkerContextLost("Capture browser lost the required rendering context.")
@@ -96,6 +103,14 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
         })
         if result.get("ir_calibration") is None:
             raise WorkerCrashed("Capture worker omitted IR calibration metadata.")
+    if "lidar" in wire_request["plan"]["modalities"]:
+        required.update({
+            "lidar_xyz", "lidar_intensity", "lidar_beam_id", "lidar_time_offset",
+            "lidar_validity", "lidar_beam_status", "lidar_ideal_range",
+            "lidar_ideal_instance", "lidar_range_preview", "lidar_cloud_preview",
+        })
+        if result.get("lidar_calibration") is None:
+            raise WorkerCrashed("Capture worker omitted LiDAR calibration metadata.")
     if set(result.get("artifacts", {})) != required:
         raise WorkerCrashed("Capture worker returned an incomplete artifact set.")
     for artifact in result["artifacts"].values():

@@ -301,6 +301,16 @@ class CaptureArtifacts(TypedDict):
     ir_validity: NotRequired[Artifact]
     ir_saturation: NotRequired[Artifact]
     thermal_state: NotRequired[Artifact]
+    lidar_xyz: NotRequired[Artifact]
+    lidar_intensity: NotRequired[Artifact]
+    lidar_beam_id: NotRequired[Artifact]
+    lidar_time_offset: NotRequired[Artifact]
+    lidar_validity: NotRequired[Artifact]
+    lidar_beam_status: NotRequired[Artifact]
+    lidar_ideal_range: NotRequired[Artifact]
+    lidar_ideal_instance: NotRequired[Artifact]
+    lidar_range_preview: NotRequired[Artifact]
+    lidar_cloud_preview: NotRequired[Artifact]
     metadata: Artifact
 
 
@@ -318,6 +328,38 @@ class IrCalibration(TypedDict):
     preview_palette: Literal['iron-v1']
     preview_scale: tuple[PreviewScaleItem, PreviewScaleItem]
     palette_applies_to_raw: Literal[False]
+
+
+class StatusCodes(TypedDict):
+    no_return: Literal[0]
+    surface: Literal[1]
+    receiver_dropout: Literal[2]
+
+
+class Response(TypedDict):
+    range_sigma_m: float
+    intensity_sigma: float
+    dropout_probability: float
+    intensity_model: Literal['synthetic-incidence-exponential.v1']
+
+
+class LidarCalibration(TypedDict):
+    version: Literal['lidar-first-return.v1']
+    sensor_id: Id
+    frame: Literal['lidar-forward-left-up']
+    rows: int
+    columns: int
+    horizontal_fov_rad: float
+    vertical_fov_rad: float
+    scan_duration_s: float
+    timestamp_offset_s: float
+    min_range_m: float
+    max_range_m: float
+    T_world_from_rig: Transform
+    T_rig_from_sensor: Transform
+    beam_order: Literal['row-major; rows top-to-bottom, columns left-to-right']
+    status_codes: StatusCodes
+    response: Response
 
 
 type ResidentChunk = str
@@ -341,6 +383,8 @@ class CaptureResult(TypedDict):
     resident_chunks: list[ResidentChunk]
     instance_ids: dict[Id, int]
     ir_calibration: IrCalibration | None
+    lidar_calibration: LidarCalibration | None
+    lidar_point_count: int
     artifacts: CaptureArtifacts
 
 

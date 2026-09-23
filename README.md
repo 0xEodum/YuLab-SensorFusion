@@ -6,9 +6,9 @@ shared contracts and verification. SF-02/SF-02R add a connected deterministic
 world and seeded regional formations. SF-03 adds worker-backed chunk streaming,
 free flight, browser-persisted rig poses, display LOD and independent sensor
 geometry readiness. SF-04 adds the initial metre-scale model catalog/aerodrome;
-SF-05/SF-06 add backend-owned synchronized RGB, reference and raw thermal IR
-capture. See [streaming controls and limits](docs/STREAMING.md). LiDAR, datasets,
-training and inference are later stages; no trained model is supplied yet.
+SF-05 through SF-07 add backend-owned synchronized RGB, reference, raw thermal
+IR and sparse first-return LiDAR capture. See [streaming controls and limits](docs/STREAMING.md).
+Datasets, training and inference are later stages; no trained model is supplied yet.
 
 ## Setup
 
@@ -57,10 +57,11 @@ and Display detail controls, and Save rig pose to bookmark the current view.
 See the [world generator profile](docs/WORLD_GENERATOR.md) for coordinates,
 mesh tolerances, supported features and reproducibility limits.
 
-On the aerodrome, save a rig and choose **Capture RGB, IR and references**. The
-four panes share one capture ID/tick; raw IR radiance, masks and replayable thermal
-state remain downloadable job artifacts. The palette is preview-only. See the
-[thermal/IR profile](docs/THERMAL_IR.md) and [capture contract](docs/CAPTURE.md).
+On the aerodrome, save a rig and choose **Capture RGB, IR, LiDAR and references**.
+The six panes share one capture ID/tick; raw IR radiance, masks, replayable thermal
+state and sparse LiDAR arrays remain downloadable job artifacts. The palettes
+are preview-only. See the [thermal/IR profile](docs/THERMAL_IR.md),
+[LiDAR profile](docs/LIDAR.md) and [capture contract](docs/CAPTURE.md).
 
 `npm run build` writes `frontend/dist/`; `npm run preview` serves that build and
 proxies `/api` in the same way. The current single-file HTML remains an editor

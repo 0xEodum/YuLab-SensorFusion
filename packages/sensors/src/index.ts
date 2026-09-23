@@ -156,11 +156,11 @@ export function cameraPoseToRig(input: CameraPoseInput): RigSpec {
       cameraDefinition("rgb", camera, 0),
       cameraDefinition("ir", camera, 0.35),
       {
-        sensor_id: "lidar-1", modality: "lidar", available: false,
+        sensor_id: "lidar-1", modality: "lidar", available: true,
         T_rig_from_sensor: transform([
-          0, 0, -1, 0,
+          0, -1, 0, 0,
+          0, 0, 1, 0,
           -1, 0, 0, 0,
-          0, 1, 0, 0,
           0, 0, 0, 1,
         ]),
         timestamp_offset_s: 0, exposure_s: 0, scan_duration_s: 0,

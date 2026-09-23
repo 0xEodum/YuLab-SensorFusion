@@ -1,12 +1,12 @@
 # Sensor-fusion lab architecture
 
-Status: SF-06 surface heat and thermal IR passed local acceptance; SF-07
-occlusion-correct LiDAR is next, 2026-09-22.
+Status: SF-07 first-return LiDAR is implemented and under local acceptance,
+2026-09-23.
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
-RGB capture, geometric depth/instance references and raw thermal IR are implemented;
-LiDAR, datasets and models remain planned. No unimplemented sensor/training
+RGB capture, geometric depth/instance references, raw thermal IR and sparse
+first-return LiDAR are implemented; datasets and models remain planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).
@@ -48,8 +48,9 @@ will choose supported toolchain versions and lock an isolated backend environmen
 | A07 | Separate raw observations, training labels, and simulator truth | Inference cannot read object lists, oracle masks, weather truth, or boxes |
 | A08 | Implement and measure simple baselines before full temporal ESSRF | Catch generator/label defects and establish whether routing improves accuracy |
 
-A04 passed its initial WebGL2/float-readback capability gate in SF-05 and its
-depth-tested float LWIR extension in SF-06; measured throughput and memory remain
+A04 passed its initial WebGL2/float-readback capability gate in SF-05, its
+depth-tested float LWIR extension in SF-06, and uses mesh/scene BVHs for
+SF-07 LiDAR; measured throughput and memory remain
 environment-specific and are recorded in the corresponding evidence.
 If headless GPU rendering, float readback, or throughput is inadequate, record an
 ADR and update this document before replacing the renderer. Replacements must
@@ -166,6 +167,7 @@ geometry. Free orbit is an inspection tool; capture uses a named rig and pose.
 SF-04 implementation: [asset adapters, scales and aerodrome](ASSETS_AND_AERODROME.md).
 SF-05 implementation: [RGB/reference capture and job semantics](CAPTURE.md).
 SF-06 implementation: [surface heat and thermal IR](THERMAL_IR.md).
+SF-07 implementation: [first-return LiDAR](LIDAR.md).
 Three self-contained GLBs and hash-verified metadata ship in
 `frontend/public/catalog/`; `@yulab/assets` builds the same background/object
 geometry for display and independent sensor residency. The small initial bundle

@@ -192,7 +192,7 @@ export default function WorldExplorer() {
         environment_sha256: await digest(environment), simulation_time_s: 0,
         geometry_policy: "fixed-sensor-geometry", quality_version: "capture-quality.v1",
         seed_channels: { world: spec.seed, weather: 0, rgb: 0, ir: 0, lidar: 0 },
-        modalities: ["rgb", "ir"],
+        modalities: ["rgb", "ir", "lidar"],
       },
     };
     try {
@@ -415,10 +415,10 @@ export default function WorldExplorer() {
           ))}
           <span aria-live="polite">{rigMessage}</span>
         </div>
-        <section className="capture-panel" aria-label="RGB, thermal IR and reference capture">
+        <section className="capture-panel" aria-label="RGB, thermal IR, LiDAR and reference capture">
           <div className="world-toolbar">
             <button onClick={() => void capture()} disabled={!captureRig || Boolean(captureJob && ["queued", "running", "cancelling"].includes(captureJob.state))}>
-              Capture RGB, IR and references
+              Capture RGB, IR, LiDAR and references
             </button>
             <button onClick={() => void cancelCapture()} disabled={!captureJob || !["queued", "running", "cancelling"].includes(captureJob.state)}>
               Cancel capture
@@ -438,20 +438,28 @@ export default function WorldExplorer() {
                 ["Thermal IR", captureJob.result.artifacts.ir_preview?.id],
                 ["Depth", captureJob.result.artifacts.depth_preview.id],
                 ["Instance IDs", captureJob.result.artifacts.instance_preview.id],
+                ["LiDAR range", captureJob.result.artifacts.lidar_range_preview?.id],
+                ["LiDAR point cloud", captureJob.result.artifacts.lidar_cloud_preview?.id],
               ] as const) as ReadonlyArray<readonly [string, string | undefined]>)
                 .filter((entry): entry is readonly [string, string] => typeof entry[1] === "string")
-                .map(([label, artifact]) => (
-                <figure key={label}>
+                .map(([label, artifact]) => {
+                  const width = label === "LiDAR range"
+                    ? captureJob.result!.lidar_calibration?.columns ?? 0
+                    : captureJob.result!.width;
+                  const height = label === "LiDAR range"
+                    ? captureJob.result!.lidar_calibration?.rows ?? 0
+                    : captureJob.result!.height;
+                  return <figure key={label}>
                   <img
                     src={`/api/v1/jobs/${captureJob.job_id}/artifacts/${artifact}`}
                     alt={`${label} capture ${captureJob.capture_id}`}
                     data-capture-id={captureJob.capture_id}
-                    data-width={captureJob.result!.width}
-                    data-height={captureJob.result!.height}
+                    data-width={width}
+                    data-height={height}
                   />
                   <figcaption>{label} · tick {captureJob.result!.tick_s.toFixed(3)} s</figcaption>
-                </figure>
-              ))}
+                </figure>;
+              })}
             </div>
           )}
         </section>

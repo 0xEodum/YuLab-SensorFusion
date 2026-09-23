@@ -1249,6 +1249,16 @@
         "ir_validity": { "$ref": "#/$defs/Artifact" },
         "ir_saturation": { "$ref": "#/$defs/Artifact" },
         "thermal_state": { "$ref": "#/$defs/Artifact" },
+        "lidar_xyz": { "$ref": "#/$defs/Artifact" },
+        "lidar_intensity": { "$ref": "#/$defs/Artifact" },
+        "lidar_beam_id": { "$ref": "#/$defs/Artifact" },
+        "lidar_time_offset": { "$ref": "#/$defs/Artifact" },
+        "lidar_validity": { "$ref": "#/$defs/Artifact" },
+        "lidar_beam_status": { "$ref": "#/$defs/Artifact" },
+        "lidar_ideal_range": { "$ref": "#/$defs/Artifact" },
+        "lidar_ideal_instance": { "$ref": "#/$defs/Artifact" },
+        "lidar_range_preview": { "$ref": "#/$defs/Artifact" },
+        "lidar_cloud_preview": { "$ref": "#/$defs/Artifact" },
         "metadata": { "$ref": "#/$defs/Artifact" }
       },
       "required": ["rgb", "depth_preview", "instance_preview", "depth", "instance", "metadata"]
@@ -1289,6 +1299,47 @@
         "preview_palette", "preview_scale", "palette_applies_to_raw"
       ]
     },
+    "LidarCalibration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "lidar-first-return.v1" },
+        "sensor_id": { "$ref": "#/$defs/Id" },
+        "frame": { "const": "lidar-forward-left-up" },
+        "rows": { "type": "integer", "minimum": 1, "maximum": 1024 },
+        "columns": { "type": "integer", "minimum": 1, "maximum": 8192 },
+        "horizontal_fov_rad": { "type": "number", "exclusiveMinimum": 0 },
+        "vertical_fov_rad": { "type": "number", "exclusiveMinimum": 0 },
+        "scan_duration_s": { "type": "number", "minimum": 0 },
+        "timestamp_offset_s": { "type": "number" },
+        "min_range_m": { "type": "number", "minimum": 0 },
+        "max_range_m": { "type": "number", "exclusiveMinimum": 0 },
+        "T_world_from_rig": { "$ref": "#/$defs/Transform" },
+        "T_rig_from_sensor": { "$ref": "#/$defs/Transform" },
+        "beam_order": { "const": "row-major; rows top-to-bottom, columns left-to-right" },
+        "status_codes": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "no_return": { "const": 0 }, "surface": { "const": 1 },
+            "receiver_dropout": { "const": 2 }
+          },
+          "required": ["no_return", "surface", "receiver_dropout"]
+        },
+        "response": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "range_sigma_m": { "type": "number", "minimum": 0 },
+            "intensity_sigma": { "type": "number", "minimum": 0 },
+            "dropout_probability": { "type": "number", "minimum": 0, "maximum": 1 },
+            "intensity_model": { "const": "synthetic-incidence-exponential.v1" }
+          },
+          "required": ["range_sigma_m", "intensity_sigma", "dropout_probability", "intensity_model"]
+        }
+      },
+      "required": ["version", "sensor_id", "frame", "rows", "columns", "horizontal_fov_rad",
+        "vertical_fov_rad", "scan_duration_s", "timestamp_offset_s", "min_range_m", "max_range_m",
+        "T_world_from_rig", "T_rig_from_sensor", "beam_order", "status_codes", "response"]
+    },
     "CaptureResult": {
       "type": "object",
       "additionalProperties": false,
@@ -1324,13 +1375,17 @@
         "ir_calibration": {
           "anyOf": [{ "$ref": "#/$defs/IrCalibration" }, { "type": "null" }]
         },
+        "lidar_calibration": {
+          "anyOf": [{ "$ref": "#/$defs/LidarCalibration" }, { "type": "null" }]
+        },
+        "lidar_point_count": { "type": "integer", "minimum": 0, "maximum": 8388608 },
         "artifacts": { "$ref": "#/$defs/CaptureArtifacts" }
       },
       "required": [
         "protocol", "capture_id", "sequence_id", "tick_s", "width", "height",
         "renderer", "device", "browser_channel", "elapsed_ms", "render_elapsed_ms",
         "node_rss_bytes", "browser_heap_bytes", "gpu_memory_bytes", "resident_chunks",
-        "instance_ids", "ir_calibration", "artifacts"
+        "instance_ids", "ir_calibration", "lidar_calibration", "lidar_point_count", "artifacts"
       ]
     },
     "CaptureJob": {
