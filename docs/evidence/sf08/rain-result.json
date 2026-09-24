@@ -1,0 +1,410 @@
+{
+  "protocol": "capture-worker.v1",
+  "capture_id": "capture-muf9kkey",
+  "sequence_id": "sequence-muf9kkey",
+  "tick_s": 100,
+  "width": 640,
+  "height": 384,
+  "renderer": "Chromium 153.0.4234.48 / ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "device": "Google Inc. (Google)",
+  "browser_channel": "msedge",
+  "elapsed_ms": 33471.4534,
+  "render_elapsed_ms": 2762.4000000003725,
+  "node_rss_bytes": 133861376,
+  "browser_heap_bytes": 133962550,
+  "gpu_memory_bytes": null,
+  "resident_chunks": [
+    "-2,-1@2",
+    "-2,0@2",
+    "-2,1@2",
+    "-2,2@2",
+    "-1,-2@2",
+    "-1,-1@2",
+    "-1,0@2",
+    "-1,1@2",
+    "-1,2@2",
+    "0,-2@2",
+    "0,-1@2",
+    "0,0@2",
+    "0,1@2",
+    "0,2@2",
+    "1,-2@2",
+    "1,-1@2",
+    "1,0@2",
+    "1,1@2",
+    "1,2@2",
+    "2,-1@2",
+    "2,0@2",
+    "2,1@2"
+  ],
+  "instance_ids": {
+    "aerodrome-0-clear": 1,
+    "aerodrome-0-hidden": 2,
+    "aerodrome-0-partial": 3,
+    "aerodrome-0-service": 4,
+    "aerodrome-0-wide": 5
+  },
+  "ir_calibration": {
+    "response_version": "lwir-8-14um.v1",
+    "band_um": [
+      8,
+      14
+    ],
+    "radiance_units": "W/m2/sr",
+    "noise_sigma_w_per_m2_sr": 0.0335,
+    "saturation_w_per_m2_sr": 200,
+    "thermal_model_version": "thermal-surface.v1",
+    "thermal_state_version": "thermal-state.v1",
+    "preview_palette": "iron-v1",
+    "preview_scale": [
+      33.18015905542081,
+      265.1210033096392
+    ],
+    "palette_applies_to_raw": false,
+    "atmosphere_version": "weather-response.v1",
+    "extinction_per_m": 0.0008100000000000001,
+    "path_radiance_w_per_m2_sr": 49.37289478118174
+  },
+  "lidar_calibration": {
+    "version": "lidar-first-return.v1",
+    "sensor_id": "lidar-1",
+    "frame": "lidar-forward-left-up",
+    "rows": 64,
+    "columns": 512,
+    "horizontal_fov_rad": 1.2,
+    "vertical_fov_rad": 0.6,
+    "scan_duration_s": 0,
+    "timestamp_offset_s": 0,
+    "min_range_m": 0.1,
+    "max_range_m": 250,
+    "T_world_from_rig": [
+      0.9980525784828885,
+      0.006769126348435359,
+      -0.062009914627715025,
+      38.000000000000014,
+      4.336808689942018e-19,
+      0.9940945551702222,
+      0.10851735059850119,
+      30,
+      0.06237828615518053,
+      -0.10830602157496573,
+      0.9921586340434404,
+      102.00000000000001,
+      0,
+      0,
+      0,
+      1
+    ],
+    "T_rig_from_sensor": [
+      0,
+      -1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      -1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "beam_order": "row-major; rows top-to-bottom, columns left-to-right",
+    "status_codes": {
+      "no_return": 0,
+      "surface": 1,
+      "receiver_dropout": 2,
+      "particle": 3,
+      "atmospheric_dropout": 4
+    },
+    "response": {
+      "range_sigma_m": 0.003,
+      "intensity_sigma": 0.01,
+      "dropout_probability": 0,
+      "intensity_model": "synthetic-incidence-exponential.v1",
+      "atmosphere_version": "weather-response.v1",
+      "extinction_per_m": 0.0020250000000000003,
+      "particle_rate_per_m": 0.000675,
+      "detection_threshold": 0.015
+    },
+    "class_schema_version": "lidar-semantic.v1",
+    "class_table": [
+      {
+        "id": 0,
+        "name": "unclassified",
+        "color": "#b9c2cc"
+      },
+      {
+        "id": 1,
+        "name": "terrain",
+        "color": "#bf9460"
+      },
+      {
+        "id": 2,
+        "name": "pavement",
+        "color": "#7eb3c5"
+      },
+      {
+        "id": 3,
+        "name": "marking",
+        "color": "#f4df76"
+      },
+      {
+        "id": 4,
+        "name": "building",
+        "color": "#cc83cc"
+      },
+      {
+        "id": 5,
+        "name": "vegetation",
+        "color": "#69be77"
+      },
+      {
+        "id": 6,
+        "name": "rock",
+        "color": "#a7a3a0"
+      },
+      {
+        "id": 7,
+        "name": "fence",
+        "color": "#de9b87"
+      },
+      {
+        "id": 8,
+        "name": "aircraft",
+        "color": "#f47863"
+      },
+      {
+        "id": 9,
+        "name": "ground_vehicle",
+        "color": "#e9af63"
+      },
+      {
+        "id": 10,
+        "name": "ship",
+        "color": "#6e91ee"
+      },
+      {
+        "id": 11,
+        "name": "water",
+        "color": "#5d8bd4"
+      }
+    ],
+    "cloud_preview_projection": "rgb-camera-perspective",
+    "topdown_preview_projection": "lidar-sensor-overhead"
+  },
+  "weather_calibration": {
+    "version": "weather-response.v1",
+    "rgb_extinction_per_m": 0.0015749999999999998,
+    "ir_extinction_per_m": 0.0008100000000000001,
+    "lidar_extinction_per_m": 0.0020250000000000003,
+    "rgb_illumination": 1,
+    "rgb_read_sigma_dn": 2,
+    "rgb_shot_sigma_scale": 0.25,
+    "rgb_blur_mix": 0.25,
+    "particle_rate_per_m": 0.000675,
+    "ir_path_radiance_w_per_m2_sr": 49.37289478118174,
+    "ir_noise_sigma_w_per_m2_sr": 0.0335
+  },
+  "lidar_point_count": 18615,
+  "environment": {
+    "ambient_temperature_k": 293.15,
+    "environment_id": "rain",
+    "fog_extinction_per_m": 0,
+    "kind": "EnvironmentSpec",
+    "latitude_rad": 0.9,
+    "parameter_set_version": "weather-response.v1",
+    "rain_mm_per_h": 45,
+    "schema_version": "lab.v1",
+    "simulation_time_s": 100,
+    "snow_mm_per_h": 0,
+    "solar_time_hour": 12,
+    "sun_direction_world": [
+      6.123233995736766e-17,
+      1,
+      0
+    ],
+    "thermal_history": "equilibrated",
+    "thermal_state": null,
+    "wetness": 1,
+    "wind_m_per_s": [
+      3,
+      0,
+      0
+    ]
+  },
+  "plan": {
+    "capture_id": "capture-muf9kkey",
+    "environment_sha256": "e9f597db5bb4a114f099a47b8a329bd26a17525c73759a89524e371e0d0f18fb",
+    "geometry_policy": "fixed-sensor-geometry",
+    "kind": "CapturePlan",
+    "modalities": [
+      "rgb",
+      "ir",
+      "lidar"
+    ],
+    "quality_version": "capture-quality.v1",
+    "rig_sha256": "5d0c17f7a0c2e1472b890d54a98313a71cb806bbc0d633e66f91327876e8167b",
+    "schema_version": "lab.v1",
+    "seed_channels": {
+      "ir": 0,
+      "lidar": 0,
+      "rgb": 0,
+      "weather": 11,
+      "world": 0
+    },
+    "sequence_id": "sequence-muf9kkey",
+    "simulation_time_s": 100,
+    "world_sha256": "1ecad487954b62bf02af2056ec34923aeb271aad07184286e1b9dc140288a071"
+  },
+  "artifacts": {
+    "rgb": {
+      "id": "rgb_png",
+      "sha256": "348f0b97b8934e088d29a9be4205a314b9a074cc30ac6fdf30187095c9a4dcda",
+      "byte_length": 582423,
+      "media_type": "image/png"
+    },
+    "depth_preview": {
+      "id": "depth_preview_png",
+      "sha256": "32a91bd03a7799807df81804d955e51388a502121cf27fe113ba1c6ebcc68171",
+      "byte_length": 11591,
+      "media_type": "image/png"
+    },
+    "instance_preview": {
+      "id": "instance_preview_png",
+      "sha256": "54cae511c3664a3088b8e062692a0631c4bfbebd32d9ab1396f658345224e1f0",
+      "byte_length": 7599,
+      "media_type": "image/png"
+    },
+    "depth": {
+      "id": "depth_npy",
+      "sha256": "ddd4597405ae2d6528388f9921b2aa72ca3568a18498724a86f7a2e4b0b13e03",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "instance": {
+      "id": "instance_npy",
+      "sha256": "aec86bd50ff1112b39d97c8301988ae8d4c4400b913cb3428a41310509b80f29",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "ir_preview": {
+      "id": "ir_preview_png",
+      "sha256": "ceee0b5b0ddfc079dfe3463b5ad27c8e6787b8491659d687b834d3475444a20e",
+      "byte_length": 78312,
+      "media_type": "image/png"
+    },
+    "ir_radiance": {
+      "id": "ir_radiance_npy",
+      "sha256": "a6afbb707d6dad18ffc24c1d64a574155ef7df5c55afda7f5e32263b1d6f1164",
+      "byte_length": 983120,
+      "media_type": "application/x-npy"
+    },
+    "ir_validity": {
+      "id": "ir_validity_npy",
+      "sha256": "2ae0910c26427664f5789a6084804324e71f514021204aeeb3eb3d5731928f79",
+      "byte_length": 245840,
+      "media_type": "application/x-npy"
+    },
+    "ir_saturation": {
+      "id": "ir_saturation_npy",
+      "sha256": "019325cef85e9b9b9a3e40c638923c7dfac500d730c1bbad8ca0322ff81dd84d",
+      "byte_length": 245840,
+      "media_type": "application/x-npy"
+    },
+    "thermal_state": {
+      "id": "thermal_state_json",
+      "sha256": "1b8f542716b0a3166379e3d1fda3751b719d40c582f6f26515b3b92065b589f2",
+      "byte_length": 2585,
+      "media_type": "application/json"
+    },
+    "lidar_xyz": {
+      "id": "lidar_xyz_npy",
+      "sha256": "8466ba2836fe135ca7ad5b01a6a9c1d2401074979b21fc919ef7d0c3f0be9f4b",
+      "byte_length": 223460,
+      "media_type": "application/x-npy"
+    },
+    "lidar_intensity": {
+      "id": "lidar_intensity_npy",
+      "sha256": "40c8ce17be05c6b2b647859adac84f159e7cdd2b0e7ee821866d743b6e6b100b",
+      "byte_length": 74540,
+      "media_type": "application/x-npy"
+    },
+    "lidar_beam_id": {
+      "id": "lidar_beam_id_npy",
+      "sha256": "220954ec0881ded449e9308e3ecfa4f5e75b7fafaba71db128bcd2313c0350c5",
+      "byte_length": 74540,
+      "media_type": "application/x-npy"
+    },
+    "lidar_time_offset": {
+      "id": "lidar_time_offset_npy",
+      "sha256": "a826299b7e23a79a5def9ac7d74d2db4536f81bc14428daab5a070b6338d6db4",
+      "byte_length": 74540,
+      "media_type": "application/x-npy"
+    },
+    "lidar_validity": {
+      "id": "lidar_validity_npy",
+      "sha256": "aab04e066354478ebe032d3e0e55b85819075009b61dc299fd38b8c49e92aa7a",
+      "byte_length": 18695,
+      "media_type": "application/x-npy"
+    },
+    "lidar_class_ref": {
+      "id": "lidar_class_ref_npy",
+      "sha256": "6c3b6df3506ddc898f7a2e1e0db1d471f337ea1f9ecd78c250de28fc6d0b2877",
+      "byte_length": 18695,
+      "media_type": "application/x-npy"
+    },
+    "lidar_beam_status": {
+      "id": "lidar_beam_status_npy",
+      "sha256": "7bf1a06f74232f15e97a8d537b1a948fe1bc899b1810844a9d8f2f15815f16f8",
+      "byte_length": 32848,
+      "media_type": "application/x-npy"
+    },
+    "lidar_ideal_range": {
+      "id": "lidar_ideal_range_npy",
+      "sha256": "eb72c9d64ba458788d604346293665845e0a5665fd262f2842b955a489f4e2c6",
+      "byte_length": 131152,
+      "media_type": "application/x-npy"
+    },
+    "lidar_ideal_instance": {
+      "id": "lidar_ideal_instance_npy",
+      "sha256": "7d983b57d0b1cdd8ab0e5557ea275d69872143fdfe80ff150c0cc25ea168ec17",
+      "byte_length": 131152,
+      "media_type": "application/x-npy"
+    },
+    "lidar_ideal_class": {
+      "id": "lidar_ideal_class_npy",
+      "sha256": "68140d12aaef20399731003f9d9e00bb3cf0951f49d92c20621d2b6ef88aefc4",
+      "byte_length": 32848,
+      "media_type": "application/x-npy"
+    },
+    "lidar_range_preview": {
+      "id": "lidar_range_preview_png",
+      "sha256": "d8cca95c14bc335a5fb74b56227542754bbfebd938b0988995409f1eb76451a3",
+      "byte_length": 21900,
+      "media_type": "image/png"
+    },
+    "lidar_cloud_preview": {
+      "id": "lidar_cloud_preview_png",
+      "sha256": "339b5ecf50438dfcf08d728b0367477b5239d6e9f6ad1ece1d6c7cea896fe4bf",
+      "byte_length": 35882,
+      "media_type": "image/png"
+    },
+    "lidar_topdown_preview": {
+      "id": "lidar_topdown_preview_png",
+      "sha256": "1c60520b55106ffbfa3f933636a67bff8d5a2e2417cbe5b558db416c87d86eb9",
+      "byte_length": 22556,
+      "media_type": "image/png"
+    },
+    "metadata": {
+      "id": "metadata_json",
+      "sha256": "8ec49b39c14167d10f8200fcc5de7147d615099aea76c7484304e89d21988197",
+      "byte_length": 11139,
+      "media_type": "application/json"
+    }
+  }
+}

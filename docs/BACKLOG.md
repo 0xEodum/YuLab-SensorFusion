@@ -1,7 +1,7 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-23. SF-07 occlusion-correct LiDAR passed local acceptance.
-SF-08 weather, time and sensor noise is READY. Dataset generation and training remain
+Updated: 2026-09-24. SF-08 weather, time and sensor noise passed local acceptance.
+SF-09 remaining asset catalog and coast/harbor world is READY. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -42,8 +42,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-05 | Shared capture worker and synchronized RGB/reference passes | SF-04 | DONE |
 | SF-06 | Surface heat and thermal IR | SF-05 | DONE |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | DONE |
-| SF-08 | Weather, time and sensor noise | SF-07 | READY |
-| SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | PLANNED |
+| SF-08 | Weather, time and sensor noise | SF-07 | DONE |
+| SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | READY |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | PLANNED |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | PLANNED |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
@@ -327,6 +327,14 @@ Acceptance:
   not only decorations in the world view. IR atmospheric attenuation is included.
 - Synchronized captures freeze time across all passes. Time jumping vs thermal
   evolution has explicit UI behavior and replayable state.
+
+SF-08 passed local acceptance at `b95f729`: the six condition presets and
+versioned spectral response drive saved RGB, LWIR and LiDAR observations from
+one frozen environment. Independent seed controls, atmospheric/particle
+returns, 30-seed confidence intervals, browser replay and explicit
+equilibrated/continued thermal behavior are documented in the
+[SF-08 evidence](evidence/SF-08-weather.md). Synthetic coefficients, static
+beam-time geometry and renderer-scoped hashes remain declared limits.
 
 ## SF-09 — Complete catalog and additional environments
 
