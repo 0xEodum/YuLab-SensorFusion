@@ -1,9 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-24. SF-08 weather, time and sensor noise passed local acceptance.
-SF-09 catalog and coast/harbor world is IN PROGRESS with the approved 15-project
-source scope. Dataset generation and training remain
-later stages.
+Updated: 2026-09-24. SF-09 catalog and coast/harbor world passed local
+acceptance with the approved 15-project source scope. SF-10 visibility labels
+and dataset jobs is READY. Training remains a later stage.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -44,8 +43,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-06 | Surface heat and thermal IR | SF-05 | DONE |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | DONE |
 | SF-08 | Weather, time and sensor noise | SF-07 | DONE |
-| SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | IN PROGRESS |
-| SF-10 | Visibility labels and immutable dataset generation | SF-09 | PLANNED |
+| SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | DONE |
+| SF-10 | Visibility labels and immutable dataset generation | SF-09 | READY |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | PLANNED |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
@@ -355,6 +354,14 @@ Acceptance:
   grounded at aerodromes. Multi-class scenes and background-only scenes exist.
 - Per-asset thermal/occlusion fixtures pass and catalog provenance is complete.
   Placement does not encode class through a fixed camera location or condition.
+
+SF-09 passed local acceptance at `dc967b1`: all 15 imports are content-addressed
+and reproduce byte for byte, harbor worlds passed two full-domain seam and
+replay sweeps, per-asset thermal and first-return fixtures passed, and real
+Edge views and a production harbor capture passed. The two incomplete supplied
+sources are explicitly excluded by the user-approved scope revision. See the
+[SF-09 evidence](evidence/SF-09-catalog-harbor.md) for exact commands, hashes,
+visual inspection and remaining limits.
 
 ## SF-10 — Visibility labels and dataset jobs
 
