@@ -1581,6 +1581,17 @@
           },
           "palette_applies_to_raw": {
             "const": false
+          },
+          "atmosphere_version": {
+            "const": "weather-response.v1"
+          },
+          "extinction_per_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "path_radiance_w_per_m2_sr": {
+            "type": "number",
+            "minimum": 0
           }
         },
         "required": [
@@ -1716,6 +1727,12 @@
               },
               "receiver_dropout": {
                 "const": 2
+              },
+              "particle": {
+                "const": 3
+              },
+              "atmospheric_dropout": {
+                "const": 4
               }
             },
             "required": [
@@ -1743,6 +1760,28 @@
               },
               "intensity_model": {
                 "const": "synthetic-incidence-exponential.v1"
+              },
+              "atmosphere_version": {
+                "anyOf": [
+                  {
+                    "const": "weather-response.v1"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "extinction_per_m": {
+                "type": "number",
+                "minimum": 0
+              },
+              "particle_rate_per_m": {
+                "type": "number",
+                "minimum": 0
+              },
+              "detection_threshold": {
+                "type": "number",
+                "minimum": 0
               }
             },
             "required": [
@@ -1770,6 +1809,70 @@
           "beam_order",
           "status_codes",
           "response"
+        ]
+      },
+      "WeatherCalibration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "const": "weather-response.v1"
+          },
+          "rgb_extinction_per_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ir_extinction_per_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "lidar_extinction_per_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "rgb_illumination": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "rgb_read_sigma_dn": {
+            "type": "number",
+            "minimum": 0
+          },
+          "rgb_shot_sigma_scale": {
+            "type": "number",
+            "minimum": 0
+          },
+          "rgb_blur_mix": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "particle_rate_per_m": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ir_path_radiance_w_per_m2_sr": {
+            "type": "number",
+            "minimum": 0
+          },
+          "ir_noise_sigma_w_per_m2_sr": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "version",
+          "rgb_extinction_per_m",
+          "ir_extinction_per_m",
+          "lidar_extinction_per_m",
+          "rgb_illumination",
+          "rgb_read_sigma_dn",
+          "rgb_shot_sigma_scale",
+          "rgb_blur_mix",
+          "particle_rate_per_m",
+          "ir_path_radiance_w_per_m2_sr",
+          "ir_noise_sigma_w_per_m2_sr"
         ]
       },
       "CaptureResult": {
@@ -1891,6 +1994,15 @@
                 "type": "null"
               }
             ]
+          },
+          "weather_calibration": {
+            "$ref": "#/components/schemas/WeatherCalibration"
+          },
+          "environment": {
+            "$ref": "#/components/schemas/EnvironmentSpec"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/CapturePlan"
           },
           "lidar_point_count": {
             "type": "integer",

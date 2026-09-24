@@ -31,6 +31,8 @@ helpers, decorative shadow floors and UI overlays are not sensor surfaces.
 Thermal semantics and declared approximations are specified in
 [THERMAL_IR.md](THERMAL_IR.md).
 LiDAR beam, response and export semantics are in [LIDAR.md](LIDAR.md).
+SF-08 condition presets, spectral attenuation, seeded particles and explicit
+time-jump behavior are in [WEATHER.md](WEATHER.md).
 
 ## Passes and artifacts
 

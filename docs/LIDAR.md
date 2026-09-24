@@ -42,20 +42,21 @@ noise with sigma 0.01 and Gaussian range noise with sigma 0.003 m. Range is
 clamped to the calibrated sensor interval. Default clear-scene receiver
 dropout probability is zero; tests may set it to one. Dropout changes a
 first-surface beam to status 2 and **never searches farther geometry**.
-Atmospheric attenuation, particles and weather-conditioned noise belong to
-SF-08. These numerical coefficients are synthetic and uncalibrated.
+SF-08 applies band-specific round-trip atmospheric attenuation, a detection
+threshold and weather-seeded nearer particle returns. The exact synthetic
+coefficients and seed separation are in [WEATHER.md](WEATHER.md).
 
 The sparse observation arrays use NPY, little-endian data in sensor metres:
 
 | Artifact | Shape and type | Meaning |
 | --- | --- | --- |
-| `lidar_xyz_npy` | N x 3 float32 | Detected surface XYZ in LiDAR frame |
+| `lidar_xyz_npy` | N x 3 float32 | Detected surface or particle XYZ in LiDAR frame |
 | `lidar_intensity_npy` | N float32 | Unit-interval synthetic response |
 | `lidar_beam_id_npy` | N uint32 | Original row-major beam ID |
 | `lidar_time_offset_npy` | N float32 | Seconds from frozen capture tick |
 | `lidar_validity_npy` | N bool | One for each published point |
 | `lidar_class_ref_npy` | N uint8 | Simulator reference class aligned one-to-one with published XYZ, not a sensor measurement |
-| `lidar_beam_status_npy` | rows x columns uint8 | 0 no return, 1 surface, 2 receiver dropout |
+| `lidar_beam_status_npy` | rows x columns uint8 | 0 no return, 1 surface, 2 receiver dropout, 3 particle, 4 atmospheric dropout |
 | `lidar_ideal_range_npy` | rows x columns float32 | Pre-response nearest range; zero for no surface |
 | `lidar_ideal_instance_npy` | rows x columns uint32 | Pre-response stable instance ID; zero for background |
 | `lidar_ideal_class_npy` | rows x columns uint8 | Pre-response first-hit class; zero for no surface or unclassified |
@@ -67,8 +68,9 @@ includes the ID, name and display color table. An `AssetRecord` class supplies
 catalog-object labels; terrain, placements and aerodrome structures supply
 their own surface labels. An asset with only the generic `background` class is
 unclassified. No-return and unclassified hits both have class 0 in the ideal
-class table; the beam-status table distinguishes them. Receiver dropout keeps
-the ideal class but publishes no sparse point. These class arrays are reference
+class table; the beam-status table distinguishes them. Receiver and atmospheric
+dropout keep the ideal class but publish no sparse point. A particle point has
+class 0 and never inherits the occluded surface's instance ID. These class arrays are reference
 truth for labeling and evaluation; a model's LiDAR observation is XYZ,
 intensity, beam ID, time, validity and status without class input.
 

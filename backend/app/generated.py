@@ -331,6 +331,9 @@ class IrCalibration(TypedDict):
     preview_palette: Literal['iron-v1']
     preview_scale: tuple[PreviewScaleItem, PreviewScaleItem]
     palette_applies_to_raw: Literal[False]
+    atmosphere_version: NotRequired[Literal['weather-response.v1']]
+    extinction_per_m: NotRequired[float]
+    path_radiance_w_per_m2_sr: NotRequired[float]
 
 
 class LidarClassEntry(TypedDict):
@@ -356,6 +359,8 @@ class StatusCodes(TypedDict):
     no_return: Literal[0]
     surface: Literal[1]
     receiver_dropout: Literal[2]
+    particle: NotRequired[Literal[3]]
+    atmospheric_dropout: NotRequired[Literal[4]]
 
 
 class Response(TypedDict):
@@ -363,6 +368,10 @@ class Response(TypedDict):
     intensity_sigma: float
     dropout_probability: float
     intensity_model: Literal['synthetic-incidence-exponential.v1']
+    atmosphere_version: NotRequired[Literal['weather-response.v1'] | None]
+    extinction_per_m: NotRequired[float]
+    particle_rate_per_m: NotRequired[float]
+    detection_threshold: NotRequired[float]
 
 
 class LidarCalibration(TypedDict):
@@ -388,6 +397,20 @@ class LidarCalibration(TypedDict):
     response: Response
 
 
+class WeatherCalibration(TypedDict):
+    version: Literal['weather-response.v1']
+    rgb_extinction_per_m: float
+    ir_extinction_per_m: float
+    lidar_extinction_per_m: float
+    rgb_illumination: float
+    rgb_read_sigma_dn: float
+    rgb_shot_sigma_scale: float
+    rgb_blur_mix: float
+    particle_rate_per_m: float
+    ir_path_radiance_w_per_m2_sr: float
+    ir_noise_sigma_w_per_m2_sr: float
+
+
 type ResidentChunk = str
 
 
@@ -410,6 +433,9 @@ class CaptureResult(TypedDict):
     instance_ids: dict[Id, int]
     ir_calibration: IrCalibration | None
     lidar_calibration: LidarCalibration | None
+    weather_calibration: NotRequired[WeatherCalibration]
+    environment: NotRequired[EnvironmentSpec]
+    plan: NotRequired[CapturePlan]
     lidar_point_count: int
     artifacts: CaptureArtifacts
 

@@ -223,7 +223,9 @@ It must work at night without relying on RGB lights. A hot background can reduce
 contrast; a hotter engine can remain visible. Thermal images do not see through
 opaque walls. Canopy/window transparency is modality-specific; unsupported
 transmission must have an explicit opaque approximation recorded in the manifest.
-Atmospheric/path terms and richer environmental presets remain SF-08.
+SF-08 adds synthetic atmospheric/path terms and environmental presets.
+The implemented response and its explicit time behavior are
+specified in [WEATHER.md](WEATHER.md).
 
 LiDAR emits a finite set of beams from its own pose, intersects the first opaque
 surface, and applies range/intensity response, receiver noise, detection threshold,

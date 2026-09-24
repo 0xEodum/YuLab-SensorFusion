@@ -275,7 +275,10 @@ async function run() {
       instance_ids: capture.instance_ids,
       ir_calibration: capture.ir_calibration,
       lidar_calibration: capture.lidar_calibration,
+      weather_calibration: capture.weather_calibration,
       lidar_point_count: capture.lidar_point_count,
+      environment: request.environment,
+      plan: request.plan,
       artifacts,
     };
     const metadata = Buffer.from(`${JSON.stringify(result, null, 2)}\n`);

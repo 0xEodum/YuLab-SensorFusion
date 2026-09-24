@@ -381,6 +381,9 @@ export interface CaptureResult {
   };
   ir_calibration: IrCalibration | null;
   lidar_calibration: LidarCalibration | null;
+  weather_calibration?: WeatherCalibration;
+  environment?: EnvironmentSpec;
+  plan?: CapturePlan;
   lidar_point_count: number;
   artifacts: CaptureArtifacts;
 }
@@ -403,6 +406,9 @@ export interface IrCalibration {
    */
   preview_scale: [number, number];
   palette_applies_to_raw: false;
+  atmosphere_version?: "weather-response.v1";
+  extinction_per_m?: number;
+  path_radiance_w_per_m2_sr?: number;
 }
 export interface LidarCalibration {
   version: "lidar-first-return.v1";
@@ -444,12 +450,18 @@ export interface LidarCalibration {
     no_return: 0;
     surface: 1;
     receiver_dropout: 2;
+    particle?: 3;
+    atmospheric_dropout?: 4;
   };
   response: {
     range_sigma_m: number;
     intensity_sigma: number;
     dropout_probability: number;
     intensity_model: "synthetic-incidence-exponential.v1";
+    atmosphere_version?: "weather-response.v1" | null;
+    extinction_per_m?: number;
+    particle_rate_per_m?: number;
+    detection_threshold?: number;
   };
 }
 export interface LidarClassEntry {
@@ -468,6 +480,19 @@ export interface LidarClassEntry {
     | "ship"
     | "water";
   color: string;
+}
+export interface WeatherCalibration {
+  version: "weather-response.v1";
+  rgb_extinction_per_m: number;
+  ir_extinction_per_m: number;
+  lidar_extinction_per_m: number;
+  rgb_illumination: number;
+  rgb_read_sigma_dn: number;
+  rgb_shot_sigma_scale: number;
+  rgb_blur_mix: number;
+  particle_rate_per_m: number;
+  ir_path_radiance_w_per_m2_sr: number;
+  ir_noise_sigma_w_per_m2_sr: number;
 }
 export interface CaptureArtifacts {
   rgb: Artifact;

@@ -22,6 +22,7 @@ import {
   encodeThermalState,
   initializeThermalState,
 } from "@yulab/sensors/thermal";
+import { weatherResponse } from "@yulab/sensors/weather";
 
 type Request = {
   world: WorldSpec;
@@ -60,9 +61,9 @@ function lidarPreviews(
     const value = status === 1
       ? Math.round(255 * (1 - Math.log1p(scan.ideal_hits[i]!.range_m) / Math.log1p(maxRange)))
       : 0;
-    pixels.data[offset] = status === 2 ? 120 : Math.round(value * 0.38);
-    pixels.data[offset + 1] = status === 2 ? 20 : Math.round(value * 0.78);
-    pixels.data[offset + 2] = status === 2 ? 160 : value;
+    pixels.data[offset] = status === 2 ? 120 : status === 3 ? 240 : status === 4 ? 85 : Math.round(value * 0.38);
+    pixels.data[offset + 1] = status === 2 ? 20 : status === 3 ? 225 : status === 4 ? 30 : Math.round(value * 0.78);
+    pixels.data[offset + 2] = status === 2 ? 160 : status === 3 ? 70 : status === 4 ? 90 : value;
     pixels.data[offset + 3] = 255;
   }
   rangeContext.putImageData(pixels, 0, 0);
@@ -203,10 +204,13 @@ async function capture(request: Request) {
     generationMs: 0,
   }));
   const scene = new THREE.Scene();
+  const response = weatherResponse(request.environment);
   scene.background = new THREE.Color(0xcbd5d8);
-  scene.add(new THREE.HemisphereLight(0xf9f4e4, 0x626856, 2));
-  const sun = new THREE.DirectionalLight(0xfff0d5, 3);
-  sun.position.set(-180, 250, 170);
+  scene.add(new THREE.HemisphereLight(0xf9f4e4, 0x626856,
+    0.25 + 1.75 * response.rgb_illumination));
+  const sun = new THREE.DirectionalLight(0xfff0d5,
+    3 * Math.max(0, request.environment.sun_direction_world[1]));
+  sun.position.set(...request.environment.sun_direction_world);
   scene.add(sun);
   const root = new THREE.Group();
   chunks.forEach((chunk) => addChunk(root, chunk));
@@ -237,6 +241,9 @@ async function capture(request: Request) {
       scene,
       request.rig,
       request.world.instances.map((item) => item.instance_id).sort(),
+      request.environment,
+      request.plan.seed_channels.rgb,
+      request.plan.seed_channels.weather,
     );
     let thermal: ReturnType<typeof renderThermalPass> | null = null;
     let thermalStateJson: string | null = null;
@@ -269,7 +276,10 @@ async function capture(request: Request) {
     try {
       if (lidarRequested) {
         lidarGeometry = buildLidarScene(scene, catalog?.assets ?? []);
-        lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar);
+        lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar, {
+          environment: request.environment,
+          weather_seed: request.plan.seed_channels.weather,
+        });
         lidarPreview = lidarPreviews(lidar, request.rig, lidarRig!.max_range_m);
       }
     } finally {
@@ -328,7 +338,8 @@ async function capture(request: Request) {
         T_world_from_rig: request.rig.T_world_from_rig,
         T_rig_from_sensor: lidarRig!.T_rig_from_sensor,
         beam_order: "row-major; rows top-to-bottom, columns left-to-right",
-        status_codes: { no_return: 0, surface: 1, receiver_dropout: 2 },
+        status_codes: { no_return: 0, surface: 1, receiver_dropout: 2,
+          particle: 3, atmospheric_dropout: 4 },
         response: lidar.response,
         class_schema_version: "lidar-semantic.v1",
         class_table: LIDAR_CLASS_TABLE,
@@ -336,6 +347,7 @@ async function capture(request: Request) {
         topdown_preview_projection: "lidar-sensor-overhead",
       } : null,
       lidar_point_count: count,
+      weather_calibration: response,
       lidar_xyz_f32_base64: lidar ? bytesBase64(new Uint8Array(xyz.buffer)) : null,
       lidar_intensity_f32_base64: lidar ? bytesBase64(new Uint8Array(intensity.buffer)) : null,
       lidar_beam_id_u32_base64: lidar ? bytesBase64(new Uint8Array(beamIds.buffer)) : null,

@@ -8,7 +8,8 @@
     "./capture": "./src/capture.ts",
     "./lidar": "./src/lidar.ts",
     "./lidarClass": "./src/lidarClass.ts",
-    "./thermal": "./src/thermal.ts"
+    "./thermal": "./src/thermal.ts",
+    "./weather": "./src/weather.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"

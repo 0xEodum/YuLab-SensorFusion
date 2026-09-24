@@ -205,10 +205,14 @@ Our implemented numerical coefficients and simplified heat dynamics still requir
 calibration; the reference does not validate the simulator. See the exact
 [SF-06 thermal profile](THERMAL_IR.md).
 
-SF-08 attenuation will use `tau(d)=exp(-beta*d)` with beta in m^-1, with separate spectral
+SF-08 attenuation uses `tau(d)=exp(-beta*d)` with beta in m^-1, with separate spectral
 coefficients for RGB, LWIR and LiDAR. LiDAR surface-return attenuation uses the
 round trip. Fog/rain/snow presets select documented coefficient distributions;
 their numeric mapping to real weather remains uncalibrated until measured.
+
+Implemented SF-08 coefficients, status codes, seed streams and limitations are
+recorded in [WEATHER.md](WEATHER.md). `weather_calibration` in a capture result
+records the exact response parameters. It is capture metadata, not a model input.
 
 LiDAR procedure: choose the first opaque surface; simulate atmosphere before
 that distance; select the declared single-return response; apply receiver noise

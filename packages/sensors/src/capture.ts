@@ -18,6 +18,7 @@ import {
   thermalPreviewRgba,
   type ThermalState,
 } from "./thermal.ts";
+import { applyIrAtmosphere, applyRgbWeather, weatherResponse } from "./weather.ts";
 
 export const IR_NOISE_SIGMA_W_PER_M2_SR = 0.02;
 export const IR_SATURATION_W_PER_M2_SR = 200;
@@ -52,6 +53,9 @@ export type ThermalCapture = {
     preview_palette: "iron-v1";
     preview_scale: [number, number];
     palette_applies_to_raw: false;
+    atmosphere_version?: "weather-response.v1";
+    extinction_per_m?: number;
+    path_radiance_w_per_m2_sr?: number;
   };
 };
 
@@ -108,6 +112,9 @@ export function renderReferencePasses(
   scene: THREE.Scene,
   rig: RigSpec,
   orderedInstanceIds: readonly string[],
+  environment?: EnvironmentSpec,
+  rgbSeed = 0,
+  weatherSeed = 0,
 ): ReferenceCapture {
   const gl = renderer.getContext();
   if (!gl.getExtension("EXT_color_buffer_float"))
@@ -251,7 +258,9 @@ export function renderReferencePasses(
     }
     return {
       width, height, depth, instance, instanceIds,
-      rgbPng: pngDataUrl(rgb, width, height),
+      rgbPng: pngDataUrl(environment
+        ? applyRgbWeather(rgb, depth, width, height, environment, rgbSeed, weatherSeed)
+        : rgb, width, height),
       depthPreviewPng: pngDataUrl(depthPreview, width, height),
       instancePreviewPng: pngDataUrl(instancePreview, width, height),
     };
@@ -328,17 +337,21 @@ export function renderThermalPass(
     if (!material) {
       material = new THREE.ShaderMaterial({
         vertexShader: `
+          varying float vDepth;
           void main() {
             vec4 p = vec4(position, 1.0);
             #ifdef USE_INSTANCING
               p = instanceMatrix * p;
             #endif
-            gl_Position = projectionMatrix * modelViewMatrix * p;
+            vec4 view = modelViewMatrix * p;
+            vDepth = -view.z;
+            gl_Position = projectionMatrix * view;
           }
         `,
         fragmentShader: `
           precision highp float;
-          void main() { gl_FragColor = vec4(${radiance.toPrecision(12)}, 0.0, 0.0, 1.0); }
+          varying float vDepth;
+          void main() { gl_FragColor = vec4(${radiance.toPrecision(12)}, vDepth, 0.0, 1.0); }
         `,
         side: THREE.DoubleSide,
         toneMapped: false,
@@ -383,13 +396,15 @@ export function renderThermalPass(
     const rgba = flipRows(bottom, width, height, 4);
     const clean = new Float32Array(width * height);
     const validity = new Uint8Array(width * height);
+    const weather = weatherResponse(environment);
     for (let i = 0; i < clean.length; i++) {
-      clean[i] = rgba[i * 4];
-      validity[i] = clean[i] > 0 ? 1 : 0;
+      const surface = rgba[i * 4];
+      validity[i] = surface > 0 ? 1 : 0;
+      if (validity[i]) clean[i] = applyIrAtmosphere(surface, rgba[i * 4 + 1], weather);
     }
     const response = radianceRaster(clean, validity, {
       seed: noiseSeed,
-      noise_sigma: IR_NOISE_SIGMA_W_PER_M2_SR,
+      noise_sigma: weather.ir_noise_sigma_w_per_m2_sr,
       saturation_w_per_m2_sr: IR_SATURATION_W_PER_M2_SR,
     });
     const preview = thermalPreviewRgba(response.radiance, validity, {
@@ -408,13 +423,16 @@ export function renderThermalPass(
         response_version: LWIR_RESPONSE_VERSION,
         band_um: [...LWIR_BAND_UM],
         radiance_units: "W/m2/sr",
-        noise_sigma_w_per_m2_sr: IR_NOISE_SIGMA_W_PER_M2_SR,
+        noise_sigma_w_per_m2_sr: weather.ir_noise_sigma_w_per_m2_sr,
         saturation_w_per_m2_sr: IR_SATURATION_W_PER_M2_SR,
         thermal_model_version: THERMAL_MODEL_VERSION,
         thermal_state_version: THERMAL_STATE_VERSION,
         preview_palette: "iron-v1",
         preview_scale: [...IR_PREVIEW_SCALE_W_PER_M2_SR],
         palette_applies_to_raw: false,
+        atmosphere_version: weather.version,
+        extinction_per_m: weather.ir_extinction_per_m,
+        path_radiance_w_per_m2_sr: weather.ir_path_radiance_w_per_m2_sr,
       },
     };
   } finally {

@@ -1,11 +1,13 @@
 import * as THREE from "three";
 import { acceleratedRaycast, computeBoundsTree, disposeBoundsTree } from "three-mesh-bvh";
-import type { AssetRecord, RigSpec } from "@yulab/contracts";
+import type { AssetRecord, EnvironmentSpec, RigSpec } from "@yulab/contracts";
 import { shouldCaptureObject, validateRigGeometry } from "./index.ts";
 import { lidarClassId } from "./lidarClass.ts";
+import { weatherResponse, weatherUniform } from "./weather.ts";
 
 export const LIDAR_MODEL_VERSION = "lidar-first-return.v1";
-export const LIDAR_STATUS = { no_return: 0, surface: 1, receiver_dropout: 2 } as const;
+export const LIDAR_STATUS = { no_return: 0, surface: 1, receiver_dropout: 2,
+  particle: 3, atmospheric_dropout: 4 } as const;
 type Vec3 = [number, number, number];
 export type LidarHit = {
   range_m: number;
@@ -196,12 +198,14 @@ function gaussian(seed: number, beam: number, stream: number) {
 
 export function scanLidar(
   scene: ReturnType<typeof buildLidarScene>, rig: RigSpec, seed: number,
-  options: { dropout_probability?: number; range_sigma_m?: number; intensity_sigma?: number } = {},
+  options: { dropout_probability?: number; range_sigma_m?: number; intensity_sigma?: number;
+    environment?: EnvironmentSpec; weather_seed?: number } = {},
 ) {
   const sensor = lidarSensor(rig), pattern = sensor.lidar!;
   const dropout = options.dropout_probability ?? 0;
   const rangeSigma = options.range_sigma_m ?? 0.003;
   const intensitySigma = options.intensity_sigma ?? 0.01;
+  const atmosphere = options.environment ? weatherResponse(options.environment) : null;
   if (![dropout, rangeSigma, intensitySigma].every(Number.isFinite) || dropout < 0 || dropout > 1 || rangeSigma < 0 || intensitySigma < 0)
     throw new Error("Invalid LiDAR receiver response parameters");
   const total = pattern.rows * pattern.columns;
@@ -214,12 +218,34 @@ export function scanLidar(
     const beam = beamAt(sensor, worldFromSensor, row, column);
     const hit = scene.first(beam.origin, beam.direction, sensor.min_range_m, sensor.max_range_m);
     idealHits[beam.beam_id] = hit;
+    const pathLength = hit?.range_m ?? sensor.max_range_m;
+    if (atmosphere && atmosphere.particle_rate_per_m > 0) {
+      const particleRange = -Math.log(weatherUniform(options.weather_seed ?? 0, beam.beam_id, 0)) /
+        atmosphere.particle_rate_per_m;
+      if (particleRange >= sensor.min_range_m && particleRange < pathLength) {
+        points.push({
+          xyz_sensor: new THREE.Vector3(...beam.direction_sensor).multiplyScalar(particleRange).toArray() as Vec3,
+          intensity: 0.1 + 0.2 * weatherUniform(options.weather_seed ?? 0, beam.beam_id, 1),
+          beam_id: beam.beam_id, time_offset_s: beam.time_offset_s,
+          range_m: particleRange, class_id: 0,
+        });
+        beamStatus[beam.beam_id] = LIDAR_STATUS.particle;
+        continue;
+      }
+    }
     if (!hit) continue;
     const incidence = Math.abs(new THREE.Vector3(...hit.normal_world).dot(new THREE.Vector3(...beam.direction)));
     const idealIntensity = 0.65 * Math.max(0.02, incidence) * Math.exp(-hit.range_m / 200);
     // Receiver dropout happens after the opaque hit. Never search behind it.
     if (uniform(seed, beam.beam_id, 0) < dropout) {
       beamStatus[beam.beam_id] = LIDAR_STATUS.receiver_dropout;
+      continue;
+    }
+    const transmission = atmosphere
+      ? Math.exp(-2 * atmosphere.lidar_extinction_per_m * hit.range_m) : 1;
+    if (atmosphere && (idealIntensity * transmission < 0.015 ||
+        uniform(seed, beam.beam_id, 7) > transmission)) {
+      beamStatus[beam.beam_id] = LIDAR_STATUS.atmospheric_dropout;
       continue;
     }
     const range = Math.min(sensor.max_range_m, Math.max(sensor.min_range_m,
@@ -230,7 +256,7 @@ export function scanLidar(
     sensorPoint.copy(worldPoint.applyMatrix4(sensorFromWorld));
     points.push({
       xyz_sensor: sensorPoint.toArray() as Vec3,
-      intensity: Math.max(0, Math.min(1, idealIntensity + intensitySigma * gaussian(seed, beam.beam_id, 3))),
+      intensity: Math.max(0, Math.min(1, idealIntensity * transmission + intensitySigma * gaussian(seed, beam.beam_id, 3))),
       beam_id: beam.beam_id, time_offset_s: beam.time_offset_s, range_m: range,
       class_id: hit.class_id,
     });
@@ -241,6 +267,10 @@ export function scanLidar(
     rows: pattern.rows, columns: pattern.columns,
     beam_status: beamStatus, ideal_hits: idealHits, points,
     response: { range_sigma_m: rangeSigma, intensity_sigma: intensitySigma,
-      dropout_probability: dropout, intensity_model: "synthetic-incidence-exponential.v1" },
+      dropout_probability: dropout, intensity_model: "synthetic-incidence-exponential.v1",
+      atmosphere_version: atmosphere?.version ?? null,
+      extinction_per_m: atmosphere?.lidar_extinction_per_m ?? 0,
+      particle_rate_per_m: atmosphere?.particle_rate_per_m ?? 0,
+      detection_threshold: 0.015 },
   };
 }

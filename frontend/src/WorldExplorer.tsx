@@ -8,6 +8,7 @@ import {
 } from "@yulab/world";
 import { loadCatalog, type Catalog } from "@yulab/assets";
 import { validatePayload, type CaptureJob, type CaptureRequest, type RigSpec } from "@yulab/contracts";
+import { environmentPreset, type WeatherPreset } from "@yulab/sensors/weather";
 import { WorldRuntime, type WorldStatus } from "./WorldRuntime";
 import "./world.css";
 
@@ -37,6 +38,16 @@ export default function WorldExplorer() {
   const [captureRig, setCaptureRig] = useState<RigSpec | null>(null);
   const [captureJob, setCaptureJob] = useState<CaptureJob | null>(null);
   const [captureError, setCaptureError] = useState("");
+  const [weatherPreset, setWeatherPreset] = useState<WeatherPreset>("clear-day");
+  const [severity, setSeverity] = useState(70);
+  const [solarHour, setSolarHour] = useState(12);
+  const [simulationTime, setSimulationTime] = useState(0);
+  const [thermalMode, setThermalMode] = useState<"equilibrated" | "continued">("equilibrated");
+  const [noiseSeeds, setNoiseSeeds] = useState({ weather: 0, rgb: 0, ir: 0, lidar: 0 });
+  const [priorThermal, setPriorThermal] = useState<{
+    artifact: NonNullable<CaptureRequest["environment"]["thermal_state"]>;
+    tick: number;
+  } | null>(null);
   const [aerodrome, setAerodrome] = useState(
     new URLSearchParams(window.location.search).get("site") === "aerodrome",
   );
@@ -84,6 +95,7 @@ export default function WorldExplorer() {
       engine.current = runtime;
       setCaptureRig(null);
       setCaptureJob(null);
+      setPriorThermal(null);
       runtime.view(location, view);
       runtime.setPitch(pitch);
       runtime.chunks.setBoundaries(boundaries);
@@ -171,17 +183,22 @@ export default function WorldExplorer() {
     if (!captureRig) return;
     setCaptureError("");
     setCaptureJob(null);
+    if (!Number.isFinite(solarHour) || solarHour < 0 || solarHour > 24 ||
+        !Number.isFinite(simulationTime) || simulationTime < 0 ||
+        Object.values(noiseSeeds).some((seed) => !Number.isInteger(seed) || seed < 0 || seed > 0xffff_ffff)) {
+      setCaptureError("Solar hour, simulation tick and noise seeds must be within their stated ranges.");
+      return;
+    }
     const captureId = `capture-${Date.now().toString(36)}`;
-    const environment = {
-      schema_version: "lab.v1" as const, kind: "EnvironmentSpec" as const,
-      environment_id: "clear-day", simulation_time_s: 0, solar_time_hour: 12,
-      latitude_rad: 0.9, sun_direction_world: [0, 1, 0] as [number, number, number],
-      ambient_temperature_k: 293.15, fog_extinction_per_m: 0,
-      rain_mm_per_h: 0, snow_mm_per_h: 0,
-      wind_m_per_s: [0, 0, 0] as [number, number, number], wetness: 0,
-      parameter_set_version: "clear.v1", thermal_history: "equilibrated" as const,
-      thermal_state: null,
-    };
+    const environment = environmentPreset(weatherPreset, severity / 100, solarHour, simulationTime);
+    if (thermalMode === "continued") {
+      if (!priorThermal || simulationTime < priorThermal.tick) {
+        setCaptureError("Continue thermal history requires a prior capture at or before this tick.");
+        return;
+      }
+      environment.thermal_history = "continued";
+      environment.thermal_state = priorThermal.artifact;
+    }
     const request: CaptureRequest = {
       schema_version: "lab.v1", kind: "CaptureRequest", world: spec,
       rig: captureRig, environment,
@@ -189,9 +206,9 @@ export default function WorldExplorer() {
         schema_version: "lab.v1", kind: "CapturePlan", capture_id: captureId,
         sequence_id: `sequence-${Date.now().toString(36)}`,
         world_sha256: await digest(spec), rig_sha256: await digest(captureRig),
-        environment_sha256: await digest(environment), simulation_time_s: 0,
+        environment_sha256: await digest(environment), simulation_time_s: simulationTime,
         geometry_policy: "fixed-sensor-geometry", quality_version: "capture-quality.v1",
-        seed_channels: { world: spec.seed, weather: 0, rgb: 0, ir: 0, lidar: 0 },
+        seed_channels: { world: spec.seed, ...noiseSeeds },
         modalities: ["rgb", "ir", "lidar"],
       },
     };
@@ -214,6 +231,8 @@ export default function WorldExplorer() {
         setCaptureJob(job);
       }
       if (job.state === "failed") throw new Error(job.error?.message ?? "Capture failed");
+      if (job.state === "succeeded" && job.result?.artifacts.thermal_state)
+        setPriorThermal({ artifact: job.result.artifacts.thermal_state, tick: job.result.tick_s });
     } catch (error) {
       setCaptureError(error instanceof Error ? error.message : String(error));
     }
@@ -416,6 +435,47 @@ export default function WorldExplorer() {
           <span aria-live="polite">{rigMessage}</span>
         </div>
         <section className="capture-panel" aria-label="RGB, thermal IR, LiDAR and reference capture">
+          <div className="capture-conditions">
+            <label>Condition
+              <select aria-label="Capture condition" value={weatherPreset} onChange={(event) => {
+                const value = event.target.value as WeatherPreset;
+                setWeatherPreset(value);
+                if (value === "night") setSolarHour(0);
+                else if (solarHour < 6 || solarHour > 18) setSolarHour(12);
+              }}>
+                <option value="clear-day">Clear day</option><option value="night">Night</option>
+                <option value="fog">Fog</option><option value="rain">Rain</option>
+                <option value="snow">Snow</option><option value="hot-background">Hot background</option>
+              </select>
+            </label>
+            <label>Severity {severity}%
+              <input aria-label="Weather severity" type="range" min="0" max="100" value={severity}
+                onChange={(event) => setSeverity(Number(event.target.value))} />
+            </label>
+            <label>Solar hour
+              <input aria-label="Solar hour" type="number" min="0" max="24" step="0.5" value={solarHour}
+                onChange={(event) => setSolarHour(Number(event.target.value))} />
+            </label>
+            <label>Simulation tick (s)
+              <input aria-label="Simulation tick" type="number" min="0" step="1" value={simulationTime}
+                onChange={(event) => setSimulationTime(Number(event.target.value))} />
+            </label>
+            <label>Thermal time behavior
+              <select aria-label="Thermal time behavior" value={thermalMode}
+                onChange={(event) => setThermalMode(event.target.value as typeof thermalMode)}>
+                <option value="equilibrated">Jump: equilibrate at selected time</option>
+                <option value="continued">Evolve from previous captured state</option>
+              </select>
+            </label>
+            {(["weather", "rgb", "ir", "lidar"] as const).map((channel) => <label key={channel}>
+              {channel.toUpperCase()} seed
+              <input aria-label={`${channel} noise seed`} type="number" min="0" max="4294967295" step="1"
+                value={noiseSeeds[channel]} onChange={(event) => setNoiseSeeds((before) => ({
+                  ...before, [channel]: Number(event.target.value),
+                }))} />
+            </label>)}
+            <small>Every capture freezes one tick. Jump recalculates equilibrium; evolve uses the previous saved thermal state.</small>
+          </div>
           <div className="world-toolbar">
             <button onClick={() => void capture()} disabled={!captureRig || Boolean(captureJob && ["queued", "running", "cancelling"].includes(captureJob.state))}>
               Capture RGB, IR, LiDAR and references
