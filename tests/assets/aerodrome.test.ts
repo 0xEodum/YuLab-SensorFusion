@@ -133,3 +133,35 @@ test("graded chunk geometry agrees at boundaries in both display pitches and rev
     assert.deepEqual(edge(a), edge(b));
   }
 });
+
+test("seeded mixed apron uses grounded aircraft and vehicles without overlaps", () => {
+  const rosters = new Set<string>();
+  for (const seed of [0, 1, 7, 48291, 9001]) {
+    const spec = aerodromeWorldSpec(seed, catalog.assets, "catalog");
+    assert.deepEqual(spec, aerodromeWorldSpec(seed, catalog.assets, "catalog"));
+    assert.equal(spec.instances.length, 6);
+    assert.equal(spec.instances.filter((i) =>
+      catalog.assets.find((a) => a.asset_id === i.asset_id)!.class_name === "aircraft").length, 4);
+    rosters.add(spec.instances.map((i) => i.asset_id).join(","));
+    const boxes: THREE.Box3[] = [];
+    for (const instance of spec.instances) {
+      const record = catalog.assets.find((a) => a.asset_id === instance.asset_id)!;
+      const transform = new THREE.Matrix4().set(...instance.T_world_from_asset);
+      const box = new THREE.Box3().setFromCenterAndSize(
+        new THREE.Vector3(...record.bounds.center_m),
+        new THREE.Vector3(...record.bounds.extent_m),
+      ).applyMatrix4(transform);
+      assert.ok(Math.abs(box.min.y - 24.04) < 0.08, instance.asset_id);
+      for (const prior of boxes) assert.equal(box.intersectsBox(prior), false, instance.asset_id);
+      boxes.push(box);
+      const meta = JSON.parse(readFileSync(new URL(
+        `../../frontend/public/catalog/${instance.asset_id}.metadata.json`, import.meta.url), "utf8"));
+      for (const contact of meta.contacts_m) {
+        const p = new THREE.Vector3(...(contact as [number, number, number])).applyMatrix4(transform);
+        assert.ok(Math.abs(p.y - 24.04) < 0.08, instance.asset_id);
+      }
+    }
+  }
+  assert.ok(rosters.size > 1);
+  assert.equal(aerodromeWorldSpec(0, [], "background").instances.length, 0);
+});

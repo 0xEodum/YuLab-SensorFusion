@@ -1,0 +1,67 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -7.009253786581713,
+  "waterline_m": 0,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "bounds_min_m": [
+    -10.399999618530273,
+    -7.009253978729248,
+    -88
+  ],
+  "bounds_max_m": [
+    10.399999618530273,
+    49,
+    92
+  ],
+  "source_bounds_m": {
+    "min": [
+      -88,
+      -7.009253786581713,
+      -10.399999618530273
+    ],
+    "max": [
+      92,
+      49,
+      10.399999618530273
+    ]
+  },
+  "validation": {
+    "triangles": 8121,
+    "meshes": 501,
+    "max_normal_error": 3.998782238667786e-8
+  },
+  "frozen_pose": "At rest at authored waterline; no source animations, projectiles or app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/Mat.tsx",
+      "sha256": "6584c194b2f94901ef91b9f12fed5c93158e26358c7848e6e23a7927b8df4baf"
+    },
+    {
+      "path": "src/components/Ship.tsx",
+      "sha256": "37c7cc2b2775302fa2f1f53e0f85059648ffb1afc1aac8fada7dbf697c18a459"
+    },
+    {
+      "path": "src/components/Systems.tsx",
+      "sha256": "3a52ffc1b95723ab1b46dd2eff840f7faf25152aca8d0d72ec89da5dfb1f7dba"
+    },
+    {
+      "path": "src/model/data.ts",
+      "sha256": "98c3ff4c8d5837f5d7383726705b9b75a6c3dbf65dfc7493ddfbaaf575df0c30"
+    },
+    {
+      "path": "src/model/hull.ts",
+      "sha256": "84db38d2cbdb578f41634056eb6ce24124d7266c12b3d4f5c92d3c69a99dca17"
+    }
+  ]
+}

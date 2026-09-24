@@ -1,0 +1,76 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": 0.26251400709152234,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -2.370000123977661,
+      5.551115123125783e-17,
+      -1.5421478748321533
+    ],
+    [
+      2.370000123977661,
+      -5.551115123125783e-17,
+      -1.2578521966934204
+    ],
+    [
+      0.25999999046325684,
+      0.013147895224392414,
+      6.998885631561279
+    ]
+  ],
+  "bounds_min_m": [
+    -7.650000095367432,
+    -5.551115123125783e-17,
+    -12.300000190734863
+  ],
+  "bounds_max_m": [
+    7.650000095367432,
+    6.31748628616333,
+    12.550000190734863
+  ],
+  "source_bounds_m": {
+    "min": [
+      -7.650000095367432,
+      0.26251400709152234,
+      -12.300000190734863
+    ],
+    "max": [
+      7.650000095367432,
+      6.580000114440918,
+      12.549999976158142
+    ]
+  },
+  "validation": {
+    "triangles": 2164,
+    "meshes": 44,
+    "max_normal_error": 3.8901915022648836e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/Stores.tsx",
+      "sha256": "43b06c0c1f4635c2d6a97221323d5d35364b3613953a90b2132e24dc109e7474"
+    },
+    {
+      "path": "src/components/Su35.tsx",
+      "sha256": "ce25f7c93c17fdab6f86d44ba1df722c637695cfd0668a172f0099d075da6ee2"
+    },
+    {
+      "path": "src/lib/geometry.ts",
+      "sha256": "e9bd6d9b0aafd18b4b9161ddf8708b0b70304ac4a466761d98b1feb83bf9c726"
+    },
+    {
+      "path": "src/lib/liveries.ts",
+      "sha256": "9b14b9d26dafa93c344b5c7075ba08dcc18290de924a8609eb3c5e4f5d086a9a"
+    },
+    {
+      "path": "src/lib/loadout.ts",
+      "sha256": "2684567f3d60d94422733555dadab4c9ec9dc5e4cfbf89b16ae6a69c3d8cc34f"
+    }
+  ]
+}

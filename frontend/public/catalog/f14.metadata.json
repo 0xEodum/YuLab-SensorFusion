@@ -1,0 +1,76 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": -2.4853169441223146,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -2.5899999141693115,
+      0.0058731986209750175,
+      -1.0297871828079224
+    ],
+    [
+      2.5899999141693115,
+      0.0058731986209750175,
+      -0.7702128887176514
+    ],
+    [
+      0.27000001072883606,
+      0,
+      4.99270486831665
+    ]
+  ],
+  "bounds_min_m": [
+    -9.90999984741211,
+    0,
+    -11.699999809265137
+  ],
+  "bounds_max_m": [
+    9.90999984741211,
+    5.885316848754883,
+    10.875
+  ],
+  "source_bounds_m": {
+    "min": [
+      -9.909999998658895,
+      -2.4853169441223146,
+      -11.699999976158143
+    ],
+    "max": [
+      9.909999998658895,
+      3.4000000953674316,
+      10.874999994039536
+    ]
+  },
+  "validation": {
+    "triangles": 4252,
+    "meshes": 124,
+    "max_normal_error": 4.021829691502887e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/model/geometry.ts",
+      "sha256": "eae061eed6456080e81557904ad8f8f0f0df23d2b884390ed837f7a2d7f675b3"
+    },
+    {
+      "path": "src/model/liveries.ts",
+      "sha256": "b904afadb137e3d825c98832a60604e5a01f56c8e46c20a708ca4cb9c1168694"
+    },
+    {
+      "path": "src/model/loadout.ts",
+      "sha256": "47a9b391018a82fa43050fc1f48a077d5891493d3512de8512c09db9839509be"
+    },
+    {
+      "path": "src/model/Tomcat.tsx",
+      "sha256": "d5651d999fca4754625d92d946e40ccc668390179f7ca8054f21f5fb04eb5247"
+    },
+    {
+      "path": "src/model/Weapons.tsx",
+      "sha256": "8c6ef6871da074a3ede7d177575c6a156101945b3d8d85890d239468dc27ce9f"
+    }
+  ]
+}

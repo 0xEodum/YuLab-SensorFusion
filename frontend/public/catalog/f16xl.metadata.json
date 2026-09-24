@@ -1,0 +1,76 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -2.2000000041723253,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -1.25,
+      1.0132789718397817e-8,
+      -2.450000047683716
+    ],
+    [
+      1.25,
+      0.00877524446696043,
+      -2.5278823375701904
+    ],
+    [
+      0.08500000089406967,
+      0.06736543774604797,
+      0.7126345634460449
+    ]
+  ],
+  "bounds_min_m": [
+    -5.25853157043457,
+    -2.7755575615628914e-17,
+    -9.15999984741211
+  ],
+  "bounds_max_m": [
+    5.25853157043457,
+    5.114999771118164,
+    10.149999618530273
+  ],
+  "source_bounds_m": {
+    "min": [
+      -9.159999966621399,
+      -2.2000000041723253,
+      -5.258531694784761
+    ],
+    "max": [
+      10.14999998807907,
+      2.9149999997019767,
+      5.258531694784761
+    ]
+  },
+  "validation": {
+    "triangles": 19198,
+    "meshes": 94,
+    "max_normal_error": 3.961476269243036e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/Aircraft.tsx",
+      "sha256": "530cae98e437aef69bce28586c6a4e7261837584f811a327ef688e2b1725cc4c"
+    },
+    {
+      "path": "src/components/Stores.tsx",
+      "sha256": "7da9d476396734e7917d14682eb0d9ca6d6fbc8ed777363a1923dc09127bcb23"
+    },
+    {
+      "path": "src/three/geometry.ts",
+      "sha256": "c98fb79e8b455dbbfad662a3881c39dc0107168c587eb55d9bfa7cc02a9dad24"
+    },
+    {
+      "path": "src/three/liveries.ts",
+      "sha256": "ee2c6e51be94039b4f2351bda19b16e11a22c9b4615a11b26d4fdbf3357915d3"
+    },
+    {
+      "path": "src/three/stores.ts",
+      "sha256": "61aaf101ec80d2e3b9e06e37a3d04907b455b7afcc8f29e8356a0753d01689e2"
+    }
+  ]
+}

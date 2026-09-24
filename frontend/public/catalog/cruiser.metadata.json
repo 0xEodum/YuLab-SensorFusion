@@ -1,0 +1,79 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -4.999999999999999,
+  "waterline_m": 0,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "bounds_min_m": [
+    -11.600000381469727,
+    -5,
+    -88.5999984741211
+  ],
+  "bounds_max_m": [
+    11.600000381469727,
+    40.20000076293945,
+    92.5
+  ],
+  "source_bounds_m": {
+    "min": [
+      -88.59999998807908,
+      -4.999999999999999,
+      -11.600000023841856
+    ],
+    "max": [
+      92.5,
+      40.2,
+      11.600000023841856
+    ]
+  },
+  "validation": {
+    "triangles": 37155,
+    "meshes": 592,
+    "max_normal_error": 4.153647359395052e-8
+  },
+  "frozen_pose": "At rest at authored waterline; no source animations, projectiles or app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/ship/constants.ts",
+      "sha256": "ffec06ae0071ccdd770c62851041af658cdf6e27f291d1bc71fc65d7821b8051"
+    },
+    {
+      "path": "src/ship/Cruiser.tsx",
+      "sha256": "84b34256d018121a471d831db7c45e02b3f60fe67816c9ddb700290d55cf0104"
+    },
+    {
+      "path": "src/ship/Hull.tsx",
+      "sha256": "c07b6b3adb056fec857272125e09d90325070bfe643adbbb9847a6d4fd9f9658"
+    },
+    {
+      "path": "src/ship/hullGeometry.ts",
+      "sha256": "68488840e9c1b0662bcaa24a8ed2b7dfd515fe55f09de6d00c6d1119c3032a81"
+    },
+    {
+      "path": "src/ship/parts.tsx",
+      "sha256": "4ffecec0849f24b7af3b94a40701243b86f9ec5f581d81c1157143f68235550b"
+    },
+    {
+      "path": "src/ship/state.tsx",
+      "sha256": "752318717726e91ad285e6618c1b018e410c1b21348f431c3bae8fb6edf458e4"
+    },
+    {
+      "path": "src/ship/Superstructure.tsx",
+      "sha256": "55d569c053a1e68b79c5aa325e1c3ee2864a97eca0a72470aaf517917808a9b9"
+    },
+    {
+      "path": "src/ship/weapons.tsx",
+      "sha256": "253839e0c8b7ef99314ebff1719f736eb95b10e74871d4de90cd20eacc621fd3"
+    }
+  ]
+}

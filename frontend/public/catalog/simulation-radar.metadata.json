@@ -1,0 +1,92 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": -2.38418573772492e-9,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -1.4299999475479126,
+      0.027408361434936523,
+      -2.9230494499206543
+    ],
+    [
+      1.4299999475479126,
+      0.03273427486419678,
+      2.871319055557251
+    ],
+    [
+      1.4299999475479126,
+      0.027408361434936523,
+      2.87304949760437
+    ]
+  ],
+  "bounds_min_m": [
+    -1.6491999626159668,
+    0,
+    -4.179999828338623
+  ],
+  "bounds_max_m": [
+    1.6491999626159668,
+    4.046300411224365,
+    4.039999961853027
+  ],
+  "source_bounds_m": {
+    "min": [
+      -1.6492,
+      -2.38418573772492e-9,
+      -4.179999999403954
+    ],
+    "max": [
+      1.6492,
+      4.046300312988205,
+      4.039999999552965
+    ]
+  },
+  "validation": {
+    "triangles": 4548,
+    "meshes": 129,
+    "max_normal_error": 2.7843736205568348e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/three/components/pods/CelledBatteryPod.tsx",
+      "sha256": "bbb6d6e418abf0c79a34b72c6ea523ec1f01c6e59fc39707cdfb8c15ede308e3"
+    },
+    {
+      "path": "src/three/components/pods/HeavyRailPod.tsx",
+      "sha256": "2bd7ec46aa8f2653e6cbcd682a785e48924fd9448396d1a9ff434ff687a6f9d9"
+    },
+    {
+      "path": "src/three/components/pods/QuadTubePod.tsx",
+      "sha256": "af502dedbe7d6d012243b195108ea5b53c8f27e4e038fc5571c63383f1890e0c"
+    },
+    {
+      "path": "src/three/components/radars/PanelArrayRadar.tsx",
+      "sha256": "8f48681f979b26afc3fd1f82626cbf57060e8796595d541c924a5ebea6504125"
+    },
+    {
+      "path": "src/three/components/radars/ParabolicDishRadar.tsx",
+      "sha256": "ff2873ec4af759dd22cc6bf8c06caedc178f922fa928246cc93b3d1951cda661"
+    },
+    {
+      "path": "src/three/components/radars/RotodomeRadar.tsx",
+      "sha256": "8c3285433e6a91182158c39ec5607283acf0fff94f89a12c315692c9cd5a9156"
+    },
+    {
+      "path": "src/three/registry.tsx",
+      "sha256": "65d3acfbf9d89f912d5e2ff46690a8b97acf172bb6fff3e24d8e0bce80618488"
+    },
+    {
+      "path": "src/three/shared.tsx",
+      "sha256": "e6c66a171d7cc93b8f7c50fcf0e7f75c90a0e13f926575ea9afbbb35eb6519a4"
+    },
+    {
+      "path": "src/three/vehicles/VehicleFrame.tsx",
+      "sha256": "3ab3f4e8f9e480676a218a04b65a3278ca7f82148cb189252707178e95dfe0fe"
+    }
+  ]
+}

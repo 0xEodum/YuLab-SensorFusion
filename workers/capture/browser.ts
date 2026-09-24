@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { AssetLibrary, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
+import { HARBOR_GENERATOR, AERODROME_GENERATOR } from "@yulab/world";
 import { validatePayload } from "@yulab/contracts";
 import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec } from "@yulab/contracts";
 import {
@@ -222,6 +223,8 @@ async function capture(request: Request) {
     catalog = await loadCatalog();
     assets = new AssetLibrary(catalog);
     await assets.load(request.world, AbortSignal.timeout(30_000));
+  }
+  if (assets || [HARBOR_GENERATOR, AERODROME_GENERATOR].includes(request.world.generator_version)) {
     site = buildAerodromeScene(request.world, assets, coords);
     scene.add(site.root);
   }

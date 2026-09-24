@@ -1,7 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
 Updated: 2026-09-24. SF-08 weather, time and sensor noise passed local acceptance.
-SF-09 remaining asset catalog and coast/harbor world is READY. Dataset generation and training remain
+SF-09 catalog and coast/harbor world is IN PROGRESS with the approved 15-project
+source scope. Dataset generation and training remain
 later stages.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -43,7 +44,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-06 | Surface heat and thermal IR | SF-05 | DONE |
 | SF-07 | Occlusion-correct LiDAR | SF-06 | DONE |
 | SF-08 | Weather, time and sensor noise | SF-07 | DONE |
-| SF-09 | Remaining asset catalog and coast/harbor world | SF-08 | READY |
+| SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | IN PROGRESS |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | PLANNED |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | PLANNED |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
@@ -338,14 +339,18 @@ beam-time geometry and renderer-scoped hashes remain declared limits.
 
 ## SF-09 — Complete catalog and additional environments
 
-Deliver: adapters/catalog records for the remaining supplied aircraft/ground/ship
-projects; coast/harbor placement; expanded world/object/camera randomization.
+Deliver: adapters/catalog records for the 15 complete supplied
+aircraft/ground/ship projects; coast/harbor placement; expanded
+world/object/camera randomization. On 2026-09-24 the user revised the required
+source scope from 17 to 15 after the B-52 source lacked its imported Aircraft
+component and the Mirage 2000 source had no assembled model. Both excluded
+projects remain accounted for in [the SF-09 catalog notes](HARBOR_AND_CATALOG.md).
 
 Acceptance:
 
-- All 17 source projects are accounted for with validated import or explicit
-  blocked issue. A blocked required asset keeps this item incomplete until an
-  adapter is fixed or a documented scope revision is made.
+- All 17 supplied projects are accounted for: the 15 in the revised scope have
+  validated imports and complete provenance; the two excluded incomplete
+  sources are documented without substitutes.
 - Ships have correct scale/waterline and are placed in water; aircraft remain
   grounded at aerodromes. Multi-class scenes and background-only scenes exist.
 - Per-asset thermal/occlusion fixtures pass and catalog provenance is complete.

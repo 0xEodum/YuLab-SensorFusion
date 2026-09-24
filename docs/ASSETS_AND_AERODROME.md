@@ -4,10 +4,14 @@ SF-04 adds `static-model.v1`, `asset-catalog.v1`, `asset-import.v1` and
 `aerodrome-world.v1` / `aerodrome-field.v1`. The natural `connected-world.v2`
 profile and the legacy preset editor retain their existing semantics.
 
-Open the connected world, then **Open aerodrome**. Catalog cards provide close
+Open the connected world, then **Aerodrome fixtures**. Catalog cards for placed assets provide close
 inspection views; visibility buttons restore fixed inspection poses. Direct
 entry: `/?view=world&site=aerodrome`. Flight, seed, detail and bookmarks work in
 either profile. Bookmarks are stored separately for landscape and aerodrome.
+
+SF-09 expands the catalog and adds mixed and harbor profiles. See
+[the SF-09 catalog and harbor notes](HARBOR_AND_CATALOG.md) for the current
+15-project scope; the details below describe the original SF-04 checkpoint.
 
 ## Source adapters and scale
 

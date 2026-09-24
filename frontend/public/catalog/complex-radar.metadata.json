@@ -1,0 +1,84 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -0.032624737595486814,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -2.5199999809265137,
+      0.0326247401535511,
+      -5.199999809265137
+    ],
+    [
+      2.5199999809265137,
+      0.0326247401535511,
+      0.75
+    ],
+    [
+      1.4500000476837158,
+      0.07529479265213013,
+      4.8448686599731445
+    ]
+  ],
+  "bounds_min_m": [
+    -2.5199999809265137,
+    -2.7755575615628914e-17,
+    -6.440000057220459
+  ],
+  "bounds_max_m": [
+    2.5199999809265137,
+    10.27183723449707,
+    6.428531646728516
+  ],
+  "source_bounds_m": {
+    "min": [
+      -6.439999999329448,
+      -0.032624737595486814,
+      -2.5199999868869782
+    ],
+    "max": [
+      6.428531694784761,
+      10.23921243555285,
+      2.5199999868869782
+    ]
+  },
+  "validation": {
+    "triangles": 24516,
+    "meshes": 506,
+    "max_normal_error": 3.249054003617857e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/three/Chassis.tsx",
+      "sha256": "ac153625b25c06d45234bc06025eb854541d48087a998949d3a7506b366e59f1"
+    },
+    {
+      "path": "src/three/launchers.tsx",
+      "sha256": "5c1f59aa7ce20ceed37231276c7d72495d824fabcd771336d9c9e350ac8e59f7"
+    },
+    {
+      "path": "src/three/primitives.tsx",
+      "sha256": "d6f500171268fa8d059a376e1c50f10a24de7d4280b500fcd1cb22206a1608a5"
+    },
+    {
+      "path": "src/three/radars.tsx",
+      "sha256": "20e68bb461f3b00c6ad9f5a86b1b25eb0ad1ccc9cd444a4de4ab554392150542"
+    },
+    {
+      "path": "src/three/scheme.tsx",
+      "sha256": "b71e57d6821471ba2752778ae5a50de1cb32afcf39a0b4525958827ecdfce3d5"
+    },
+    {
+      "path": "src/three/Vehicles.tsx",
+      "sha256": "992b500c417b04b077b316405a1411b3ed31e2a8d4aa31ab70916ffb89f8e07f"
+    },
+    {
+      "path": "src/types.ts",
+      "sha256": "d7259b7ad43df3550fc3e1384397879f97255b75b86169f96dc687220d5fe9fc"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": 0.01468305587768537,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -2.8399999141693115,
+      0.0029365993104875088,
+      0.8887538909912109
+    ],
+    [
+      2.8399999141693115,
+      0.0029365993104875088,
+      1.111246109008789
+    ],
+    [
+      0.46000000834465027,
+      0,
+      5.49270486831665
+    ]
+  ],
+  "bounds_min_m": [
+    -8.859999656677246,
+    0,
+    -8.699999809265137
+  ],
+  "bounds_max_m": [
+    8.859999656677246,
+    5.485316753387451,
+    8.6899995803833
+  ],
+  "source_bounds_m": {
+    "min": [
+      -8.860000000298022,
+      0.01468305587768537,
+      -8.699999809265137
+    ],
+    "max": [
+      8.860000000298022,
+      5.5,
+      8.689999992847444
+    ]
+  },
+  "validation": {
+    "triangles": 3136,
+    "meshes": 77,
+    "max_normal_error": 4.205852643934804e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/data/stations.ts",
+      "sha256": "8ec23538d86561fbe740ebee46c59349385f0fc2ef9e31970db7394c6c24d621"
+    },
+    {
+      "path": "src/three/A10.tsx",
+      "sha256": "a4bebf9b4a1682c8cd880decb337aab027dca5593dd99ac3a560c818cba30820"
+    },
+    {
+      "path": "src/three/geometry.ts",
+      "sha256": "65ef05a0334f7cf23dfad33bf494c739cc27ada76536656f34963b3523573412"
+    },
+    {
+      "path": "src/three/liveries.ts",
+      "sha256": "7d67637dd2b667ef7ebc2294bf793f6b3dc826241c005cc51eeb46406456ca0e"
+    },
+    {
+      "path": "src/three/markings.ts",
+      "sha256": "a1be1b362ecc8180be79c064ff3ecb4582a6c141495acd660e250a458faff3c3"
+    },
+    {
+      "path": "src/three/stores.tsx",
+      "sha256": "8771dd9f0b11d60fc8e50beba012bf9d388de4b3161a9e856db3756fc1340e25"
+    }
+  ]
+}

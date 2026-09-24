@@ -5,6 +5,7 @@ import {
   type RigBookmark,
   aerodromeWorldSpec,
   aerodromeFixtures,
+  harborWorldSpec,
 } from "@yulab/world";
 import { loadCatalog, type Catalog } from "@yulab/assets";
 import { validatePayload, type CaptureJob, type CaptureRequest, type RigSpec } from "@yulab/contracts";
@@ -20,6 +21,16 @@ const featureNames = {
   aerodrome: "Aerodrome",
   harbor: "Harbor",
 } as const;
+type Site = "natural" | "aerodrome" | "airfield-catalog" |
+  "airfield-background" | "harbor" | "harbor-background";
+const assetNames: Record<string, string> = {
+  f16: "F-16", rq4: "RQ-4 Global Hawk", "ground-vehicle": "8×8 ground vehicle",
+  cruiser: "Guided missile cruiser", destroyer: "Missile destroyer",
+  a10: "A-10 Thunderbolt II", f14: "F-14 Tomcat", f16xl: "F-16XL",
+  f18: "F/A-18C Hornet", f22: "F-22 Raptor", mq9: "MQ-9 Reaper",
+  su35: "Su-35S", "complex-radar": "Air defence radar",
+  "simulation-radar": "Simulation radar vehicle", spaa: "Modular SPAA",
+};
 // Read-only metrics plus the same navigation/rig operations used by the UI, opt-in for local acceptance.
 
 export default function WorldExplorer() {
@@ -48,9 +59,15 @@ export default function WorldExplorer() {
     artifact: NonNullable<CaptureRequest["environment"]["thermal_state"]>;
     tick: number;
   } | null>(null);
-  const [aerodrome, setAerodrome] = useState(
-    new URLSearchParams(window.location.search).get("site") === "aerodrome",
-  );
+  const [site, setSite] = useState<Site>(() => {
+    const requested = new URLSearchParams(window.location.search).get("site");
+    return (["aerodrome", "airfield-catalog", "airfield-background", "harbor",
+      "harbor-background"] as Site[]).includes(requested as Site)
+      ? requested as Site : "natural";
+  });
+  const needsCatalog = ["aerodrome", "airfield-catalog", "harbor"].includes(site);
+  const bookmarkKey = site === "natural" ? `strata-rigs-${seed}` : `strata-rigs-${site}-${seed}`;
+  const randomViewCounter = useRef(0);
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [catalogError, setCatalogError] = useState("");
   useEffect(() => {
@@ -75,14 +92,17 @@ export default function WorldExplorer() {
   });
   const spec = useMemo(
     () =>
-      aerodrome && catalog
-        ? aerodromeWorldSpec(seed, catalog.assets)
-        : defaultWorldSpec(seed),
-    [seed, aerodrome, catalog],
+      site === "aerodrome" && catalog ? aerodromeWorldSpec(seed, catalog.assets) :
+      site === "airfield-catalog" && catalog ? aerodromeWorldSpec(seed, catalog.assets, "catalog") :
+      site === "airfield-background" ? aerodromeWorldSpec(seed, [], "background") :
+      site === "harbor" && catalog ? harborWorldSpec(seed, catalog.assets) :
+      site === "harbor-background" ? harborWorldSpec(seed, [], "background") :
+      defaultWorldSpec(seed),
+    [seed, site, catalog],
   );
   useEffect(() => {
     if (!host.current) return;
-    if (aerodrome && !catalog) return;
+    if (needsCatalog && !catalog) return;
     let runtime: WorldRuntime | undefined;
     setStats((s) => ({ ...s, ready: false, triangles: 0, error: "" }));
     try {
@@ -104,9 +124,7 @@ export default function WorldExplorer() {
         window.worldQA = runtime;
       try {
         const saved: unknown = JSON.parse(
-          localStorage.getItem(
-            `strata-rigs-${aerodrome ? "aerodrome-" : ""}${seed}`,
-          ) ?? "[]",
+          localStorage.getItem(bookmarkKey) ?? "[]",
         );
         setBookmarks(
           Array.isArray(saved)
@@ -149,7 +167,7 @@ export default function WorldExplorer() {
         bookmark,
       ].slice(-12);
       localStorage.setItem(
-        `strata-rigs-${aerodrome ? "aerodrome-" : ""}${seed}`,
+        bookmarkKey,
         JSON.stringify(next),
       );
       setBookmarks(next);
@@ -270,29 +288,23 @@ export default function WorldExplorer() {
       </section>
       <section className="world-panel" aria-label="Connected world preview">
         <div className="world-toolbar">
-          <button
-            aria-pressed={!aerodrome}
-            onClick={() => {
-              setAerodrome(false);
-              setLocation(0);
-            }}
-          >
-            Natural landscape
-          </button>
-          <button
-            aria-pressed={aerodrome}
-            disabled={!catalog}
-            onClick={() => {
-              setAerodrome(true);
-              setLocation(0);
-            }}
-          >
-            Open aerodrome
-          </button>
+          {([
+            ["natural", "Natural landscape"],
+            ["aerodrome", "Aerodrome fixtures"],
+            ["airfield-catalog", "Airfield mix"],
+            ["airfield-background", "Empty airfield"],
+            ["harbor", "Coast & harbor"],
+            ["harbor-background", "Empty harbor"],
+          ] as const).map(([id, label]) => <button key={id} aria-pressed={site === id}
+            disabled={!catalog && ["aerodrome", "airfield-catalog", "harbor"].includes(id)}
+            onClick={() => { setSite(id); setLocation(0); setView("oblique"); }}>
+            {label}
+          </button>)}
           <span>
-            {aerodrome
-              ? "Airfield · 1,200 m runway · parked aircraft"
-              : "Seeded landforms · continuous terrain"}
+            {site.startsWith("harbor") ? "Coastal basin · working quay · ships afloat" :
+              site.startsWith("airfield") || site === "aerodrome"
+                ? "Airfield · 1,200 m runway · seeded stands"
+                : "Seeded landforms · continuous terrain"}
           </span>
         </div>
         <form
@@ -344,6 +356,10 @@ export default function WorldExplorer() {
               <option value="opening">Ground level</option>
             </select>
           </label>
+          <button type="button" disabled={!stats.ready} onClick={() => {
+            engine.current?.randomView(location, randomViewCounter.current++);
+            setNavigation("orbit");
+          }}>New viewpoint</button>
           <label>
             Display detail
             <select
@@ -384,6 +400,7 @@ export default function WorldExplorer() {
           ref={host}
           aria-label="Connected terrain. Drag to orbit, scroll to zoom."
           data-seed={seed}
+          data-site={site}
           data-location={location}
           data-ready={stats.ready}
           data-triangles={stats.error ? 0 : stats.triangles}
@@ -391,12 +408,12 @@ export default function WorldExplorer() {
           data-trees={stats.trees}
           data-rocks={stats.rocks}
         >
-          {(stats.error || (aerodrome && catalogError)) && (
+          {(stats.error || (needsCatalog && catalogError)) && (
             <div role="alert">
               World preview unavailable: {stats.error || catalogError}
             </div>
           )}
-          {!stats.ready && !stats.error && !catalogError && (
+          {!stats.ready && !stats.error && !(needsCatalog && catalogError) && (
             <div className="world-loading">Loading terrain…</div>
           )}
         </div>
@@ -550,11 +567,7 @@ export default function WorldExplorer() {
             {catalog?.assets.map((a) => (
               <article key={a.asset_id}>
                 <h3>
-                  {a.asset_id === "f16"
-                    ? "F-16"
-                    : a.asset_id === "rq4"
-                      ? "RQ-4 Global Hawk"
-                      : "8×8 ground vehicle"}
+                  {assetNames[a.asset_id] ?? a.asset_id}
                 </h3>
                 <p>
                   {a.bounds.extent_m[2].toFixed(1)} m long ·{" "}
@@ -562,23 +575,18 @@ export default function WorldExplorer() {
                   {a.bounds.extent_m[1].toFixed(1)} m high
                 </p>
                 <button
-                  disabled={!aerodrome || !stats.ready}
+                  disabled={!stats.ready || !spec.instances.some((instance) => instance.asset_id === a.asset_id)}
                   onClick={() => {
                     engine.current?.inspectAsset(a.asset_id);
                     setNavigation("orbit");
                   }}
                 >
-                  Inspect{" "}
-                  {a.asset_id === "f16"
-                    ? "F-16"
-                    : a.asset_id === "rq4"
-                      ? "RQ-4"
-                      : "vehicle"}
+                  Inspect {assetNames[a.asset_id] ?? a.asset_id}
                 </button>
               </article>
             ))}
           </div>
-          {aerodrome && (
+          {site === "aerodrome" && (
             <div className="world-toolbar">
               <span>Visibility fixtures</span>
               {aerodromeFixtures.map((f) => (

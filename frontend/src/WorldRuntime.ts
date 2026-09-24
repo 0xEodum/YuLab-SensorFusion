@@ -9,6 +9,8 @@ import {
   type ChunkLease,
   type RigBookmark,
   type Vec3,
+  HARBOR_GENERATOR,
+  AERODROME_GENERATOR,
 } from "@yulab/world";
 import type { WorldSpec } from "@yulab/contracts";
 import { ChunkWorker } from "./ChunkWorker";
@@ -132,6 +134,10 @@ export class WorldRuntime {
     canvas.setAttribute("aria-label", "World navigation canvas");
     mount.appendChild(canvas);
     this.scene.background = new THREE.Color("#e7e9e4");
+    if (spec.generator_version === HARBOR_GENERATOR) {
+      this.scene.background = new THREE.Color("#c7d7d8");
+      this.scene.fog = new THREE.Fog("#c7d7d8", 430, 720);
+    }
     this.scene.add(
       new THREE.HemisphereLight("#f9f4e4", "#626856", 2),
       this.chunks.root,
@@ -320,7 +326,7 @@ export class WorldRuntime {
         const commit = performance.now();
         try {
           this.chunks.commit(lease.chunks);
-          if (this.assets) {
+          if (this.assets || [HARBOR_GENERATOR, AERODROME_GENERATOR].includes(this.spec.generator_version)) {
             const next = buildAerodromeScene(
               this.spec,
               this.assets,
@@ -392,16 +398,31 @@ export class WorldRuntime {
     this.navigation = "orbit";
     this.controls.enabled = true;
     if (c.type === "aerodrome") {
-      this.controls.target.set(85, 24, 20);
+      const catalogView = this.spec.world_id.startsWith("aerodrome-catalog-");
+      this.controls.target.set(catalogView ? 105 : 85, 24, catalogView ? -75 : 20);
       this.camera.position.set(
-        view === "top" ? 85 : view === "detail" ? 125 : 320,
-        view === "top" ? 380 : view === "detail" ? 65 : 210,
-        view === "top" ? 20.01 : view === "detail" ? 110 : 300,
+        view === "top" ? 85 : view === "detail" ? 125 : catalogView ? 5 : 320,
+        view === "top" ? 380 : view === "detail" ? 65 : catalogView ? 72 : 210,
+        view === "top" ? 20.01 : view === "detail" ? 110 : catalogView ? 45 : 300,
       );
       if (view === "opening") {
         this.camera.position.set(110, 28, 110);
         this.controls.target.set(60, 26, 20);
       }
+      this.controls.update();
+      return;
+    }
+    if (c.type === "harbor") {
+      this.controls.target.set(-15, 10, 0);
+      if (view === "top") this.camera.position.set(-85, 450, 0.01);
+      else if (view === "detail") {
+        this.camera.position.set(-18, 58, 210);
+        this.controls.target.set(-135, 10, 5);
+      }
+      else if (view === "opening") {
+        this.camera.position.set(-55, 18, -185);
+        this.controls.target.set(-150, 12, -30);
+      } else this.camera.position.set(-345, 110, 175);
       this.controls.update();
       return;
     }
@@ -426,6 +447,30 @@ export class WorldRuntime {
       this.camera.position.set(x + 310, 225, z + 350);
       this.controls.target.set(x, 20, z);
     }
+    this.clamp(this.camera.position);
+    this.controls.update();
+  }
+  randomView(index: number, variation: number) {
+    const feature = this.spec.features[index] ?? this.spec.features[0];
+    const target = feature.type === "harbor" ? new THREE.Vector3(-90, 10, 0) :
+      feature.type === "aerodrome" ? new THREE.Vector3(85, 25, 0) :
+        new THREE.Vector3(...feature.center_m);
+    const random = (channel: number) => {
+      let v = (this.spec.seed ^ Math.imul(index + 1, 0x9e3779b1) ^
+        Math.imul(variation + 1, 0x27d4eb2d) ^
+        Math.imul(channel + 1, 0x85ebca6b)) >>> 0;
+      v ^= v >>> 16; v = Math.imul(v, 0x7feb352d); v ^= v >>> 15;
+      v = Math.imul(v, 0x846ca68b); v ^= v >>> 16;
+      return (v >>> 0) / 0x100000000;
+    };
+    const azimuth = random(1) * Math.PI * 2;
+    const radius = 230 + random(2) * 210;
+    const elevation = 0.27 + random(3) * 0.48;
+    this.navigation = "orbit";
+    this.controls.enabled = true;
+    this.controls.target.copy(target);
+    this.camera.position.set(target.x + Math.cos(azimuth) * radius,
+      target.y + radius * elevation, target.z + Math.sin(azimuth) * radius);
     this.clamp(this.camera.position);
     this.controls.update();
   }
@@ -484,7 +529,7 @@ export class WorldRuntime {
       [{ position, range }],
       this.sensorRequest.signal,
       async (chunks) => {
-        const site = this.assets
+        const site = this.assets || [HARBOR_GENERATOR, AERODROME_GENERATOR].includes(this.spec.generator_version)
           ? buildAerodromeScene(
               this.spec,
               this.assets,
@@ -513,11 +558,14 @@ export class WorldRuntime {
     const instance = this.spec.instances.find((i) => i.asset_id === assetId);
     if (!instance) return;
     const t = instance.T_world_from_asset;
-    const distance =
-      assetId === "rq4" ? 48 : assetId === "ground-vehicle" ? 19 : 24;
+    const record = this.assets?.catalog.assets.find((a) => a.asset_id === assetId);
+    const distance = record
+      ? Math.max(22, record.bounds.extent_m[0] * 1.4,
+          record.bounds.extent_m[2] * 0.9)
+      : 24;
     this.navigation = "orbit";
     this.controls.enabled = true;
-    this.controls.target.set(t[3], t[7] + 2, t[11]);
+    this.controls.target.set(t[3], t[7] + (record?.bounds.center_m[1] ?? 2), t[11]);
     this.camera.position.set(
       t[3] + distance,
       t[7] + distance * 0.55,

@@ -1,0 +1,84 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": -1.5472746968269349,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -0.9449999928474426,
+      2.7755575615628914e-17,
+      -0.380344420671463
+    ],
+    [
+      0.9449999928474426,
+      -2.7755575615628914e-17,
+      -0.2196555882692337
+    ],
+    [
+      0.05999999865889549,
+      0.07971765100955963,
+      3.511803388595581
+    ]
+  ],
+  "bounds_min_m": [
+    -10.010000228881836,
+    -2.7755575615628914e-17,
+    -6.010000228881836
+  ],
+  "bounds_max_m": [
+    10.010000228881836,
+    3.40732741355896,
+    5.724999904632568
+  ],
+  "source_bounds_m": {
+    "min": [
+      -10.009999998658895,
+      -1.5472746968269349,
+      -6.01
+    ],
+    "max": [
+      10.009999998658895,
+      1.860052805322997,
+      5.7249999940395355
+    ]
+  },
+  "validation": {
+    "triangles": 2196,
+    "meshes": 69,
+    "max_normal_error": 3.781779978062616e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/Part.tsx",
+      "sha256": "f19338a2156a3199d653f31b689e36f0224fc582bd297b9e05387616f0aa2f83"
+    },
+    {
+      "path": "src/components/Reaper.tsx",
+      "sha256": "5b70c9ce47537c40a743d44f40af1a54428217118582fed3d7cfb4715370812c"
+    },
+    {
+      "path": "src/components/Stores.tsx",
+      "sha256": "4755268f9682efdd5613ff55c7405b8e7ac12c93721d365f2359b8c540402b66"
+    },
+    {
+      "path": "src/lib/airframe.ts",
+      "sha256": "812cd90fadbcd5d1d86be2260a11fcb49fadef1e9513687db83d52adf89a939b"
+    },
+    {
+      "path": "src/lib/geometry.ts",
+      "sha256": "4c91e074408558ecab5625638bc5bdebc8f7e454ea3815dd793f3c0487086060"
+    },
+    {
+      "path": "src/lib/liveries.ts",
+      "sha256": "6e7c17b6ec9a7362720e0fb249a8831a3cfdc5b9fbb9ed742cff85193e10a17d"
+    },
+    {
+      "path": "src/lib/loadout.ts",
+      "sha256": "26e892588e366661bd5d8f45dacd4b6c202d3fa6536e992bf80936fa63a9ed6b"
+    }
+  ]
+}

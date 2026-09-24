@@ -31,6 +31,18 @@ const projects = {
     ],
   },
   "ground-vehicle": { project: "AA/fk-2000-3d-model", files: ["src/model.ts"] },
+  cruiser: { project: "ships/guided-missile-cruiser-model", files: [] },
+  destroyer: { project: "ships/missile-destroyer-model", files: [] },
+  a10: { project: "aircraft/a-10-model", files: [] },
+  f14: { project: "aircraft/f-14-model", files: [] },
+  f16xl: { project: "aircraft/f-16xl-aircraft-3d-model", files: [] },
+  f18: { project: "aircraft/f-18-3d-model", files: [] },
+  f22: { project: "aircraft/f-22-model", files: [] },
+  mq9: { project: "aircraft/mq-9-uav-model", files: [] },
+  su35: { project: "aircraft/su-35-3d-model", files: [] },
+  "complex-radar": { project: "AA/modular-air-defence-complex-model", files: [] },
+  "simulation-radar": { project: "AA/modular-air-defense-simulation", files: [] },
+  spaa: { project: "AA/modular-spaa-3d-model", files: [] },
 };
 const digest = (b) => createHash("sha256").update(b).digest("hex");
 const sourceFiles = new Map();
@@ -75,9 +87,37 @@ const aliases = {
     projects["ground-vehicle"].project,
     "src/model.ts",
   ),
+  "source-cruiser": path.resolve(sourceRoot, projects.cruiser.project, "src/ship/Cruiser.tsx"),
+  "source-cruiser-state": path.resolve(sourceRoot, projects.cruiser.project, "src/ship/state.tsx"),
+  "source-destroyer": path.resolve(sourceRoot, projects.destroyer.project, "src/components/Ship.tsx"),
+  "source-a10": path.resolve(sourceRoot, projects.a10.project, "src/three/A10.tsx"),
+  "source-a10-liveries": path.resolve(sourceRoot, projects.a10.project, "src/three/liveries.ts"),
+  "source-a10-presets": path.resolve(sourceRoot, projects.a10.project, "src/data/stations.ts"),
+  "source-f14": path.resolve(sourceRoot, projects.f14.project, "src/model/Tomcat.tsx"),
+  "source-f14-liveries": path.resolve(sourceRoot, projects.f14.project, "src/model/liveries.ts"),
+  "source-f14-presets": path.resolve(sourceRoot, projects.f14.project, "src/model/loadout.ts"),
+  "source-f16xl": path.resolve(sourceRoot, projects.f16xl.project, "src/components/Aircraft.tsx"),
+  "source-f16xl-liveries": path.resolve(sourceRoot, projects.f16xl.project, "src/three/liveries.ts"),
+  "source-f16xl-presets": path.resolve(sourceRoot, projects.f16xl.project, "src/three/stores.ts"),
+  "source-f18": path.resolve(sourceRoot, projects.f18.project, "src/components/aircraft/Hornet.tsx"),
+  "source-f18-liveries": path.resolve(sourceRoot, projects.f18.project, "src/data/liveries.ts"),
+  "source-f22": path.resolve(sourceRoot, projects.f22.project, "src/components/F22.tsx"),
+  "source-mq9": path.resolve(sourceRoot, projects.mq9.project, "src/components/Reaper.tsx"),
+  "source-mq9-liveries": path.resolve(sourceRoot, projects.mq9.project, "src/lib/liveries.ts"),
+  "source-mq9-presets": path.resolve(sourceRoot, projects.mq9.project, "src/lib/loadout.ts"),
+  "source-su35": path.resolve(sourceRoot, projects.su35.project, "src/components/Su35.tsx"),
+  "source-su35-liveries": path.resolve(sourceRoot, projects.su35.project, "src/lib/liveries.ts"),
+  "source-su35-presets": path.resolve(sourceRoot, projects.su35.project, "src/lib/loadout.ts"),
+  "source-complex-radar": path.resolve(sourceRoot, projects["complex-radar"].project, "src/three/Vehicles.tsx"),
+  "source-complex-scheme": path.resolve(sourceRoot, projects["complex-radar"].project, "src/three/scheme.tsx"),
+  "source-simulation-frame": path.resolve(sourceRoot, projects["simulation-radar"].project, "src/three/vehicles/VehicleFrame.tsx"),
+  "source-simulation-registry": path.resolve(sourceRoot, projects["simulation-radar"].project, "src/three/registry.tsx"),
+  "source-spaa": path.resolve(sourceRoot, projects.spaa.project, "src/scene/SPAAModel.tsx"),
+  "source-spaa-settings": path.resolve(sourceRoot, projects.spaa.project, "src/sim.ts"),
   react: staticReact,
   "react/jsx-runtime": staticReact,
   "@react-three/fiber": staticReact,
+  "@react-three/drei": path.resolve("tools/assets/static-drei.mjs"),
   "three/addons": path.resolve("node_modules/three/examples/jsm"),
   three: path.resolve("node_modules/three"),
 };
@@ -99,10 +139,24 @@ const bundle = await build({
           if (!args.path.startsWith(path.resolve(sourceRoot) + path.sep))
             return;
           const source = sourceFiles.get(args.path);
-          if (source === undefined)
-            throw new Error(`Source dependency not audited: ${args.path}`);
+          let contents = source;
+          if (contents === undefined) {
+            const project = Object.values(projects).find((p) => {
+              const prefix = path.resolve(sourceRoot, p.project, "src") + path.sep;
+              return args.path.startsWith(prefix);
+            });
+            if (!project || ["App.tsx", "main.tsx"].includes(path.basename(args.path)))
+              throw new Error(`Source dependency not audited: ${args.path}`);
+            const bytes = await readFile(args.path);
+            contents = bytes.toString();
+            project.hashes.push({
+              path: path.relative(path.resolve(sourceRoot, project.project), args.path).replaceAll(path.sep, "/"),
+              sha256: digest(bytes),
+            });
+            sourceFiles.set(args.path, contents);
+          }
           // Preserve the source geometry names as semantic provenance without changing vertices.
-          const contents = source.replace(
+          contents = contents.replace(
             /geometry=\{(G|geo)\.(\w+)\}/g,
             (_, obj, key) =>
               `geometry={Object.assign(${obj}.${key}, {name: '${key}'})}`,
@@ -114,6 +168,9 @@ const bundle = await build({
   ],
   logLevel: "warning",
 });
+for (const p of Object.values(projects))
+  if (!p.files.length)
+    p.hashes.sort((a, b) => a.path.localeCompare(b.path, "en"));
 const server = createServer((req, res) => {
   res.setHeader(
     "Content-Type",
@@ -180,7 +237,9 @@ try {
       T_world_from_asset: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
       contact_point_m: [0, 0, 0],
       class_name:
-        result.id === "ground-vehicle" ? "ground_vehicle" : "aircraft",
+        ["cruiser", "destroyer"].includes(result.id) ? "ship" :
+          ["ground-vehicle", "complex-radar", "simulation-radar", "spaa"].includes(result.id)
+            ? "ground_vehicle" : "aircraft",
       bounds: result.bounds,
       parts: result.parts,
       materials: result.materials,

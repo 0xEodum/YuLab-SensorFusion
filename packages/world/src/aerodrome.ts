@@ -28,9 +28,10 @@ export function gradeWeight(f: Feature, x: number, z: number) {
 export function aerodromeWorldSpec(
   seed: number,
   catalog: readonly AssetRecord[],
+  mode: "fixtures" | "catalog" | "background" = "fixtures",
 ): WorldSpec {
   const spec = defaultWorldSpec(seed);
-  spec.world_id = `aerodrome-${seed}`;
+  spec.world_id = mode === "fixtures" ? `aerodrome-${seed}` : `aerodrome-${mode}-${seed}`;
   spec.generator_version = AERODROME_GENERATOR;
   spec.field_version = AERODROME_FIELD;
   // The pad and a broad shoulder reserve the site from volumetric landmarks.
@@ -46,6 +47,7 @@ export function aerodromeWorldSpec(
     extent_m: [448, 8, 1280],
     seed,
   });
+  if (mode === "background") return spec;
   const add = (
     id: string,
     assetId: string,
@@ -85,6 +87,22 @@ export function aerodromeWorldSpec(
     });
   };
   const jitter = (channel: number) => (hash(0, channel, 0, seed) - 0.5) * 8;
+  if (mode === "catalog") {
+    const choose = (ids: string[], count: number, channel: number) =>
+      [...ids].sort((a, b) => {
+        const score = (id: string) => [...id].reduce((n, ch) => n * 31 + ch.charCodeAt(0), 7) >>> 0;
+        return hash(score(a), channel, 0, seed) - hash(score(b), channel, 0, seed);
+      }).slice(0, count);
+    const aircraft = choose(["f16", "rq4", "a10", "f14", "f16xl", "f18", "mq9", "su35"], 4, 211);
+    const vehicles = choose(["ground-vehicle", "complex-radar", "simulation-radar", "spaa"], 2, 212);
+    aircraft.forEach((id, i) => add(`catalog-air-${i}`, id,
+      25 + i * 55 + jitter(220 + i), -88 + jitter(230 + i),
+      jitter(240 + i) * 0.014));
+    vehicles.forEach((id, i) => add(`catalog-ground-${i}`, id,
+      80 + i * 105 + jitter(250 + i), 120 + jitter(260 + i),
+      Math.PI / 2 + jitter(270 + i) * 0.02));
+    return spec;
+  }
   add("clear", "f16", 40 + jitter(101), 70 + jitter(102), jitter(103) * 0.03, "running");
   add("wide", "rq4", 60 + jitter(104), 0 + jitter(105), 0, "idle");
   add("partial", "f16", 180, 50, 0, "idle"); // partial line of sight through the open hangar entrance
@@ -100,7 +118,7 @@ export function aerodromeWorldSpec(
   return spec;
 }
 
-export function aerodromeStructures(): Structure[] {
+export function aerodromeStructures(mode: "fixtures" | "catalog" | "background" = "fixtures"): Structure[] {
   const out: Structure[] = [];
   const box = (
     id: string,
@@ -123,6 +141,21 @@ export function aerodromeStructures(): Structure[] {
   for (const z of [-420, 0, 420]) pavement(`connector-${z}`, -50, z, 60, 16);
   pavement("road", 264, 0, 8, 1100, "#74766c");
   pavement("service-road", 200, 105, 132, 8, "#74766c");
+  if (mode === "catalog") {
+    pavement("catalog-apron-air", 115, -88, 270, 105, "#a3a69c");
+    pavement("catalog-apron-ground", 132, 120, 245, 80, "#a3a69c");
+    for (let i = 0; i < 4; i++)
+      box(`catalog-stand-air-${i}`, "marking", [25 + i * 55, 24.047, -88],
+        [0.25, 0.014, 70], "#e4bb51");
+    for (let x = -15; x <= 245; x += 25)
+      box(`catalog-joint-x-${x}`, "marking", [x, 24.047, -88],
+        [0.09, 0.014, 104], "#858b83");
+    for (let z = -130; z <= -40; z += 22)
+      box(`catalog-joint-z-${z}`, "marking", [115, 24.047, z],
+        [268, 0.014, 0.09], "#858b83");
+    box("catalog-apron-edge", "marking", [115, 24.048, -138],
+      [267, 0.014, 0.28], "#ead8a9");
+  }
   for (let z = -560; z <= 560; z += 40)
     box(
       `centerline-${z}`,

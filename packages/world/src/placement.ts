@@ -28,6 +28,8 @@ export function chunkPlacements(w: World, c: ChunkCoord): Placement[] {
       if (
         w.spec.features.some(
           (f) => f.type === "aerodrome" && gradeWeight(f, x, z) > 0,
+        ) || w.spec.features.some(
+          (f) => f.type === "harbor" && x < 330 && Math.abs(z) < 420,
         )
       )
         continue;

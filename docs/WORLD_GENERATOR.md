@@ -33,8 +33,8 @@ world. Unknown generator/field versions fail explicitly.
 - Seed zero is valid; seeds are uint32. No truthy fallback or global RNG is used.
 - World IDs are limited to 64 characters, leaving room for placement IDs within
   the wire contract's 96-character limit. Feature IDs must be unique.
-- Imported asset instances, aerodromes and harbors are rejected until their
-  implementation stages. The backend still implements only health/capabilities;
+- Imported asset instances, aerodromes and harbors require their declared
+  generator/field versions. The backend still implements only health/capabilities;
   this local package does not advertise an implemented world-job API.
 
 ## Field, biomes and features
@@ -61,7 +61,7 @@ each supported form. Feature centers and full XYZ extents remain explicit in
 | canyon | Warped arch/ring, asymmetric abutments and shelves, through-tunnel and enclosed cavity |
 | alpine | Three overlapping, seed-shifted ridge/peak volumes with amplified surface breakup |
 | islands | Three overlapping highland outcrops with overhangs above continuous ground |
-| coast | Irregular rounded bluff/mesa and stacks; water/harbor simulation remains SF-09 |
+| coast | Irregular rounded bluff/mesa and stacks; the separate SF-09 harbor profile adds water and port geometry |
 
 Dimensions are 64..256 m per axis and must fit the domain with 8 m vertical
 clearance. Lower bounds retain multiple samples through supported openings.

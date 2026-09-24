@@ -1,0 +1,68 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": -2.280000011920929,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -1.409999966621399,
+      0.04019239544868469,
+      -1.5499999523162842
+    ],
+    [
+      1.409999966621399,
+      0.04019239544868469,
+      -1.25
+    ],
+    [
+      0.20000000298023224,
+      0.04679493606090546,
+      5.5
+    ]
+  ],
+  "bounds_min_m": [
+    -5.911038875579834,
+    0,
+    -9.425000190734863
+  ],
+  "bounds_max_m": [
+    5.911038875579834,
+    5.32220983505249,
+    9.574999809265137
+  ],
+  "source_bounds_m": {
+    "min": [
+      -5.9110390475392345,
+      -2.280000011920929,
+      -9.425
+    ],
+    "max": [
+      5.9110390475392345,
+      3.0422096252441406,
+      9.57500001192093
+    ]
+  },
+  "validation": {
+    "triangles": 2648,
+    "meshes": 43,
+    "max_normal_error": 4.090652427901631e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/aircraft/Hornet.tsx",
+      "sha256": "27429d82886c3f95db2a763ca43259775f4e3310b65e8650896443f48fec4317"
+    },
+    {
+      "path": "src/data/liveries.ts",
+      "sha256": "83c2f7f097c4a50ae5d9f0ec595d82e9eb2195f013d3c0bf62e7eb22d2587488"
+    },
+    {
+      "path": "src/lib/geometry.ts",
+      "sha256": "d17ed247b628046d679ed88d96d22c037af03408fa3f8914a35e3a0bddd8fd6a"
+    }
+  ]
+}

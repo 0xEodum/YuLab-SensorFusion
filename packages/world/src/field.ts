@@ -6,6 +6,7 @@ import {
   AERODROME_FIELD,
   gradeWeight,
 } from "./aerodrome.ts";
+import { HARBOR_GENERATOR, HARBOR_FIELD, harborHeight } from "./harbor.ts";
 
 export const GENERATOR_VERSION = "connected-world.v2";
 export const FIELD_VERSION = "connected-field.v2";
@@ -196,9 +197,10 @@ function featureDensity(f: Feature, wx: number, wy: number, wz: number) {
 export function createWorld(input: WorldSpec): World {
   validatePayload("WorldSpec", input);
   const aerodrome = input.generator_version === AERODROME_GENERATOR;
-  if (input.generator_version !== GENERATOR_VERSION && !aerodrome)
+  const harbor = input.generator_version === HARBOR_GENERATOR;
+  if (input.generator_version !== GENERATOR_VERSION && !aerodrome && !harbor)
     throw new Error("Unsupported generator_version");
-  if (input.field_version !== (aerodrome ? AERODROME_FIELD : FIELD_VERSION))
+  if (input.field_version !== (aerodrome ? AERODROME_FIELD : harbor ? HARBOR_FIELD : FIELD_VERSION))
     throw new Error("Unsupported field_version");
   if (input.world_id.length > 64)
     throw new Error("world_id must be at most 64 characters for placement IDs");
@@ -216,8 +218,8 @@ export function createWorld(input: WorldSpec): World {
     )
       throw new Error("world exceeds verified extent/coordinate limits");
   }
-  if (input.instances.length && !aerodrome)
-    throw new Error("asset instances require aerodrome-world.v1");
+  if (input.instances.length && !aerodrome && !harbor)
+    throw new Error("asset instances require a site world");
   const instanceIds = new Set<string>();
   for (const i of input.instances) {
     if (instanceIds.has(i.instance_id))
@@ -250,6 +252,8 @@ export function createWorld(input: WorldSpec): World {
     input.features.filter((f) => f.type === "aerodrome").length !== 1
   )
     throw new Error("aerodrome profile requires one graded site");
+  if (harbor && input.features.filter((f) => f.type === "harbor").length !== 1)
+    throw new Error("harbor profile requires one shoreline site");
   const ids = new Set<string>();
   for (const f of input.features) {
     if (ids.has(f.id)) throw new Error(`duplicate feature id: ${f.id}`);
@@ -268,6 +272,12 @@ export function createWorld(input: WorldSpec): World {
             input.origin_m[axis] + input.extent_m[axis]
         )
           throw new Error("aerodrome grading outside world extent");
+      continue;
+    }
+    if (harbor && f.type === "harbor") {
+      if (f.id !== "harbor" || JSON.stringify(f.center_m) !== "[64,14,0]" ||
+          JSON.stringify(f.extent_m) !== "[512,8,768]")
+        throw new Error("unsupported harbor shoreline layout");
       continue;
     }
     if (!["canyon", "alpine", "islands", "coast"].includes(f.type))
@@ -297,14 +307,17 @@ export function createWorld(input: WorldSpec): World {
   }
   freeze(spec);
   const pad = spec.features.find((f) => f.type === "aerodrome");
+  const port = spec.features.find((f) => f.type === "harbor");
   const baseHeight = (x: number, z: number) => {
+    if (port) return harborHeight(x, z, spec.seed);
     const h = terrainHeight(x, z, spec.seed);
     return pad ? mix(h, pad.center_m[1], gradeWeight(pad, x, z)) : h;
   };
   const density = (x: number, y: number, z: number) => {
     let d = baseHeight(x, z) - y;
     for (const f of spec.features)
-      if (f.type !== "aerodrome") d = Math.max(d, featureDensity(f, x, y, z));
+      if (f.type !== "aerodrome" && f.type !== "harbor")
+        d = Math.max(d, featureDensity(f, x, y, z));
     if (pad) d = mix(d, baseHeight(x, z) - y, gradeWeight(pad, x, z));
     return d;
   };

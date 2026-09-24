@@ -5,6 +5,10 @@ import type { AssetRecord, WorldSpec } from "@yulab/contracts";
 import { validatePayload } from "@yulab/contracts/validate";
 import {
   aerodromeStructures,
+  harborStructures,
+  harborShoreX,
+  HARBOR_GENERATOR,
+  HARBOR_WATER_Y,
   type ChunkCoord,
   type Structure,
 } from "@yulab/world";
@@ -23,7 +27,9 @@ export function validateCatalog(value: unknown): Catalog {
     if (record.mesh.sha256 !== record.content_sha256)
       throw new Error(`${record.asset_id}: inconsistent mesh identity`);
   }
-  for (const id of ["f16", "rq4", "ground-vehicle"])
+  for (const id of ["f16", "rq4", "ground-vehicle", "cruiser", "destroyer",
+    "a10", "f14", "f16xl", "f18", "f22", "mq9", "su35",
+    "complex-radar", "simulation-radar", "spaa"])
     if (!ids.has(id))
       throw new Error(`${id}: required catalog record is missing`);
   return c;
@@ -204,7 +210,7 @@ const intersects = (
 /** Same geometry for display and sensor residency. Membership uses bounds, never camera/frustum. */
 export function buildAerodromeScene(
   spec: WorldSpec,
-  library: AssetLibrary,
+  library: AssetLibrary | null,
   coords: ChunkCoord[],
 ) {
   const root = new THREE.Group(),
@@ -224,7 +230,9 @@ export function buildAerodromeScene(
     root.add(mesh);
     owned.push(mesh);
   };
-  for (const s of aerodromeStructures()) {
+  for (const s of spec.generator_version === HARBOR_GENERATOR
+    ? harborStructures() : aerodromeStructures(
+      spec.world_id.startsWith("aerodrome-catalog-") ? "catalog" : "fixtures")) {
     if (s.kind === "pavement" || s.kind === "marking") {
       // Clip the long runway and roads to loaded terrain; no floating distant pavement.
       for (const c of coords) {
@@ -246,8 +254,51 @@ export function buildAerodromeScene(
     )
       add(s);
   }
+  if (spec.generator_version === HARBOR_GENERATOR) {
+      const positions: number[] = [], colors: number[] = [];
+      const color = new THREE.Color();
+      const vertex = (x: number, z: number) => {
+        const shore = harborShoreX(z, spec.seed) - 3;
+        const px = Math.min(x, shore);
+        const wave = Math.sin(px * 0.115 + z * 0.075) * 0.032 +
+          Math.sin(px * 0.032 - z * 0.09) * 0.024;
+        positions.push(px, HARBOR_WATER_Y + wave, z);
+        const tone = 0.5 + 0.5 * Math.sin(px * 0.051 + z * 0.083);
+        const foam = Math.max(0, 1 - (shore - px) / 15) *
+          (0.35 + 0.65 * Math.sin(z * 0.12 + px * 0.06) ** 2);
+        color.setRGB(0.045 + tone * 0.018 + foam * 0.12,
+          0.165 + tone * 0.024 + foam * 0.13,
+          0.205 + tone * 0.028 + foam * 0.11, THREE.LinearSRGBColorSpace);
+        colors.push(color.r, color.g, color.b);
+      };
+      // Water is a world-wide environmental surface, independent of terrain
+      // display residency. A 16 m pitch keeps its distant horizon continuous.
+      for (let x0 = spec.origin_m[0]; x0 < 96; x0 += 16)
+        for (let z0 = spec.origin_m[2]; z0 < spec.origin_m[2] + spec.extent_m[2]; z0 += 16) {
+        const x1 = x0 + 16, z1 = z0 + 16;
+        if (x0 >= Math.max(harborShoreX(z0, spec.seed),
+          harborShoreX(z1, spec.seed))) continue;
+        vertex(x0, z0); vertex(x1, z0); vertex(x1, z1);
+        vertex(x0, z0); vertex(x1, z1); vertex(x0, z1);
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      geometry.computeVertexNormals();
+      const material = new THREE.MeshStandardMaterial({
+        vertexColors: true, roughness: 0.38, metalness: 0.08,
+        side: THREE.DoubleSide,
+      });
+      const water = new THREE.Mesh(geometry, material);
+      water.name = "harbor-water";
+      water.receiveShadow = true;
+      water.userData = { background: true, lidar_class: "water" };
+      root.add(water);
+      owned.push(water);
+  }
   const ids: string[] = [];
   for (const instance of spec.instances) {
+    if (!library) throw new Error("catalog: required for asset world");
     const record = library.catalog.assets.find(
       (a) => a.asset_id === instance.asset_id,
     )!;

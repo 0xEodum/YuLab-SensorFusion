@@ -1,0 +1,100 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": 0,
+  "source_ground_y": -0.02500000037252903,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -1.7799999713897705,
+      0.06805555522441864,
+      -3.07361102104187
+    ],
+    [
+      1.7799999713897705,
+      0.06805555522441864,
+      3.07361102104187
+    ],
+    [
+      1.7799999713897705,
+      0.06805555522441864,
+      3.07361102104187
+    ]
+  ],
+  "bounds_min_m": [
+    -3.055000066757202,
+    0,
+    -3.924999952316284
+  ],
+  "bounds_max_m": [
+    3.055000066757202,
+    4.545326232910156,
+    5.005000114440918
+  ],
+  "source_bounds_m": {
+    "min": [
+      -3.055000000372529,
+      -0.02500000037252903,
+      -3.9250000003725294
+    ],
+    "max": [
+      3.055000000372529,
+      4.520326136008458,
+      5.005000011920929
+    ]
+  },
+  "validation": {
+    "triangles": 21052,
+    "meshes": 344,
+    "max_normal_error": 3.922925118082787e-8
+  },
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/scene/helpers.ts",
+      "sha256": "97baddf7d1e2730a6abba4caa6ba3e47abe42894b39457a85086f8af5a196ba0"
+    },
+    {
+      "path": "src/scene/Hull.tsx",
+      "sha256": "77a95cd401f9dd42607747a05533555ac477e9b5afeb593cdab1288a4e26cd4c"
+    },
+    {
+      "path": "src/scene/Label.tsx",
+      "sha256": "f9dd262e4a116e3ce606bed9aa9ba9ebf2b4483a0927db728533b4ec83c059e7"
+    },
+    {
+      "path": "src/scene/parts/Common.tsx",
+      "sha256": "6aec74b32c1b3c0e7cf449115d092a5d90739058780408a6280f2837741b44fd"
+    },
+    {
+      "path": "src/scene/parts/Weapons.tsx",
+      "sha256": "790887258815fddaf4ef2da2c8a12288d812b1ad60ef9534def53f5335edeca1"
+    },
+    {
+      "path": "src/scene/SceneContext.tsx",
+      "sha256": "680e37bc734635db27edf5bac1cce3f73646e2b37d662b117a0aa20c85652ea9"
+    },
+    {
+      "path": "src/scene/SPAAModel.tsx",
+      "sha256": "5b1b5ee619173e6f813a84b8b8d6ece331e04349d2c8524ecd3ce16fa5f80f75"
+    },
+    {
+      "path": "src/scene/turrets/CombinedTurret.tsx",
+      "sha256": "4bd99e0ffa40486d6114c696c5e4cb9ea47f561102aa97c8f4877eda8b1a02b0"
+    },
+    {
+      "path": "src/scene/turrets/GunTurret.tsx",
+      "sha256": "4bb96feebc42bcb9943a6ca73c96194c8f91cf2a5c2cb5dbf10cef33fb74f511"
+    },
+    {
+      "path": "src/scene/turrets/MissileTurret.tsx",
+      "sha256": "07165ee0b21d4a7ffc86793d93059d6dc87633b21e618954a793cde91d1402dc"
+    },
+    {
+      "path": "src/sim.ts",
+      "sha256": "d3263985499ed6d61c2503ee3f1dce3ad8f9b615628db856fae1ede3cd85706e"
+    }
+  ]
+}

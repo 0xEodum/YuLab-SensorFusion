@@ -1,0 +1,72 @@
+{
+  "version": "asset-import.v1",
+  "axes": "+X left, +Y up, +Z forward",
+  "source_yaw_rad": -1.5707963267948966,
+  "source_ground_y": -1.0000000262260436,
+  "scale_m_per_source_unit": 1,
+  "contacts_m": [
+    [
+      -2.049799919128418,
+      0.01720001921057701,
+      2.5999999046325684
+    ],
+    [
+      2.049799919128418,
+      0.01720001921057701,
+      0.4000000059604645
+    ],
+    [
+      1,
+      0.04000004753470421,
+      3.4000000953674316
+    ]
+  ],
+  "bounds_min_m": [
+    -6.800000190734863,
+    -1.1102230246251565e-16,
+    -12.25
+  ],
+  "bounds_max_m": [
+    6.800000190734863,
+    4.213021755218506,
+    9.699999809265137
+  ],
+  "source_bounds_m": {
+    "min": [
+      -12.250000023841858,
+      -1.0000000262260436,
+      -6.800000190734863
+    ],
+    "max": [
+      9.699999809265137,
+      3.213021790954603,
+      6.800000190734863
+    ]
+  },
+  "validation": {
+    "triangles": 5760,
+    "meshes": 192,
+    "max_normal_error": 3.961476269243036e-8
+  },
+  "frozen_pose": "Static flight pose; source has no landing gear, so this model is catalog-only and not parked on the airfield",
+  "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
+  "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
+  "source_files": [
+    {
+      "path": "src/components/F22.tsx",
+      "sha256": "84a98aec04b2e606bdef18a591cd4cf368335937d459114c9f3af6bc429539fb"
+    },
+    {
+      "path": "src/components/Weapons.tsx",
+      "sha256": "e1f51e6c5b85d6ba34ef88d340d913852f91c742519b1e01b7ee5241fd0f99b7"
+    },
+    {
+      "path": "src/three/airframe.ts",
+      "sha256": "8438824840eb2a848e3eae24d9814ebf613a859efdae9da850ebe8d4c0da8b2a"
+    },
+    {
+      "path": "src/three/loft.ts",
+      "sha256": "5e94061d86be94007f60c86d35a6975733ddb166e3336e602fc7a418e3404544"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import {
   createWorld,
   defaultWorldSpec,
   aerodromeWorldSpec,
+  harborWorldSpec,
   chunkCoordinates,
   meshChunk,
   chunkPlacements,
@@ -20,7 +21,7 @@ const sha = (data: string | ArrayBufferView) =>
     )
     .digest("hex");
 const key = (x: number, z: number) => `${x},${z}`;
-function inspect(m: ChunkMesh) {
+function inspect(m: ChunkMesh, minHeight = 0) {
   const p = m.positions,
     ox = m.coord.x * 128,
     oz = m.coord.z * 128;
@@ -113,21 +114,23 @@ function inspect(m: ChunkMesh) {
     top.every(Number.isFinite),
     `terrain hole in chunk ${key(m.coord.x, m.coord.z)}`,
   );
-  assert.ok(top.every((y) => y > 0 && y < 96));
+  assert.ok(top.every((y) => y > minHeight && y < 96));
   return sides.map((s) => sha(JSON.stringify([...s].sort())));
 }
 
 const aerodrome = process.argv.includes("--aerodrome");
-const catalog = aerodrome
+const harbor = process.argv.includes("--harbor");
+if (aerodrome && harbor) throw new Error("Select one world profile");
+const catalog = aerodrome || harbor
   ? JSON.parse(readFileSync("frontend/public/catalog/catalog.json", "utf8"))
       .assets
   : [];
-const output = aerodrome ? "artifacts/sf04" : "artifacts/sf02r";
+const output = harbor ? "artifacts/sf09" : aerodrome ? "artifacts/sf04" : "artifacts/sf02r";
+const specFor = (seed: number) => harbor ? harborWorldSpec(seed, catalog) :
+  aerodrome ? aerodromeWorldSpec(seed, catalog) : defaultWorldSpec(seed);
 for (const seed of [0, 48291]) {
   const started = performance.now();
-  const world = createWorld(
-      aerodrome ? aerodromeWorldSpec(seed, catalog) : defaultWorldSpec(seed),
-    ),
+  const world = createWorld(specFor(seed)),
     coords = chunkCoordinates(world);
   const records: Record<
     string,
@@ -146,7 +149,7 @@ for (const seed of [0, 48291]) {
     const geometry = sha(
       `${sha(m.positions)}:${sha(m.normals)}:${sha(m.colors)}`,
     );
-    const boundary = inspect(m);
+    const boundary = inspect(m, harbor ? -32 : 0);
     records[key(c.x, c.z)] = {
       geometry,
       placements: sha(JSON.stringify(placements)),
@@ -175,9 +178,7 @@ for (const seed of [0, 48291]) {
     }
   }
   // Recreate the world and request chunks in a different, deterministic shuffled order.
-  const replay = createWorld(
-    aerodrome ? aerodromeWorldSpec(seed, catalog) : defaultWorldSpec(seed),
-  );
+  const replay = createWorld(specFor(seed));
   const shuffled = [...coords].sort((a, b) =>
     sha(key(a.x, a.z)).localeCompare(sha(key(b.x, b.z))),
   );
@@ -195,7 +196,8 @@ for (const seed of [0, 48291]) {
     if (i % 64 === 63) console.log(`Replayed ${i + 1}/256 chunks`);
   }
   const report = {
-    profile: aerodrome ? "sf04-aerodrome-world.v1" : "sf02r-connected-world.v2",
+    profile: harbor ? "sf09-harbor-world.v1" :
+      aerodrome ? "sf04-aerodrome-world.v1" : "sf02r-connected-world.v2",
     seed,
     extent_m: world.spec.extent_m,
     chunk_size_m: 128,

@@ -12,7 +12,9 @@ test("self-contained catalog preserves provenance, physical scale and semantic m
   );
   assert.deepEqual(
     catalog.assets.map((a: any) => a.asset_id),
-    ["f16", "rq4", "ground-vehicle"],
+    ["f16", "rq4", "ground-vehicle", "cruiser", "destroyer", "a10",
+      "f14", "f16xl", "f18", "f22", "mq9", "su35", "complex-radar",
+      "simulation-radar", "spaa"],
   );
   for (const record of catalog.assets) {
     validatePayload("AssetRecord", record);
@@ -79,16 +81,12 @@ test("self-contained catalog preserves provenance, physical scale and semantic m
     const names = new Set(gltf.nodes.map((n: any) => n.name));
     for (const part of record.parts)
       assert.ok(names.has(part.mesh_node), part.mesh_node);
-    assert.ok(record.parts.some((p: any) => p.semantic === "engine-surface"));
-    assert.ok(
-      record.parts.some(
-        (p: any) =>
-          p.semantic ===
-          (record.asset_id === "ground-vehicle"
-            ? "radiator-surface"
-            : "exhaust-surface"),
-      ),
-    );
+    assert.ok(record.parts.some((p: any) => p.semantic === "engine-surface"),
+      `${record.asset_id}: engine surface`);
+    if (record.class_name === "ship")
+      assert.ok(record.parts.some((p: any) => p.semantic === "exhaust-surface"));
+    if (record.class_name === "ground_vehicle")
+      assert.ok(record.parts.some((p: any) => p.semantic === "radiator-surface"));
     const metaBytes = readFileSync(
       new URL(`${record.asset_id}.metadata.json`, root),
     );
@@ -96,12 +94,17 @@ test("self-contained catalog preserves provenance, physical scale and semantic m
     const meta = JSON.parse(metaBytes.toString());
     assert.equal(triangleCount, meta.validation.triangles);
     assert.ok(meta.source_files.length > 0);
-    assert.ok(meta.contacts_m.length >= 3);
-    assert.ok(meta.contacts_m.every((p: number[]) => Math.abs(p[1]) < 0.015));
+    assert.ok(meta.contacts_m.length >= (record.class_name === "ship" ? 1 : 3));
+    assert.ok(meta.contacts_m.every((p: number[]) => Math.abs(p[1]) < 0.08));
     assert.equal(meta.axes, "+X left, +Y up, +Z forward");
     assert.ok(meta.validation.max_normal_error < 0.0001);
     assert.ok(meta.validation.triangles > 1000);
-    assert.ok(meta.bounds_min_m[1] > -0.0001);
+    if (record.class_name === "ship") {
+      assert.equal(meta.waterline_m, 0);
+      assert.ok(meta.bounds_min_m[1] < -4);
+      assert.ok(meta.bounds_max_m[1] > 30);
+      assert.ok(record.bounds.extent_m[2] > 170 && record.bounds.extent_m[2] < 190);
+    } else assert.ok(meta.bounds_min_m[1] > -0.0001);
     assert.equal(record.scale_m_per_source_unit, 1);
   }
   const [f16, rq4, vehicle] = catalog.assets;

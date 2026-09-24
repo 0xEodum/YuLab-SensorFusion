@@ -99,6 +99,25 @@ test("catalog surfaces carry implemented thermal metadata and powered exterior r
   }
 });
 
+test("every imported asset has an operating-state thermal fixture", () => {
+  for (const asset of catalog.assets) {
+    const temperatures = (["off", "idle", "running"] as const).map((mode) => {
+      const spec = world(mode);
+      spec.instances[0].asset_id = asset.asset_id;
+      spec.instances[0].asset_sha256 = asset.content_sha256;
+      const nodes = initializeThermalState(spec, catalog.assets, environment()).nodes;
+      assert.ok(nodes.length >= 2, asset.asset_id);
+      assert.ok(nodes.every((node) => Number.isFinite(node.temperature_k)), asset.asset_id);
+      return nodes.filter((node) => /engine|exhaust|radiator/.test(node.region_id))
+        .map((node) => node.temperature_k);
+    });
+    assert.ok(temperatures[0].length > 0, asset.asset_id);
+    assert.ok(temperatures[0].every((value, i) =>
+      value < temperatures[1][i] && temperatures[1][i] < temperatures[2][i]),
+    `${asset.asset_id}: powered surfaces must warm monotonically`);
+  }
+});
+
 test("simple surface equilibrium and fixed steps have the correct energy direction", () => {
   const node = {
     emissivity: 0.9,

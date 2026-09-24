@@ -1,0 +1,237 @@
+{
+  "views": [
+    {
+      "name": "harbor-oblique",
+      "templates": 2,
+      "instances": 2,
+      "triangles": 73904,
+      "renderer": {
+        "geometries": 615,
+        "textures": 4,
+        "calls": 616,
+        "triangles": 137400
+      }
+    },
+    {
+      "name": "harbor-detail",
+      "templates": 2,
+      "instances": 2,
+      "triangles": 73728,
+      "renderer": {
+        "geometries": 582,
+        "textures": 4,
+        "calls": 581,
+        "triangles": 136804
+      }
+    },
+    {
+      "name": "harbor-ground",
+      "templates": 2,
+      "instances": 2,
+      "triangles": 73728,
+      "renderer": {
+        "geometries": 580,
+        "textures": 4,
+        "calls": 578,
+        "triangles": 136768
+      }
+    },
+    {
+      "name": "cruiser",
+      "templates": 2,
+      "instances": 2,
+      "triangles": 73728,
+      "renderer": {
+        "geometries": 586,
+        "textures": 4,
+        "calls": 555,
+        "triangles": 136340
+      }
+    },
+    {
+      "name": "destroyer",
+      "templates": 2,
+      "instances": 2,
+      "triangles": 73728,
+      "renderer": {
+        "geometries": 584,
+        "textures": 4,
+        "calls": 583,
+        "triangles": 136828
+      }
+    },
+    {
+      "name": "airfield-mix",
+      "templates": 6,
+      "instances": 6,
+      "triangles": 73728,
+      "renderer": {
+        "geometries": 655,
+        "textures": 11,
+        "calls": 290,
+        "triangles": 105000
+      }
+    },
+    {
+      "name": "harbor-empty",
+      "templates": 0,
+      "instances": 0,
+      "triangles": 73904,
+      "renderer": {
+        "geometries": 76,
+        "textures": 3,
+        "calls": 76,
+        "triangles": 92280
+      }
+    }
+  ],
+  "visibility": [
+    {
+      "asset": "cruiser",
+      "isolated": 237,
+      "visible": 217,
+      "fraction": 0.9156118143459916
+    },
+    {
+      "asset": "destroyer",
+      "isolated": 261,
+      "visible": 234,
+      "fraction": 0.896551724137931
+    },
+    {
+      "asset": "mq9",
+      "isolated": 6,
+      "visible": 6,
+      "fraction": 1
+    },
+    {
+      "asset": "f18",
+      "isolated": 180,
+      "visible": 180,
+      "fraction": 1
+    },
+    {
+      "asset": "su35",
+      "isolated": 155,
+      "visible": 155,
+      "fraction": 1
+    },
+    {
+      "asset": "f16xl",
+      "isolated": 144,
+      "visible": 144,
+      "fraction": 1
+    },
+    {
+      "asset": "ground-vehicle",
+      "isolated": 510,
+      "visible": 510,
+      "fraction": 1
+    },
+    {
+      "asset": "spaa",
+      "isolated": 394,
+      "visible": 394,
+      "fraction": 1
+    }
+  ],
+  "errors": [],
+  "sensor_scene": {
+    "keys": [
+      "-3,-1@2",
+      "-3,0@2",
+      "-2,-2@2",
+      "-2,-1@2",
+      "-2,0@2",
+      "-2,1@2",
+      "-1,-2@2",
+      "-1,-1@2",
+      "-1,0@2",
+      "-1,1@2"
+    ],
+    "pitch": 2,
+    "ids": [
+      "harbor-mixed-0-cruiser-1",
+      "harbor-mixed-0-destroyer-2"
+    ],
+    "structures": [
+      "pier-0",
+      "pier-0",
+      "pier-edge-0",
+      "pier-edge-0",
+      "pier-pile-0--145-a",
+      "pier-pile-0--145-b",
+      "pier-bollard-0--145",
+      "pier-pile-0--85-a",
+      "pier-pile-0--85-b",
+      "pier-bollard-0--85",
+      "pier-pile-0--25-a",
+      "pier-pile-0--25-b",
+      "pier-bollard-0--25",
+      "pier-1",
+      "pier-1",
+      "pier-1",
+      "pier-1",
+      "pier-edge-1",
+      "pier-edge-1",
+      "pier-pile-1--145-a",
+      "pier-pile-1--145-b",
+      "pier-bollard-1--145",
+      "pier-pile-1--85-a",
+      "pier-pile-1--85-b",
+      "pier-bollard-1--85",
+      "pier-pile-1--25-a",
+      "pier-pile-1--25-b",
+      "pier-bollard-1--25",
+      "pier-2",
+      "pier-2",
+      "pier-edge-2",
+      "pier-edge-2",
+      "pier-pile-2--145-a",
+      "pier-pile-2--145-b",
+      "pier-bollard-2--145",
+      "pier-pile-2--85-a",
+      "pier-pile-2--85-b",
+      "pier-bollard-2--85",
+      "pier-pile-2--25-a",
+      "pier-pile-2--25-b",
+      "pier-bollard-2--25",
+      "breakwater--1",
+      "breakwater-cap--1",
+      "breakwater-cap--1",
+      "breakwater-1",
+      "breakwater-cap-1",
+      "breakwater-cap-1",
+      "gantry-boom--225",
+      "gantry-cable--225",
+      "gantry-boom--70",
+      "gantry-cable--70",
+      "gantry-boom-80",
+      "gantry-cable-80",
+      "gantry-boom-225",
+      "gantry-cable-225",
+      "harbor-water"
+    ]
+  },
+  "random_views": [
+    [
+      47.77560851526803,
+      139.544871647321,
+      252.52422596322586
+    ],
+    [
+      -228.11372847859775,
+      126.24662648264778,
+      -192.33456970495394
+    ]
+  ],
+  "screenshots_sha256": {
+    "harbor-oblique": "8e64362fa931fc4aa600677816ebd36e4802400ef96e0da46a2c4966422d3c4b",
+    "harbor-detail": "54877bd3a20dcf6174039582593ed20516b6928396e19d73125e901e54d189b7",
+    "harbor-ground": "14af726bac974bdfe462a9d4505dfa515d12c035516543ceb582ca061e24608e",
+    "cruiser": "5ecbebd3deca890da8df210772d8cad5250e26a1bfd63af647b8ef7232cfe20a",
+    "destroyer": "aa72e9487d124e275858a69ba583083702fa0013016bc34ab596628ec0865703",
+    "airfield-mix": "e64877503638f3a803869e03c665a0152318d20d6483ee5e7dd256db90df7c07",
+    "harbor-empty": "56b4ad795c505319f1e57a142660b03976cf038bb7e66942d22914daf87b10e6"
+  }
+}

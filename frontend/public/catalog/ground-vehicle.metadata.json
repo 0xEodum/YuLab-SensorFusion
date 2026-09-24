@@ -73,7 +73,7 @@
     "meshes": 1383,
     "max_normal_error": 3.5888509275494584e-8
   },
-  "frozen_pose": "gear down; engine off; no frame callbacks, stores, projectiles or source app",
+  "frozen_pose": "Parked grounded pose; engine off; no frame callbacks, stores, projectiles or source app",
   "scale_basis": "Authored metre-scale geometry, uniform scale 1; source proportions including probes preserved. Not a certified real-aircraft dimensional model.",
   "thermal_policy": "Named opaque exterior surface nodes use thermal-surface.v1 synthetic coefficients. Interior power couples to engine, exhaust and radiator surfaces; source geometry is not directly visible.",
   "source_files": [

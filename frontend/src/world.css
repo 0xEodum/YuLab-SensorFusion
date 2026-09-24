@@ -117,6 +117,10 @@
   opacity: 0.4;
   cursor: default;
 }
+.world-toolbar button[aria-pressed="true"] {
+  background: #293d3b;
+  box-shadow: inset 0 -3px 0 #b6d1c4;
+}
 .world-toolbar .world-checkbox {
   flex-direction: row;
   align-items: center;

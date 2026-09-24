@@ -31,7 +31,7 @@ test("self-contained catalog, aircraft scale, streamed airfield and real geometr
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/?view=world&site=aerodrome&qa=1");
   await expect(
-    page.getByRole("button", { name: "Open aerodrome" }),
+    page.getByRole("button", { name: "Aerodrome fixtures" }),
   ).toHaveAttribute("aria-pressed", "true");
   await expect
     .poll(
@@ -54,8 +54,8 @@ test("self-contained catalog, aircraft scale, streamed airfield and real geometr
   ).toBeCloseTo(28, 5);
   for (const [name, id] of [
     ["F-16", "f16"],
-    ["RQ-4", "rq4"],
-    ["vehicle", "ground-vehicle"],
+    ["RQ-4 Global Hawk", "rq4"],
+    ["8×8 ground vehicle", "ground-vehicle"],
   ]) {
     await page
       .getByRole("button", { name: `Inspect ${name}`, exact: true })
@@ -100,7 +100,7 @@ test("self-contained catalog, aircraft scale, streamed airfield and real geometr
   expect(
     (await page.evaluate(() => window.worldQA!.metrics())).assetIds,
   ).toHaveLength(0);
-  await page.getByRole("button", { name: "Inspect RQ-4", exact: true }).click();
+  await page.getByRole("button", { name: "Inspect RQ-4 Global Hawk", exact: true }).click();
   await ready(page);
   expect(
     (await page.evaluate(() => window.worldQA!.metrics())).assetIds.sort(),
@@ -111,7 +111,7 @@ test("self-contained catalog, aircraft scale, streamed airfield and real geometr
     await page.evaluate(() => window.worldQA!.moveTo(-600, -700));
     await ready(page);
     await page
-      .getByRole("button", { name: "Inspect RQ-4", exact: true })
+      .getByRole("button", { name: "Inspect RQ-4 Global Hawk", exact: true })
       .click();
     await ready(page);
     const renderer = (await page.evaluate(() => window.worldQA!.metrics()))

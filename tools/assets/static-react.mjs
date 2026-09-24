@@ -10,7 +10,16 @@ export const jsxs = jsx;
 export const useMemo = (build) => build();
 export const useRef = (value) => ({ current: value });
 export const useEffect = () => {};
+export const useLayoutEffect = () => {};
 export const useFrame = () => {};
-export const createContext = (value) => ({ value });
+export const useState = (value) => [typeof value === "function" ? value() : value, () => {}];
+export const createContext = (value) => {
+  const context = { value };
+  context.Provider = ({ value: next, children }) => {
+    context.value = next;
+    return children;
+  };
+  return context;
+};
 export const useContext = (context) => context.value;
 export default { createElement, Fragment };

@@ -38,7 +38,13 @@ export {
   aerodromeStructures,
   aerodromeFixtures,
   gradeWeight,
+  AERODROME_GENERATOR,
+  AERODROME_FIELD,
   PAD_Y,
   SURFACE_Y,
 } from "./aerodrome.ts";
 export type { Structure } from "./aerodrome.ts";
+export {
+  harborWorldSpec, harborStructures, harborShoreX, harborHeight,
+  HARBOR_GENERATOR, HARBOR_FIELD, HARBOR_WATER_Y, HARBOR_QUAY_Y,
+} from "./harbor.ts";
