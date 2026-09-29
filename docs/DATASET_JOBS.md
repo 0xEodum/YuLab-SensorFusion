@@ -1,7 +1,9 @@
 # SF-10 visibility labels and dataset jobs
 
 The capture worker now publishes geometry-only RGB and IR instance-ID passes
-from each saved camera pose. An isolated pass per instance measures its projected
+from each saved camera pose. RGB depth/IDs exclude GLB surfaces declared
+transparent by the importer; the IR pass follows its separate opaque-IR policy.
+An isolated pass per instance measures its projected
 silhouette. Visible masks are exact ID equality on the depth-tested pass, and
 visible boxes are tight half-open rectangles around mask pixels. A target is
 truncated when its raster intersects the frame and any posed mesh vertex lies

@@ -107,6 +107,14 @@ function target(width: number, height: number, type: THREE.TextureDataType) {
   return value;
 }
 
+function rgbOpaque(mesh: THREE.Mesh) {
+  const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+  // The importer records opaque_rgb as !material.transparent. Imported
+  // translucent and invisible planes remain in the GLB for RGB appearance,
+  // but do not write geometric RGB depth or instance labels.
+  return materials.every((material) => !material.transparent);
+}
+
 /** Geometry-only labels. Each camera gets its own depth-tested ID raster. */
 export function renderVisibilityPass(
   renderer: THREE.WebGLRenderer, scene: THREE.Scene, rig: RigSpec,
@@ -121,6 +129,7 @@ export function renderVisibilityPass(
   const priorColor = renderer.outputColorSpace;
   const materials = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
   const visibility = new Map<THREE.Object3D, boolean>();
+  const labelVisibility = new Map<THREE.Mesh, boolean>();
   const idMaterials = new Map<number, THREE.ShaderMaterial>();
   const materialFor = (id: number) => {
     let result = idMaterials.get(id);
@@ -152,6 +161,9 @@ export function renderVisibilityPass(
     visibility.set(object, object.visible);
     if (!shouldCaptureObject(object)) object.visible = false;
     if (object instanceof THREE.Mesh) {
+      const eligible = object.visible && (modality === "ir" || rgbOpaque(object));
+      labelVisibility.set(object, eligible);
+      object.visible = eligible;
       materials.set(object, object.material);
       const index = rootFor(object);
       object.material = materialFor(index + 1);
@@ -180,7 +192,7 @@ export function renderVisibilityPass(
       if (!root) throw new Error(`Missing instance root ${orderedInstanceIds[index]}`);
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh)
-          object.visible = visibility.get(object)! && rootFor(object) === index;
+          object.visible = labelVisibility.get(object)! && rootFor(object) === index;
       });
       const own = read();
       let count = 0;
@@ -238,9 +250,11 @@ export function renderReferencePasses(
   renderer.setClearColor(0x000000, 1);
   scene.updateMatrixWorld(true);
   const visibility = new Map<THREE.Object3D, boolean>();
+  const rgbTransparent = new Set<THREE.Mesh>();
   scene.traverse((object) => {
     visibility.set(object, object.visible);
     if (!shouldCaptureObject(object)) object.visible = false;
+    if (object instanceof THREE.Mesh && !rgbOpaque(object)) rgbTransparent.add(object);
   });
   const restoreVisibility = () => visibility.forEach((value, object) => object.visible = value);
   const rgbTarget = target(width, height, THREE.UnsignedByteType);
@@ -260,6 +274,8 @@ export function renderReferencePasses(
     const rgbBottom = new Uint8Array(width * height * 4);
     renderer.readRenderTargetPixels(rgbTarget, 0, 0, width, height, rgbBottom);
     const rgb = flipRows(rgbBottom, width, height, 4);
+
+    rgbTransparent.forEach((mesh) => mesh.visible = false);
 
     const depthMaterial = new THREE.ShaderMaterial({
       vertexShader: `
