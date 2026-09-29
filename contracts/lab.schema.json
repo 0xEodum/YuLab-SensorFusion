@@ -1240,6 +1240,8 @@
       "additionalProperties": false,
       "properties": {
         "rgb": { "$ref": "#/$defs/Artifact" },
+        "rgb_raw": { "$ref": "#/$defs/Artifact" },
+        "ir_instance": { "$ref": "#/$defs/Artifact" },
         "depth_preview": { "$ref": "#/$defs/Artifact" },
         "instance_preview": { "$ref": "#/$defs/Artifact" },
         "depth": { "$ref": "#/$defs/Artifact" },
@@ -1417,6 +1419,24 @@
           "propertyNames": { "$ref": "#/$defs/Id" },
           "additionalProperties": { "type": "integer", "minimum": 1, "maximum": 16777215 },
           "maxProperties": 100000
+        },
+        "isolated_pixels": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "rgb": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+            "ir": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } }
+          }, "required": ["rgb", "ir"]
+        },
+        "posed_boxes": {
+          "type": "object", "propertyNames": { "$ref": "#/$defs/Id" },
+          "additionalProperties": { "$ref": "#/$defs/Box3" }
+        },
+        "truncated": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "rgb": { "type": "object", "additionalProperties": { "type": "boolean" } },
+            "ir": { "type": "object", "additionalProperties": { "type": "boolean" } }
+          }, "required": ["rgb", "ir"]
         },
         "ir_calibration": {
           "anyOf": [{ "$ref": "#/$defs/IrCalibration" }, { "type": "null" }]

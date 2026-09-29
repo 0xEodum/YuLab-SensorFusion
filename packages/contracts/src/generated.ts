@@ -379,6 +379,25 @@ export interface CaptureResult {
   instance_ids: {
     [k: string]: number;
   };
+  isolated_pixels?: {
+    rgb: {
+      [k: string]: number;
+    };
+    ir: {
+      [k: string]: number;
+    };
+  };
+  posed_boxes?: {
+    [k: string]: Box3;
+  };
+  truncated?: {
+    rgb: {
+      [k: string]: boolean;
+    };
+    ir: {
+      [k: string]: boolean;
+    };
+  };
   ir_calibration: IrCalibration | null;
   lidar_calibration: LidarCalibration | null;
   weather_calibration?: WeatherCalibration;
@@ -496,6 +515,8 @@ export interface WeatherCalibration {
 }
 export interface CaptureArtifacts {
   rgb: Artifact;
+  rgb_raw?: Artifact;
+  ir_instance?: Artifact;
   depth_preview: Artifact;
   instance_preview: Artifact;
   depth: Artifact;

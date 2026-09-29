@@ -292,6 +292,8 @@ class CaptureJobError(TypedDict):
 
 class CaptureArtifacts(TypedDict):
     rgb: Artifact
+    rgb_raw: NotRequired[Artifact]
+    ir_instance: NotRequired[Artifact]
     depth_preview: Artifact
     instance_preview: Artifact
     depth: Artifact
@@ -414,6 +416,16 @@ class WeatherCalibration(TypedDict):
 type ResidentChunk = str
 
 
+class IsolatedPixels(TypedDict):
+    rgb: dict[str, int]
+    ir: dict[str, int]
+
+
+class Truncated(TypedDict):
+    rgb: dict[str, bool]
+    ir: dict[str, bool]
+
+
 class CaptureResult(TypedDict):
     protocol: Literal['capture-worker.v1']
     capture_id: Id
@@ -431,6 +443,9 @@ class CaptureResult(TypedDict):
     gpu_memory_bytes: int | None
     resident_chunks: list[ResidentChunk]
     instance_ids: dict[Id, int]
+    isolated_pixels: NotRequired[IsolatedPixels]
+    posed_boxes: NotRequired[dict[Id, Box3]]
+    truncated: NotRequired[Truncated]
     ir_calibration: IrCalibration | None
     lidar_calibration: LidarCalibration | None
     weather_calibration: NotRequired[WeatherCalibration]

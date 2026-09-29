@@ -1443,6 +1443,12 @@
           "rgb": {
             "$ref": "#/components/schemas/Artifact"
           },
+          "rgb_raw": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "ir_instance": {
+            "$ref": "#/components/schemas/Artifact"
+          },
           "depth_preview": {
             "$ref": "#/components/schemas/Artifact"
           },
@@ -1974,6 +1980,61 @@
               "maximum": 16777215
             },
             "maxProperties": 100000
+          },
+          "isolated_pixels": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rgb": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "ir": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "required": [
+              "rgb",
+              "ir"
+            ]
+          },
+          "posed_boxes": {
+            "type": "object",
+            "propertyNames": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Box3"
+            }
+          },
+          "truncated": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "rgb": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              },
+              "ir": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "required": [
+              "rgb",
+              "ir"
+            ]
           },
           "ir_calibration": {
             "anyOf": [

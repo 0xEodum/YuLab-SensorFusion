@@ -28,6 +28,7 @@ export type ReferenceCapture = {
   width: number;
   height: number;
   rgbPng: string;
+  rgbRaw: Uint8Array;
   depthPreviewPng: string;
   instancePreviewPng: string;
   depth: Float32Array;
@@ -104,6 +105,117 @@ function target(width: number, height: number, type: THREE.TextureDataType) {
   });
   value.texture.generateMipmaps = false;
   return value;
+}
+
+/** Geometry-only labels. Each camera gets its own depth-tested ID raster. */
+export function renderVisibilityPass(
+  renderer: THREE.WebGLRenderer, scene: THREE.Scene, rig: RigSpec,
+  modality: "rgb" | "ir", orderedInstanceIds: readonly string[],
+) {
+  const { camera, capture } = makeCamera(rig, modality);
+  const width = capture.camera.width_px, height = capture.camera.height_px;
+  const renderTarget = target(width, height, THREE.UnsignedByteType);
+  const priorTarget = renderer.getRenderTarget();
+  const priorBackground = scene.background;
+  const priorTone = renderer.toneMapping;
+  const priorColor = renderer.outputColorSpace;
+  const materials = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
+  const visibility = new Map<THREE.Object3D, boolean>();
+  const idMaterials = new Map<number, THREE.ShaderMaterial>();
+  const materialFor = (id: number) => {
+    let result = idMaterials.get(id);
+    if (!result) {
+      const [r, g, b] = encodeInstanceId(id);
+      result = new THREE.ShaderMaterial({
+        vertexShader: `void main() { vec4 p=vec4(position,1.0);
+          #ifdef USE_INSTANCING
+          p=instanceMatrix*p;
+          #endif
+          gl_Position=projectionMatrix*modelViewMatrix*p; }`,
+        fragmentShader: `void main() { gl_FragColor=vec4(${r}.0/255.0,${g}.0/255.0,${b}.0/255.0,1.0); }`,
+        side: THREE.DoubleSide, toneMapped: false,
+      });
+      idMaterials.set(id, result);
+    }
+    return result;
+  };
+  const roots = orderedInstanceIds.map((name) => scene.getObjectByName(name));
+  const rootFor = (object: THREE.Object3D) => {
+    for (let node: THREE.Object3D | null = object; node; node = node.parent) {
+      const index = roots.indexOf(node);
+      if (index >= 0) return index;
+    }
+    return -1;
+  };
+  scene.updateMatrixWorld(true);
+  scene.traverse((object) => {
+    visibility.set(object, object.visible);
+    if (!shouldCaptureObject(object)) object.visible = false;
+    if (object instanceof THREE.Mesh) {
+      materials.set(object, object.material);
+      const index = rootFor(object);
+      object.material = materialFor(index + 1);
+    }
+  });
+  const pixels = new Uint8Array(width * height * 4);
+  const read = () => {
+    renderer.setRenderTarget(renderTarget);
+    renderer.clear(true, true, true);
+    renderer.render(scene, camera);
+    renderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, pixels);
+    const top = flipRows(pixels, width, height, 4);
+    const ids = new Uint32Array(width * height);
+    for (let i = 0; i < ids.length; i++) ids[i] = decodeInstanceId(top.subarray(i * 4, i * 4 + 3));
+    return ids;
+  };
+  try {
+    scene.background = null;
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
+    renderer.toneMapping = THREE.NoToneMapping;
+    const visible = read();
+    const isolated: Record<string, number> = {};
+    const truncated: Record<string, boolean> = {};
+    for (let index = 0; index < roots.length; index++) {
+      const root = roots[index];
+      if (!root) throw new Error(`Missing instance root ${orderedInstanceIds[index]}`);
+      scene.traverse((object) => {
+        if (object instanceof THREE.Mesh)
+          object.visible = visibility.get(object)! && rootFor(object) === index;
+      });
+      const own = read();
+      let count = 0;
+      for (const id of own) if (id === index + 1) count++;
+      isolated[orderedInstanceIds[index]] = count;
+      // The frustum is convex: a mesh lies wholly inside exactly when every
+      // vertex lies inside. Test authored vertices, not an overlarge world AABB.
+      let crossesFrustum = false;
+      if (count) root.traverse((object) => {
+        if (crossesFrustum || !(object instanceof THREE.Mesh)) return;
+        const position = object.geometry.getAttribute("position");
+        if (!position) return;
+        const point = new THREE.Vector3();
+        for (let vertex = 0; vertex < position.count; vertex++) {
+          point.fromBufferAttribute(position, vertex).applyMatrix4(object.matrixWorld).project(camera);
+          if (point.x < -1 || point.x > 1 || point.y < -1 || point.y > 1 ||
+              point.z < -1 || point.z > 1) {
+            crossesFrustum = true;
+            break;
+          }
+        }
+      });
+      truncated[orderedInstanceIds[index]] = crossesFrustum;
+    }
+    return { width, height, visible, isolated, truncated };
+  } finally {
+    materials.forEach((material, mesh) => mesh.material = material);
+    visibility.forEach((value, object) => object.visible = value);
+    idMaterials.forEach((material) => material.dispose());
+    scene.background = priorBackground;
+    renderer.toneMapping = priorTone;
+    renderer.outputColorSpace = priorColor;
+    renderer.setRenderTarget(priorTarget);
+    renderTarget.dispose();
+  }
 }
 
 /** Fixed-rig RGB, metric depth and exact instance-ID passes at one frozen tick. */
@@ -256,11 +368,14 @@ export function renderReferencePasses(
       }
       instancePreview[offset + 3] = 255;
     }
+    const weatherRgb = environment
+      ? applyRgbWeather(rgb, depth, width, height, environment, rgbSeed, weatherSeed) : rgb;
+    const rgbRaw = new Uint8Array(width * height * 3);
+    for (let i = 0; i < width * height; i++) rgbRaw.set(weatherRgb.subarray(i * 4, i * 4 + 3), i * 3);
     return {
       width, height, depth, instance, instanceIds,
-      rgbPng: pngDataUrl(environment
-        ? applyRgbWeather(rgb, depth, width, height, environment, rgbSeed, weatherSeed)
-        : rgb, width, height),
+      rgbRaw,
+      rgbPng: pngDataUrl(weatherRgb, width, height),
       depthPreviewPng: pngDataUrl(depthPreview, width, height),
       instancePreviewPng: pngDataUrl(instancePreview, width, height),
     };

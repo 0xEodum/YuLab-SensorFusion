@@ -16,7 +16,7 @@ import {
 } from "@yulab/sensors";
 import { beamFor, buildLidarScene, scanLidar } from "@yulab/sensors/lidar";
 import { LIDAR_CLASS_TABLE } from "@yulab/sensors/lidarClass";
-import { renderReferencePasses, renderThermalPass, rendererCapabilities } from "@yulab/sensors/capture";
+import { renderReferencePasses, renderThermalPass, renderVisibilityPass, rendererCapabilities } from "@yulab/sensors/capture";
 import {
   advanceThermalState,
   decodeThermalState,
@@ -239,6 +239,20 @@ async function capture(request: Request) {
     throw new Error("worker_context_lost: required WebGL2 float readback unavailable");
   const started = performance.now();
   try {
+    const posedBoxes: Record<string, { frame: "east-up-south"; center_m: [number, number, number];
+      extent_m: [number, number, number]; quaternion_xyzw: [number, number, number, number] }> = {};
+    scene.updateMatrixWorld(true);
+    for (const instance of request.world.instances) {
+      const object = scene.getObjectByName(instance.instance_id);
+      if (!object) throw new Error(`Missing posed instance ${instance.instance_id}`);
+      const bounds = new THREE.Box3().setFromObject(object);
+      const center = bounds.getCenter(new THREE.Vector3());
+      const size = bounds.getSize(new THREE.Vector3());
+      posedBoxes[instance.instance_id] = { frame: "east-up-south",
+        center_m: center.toArray() as [number, number, number],
+        extent_m: size.toArray().map((n) => Math.max(n, 1e-6)) as [number, number, number],
+        quaternion_xyzw: [0, 0, 0, 1] };
+    }
     const capture = renderReferencePasses(
       renderer,
       scene,
@@ -248,6 +262,13 @@ async function capture(request: Request) {
       request.plan.seed_channels.rgb,
       request.plan.seed_channels.weather,
     );
+    const orderedIds = request.world.instances.map((item) => item.instance_id).sort();
+    const rgbLabels = renderVisibilityPass(renderer, scene, request.rig, "rgb", orderedIds);
+    if (rgbLabels.visible.length !== capture.instance.length ||
+        rgbLabels.visible.some((id, index) => id !== capture.instance[index]))
+      throw new Error("RGB visibility pass disagrees with frozen reference IDs");
+    const irLabels = request.plan.modalities.includes("ir")
+      ? renderVisibilityPass(renderer, scene, request.rig, "ir", orderedIds) : null;
     let thermal: ReturnType<typeof renderThermalPass> | null = null;
     let thermalStateJson: string | null = null;
     if (request.plan.modalities.includes("ir")) {
@@ -319,11 +340,16 @@ async function capture(request: Request) {
       height: capture.height,
       tick_s: request.plan.simulation_time_s,
       instance_ids: capture.instanceIds,
+      posed_boxes: posedBoxes,
       rgb_png_base64: dataUrlBase64(capture.rgbPng),
+      rgb_u8_base64: bytesBase64(capture.rgbRaw),
       depth_preview_png_base64: dataUrlBase64(capture.depthPreviewPng),
       instance_preview_png_base64: dataUrlBase64(capture.instancePreviewPng),
       depth_f32_base64: bytesBase64(new Uint8Array(capture.depth.buffer)),
       instance_u32_base64: bytesBase64(new Uint8Array(capture.instance.buffer)),
+      ir_instance_u32_base64: irLabels ? bytesBase64(new Uint8Array(irLabels.visible.buffer)) : null,
+      isolated_pixels: { rgb: rgbLabels.isolated, ir: irLabels?.isolated ?? {} },
+      truncated: { rgb: rgbLabels.truncated, ir: irLabels?.truncated ?? {} },
       ir_preview_png_base64: thermal ? dataUrlBase64(thermal.previewPng) : null,
       ir_radiance_f32_base64: thermal ? bytesBase64(new Uint8Array(thermal.radiance.buffer)) : null,
       ir_validity_u8_base64: thermal ? bytesBase64(thermal.validity) : null,

@@ -186,6 +186,9 @@ async function run() {
     const capture = await page.evaluate((value) => window.captureJob(value), browserRequest);
     const artifacts = {};
     artifacts.rgb = await artifact(outputPath, "rgb_png", Buffer.from(capture.rgb_png_base64, "base64"), "image/png");
+    artifacts.rgb_raw = await artifact(outputPath, "rgb_raw_npy",
+      npy(Buffer.from(capture.rgb_u8_base64, "base64"), "|u1", [capture.height, capture.width, 3]),
+      "application/x-npy");
     artifacts.depth_preview = await artifact(outputPath, "depth_preview_png", Buffer.from(capture.depth_preview_png_base64, "base64"), "image/png");
     artifacts.instance_preview = await artifact(outputPath, "instance_preview_png", Buffer.from(capture.instance_preview_png_base64, "base64"), "image/png");
     artifacts.depth = await artifact(
@@ -199,6 +202,9 @@ async function run() {
       "application/x-npy",
     );
     if (capture.ir_calibration) {
+      artifacts.ir_instance = await artifact(outputPath, "ir_instance_npy",
+        npy(Buffer.from(capture.ir_instance_u32_base64, "base64"), "<u4", [capture.height, capture.width]),
+        "application/x-npy");
       artifacts.ir_preview = await artifact(
         outputPath, "ir_preview_png",
         Buffer.from(capture.ir_preview_png_base64, "base64"),
@@ -273,6 +279,9 @@ async function run() {
       gpu_memory_bytes: null,
       resident_chunks: capture.resident_chunks,
       instance_ids: capture.instance_ids,
+      posed_boxes: capture.posed_boxes,
+      isolated_pixels: capture.isolated_pixels,
+      truncated: capture.truncated,
       ir_calibration: capture.ir_calibration,
       lidar_calibration: capture.lidar_calibration,
       weather_calibration: capture.weather_calibration,
