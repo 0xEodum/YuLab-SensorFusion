@@ -49,8 +49,9 @@ Each capture directory contains `observation.json`, `annotations.json`, and
 Observation input reads only `observation.json` and its referenced raw sensor
 arrays; it accepts only `capture_id` and rejects any extra truth-bearing fields.
 Truth and annotation files can be absent without affecting this read boundary.
-`manifest.json` records capture hashes, provenance, class map and group splits.
-The validator checks payload versions, every published raw hash, referenced
+`manifest.json` records an inventory hash for every capture file, provenance,
+class map and group splits. The validator checks payload versions, the complete
+file inventory, every published raw hash, referenced
 array shapes, bundle identities, duplicate tri-modal observations, group
 disjointness and split counts. The builder also compares raw shapes, dtypes,
 finite values and saved calibration against the request before publication.

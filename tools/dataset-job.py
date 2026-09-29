@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 from app.capture_worker import ARTIFACT_ROOT, run_capture_worker  # noqa: E402
 from app.contracts import validate_payload  # noqa: E402
-from app.dataset import (digest, package_capture, publish_manifest,
+from app.dataset import (artifact, digest, package_capture, publish_manifest,
                          validate_capture_files, validate_manifest)  # noqa: E402
 
 
@@ -97,6 +97,7 @@ def main() -> None:
     write_state(state_path, state)
     started = time.monotonic()
     entries = []
+    reused = 0
     try:
         for index, item in enumerate(jobs):
             if cancel.is_set() or (root / "cancel.requested").exists():
@@ -110,6 +111,7 @@ def main() -> None:
             job_id = f"capture-job-{capture_id}"
             capture_dir = ARTIFACT_ROOT / job_id
             if directory.exists():
+                reused += 1
                 metadata = {"capture_id": capture_id}
                 for name in ("observation", "annotations", "truth"):
                     path = directory / f"{name}.json"
@@ -117,6 +119,7 @@ def main() -> None:
                                       "byte_length": path.stat().st_size, "media_type": "application/json"}
             else:
                 if capture_dir.exists():
+                    reused += 1
                     result = json.loads((capture_dir / "result.json").read_text(encoding="utf-8"))
                     if result["capture_id"] != capture_id:
                         raise ValueError("Existing capture has a different identity")
@@ -129,6 +132,7 @@ def main() -> None:
                 validate_capture_files(stage, metadata)
                 os.replace(stage, directory)
             metadata.update(group_id=item["group_id"], split=item["split"])
+            metadata["files"] = [artifact(path) for path in sorted(directory.iterdir()) if path.is_file()]
             validate_capture_files(directory, metadata)
             entries.append(metadata)
             state["completed"] = [x["capture_id"] for x in entries]
@@ -138,8 +142,9 @@ def main() -> None:
                                     [j["request"] for j in jobs], records)
         total_bytes = sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
         seconds = time.monotonic() - started
-        metrics = {"count": len(entries), "elapsed_s": seconds,
+        metrics = {"count": len(entries), "reused_captures": reused, "elapsed_s": seconds,
                    "captures_per_s": len(entries) / seconds,
+                   "new_captures_per_s": (len(entries) - reused) / seconds,
                    "bytes_total": total_bytes, "bytes_per_capture": total_bytes / len(entries),
                    "estimate_3000_bytes": total_bytes / len(entries) * 3000,
                    "splits": manifest["counts"]}

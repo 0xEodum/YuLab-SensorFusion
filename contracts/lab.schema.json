@@ -2424,6 +2424,10 @@
               "type": "null"
             }
           ]
+        },
+        "files": {
+          "type": "array", "items": { "$ref": "#/$defs/Artifact" },
+          "minItems": 1, "maxItems": 1000
         }
       },
       "required": [

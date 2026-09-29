@@ -831,6 +831,11 @@ export interface CaptureEntry {
   observation: Artifact;
   annotations: Artifact;
   truth: Artifact | null;
+  /**
+   * @minItems 1
+   * @maxItems 1000
+   */
+  files?: [Artifact, ...Artifact[]];
 }
 export interface PredictionBundle {
   schema_version: "lab.v1";

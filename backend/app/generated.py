@@ -691,6 +691,7 @@ class CaptureEntry(TypedDict):
     observation: Artifact
     annotations: Artifact
     truth: Artifact | None
+    files: NotRequired[list[Artifact]]
 
 
 class Provenance(TypedDict):

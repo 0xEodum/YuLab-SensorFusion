@@ -25,8 +25,8 @@ def digest(path: Path) -> str:
 
 
 def artifact(path: Path) -> dict:
-    media = "application/json" if path.suffix == ".json" else (
-        "image/png" if path.suffix == ".png" else "application/x-npy")
+    media = "application/json" if path.suffix == ".json" or path.name.endswith("_json") else (
+        "image/png" if path.suffix == ".png" or path.name.endswith("_png") else "application/x-npy")
     return {"id": path.stem, "sha256": digest(path), "byte_length": path.stat().st_size,
             "media_type": media}
 
@@ -211,6 +211,17 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
 
 
 def validate_capture_files(directory: Path, entry: dict) -> None:
+    if "files" in entry:
+        inventory = entry["files"]
+        names = [item["id"] for item in inventory]
+        if len(names) != len(set(names)) or set(names) != {p.stem if p.suffix == ".json" else p.name
+            for p in directory.iterdir() if p.is_file()}:
+            raise ValueError("Incomplete or duplicate capture file inventory")
+        for item in inventory:
+            name = item["id"] + (".json" if item["id"] in ("observation", "annotations", "truth") else "")
+            path = directory / name
+            if digest(path) != item["sha256"] or path.stat().st_size != item["byte_length"]:
+                raise ValueError(f"Corrupt inventoried file: {name}")
     metadata = json.loads((directory / "metadata_json").read_text(encoding="utf-8"))
     if metadata["capture_id"] != entry["capture_id"]:
         raise ValueError("Capture metadata identity mismatch")
@@ -252,6 +263,8 @@ def validate_manifest(root: Path) -> dict:
     groups = {}
     fingerprints = set()
     for entry in captures:
+        if not entry.get("files"):
+            raise ValueError("Capture file inventory missing")
         previous = groups.setdefault(entry["group_id"], entry["split"])
         if previous != entry["split"]:
             raise ValueError("Group leaks across splits")

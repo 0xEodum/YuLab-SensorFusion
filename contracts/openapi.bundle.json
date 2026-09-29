@@ -3113,6 +3113,14 @@
                 "type": "null"
               }
             ]
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artifact"
+            },
+            "minItems": 1,
+            "maxItems": 1000
           }
         },
         "required": [

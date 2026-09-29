@@ -73,6 +73,7 @@ def test_observation_request_rejects_truth_fields_before_file_access(tmp_path):
 def test_manifest_rejects_duplicate_and_interrupted_captures(tmp_path, monkeypatch):
     fixture = Path(__file__).resolve().parents[2] / "contracts/fixtures/DatasetManifest.json"
     manifest = json.loads(fixture.read_text(encoding="utf-8"))
+    manifest["captures"][0]["files"] = [manifest["captures"][0]["observation"]]
     manifest["captures"].append(dict(manifest["captures"][0]))
     manifest["counts"]["train"] = 2
     (tmp_path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
@@ -92,6 +93,7 @@ def test_manifest_rejects_duplicate_and_interrupted_captures(tmp_path, monkeypat
 def test_manifest_rejects_group_split_leakage(tmp_path, monkeypatch):
     fixture = Path(__file__).resolve().parents[2] / "contracts/fixtures/DatasetManifest.json"
     manifest = json.loads(fixture.read_text(encoding="utf-8"))
+    manifest["captures"][0]["files"] = [manifest["captures"][0]["observation"]]
     second = dict(manifest["captures"][0])
     second["capture_id"] = "capture-2"
     second["split"] = "test"
