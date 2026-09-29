@@ -1,8 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-24. SF-09 catalog and coast/harbor world passed local
-acceptance with the approved 15-project source scope. SF-10 visibility labels
-and dataset jobs is READY. Training remains a later stage.
+Updated: 2026-09-29. SF-10 visibility labels and dataset jobs passed local
+acceptance with a validated 300-capture tri-modal pilot. SF-11 learning pilot
+and baselines is READY.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -44,8 +44,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-07 | Occlusion-correct LiDAR | SF-06 | DONE |
 | SF-08 | Weather, time and sensor noise | SF-07 | DONE |
 | SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | DONE |
-| SF-10 | Visibility labels and immutable dataset generation | SF-09 | READY |
-| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | PLANNED |
+| SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
+| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | READY |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
@@ -383,6 +383,14 @@ Acceptance:
   interrupted captures, corrupted files and manifest-version mismatches.
 - Inference runs unchanged when truth/annotation directories are inaccessible;
   unknown truth-bearing request fields are rejected.
+
+SF-10 passed local acceptance at implementation revision `fa50c39`: the
+300-capture pilot published atomically, its complete manifest validated, and an
+independent readback matched raw RGB/IR masks, boxes, LiDAR counts and grouped
+splits. The observation-only load boundary passed with truth and annotations
+unavailable; model inference begins in SF-11. See the
+[SF-10 evidence](evidence/SF-10-visibility-dataset.md) for commands, hashes,
+metrics, visual review and limits.
 
 ## SF-11 — Learning pilot and baselines
 

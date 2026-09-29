@@ -1,13 +1,14 @@
 # Sensor-fusion lab architecture
 
-Status: SF-09 catalog and harbor passed local acceptance; SF-10 is next.
-Updated 2026-09-24.
+Status: SF-10 visibility labels and 300-capture dataset pilot passed local acceptance; SF-11 is next.
+Updated 2026-09-29.
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
 RGB capture, geometric depth/instance references, raw thermal IR and sparse
-first-return LiDAR are implemented; datasets and models remain planned. No unimplemented sensor/training
+first-return LiDAR, visibility labels and local dataset jobs are implemented;
+model training and inference remain planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).

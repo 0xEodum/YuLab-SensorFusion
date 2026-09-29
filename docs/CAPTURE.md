@@ -7,7 +7,9 @@ projection and fixed capture dimensions. SF-05 implements RGB plus geometric
 depth and instance-ID references. SF-06 adds surface heat, calibrated raw LWIR,
 validity/saturation masks, thermal-state replay and a display-only IR preview.
 SF-07 adds nearest-surface LiDAR, sparse raw returns and range/point previews.
-Dataset annotations and inference remain unimplemented.
+SF-10 adds geometry-tested RGB/IR visibility labels, posed 3D boxes, LiDAR
+instance counts and atomic local dataset publication; see
+[DATASET_JOBS.md](DATASET_JOBS.md). Model inference remains planned.
 
 ## Frozen capture contract
 
