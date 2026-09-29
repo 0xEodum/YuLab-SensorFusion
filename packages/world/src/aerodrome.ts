@@ -87,6 +87,10 @@ export function aerodromeWorldSpec(
     });
   };
   const jitter = (channel: number) => (hash(0, channel, 0, seed) - 0.5) * 8;
+  const catalogState = (slot: number): WorldSpec["instances"][number]["operating_state"] => {
+    const draw = hash(slot, 281, 0, seed);
+    return draw < 0.5 ? "off" : draw < 0.8 ? "idle" : "running";
+  };
   if (mode === "catalog") {
     const choose = (ids: string[], count: number, channel: number) =>
       [...ids].sort((a, b) => {
@@ -97,10 +101,10 @@ export function aerodromeWorldSpec(
     const vehicles = choose(["ground-vehicle", "complex-radar", "simulation-radar", "spaa"], 2, 212);
     aircraft.forEach((id, i) => add(`catalog-air-${i}`, id,
       25 + i * 55 + jitter(220 + i), -88 + jitter(230 + i),
-      jitter(240 + i) * 0.014));
+      jitter(240 + i) * 0.014, catalogState(i)));
     vehicles.forEach((id, i) => add(`catalog-ground-${i}`, id,
       80 + i * 105 + jitter(250 + i), 120 + jitter(260 + i),
-      Math.PI / 2 + jitter(270 + i) * 0.02));
+      Math.PI / 2 + jitter(270 + i) * 0.02, catalogState(4 + i)));
     return spec;
   }
   add("clear", "f16", 40 + jitter(101), 70 + jitter(102), jitter(103) * 0.03, "running");
@@ -199,6 +203,26 @@ export function aerodromeStructures(mode: "fixtures" | "catalog" | "background" 
         "#879798",
       );
     box(`${id}-roof`, "building", [x, 36.5, z], [62, 1, 42], "#667b7c");
+    // Exterior ribs, roof seams and high glazing give the hangars scale while
+    // keeping the fixture entrance and its line of sight unobstructed.
+    for (const side of [-1, 1]) {
+      for (const offset of [-14, -4, 6, 16])
+        box(`${id}-side-rib-${side}-${offset}`, "building",
+          [x + side * 30.12, 30, z + offset], [0.25, 11.2, 0.45], "#d3d7cf");
+      for (const offset of [-12, 0, 12])
+        box(`${id}-side-window-${side}-${offset}`, "building",
+          [x + side * 30.17, 32.5, z + offset],
+          [0.22, 2.2, 5.4], "#435e67");
+    }
+    for (const offset of [-23, -10, 3, 16, 29])
+      box(`${id}-roof-seam-${offset}`, "building",
+        [x + offset, 37.05, z], [0.24, 0.14, 41], "#879998");
+    for (const offset of [-12, 12]) {
+      box(`${id}-roof-vent-${offset}`, "building",
+        [x + offset, 38, z - 9], [6, 1.1, 4], "#53676a");
+      box(`${id}-roof-vent-cap-${offset}`, "building",
+        [x + offset, 38.7, z - 9], [7, 0.3, 5], "#899b96");
+    }
     if (closed)
       box(`${id}-door`, "building", [x, 30, z + 19.5], [60, 12, 1], "#849798");
     else {
@@ -211,10 +235,33 @@ export function aerodromeStructures(mode: "fixtures" | "catalog" | "background" 
       );
       box(`${id}-lintel`, "building", [x, 35, z + 19.5], [60, 2, 1], "#849798");
     }
+    const doorEnd = closed ? 25 : -15;
+    for (let offset = -25; offset <= doorEnd; offset += 5)
+      box(`${id}-door-rib-${offset}`, "building",
+        [x + offset, 30, z + 20.12], [0.24, 10.5, 0.2], "#b6c2bd");
+    box(`${id}-fascia`, "building", [x, 35.5, z + 20.18],
+      [59, 0.6, 0.22], "#394e57");
   }
   box("tower-shaft", "building", [248, 34, 135], [9, 20, 9], "#c3c0ae");
   box("tower-cabin", "building", [248, 45, 135], [15, 4, 15], "#536d75");
   box("tower-roof", "building", [248, 47.5, 135], [17, 1, 17], "#617573");
+  for (const side of [-1, 1]) {
+    box(`tower-window-x-${side}`, "building", [248 + side * 7.6, 45.2, 135],
+      [0.24, 2.5, 12], "#29464e");
+    box(`tower-window-z-${side}`, "building", [248, 45.2, 135 + side * 7.6],
+      [12, 2.5, 0.24], "#29464e");
+  }
+  box("tower-band", "building", [248, 42.6, 135], [11, 0.7, 11], "#526b70");
+  box("tower-antenna", "building", [248, 51.5, 135], [0.2, 7, 0.2], "#596866");
+  box("tower-antenna-cap", "building", [248, 55.1, 135], [1.1, 0.3, 1.1], "#d39c67");
+  box("operations-office", "building", [246, 28, 174], [25, 8, 22], "#afb8ad");
+  box("operations-office-roof", "building", [246, 32.4, 174],
+    [27, 0.8, 24], "#566d70");
+  for (const x of [238, 246, 254])
+    box(`operations-window-${x}`, "building", [x, 28.5, 185.12],
+      [4.2, 2.5, 0.22], "#385860");
+  box("operations-entry", "building", [246, 26.1, 185.2],
+    [3, 4.2, 0.25], "#475759");
   for (let z = -624; z <= 624; z += 16)
     for (const x of [-144, 280])
       box(

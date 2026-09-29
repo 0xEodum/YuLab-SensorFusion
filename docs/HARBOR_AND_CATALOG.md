@@ -70,10 +70,15 @@ have a 0 m model waterline and a rigid 6 m Y translation, leaving keels below
 water and superstructures above. Their seeded berths vary within separate
 slots without intersecting shore, piers or each other. Quay walls, piers,
 breakwaters, beacons, cranes, container stacks, offices and warehouses give
-the port a legible low-poly silhouette. A world-wide 16 m water grid with
+the port a legible low-poly silhouette. Two seeded ground vehicles occupy
+separated positions on the 14.08 m quay road; their wheels rest on the road
+and their bounds clear the buildings. Hangars have facade ribs, high windows,
+roof seams and vents without closing the aerodrome's open occlusion fixture.
+The harbor warehouses have loading bays and roof equipment, and its cranes
+have trolley, hook and footing details. A world-wide 16 m water grid with
 subtle vertex color and wave variation reaches the horizon independently of
 display chunk residency. The display and sensor scene builders use this same
-site geometry. The empty harbor retains the port and water with no ships.
+site geometry. The empty harbor retains the port and water with no instances.
 
 ## Verification boundary
 

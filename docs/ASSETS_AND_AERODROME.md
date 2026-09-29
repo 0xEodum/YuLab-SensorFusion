@@ -62,6 +62,12 @@ canvas backend switching produced differing tail-livery PNG bytes during QA.
 The runtime renderer retains normal GPU rendering. Three independent imports
 match after fixing the import raster backend.
 
+The checked-in RQ-4 import correction in `tools/assets/rq4-corrections.mjs`
+places the intake lip in the vertical plane and extends the parked landing
+gear into the fuselage and wing belly. Its source anchors fail explicitly if
+the external model changes. The RQ-4 catalog record identifies this adapter as
+`static-model.rq4-corrections.v1`; the external model files remain untouched.
+
 ## Heat region scope
 
 F-16 rear fuselage/nozzle and RQ-4 nacelle/exhaust retain named engine/exhaust

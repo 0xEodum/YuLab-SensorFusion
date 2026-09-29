@@ -22,7 +22,9 @@ const ready = async () => page.waitForFunction(() => {
 }, null, { timeout: 60000 });
 const shot = async (name) => {
   await ready();
-  await page.locator(".world-canvas").screenshot({ path: `artifacts/sf09/browser/${name}.png` });
+  await page.locator(".world-canvas").screenshot({
+    path: `artifacts/sf09/browser/${name}.png`, timeout: 60000,
+  });
   const metrics = await page.evaluate(() => window.worldQA.metrics());
   acceptance.views.push({ name, templates: metrics.assetTemplates,
     instances: metrics.assetIds.length, triangles: metrics.status.triangles,
@@ -34,6 +36,9 @@ const shot = async (name) => {
 try {
   await page.goto("http://127.0.0.1:5173/?view=world&site=harbor&qa=1");
   await shot("harbor-oblique");
+  assert.equal(await page.evaluate(() =>
+    window.worldQA.spec.instances.filter((instance) =>
+      instance.asset_id === "ground-vehicle").length), 2);
   const sensorScene = await page.evaluate(() =>
     window.worldQA.prepareSensors([-150, 20, 0], 135));
   assert.ok(sensorScene.ids.some((id) => id.includes("cruiser-1")));

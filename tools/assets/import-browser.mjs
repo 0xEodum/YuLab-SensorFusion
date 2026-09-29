@@ -159,9 +159,11 @@ window.importAssets = async () => {
       [-1.75, -1.9, -0.9],
     ],
   });
+  const vehicleModel = createVehicle();
   sources.push({
     id: "ground-vehicle",
-    root: createVehicle().vehicle,
+    root: vehicleModel.vehicle,
+    turret: vehicleModel.turret,
     yaw: Math.PI / 2,
     contacts: [-3.45, -1.35, 1.5, 3.65].flatMap((x) =>
       [-1.47, 1.47].map((z) => [x, 0, z]),
@@ -207,12 +209,24 @@ window.importAssets = async () => {
       createElement(RADARS.pa3.Component, {})) }), 0, "ground_vehicle");
   addStatic("spaa", createElement(SPAAModel, {
     settingsRef: { current: defaultSettings } }), 0, "ground_vehicle");
+  const spaa = sources.find((source) => source.id === "spaa");
+  const spaaPivots = [];
+  spaa.root.traverse((node) => {
+    if (node.isGroup && Math.abs(node.position.x) < 1e-6 &&
+        Math.abs(node.position.y - 1.9) < 1e-6 &&
+        Math.abs(node.position.z - 0.2) < 1e-6 && node.visible)
+      spaaPivots.push(node);
+  });
+  if (spaaPivots.length !== 1)
+    throw new Error(`spaa: expected one authored turret yaw pivot, got ${spaaPivots.length}`);
+  spaa.turret = spaaPivots[0];
   const results = [];
   for (const source of sources) {
     const originalBounds = new THREE.Box3().setFromObject(source.root, true);
     source.root.rotation.y = source.yaw;
     source.root.position.y = source.kind === "ship" ? 0 : -originalBounds.min.y;
     source.root.updateMatrixWorld(true);
+    const turretPivot = source.turret?.getWorldPosition(new THREE.Vector3()).toArray();
     const out = new THREE.Group();
     out.name = source.id;
     const parts = [],
@@ -375,7 +389,11 @@ window.importAssets = async () => {
       const id = `part-${String(i).padStart(4, "0")}`;
       const mesh = new THREE.Mesh(geo, material);
       mesh.name = id;
-      mesh.userData = { semantic, source_label: label };
+      let articulated = false;
+      for (let ancestor = node; ancestor; ancestor = ancestor.parent)
+        if (ancestor === source.turret) { articulated = true; break; }
+      mesh.userData = { semantic, source_label: label,
+        ...(articulated ? { articulation: "turret-yaw", pivot_m: turretPivot } : {}) };
       out.add(mesh);
       parts.push({
         id,

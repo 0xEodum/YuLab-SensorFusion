@@ -66,17 +66,25 @@ function batchTemplate(root: THREE.Group) {
       geometries: THREE.BufferGeometry[];
       names: string[];
       semantic: string;
+      articulation?: string;
+      pivot?: [number, number, number];
     }
   >();
   root.updateMatrixWorld(true);
   root.traverse((o) => {
     if (!(o instanceof THREE.Mesh) || Array.isArray(o.material)) return;
     const semantic = String(o.userData.semantic ?? "body-surface");
-    const key = `${o.material.uuid}:${semantic}:${Object.keys(o.geometry.attributes).sort().join(",")}`;
+    const articulation = o.userData.articulation === "turret-yaw" ? "turret-yaw" : undefined;
+    const pivot = articulation ? o.userData.pivot_m as [number, number, number] : undefined;
+    if (articulation && (!Array.isArray(pivot) || pivot.length !== 3 || !pivot.every(Number.isFinite)))
+      throw new Error("catalog: articulated turret has no finite pivot");
+    const key = `${o.material.uuid}:${semantic}:${articulation ?? "fixed"}:${Object.keys(o.geometry.attributes).sort().join(",")}`;
     let g = groups.get(key);
     if (!g) {
-      g = { material: o.material, geometries: [], names: [], semantic };
+      g = { material: o.material, geometries: [], names: [], semantic, articulation, pivot };
       groups.set(key, g);
+    } else if (articulation && g.pivot?.some((value, i) => value !== pivot![i])) {
+      throw new Error("catalog: turret parts disagree on pivot");
     }
     const geometry = o.geometry.clone().applyMatrix4(o.matrixWorld);
     g.geometries.push(geometry.index ? geometry.toNonIndexed() : geometry);
@@ -92,7 +100,18 @@ function batchTemplate(root: THREE.Group) {
     mesh.name = `batch-${index}`;
     mesh.userData = { semantic: g.semantic, source_parts: g.names };
     mesh.castShadow = mesh.receiveShadow = true;
-    out.add(mesh);
+    if (g.articulation === "turret-yaw") {
+      const pivot = g.pivot!;
+      geometry.translate(-pivot[0], -pivot[1], -pivot[2]);
+      let turret = out.getObjectByName("turret-yaw") as THREE.Group | undefined;
+      if (!turret) {
+        turret = new THREE.Group();
+        turret.name = "turret-yaw";
+        turret.position.set(...pivot);
+        out.add(turret);
+      }
+      turret.add(mesh);
+    } else out.add(mesh);
   }
   root.traverse((o) => {
     if (o instanceof THREE.Mesh) o.geometry.dispose();
@@ -183,6 +202,17 @@ export class AssetLibrary {
       instance_id: instance.instance_id,
       asset_id: instance.asset_id,
     };
+    const turret = object.getObjectByName("turret-yaw");
+    if (turret) {
+      // FNV-1a gives each persistent instance an independent, replayable pose.
+      let value = 2166136261;
+      for (const character of instance.instance_id) {
+        value ^= character.charCodeAt(0);
+        value = Math.imul(value, 16777619);
+      }
+      turret.rotation.y = ((value >>> 0) / 4294967296 * 2 - 1) * Math.PI;
+      object.userData.turret_yaw_rad = turret.rotation.y;
+    }
     object.applyMatrix4(
       new THREE.Matrix4().set(...instance.T_world_from_asset),
     );

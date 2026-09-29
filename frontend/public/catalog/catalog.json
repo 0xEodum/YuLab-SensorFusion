@@ -1067,16 +1067,16 @@
       "schema_version": "lab.v1",
       "kind": "AssetRecord",
       "asset_id": "rq4",
-      "content_sha256": "c58e07b3017cee5d35b9b84a3e53b15de9704e6b014dc458a28044d3d1f49a3e",
+      "content_sha256": "18b0ef3b83d3fb27d4e1aee6146b416e9d556d76bb1b071d4ff3a921d6cb9dbe",
       "mesh": {
         "id": "rq4-mesh",
-        "sha256": "c58e07b3017cee5d35b9b84a3e53b15de9704e6b014dc458a28044d3d1f49a3e",
-        "byte_length": 590172,
+        "sha256": "18b0ef3b83d3fb27d4e1aee6146b416e9d556d76bb1b071d4ff3a921d6cb9dbe",
+        "byte_length": 596924,
         "media_type": "model/gltf-binary"
       },
       "metadata": {
         "id": "rq4-metadata",
-        "sha256": "bba3953569cd5b555ca14d55a64ddd27c7c06d0c18db84ba59a3af91a0fed50f",
+        "sha256": "dd6bbeea51f49534cb86e483ff956c2cca73c6f1fbb6bd1142f7616289cae338",
         "byte_length": 1900,
         "media_type": "application/json"
       },
@@ -1084,7 +1084,7 @@
         "project": "aircraft/rq-4-uav",
         "revision": "content-addressed-source-files",
         "sha256": "bdfa2ed5d88ea8524f7f606e85d4ed6c09806c1ce094bad4367a1a0c349775ca",
-        "adapter_version": "static-model.v1",
+        "adapter_version": "static-model.rq4-corrections.v1",
         "use_permission": "User supplied catalog; authorized for this project. No independent third-party license assertion."
       },
       "units": {
@@ -1564,6 +1564,18 @@
           "id": "part-0070",
           "mesh_node": "part-0070",
           "material_id": "material-70",
+          "semantic": "body-surface"
+        },
+        {
+          "id": "part-0071",
+          "mesh_node": "part-0071",
+          "material_id": "material-71",
+          "semantic": "body-surface"
+        },
+        {
+          "id": "part-0072",
+          "mesh_node": "part-0072",
+          "material_id": "material-72",
           "semantic": "body-surface"
         }
       ],
@@ -2419,6 +2431,30 @@
           "opaque_rgb": true,
           "opaque_ir": true,
           "opaque_lidar": true
+        },
+        {
+          "id": "material-71",
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
+        },
+        {
+          "id": "material-72",
+          "emissivity": 0.82,
+          "solar_absorption": 0.55,
+          "thermal_capacity_j_per_k": 250000,
+          "area_m2": 4,
+          "convection_w_per_m2_k": 8,
+          "response_time_s": 7812.5,
+          "opaque_rgb": true,
+          "opaque_ir": true,
+          "opaque_lidar": true
         }
       ],
       "heat_sources": [
@@ -2441,11 +2477,11 @@
       "schema_version": "lab.v1",
       "kind": "AssetRecord",
       "asset_id": "ground-vehicle",
-      "content_sha256": "05a0c19ebf1fca4e191b6376fe469ce5ed39fe054c514a8301121280a9e5a312",
+      "content_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
       "mesh": {
         "id": "ground-vehicle-mesh",
-        "sha256": "05a0c19ebf1fca4e191b6376fe469ce5ed39fe054c514a8301121280a9e5a312",
-        "byte_length": 11984296,
+        "sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+        "byte_length": 12007516,
         "media_type": "model/gltf-binary"
       },
       "metadata": {
@@ -2458,7 +2494,7 @@
         "project": "AA/fk-2000-3d-model",
         "revision": "content-addressed-source-files",
         "sha256": "ab9cb379ff48c737c288d6c1d9acaf9e209a48ba8eb251bce98ad6e63ca78d4f",
-        "adapter_version": "static-model.v1",
+        "adapter_version": "static-model.turret-yaw.v1",
         "use_permission": "User supplied catalog; authorized for this project. No independent third-party license assertion."
       },
       "units": {
@@ -52523,11 +52559,11 @@
       "schema_version": "lab.v1",
       "kind": "AssetRecord",
       "asset_id": "spaa",
-      "content_sha256": "3db324e1d004eaa82fa98db1281233a8894ada07797ecb92bbaf454f5e796f2e",
+      "content_sha256": "891c3caebf0eb2a30e1690d4df2d4211bf75fa26192ceb00f4b59641d9cdb675",
       "mesh": {
         "id": "spaa-mesh",
-        "sha256": "3db324e1d004eaa82fa98db1281233a8894ada07797ecb92bbaf454f5e796f2e",
-        "byte_length": 2366940,
+        "sha256": "891c3caebf0eb2a30e1690d4df2d4211bf75fa26192ceb00f4b59641d9cdb675",
+        "byte_length": 2377948,
         "media_type": "model/gltf-binary"
       },
       "metadata": {
@@ -52540,7 +52576,7 @@
         "project": "AA/modular-spaa-3d-model",
         "revision": "content-addressed-source-files",
         "sha256": "c727c3ad0f2b183921871ed0512bf0a690c738aa54bf871c32e85e2d189d4f3b",
-        "adapter_version": "static-model.v1",
+        "adapter_version": "static-model.turret-yaw.v1",
         "use_permission": "User supplied catalog; authorized for this project. No independent third-party license assertion."
       },
       "units": {

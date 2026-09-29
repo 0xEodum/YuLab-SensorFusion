@@ -5,6 +5,7 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { validatePayload } from "../packages/contracts/src/validate.ts";
+import { correctRq4Source } from "./assets/rq4-corrections.mjs";
 
 const sourceRoot = process.argv[2];
 if (!sourceRoot)
@@ -155,6 +156,8 @@ const bundle = await build({
             });
             sourceFiles.set(args.path, contents);
           }
+          if (args.path === aliases["source-rq4"])
+            contents = correctRq4Source(contents);
           // Preserve the source geometry names as semantic provenance without changing vertices.
           contents = contents.replace(
             /geometry=\{(G|geo)\.(\w+)\}/g,
@@ -228,7 +231,11 @@ try {
         project: p.project,
         revision: "content-addressed-source-files",
         sha256: digest(JSON.stringify(p.hashes)),
-        adapter_version: "static-model.v1",
+        adapter_version: result.id === "rq4"
+          ? "static-model.rq4-corrections.v1"
+          : ["ground-vehicle", "spaa"].includes(result.id)
+            ? "static-model.turret-yaw.v1"
+          : "static-model.v1",
         use_permission:
           "User supplied catalog; authorized for this project. No independent third-party license assertion.",
       },
