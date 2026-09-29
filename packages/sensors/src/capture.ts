@@ -189,7 +189,13 @@ export function renderVisibilityPass(
     const truncated: Record<string, boolean> = {};
     for (let index = 0; index < roots.length; index++) {
       const root = roots[index];
-      if (!root) throw new Error(`Missing instance root ${orderedInstanceIds[index]}`);
+      if (!root) {
+        // A valid world may contain objects beyond every leased sensor chunk.
+        // They have no current-camera silhouette, but remain in truth.
+        isolated[orderedInstanceIds[index]] = 0;
+        truncated[orderedInstanceIds[index]] = false;
+        continue;
+      }
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh)
           object.visible = labelVisibility.get(object)! && rootFor(object) === index;

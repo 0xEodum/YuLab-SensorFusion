@@ -16,7 +16,9 @@ The per-frame `visible-pixels-16-lidar-3.v1` policy makes an object eligible at
 retain `out_of_frustum`, `fully_occluded`, or `small_fragment` reason. A
 LiDAR-only object with two hits is a small fragment; one with three is eligible.
 3D boxes enclose the posed scene geometry, including independently rotated
-turrets, in world-aligned coordinates. They remain amodal when occluded.
+turrets, in world-aligned coordinates. They remain amodal when occluded. An
+instance outside every leased sensor chunk remains in truth with a posed box,
+zero camera pixels and zero current LiDAR hits.
 
 `tools/generate-sf10-requests.ts` creates up to 300 deterministic tri-modal
 requests over six site/seed groups, five views and ten conditions. Group IDs are

@@ -243,7 +243,7 @@ async function capture(request: Request) {
       extent_m: [number, number, number]; quaternion_xyzw: [number, number, number, number] }> = {};
     scene.updateMatrixWorld(true);
     for (const instance of request.world.instances) {
-      const object = scene.getObjectByName(instance.instance_id);
+      const object = scene.getObjectByName(instance.instance_id) ?? assets?.instantiate(instance);
       if (!object) throw new Error(`Missing posed instance ${instance.instance_id}`);
       const bounds = new THREE.Box3().setFromObject(object);
       const center = bounds.getCenter(new THREE.Vector3());

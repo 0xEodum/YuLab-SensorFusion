@@ -22,6 +22,14 @@ test("harbor capture carries ship identity through RGB, IR and first-return refe
   const destroyer = job.result.instance_ids["harbor-mixed-0-destroyer-2"];
   expect(cruiser).toBeGreaterThan(0);
   expect(destroyer).toBeGreaterThan(0);
+  // Harbor trucks lie outside this ship-facing rig's sensor lease. They stay
+  // in truth with posed boxes, but have no current-camera positive pixels.
+  for (const id of ["harbor-mixed-0-quay-truck-3", "harbor-mixed-0-quay-truck-4"]) {
+    expect(job.result.instance_ids[id]).toBeGreaterThan(0);
+    expect(job.result.posed_boxes[id].extent_m.every((n: number) => n > 0)).toBe(true);
+    expect(job.result.isolated_pixels.rgb[id]).toBe(0);
+    expect(job.result.isolated_pixels.ir[id]).toBe(0);
+  }
   const artifact = async (key: string) => {
     const response = await request.get(`/api/v1/jobs/${jobId}/artifacts/${job.result.artifacts[key].id}`);
     expect(response.ok()).toBe(true);
