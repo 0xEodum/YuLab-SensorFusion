@@ -54,14 +54,22 @@ for (const [layoutIndex, layout] of layouts.entries()) {
   for (let view = 0; view < 5; view++) for (let condition = 0; condition < 10; condition++) {
     const n = layoutIndex * 50 + view * 10 + condition;
     if (n >= count) continue;
-    const base = layout.site === "airfield" ? new THREE.Vector3(38, 30, 102)
-      : new THREE.Vector3(15, 34, 150);
-    const center = layout.site === "airfield" ? new THREE.Vector3(26, 25, 0)
-      : new THREE.Vector3(-110, 9, 0);
-    const offset = [
-      [0, 0, 0], [-24, 4, 8], [20, -5, -12], [-38, 6, -10], [40, 3, 12],
-    ][view];
-    base.add(new THREE.Vector3(...offset));
+    const viewpoints = layout.site === "airfield" ? [
+      [[70, 34, 10], [83, 25, -85]],
+      [[130, 35, 0], [135, 25, -90]],
+      [[80, 32, 180], [78, 25, 116]],
+      [[190, 32, 180], [181, 25, 116]],
+      [[30, 32, -15], [23, 25, -90]],
+    ] : [
+      [[0, 36, -65], [-147, 6, -65]],
+      [[0, 36, 65], [-147, 6, 65]],
+      [[-60, 28, 160], [-147, 6, 65]],
+      [[250, 28, -205], [190, 14, -205]],
+      [[250, 28, 120], [190, 14, 120]],
+    ];
+    const [position, target] = viewpoints[view];
+    const base = new THREE.Vector3(...position);
+    const center = new THREE.Vector3(...target);
     const camera = new THREE.PerspectiveCamera();
     camera.position.copy(base);
     camera.lookAt(center);
