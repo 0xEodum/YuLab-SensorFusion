@@ -11,12 +11,16 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
+from .contracts import SCHEMA, parse_json
 from .jobs import WorkerContextLost, WorkerCrashed, WorkerTimedOut
 
 ROOT = Path(__file__).resolve().parents[2]
 ARTIFACT_ROOT = Path(os.environ.get("YULAB_CAPTURE_ROOT", ROOT / "artifacts" / "capture-jobs")).resolve()
 WORKER = ROOT / "workers" / "capture" / "index.mjs"
 TIMEOUT_S = 120.0
+RESULT_VALIDATOR = Draft202012Validator({"$ref": "#/$defs/CaptureResult", "$defs": SCHEMA["$defs"]})
 
 
 def _command(*args: str):
@@ -28,8 +32,8 @@ def _parse_stdout(text: str):
     if not lines:
         raise WorkerCrashed("Capture worker returned no protocol response.")
     try:
-        return json.loads(lines[-1])
-    except json.JSONDecodeError as exc:
+        return parse_json(lines[-1])
+    except ValueError as exc:
         raise WorkerCrashed("Capture worker returned an invalid protocol response.") from exc
 
 
@@ -97,6 +101,9 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event, *, sess
                 raise WorkerContextLost("Capture browser lost the required rendering context.")
             raise WorkerCrashed(f"Capture browser exited with code {process.returncode}.")
     result = _parse_stdout(stdout)
+    errors = list(RESULT_VALIDATOR.iter_errors(result))
+    if errors:
+        raise WorkerCrashed(f"Capture result violates the wire contract: {errors[0].message}")
     if result.get("capture_id") != wire_request["plan"]["capture_id"]:
         raise WorkerCrashed("Capture worker returned the wrong capture identity.")
     required = {"rgb", "rgb_raw", "depth_preview", "instance_preview", "depth", "instance", "metadata"}

@@ -192,11 +192,11 @@ test("closing the submitting browser does not stop an accepted backend job", asy
   const status = await request.get(`/api/v1/jobs/${job.job_id}`);
   const completed = await status.json();
   expect(Object.keys(completed.result.artifacts).sort()).toEqual([
-    "depth", "depth_preview", "instance", "instance_preview", "ir_preview",
+    "depth", "depth_preview", "instance", "instance_preview", "ir_instance", "ir_preview",
     "ir_radiance", "ir_saturation", "ir_validity", "lidar_beam_id",
     "lidar_beam_status", "lidar_class_ref", "lidar_cloud_preview", "lidar_ideal_class",
     "lidar_ideal_instance", "lidar_ideal_range", "lidar_intensity", "lidar_range_preview",
     "lidar_time_offset", "lidar_topdown_preview", "lidar_validity",
-    "lidar_xyz", "metadata", "rgb", "thermal_state",
+    "lidar_xyz", "metadata", "rgb", "rgb_raw", "thermal_state",
   ]);
 });

@@ -73,18 +73,27 @@ def test_cancelled_session_stops(monkeypatch, tmp_path):
         assert session.process is None
 
 
-@pytest.mark.parametrize("failure", [None, "identity", "missing", "cancel"])
+@pytest.mark.parametrize("failure", [None, "identity", "missing", "cancel", "telemetry"])
 def test_session_result_is_validated_before_atomic_publication(monkeypatch, tmp_path, failure):
     monkeypatch.setattr(capture_worker, "ARTIFACT_ROOT", tmp_path)
     cancel = threading.Event()
     required = {"rgb", "rgb_raw", "depth_preview", "instance_preview", "depth", "instance", "metadata"}
     class Session:
         def run(self, _request, output, _cancel):
-            result = {"capture_id": "other" if failure == "identity" else "a", "artifacts": {}}
+            result = {"protocol": "capture-worker.v1",
+                      "capture_id": "other" if failure == "identity" else "a", "sequence_id": "seq-a",
+                      "tick_s": 0, "width": 1, "height": 1, "renderer": "fixture", "device": "fixture",
+                      "browser_channel": "fixture", "elapsed_ms": 1, "render_elapsed_ms": 1,
+                      "node_rss_bytes": 1, "browser_heap_bytes": None, "gpu_memory_bytes": None,
+                      "resident_chunks": ["0,0@2"], "instance_ids": {}, "ir_calibration": None,
+                      "lidar_calibration": None, "lidar_point_count": 0, "artifacts": {}}
             for name in required:
                 if failure != "missing" or name != "depth":
                     (output / name).write_bytes(b"x")
-                result["artifacts"][name] = {"id": name, "byte_length": 1}
+                result["artifacts"][name] = {"id": name, "byte_length": 1,
+                                             "sha256": "0" * 64, "media_type": "application/x-npy"}
+            if failure == "telemetry":
+                result["timings_ms"] = {"world_mesh_ms": 1}
             if failure == "cancel":
                 cancel.set()
             return json.dumps(result)

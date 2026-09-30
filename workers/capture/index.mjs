@@ -279,9 +279,6 @@ async function run() {
         browser_channel: channel,
         elapsed_ms: performance.now() - started,
         render_elapsed_ms: capture.elapsed_ms,
-        timings_ms: capture.timings_ms,
-        total_browser_ms: capture.total_browser_ms,
-        geometry_cache: capture.geometry_cache,
         node_rss_bytes: process.memoryUsage().rss,
         browser_heap_bytes: await page.evaluate(() => performance.memory?.usedJSHeapSize ?? null),
         gpu_memory_bytes: null,
@@ -298,7 +295,10 @@ async function run() {
         plan: request.plan,
         artifacts,
       };
-      const metadata = Buffer.from(`${JSON.stringify(result, null, 2)}\n`);
+      const metadata = Buffer.from(`${JSON.stringify({ ...result,
+        timings_ms: capture.timings_ms, total_browser_ms: capture.total_browser_ms,
+        geometry_cache: capture.geometry_cache,
+      }, null, 2)}\n`);
       result.artifacts.metadata = await artifact(outputPath, "metadata_json", metadata, "application/json");
       await writeFile(resolve(outputPath, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
       return result;
