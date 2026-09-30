@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "npm run dev --workspace @yulab/frontend --",
     "build": "npm run build --workspace @yulab/frontend",
-    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json && tsc --noEmit -p tsconfig.capture.json",
     "preview": "npm run preview --workspace @yulab/frontend --",
     "test:browser": "playwright test",
     "contracts:generate": "node tools/generate-contracts.mjs",

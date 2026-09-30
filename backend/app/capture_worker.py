@@ -51,7 +51,7 @@ def probe_capture_worker():
     return result
 
 
-def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
+def run_capture_worker(request: dict[str, Any], cancel: threading.Event, *, session=None):
     job_id = request.get("_job_id")
     if not isinstance(job_id, str):
         raise WorkerCrashed("Capture coordinator omitted the worker job identity.")
@@ -64,35 +64,38 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
     wire_request = {key: value for key, value in request.items() if not key.startswith("_")}
     request_path = partial / "request.json"
     request_path.write_text(json.dumps(wire_request, sort_keys=True, separators=(",", ":")), encoding="utf-8")
-    # Files are drained by the OS while the worker runs. A large JSON result must
-    # never fill a PIPE and block process exit before communicate() is reached.
-    with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stdout_file, \
-         tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stderr_file:
-        process = subprocess.Popen(
-            _command("--request", str(request_path), "--output", str(partial)),
-            cwd=ROOT, stdout=stdout_file, stderr=stderr_file, text=True,
-        )
-        started = time.monotonic()
-        while process.poll() is None:
-            if cancel.wait(0.05):
-                process.terminate()
-                try:
-                    process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
+    if session is not None:
+        stdout = session.run(request_path, partial, cancel)
+    else:
+        # Files are drained by the OS while the worker runs. A large JSON result must
+        # never fill a PIPE and block process exit before communicate() is reached.
+        with tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stdout_file, \
+             tempfile.TemporaryFile(mode="w+t", encoding="utf-8") as stderr_file:
+            process = subprocess.Popen(
+                _command("--request", str(request_path), "--output", str(partial)),
+                cwd=ROOT, stdout=stdout_file, stderr=stderr_file, text=True,
+            )
+            started = time.monotonic()
+            while process.poll() is None:
+                if cancel.wait(0.05):
+                    process.terminate()
+                    try:
+                        process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                        process.wait(timeout=5)
+                    raise WorkerCrashed("Capture worker was cancelled before publication.")
+                if time.monotonic() - started > TIMEOUT_S:
                     process.kill()
                     process.wait(timeout=5)
-                raise WorkerCrashed("Capture worker was cancelled before publication.")
-            if time.monotonic() - started > TIMEOUT_S:
-                process.kill()
-                process.wait(timeout=5)
-                raise WorkerTimedOut(f"Capture exceeded the {TIMEOUT_S:g} second worker limit.")
-        stdout_file.seek(0)
-        stderr_file.seek(0)
-        stdout, stderr = stdout_file.read(), stderr_file.read()
-    if process.returncode != 0:
-        if "worker_context_lost" in stderr:
-            raise WorkerContextLost("Capture browser lost the required rendering context.")
-        raise WorkerCrashed(f"Capture browser exited with code {process.returncode}.")
+                    raise WorkerTimedOut(f"Capture exceeded the {TIMEOUT_S:g} second worker limit.")
+            stdout_file.seek(0)
+            stderr_file.seek(0)
+            stdout, stderr = stdout_file.read(), stderr_file.read()
+        if process.returncode != 0:
+            if "worker_context_lost" in stderr:
+                raise WorkerContextLost("Capture browser lost the required rendering context.")
+            raise WorkerCrashed(f"Capture browser exited with code {process.returncode}.")
     result = _parse_stdout(stdout)
     if result.get("capture_id") != wire_request["plan"]["capture_id"]:
         raise WorkerCrashed("Capture worker returned the wrong capture identity.")
@@ -119,5 +122,7 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event):
         path = partial / artifact["id"]
         if not path.is_file() or path.stat().st_size != artifact["byte_length"]:
             raise WorkerCrashed("Capture artifact validation failed before publication.")
+    if cancel.is_set():
+        raise WorkerCrashed("Capture worker was cancelled before publication.")
     os.replace(partial, final)
     return result

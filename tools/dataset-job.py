@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 from app.capture_worker import ARTIFACT_ROOT, run_capture_worker  # noqa: E402
+from app.capture_session import CaptureWorkerSession  # noqa: E402
 from app.contracts import validate_payload  # noqa: E402
 from app.dataset import (artifact, digest, package_capture, publish_manifest,
                          validate_capture_files, validate_manifest)  # noqa: E402
@@ -38,6 +39,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--dataset-id", default="sf10-pilot-v1")
     parser.add_argument("--count", type=int)
+    parser.add_argument("--single-use", action="store_true", help="Launch a fresh browser for every capture (reference mode)")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--cancel", action="store_true")
     parser.add_argument("--validate", action="store_true")
@@ -98,6 +100,7 @@ def main() -> None:
     started = time.monotonic()
     entries = []
     reused = 0
+    session = None if args.single_use else CaptureWorkerSession()
     try:
         for index, item in enumerate(jobs):
             if cancel.is_set() or (root / "cancel.requested").exists():
@@ -125,7 +128,7 @@ def main() -> None:
                         raise ValueError("Existing capture has a different identity")
                 else:
                     discard_partial(ARTIFACT_ROOT / f"{job_id}.partial", ARTIFACT_ROOT)
-                    result = run_capture_worker({**request, "_job_id": job_id}, cancel)
+                    result = run_capture_worker({**request, "_job_id": job_id}, cancel, session=session)
                 stage = root / f"{capture_id}.partial"
                 discard_partial(stage, root)
                 metadata = package_capture(request, result, capture_dir, stage, records)
@@ -142,7 +145,8 @@ def main() -> None:
                                     [j["request"] for j in jobs], records)
         total_bytes = sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
         seconds = time.monotonic() - started
-        metrics = {"count": len(entries), "reused_captures": reused, "elapsed_s": seconds,
+        metrics = {"count": len(entries), "reused_captures": reused,
+                   "worker_mode": "single-use" if args.single_use else "persistent", "elapsed_s": seconds,
                    "captures_per_s": len(entries) / seconds,
                    "new_captures_per_s": (len(entries) - reused) / seconds,
                    "bytes_total": total_bytes, "bytes_per_capture": total_bytes / len(entries),
@@ -157,6 +161,9 @@ def main() -> None:
         state["error"] = str(error)
         write_state(state_path, state)
         raise
+    finally:
+        if session is not None:
+            session.close()
 
 
 if __name__ == "__main__":

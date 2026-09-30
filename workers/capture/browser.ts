@@ -1,12 +1,10 @@
+import { CaptureGeometryCache } from "./geometry.ts";
 import * as THREE from "three";
 import { AssetLibrary, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
 import { HARBOR_GENERATOR, AERODROME_GENERATOR } from "@yulab/world";
 import { validatePayload } from "@yulab/contracts";
 import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec } from "@yulab/contracts";
 import {
-  createWorld,
-  chunkPlacements,
-  meshChunk,
   sensorChunks,
   type ChunkData,
 } from "@yulab/world";
@@ -173,6 +171,8 @@ function addChunk(root: THREE.Group, data: ChunkData) {
   }
 }
 
+const geometryCache = new CaptureGeometryCache();
+
 async function capture(request: Request) {
   validatePayload("WorldSpec", request.world);
   validatePayload("RigSpec", request.rig);
@@ -183,7 +183,11 @@ async function capture(request: Request) {
     throw new Error("Capture plan and environment ticks differ");
   if (!request.plan.modalities.includes("rgb"))
     throw new Error("Capture requires the synchronized RGB/reference passes");
-  const world = createWorld(request.world);
+  const jobStarted = performance.now();
+  const timings: Record<string, number> = {};
+  let phase = jobStarted;
+  const mark = (name: string) => { const now = performance.now(); timings[name] = now - phase; phase = now; };
+  const world = geometryCache.useWorld(request.world);
   const rgb = captureCamera(request.rig, "rgb");
   const position = [
     rgb.T_world_from_sensor[3],
@@ -199,11 +203,8 @@ async function capture(request: Request) {
     { position, range: rgb.max_range_m },
     ...(lidarOrigin && lidarRig ? [{ position: lidarOrigin, range: lidarRig.max_range_m }] : []),
   ]);
-  const chunks = coords.map((coord) => ({
-    mesh: meshChunk(world, coord, 2),
-    placements: chunkPlacements(world, coord),
-    generationMs: 0,
-  }));
+  const chunks = coords.map((coord) => geometryCache.chunk(coord));
+  mark("world_mesh_ms");
   const scene = new THREE.Scene();
   const response = weatherResponse(request.environment);
   scene.background = new THREE.Color(0xcbd5d8);
@@ -228,6 +229,7 @@ async function capture(request: Request) {
     site = buildAerodromeScene(request.world, assets, coords);
     scene.add(site.root);
   }
+  mark("scene_assets_ms");
   const renderer = new THREE.WebGLRenderer({
     antialias: false,
     preserveDrawingBuffer: false,
@@ -237,6 +239,7 @@ async function capture(request: Request) {
   const capabilities = rendererCapabilities(renderer);
   if (!capabilities.webgl2 || !capabilities.float_readback)
     throw new Error("worker_context_lost: required WebGL2 float readback unavailable");
+  mark("renderer_setup_ms");
   const started = performance.now();
   try {
     const posedBoxes: Record<string, { frame: "east-up-south"; center_m: [number, number, number];
@@ -253,6 +256,7 @@ async function capture(request: Request) {
         extent_m: size.toArray().map((n) => Math.max(n, 1e-6)) as [number, number, number],
         quaternion_xyzw: [0, 0, 0, 1] };
     }
+    mark("posed_boxes_ms");
     const capture = renderReferencePasses(
       renderer,
       scene,
@@ -262,6 +266,7 @@ async function capture(request: Request) {
       request.plan.seed_channels.rgb,
       request.plan.seed_channels.weather,
     );
+    mark("rgb_reference_ms");
     const orderedIds = request.world.instances.map((item) => item.instance_id).sort();
     const rgbLabels = renderVisibilityPass(renderer, scene, request.rig, "rgb", orderedIds);
     if (rgbLabels.visible.length !== capture.instance.length ||
@@ -269,6 +274,7 @@ async function capture(request: Request) {
       throw new Error("RGB visibility pass disagrees with frozen reference IDs");
     const irLabels = request.plan.modalities.includes("ir")
       ? renderVisibilityPass(renderer, scene, request.rig, "ir", orderedIds) : null;
+    mark("visibility_ms");
     let thermal: ReturnType<typeof renderThermalPass> | null = null;
     let thermalStateJson: string | null = null;
     if (request.plan.modalities.includes("ir")) {
@@ -294,21 +300,25 @@ async function capture(request: Request) {
       if (thermal.width !== capture.width || thermal.height !== capture.height)
         throw new Error("The synchronized v1 RGB and IR cameras require matching raster dimensions");
     }
+    mark("thermal_ms");
     let lidar: ReturnType<typeof scanLidar> | null = null;
     let lidarPreview: ReturnType<typeof lidarPreviews> | null = null;
     let lidarGeometry: ReturnType<typeof buildLidarScene> | null = null;
     try {
       if (lidarRequested) {
         lidarGeometry = buildLidarScene(scene, catalog?.assets ?? []);
+        mark("lidar_build_ms");
         lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar, {
           environment: request.environment,
           weather_seed: request.plan.seed_channels.weather,
         });
+        mark("lidar_scan_ms");
         lidarPreview = lidarPreviews(lidar, request.rig, lidarRig!.max_range_m);
       }
     } finally {
       lidarGeometry?.dispose();
     }
+    mark("lidar_preview_ms");
     const count = lidar?.points.length ?? 0;
     const xyz = new Float32Array(count * 3);
     const intensity = new Float32Array(count);
@@ -392,6 +402,9 @@ async function capture(request: Request) {
       lidar_topdown_preview_png_base64: lidarPreview?.topdown_png_base64 ?? null,
       capabilities,
       elapsed_ms: performance.now() - started,
+      timings_ms: timings,
+      geometry_cache: geometryCache.snapshot(),
+      total_browser_ms: performance.now() - jobStarted,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),
     };
   } finally {

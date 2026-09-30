@@ -102,3 +102,39 @@ The local Edge channel is Chromium-based and its exact browser/WebGL strings are
 recorded in evidence. The Playwright package is locked; the machine browser
 binary itself is an observed dependency when the bundled Chromium executable is
 not installed.
+
+## Dataset throughput
+
+`tools/dataset-job.py` keeps one Node process, asset server, and browser page for
+the dataset job. It retains deterministic CPU terrain/placement data for the
+current complete WorldSpec snapshot in an LRU cache (64 chunks, 128 MiB). A
+changed snapshot clears the cache; new viewpoints generate only missing chunks.
+The retention budget never excludes geometry required by a capture. Oversized
+chunks are generated normally and are not retained.
+
+Each request builds and disposes its own scene, renderer, asset instances and
+LiDAR BVHs. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
+all run again with the submitted seeds and calibration. Continued thermal history
+still resolves its explicit hash-verified prior artifact. No observations or
+labels are cached. Sequential request order, cancellation, the per-request 120 s
+timeout and validation before atomic publication remain in effect.
+
+Use the existing collection command; persistent execution is the default:
+
+```powershell
+$env:PLAYWRIGHT_CHANNEL='msedge'
+$env:PLAYWRIGHT_GPU='1'
+backend\.venv\Scripts\python.exe tools\dataset-job.py --requests REQUESTS.json --output artifacts\DATASET
+```
+
+`--single-use` launches a fresh browser for every request as a reference mode.
+For a fresh benchmark, use a separate `YULAB_CAPTURE_ROOT` for each run and a new
+dataset output directory; `reused_captures` must be zero. Resume retains the
+existing validation rules but does not claim fresh-capture throughput.
+
+`tools/compare-capture-datasets.py BEFORE AFTER` validates both manifests and
+requires identical file inventories and byte-identical data files, including
+previews, raw arrays, masks, calibration, observations, labels and truth.
+Only runtime telemetry in `metadata_json` and manifest provenance may differ.
+Per-stage timings and cache/memory counters are retained in capture metadata.
+The interactive API continues to use isolated single-capture processes.

@@ -1,0 +1,116 @@
+{
+  "captures": 24,
+  "identical_files": 960,
+  "parity": "byte-identical; runtime telemetry excluded",
+  "before_manifest_sha256": "033b200c850a5acd6518e8a500750716c3ab944aa91fb15f6134e291a71ce75b",
+  "after_manifest_sha256": "32eef8ef9ae4238eb3bfc85854bc338f73a98de366d1e3fa7ef3dd4d70006e97",
+  "after_mean_phase_ms": {
+    "world_mesh_ms": 1505.5666666666511,
+    "scene_assets_ms": 272.62500000023283,
+    "renderer_setup_ms": 5.887500000031044,
+    "posed_boxes_ms": 6.3125,
+    "rgb_reference_ms": 244.39583333325572,
+    "visibility_ms": 63.09166666655801,
+    "thermal_ms": 38.52916666671323,
+    "lidar_build_ms": 228.14583333341093,
+    "lidar_scan_ms": 46.54583333316259,
+    "lidar_preview_ms": 11.3833333333799
+  },
+  "before_mean_phase_ms": {
+    "world_mesh_ms": 14086.987500000047,
+    "scene_assets_ms": 350.533333333442,
+    "renderer_setup_ms": 10.075000000186265,
+    "posed_boxes_ms": 6.258333332991849,
+    "rgb_reference_ms": 474.90416666686843,
+    "visibility_ms": 95.58333333333333,
+    "thermal_ms": 62.220833333364375,
+    "lidar_build_ms": 265.80416666654247,
+    "lidar_scan_ms": 76.50833333345751,
+    "lidar_preview_ms": 17.50833333306946
+  },
+  "after_capture_browser_ms": {
+    "median": 914.2000000001863,
+    "p95": 7420.200000001118
+  },
+  "peak_cache_bytes": 118899600,
+  "peak_cache_chunks": 33,
+  "peak_browser_heap_bytes": 238934837,
+  "peak_node_rss_bytes": 165011456,
+  "before": {
+    "count": 24,
+    "reused_captures": 0,
+    "elapsed_s": 425.62118010000086,
+    "captures_per_s": 0.05638817127089665,
+    "new_captures_per_s": 0.05638817127089665,
+    "bytes_total": 57517434,
+    "bytes_per_capture": 2396559.75,
+    "estimate_3000_bytes": 7189679250.0,
+    "splits": {
+      "train": 24,
+      "validation": 0,
+      "test": 0
+    }
+  },
+  "after": {
+    "count": 24,
+    "reused_captures": 0,
+    "worker_mode": "persistent",
+    "elapsed_s": 76.62033960000008,
+    "captures_per_s": 0.31323275419155117,
+    "new_captures_per_s": 0.31323275419155117,
+    "bytes_total": 57520472,
+    "bytes_per_capture": 2396686.3333333335,
+    "estimate_3000_bytes": 7190059000.0,
+    "splits": {
+      "train": 24,
+      "validation": 0,
+      "test": 0
+    }
+  },
+  "speedup": 5.554937270207563,
+  "environment": {
+    "os": "Windows",
+    "cpu": "Intel Core i5-12400, 6 cores / 12 threads",
+    "gpu": "NVIDIA GeForce RTX 3090, 24 GiB",
+    "browser": "Edge 154.0.4258.37, hardware D3D11",
+    "node": "25.6.1",
+    "python": "3.13.10",
+    "PLAYWRIGHT_CHANNEL": "msedge",
+    "PLAYWRIGHT_GPU": "1"
+  },
+  "reference_revision": "03f2259",
+  "request_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    130,
+    131
+  ],
+  "requests_sha256": "08a9bef12107d8855e07446e6395cf9c7269c9db3466af85fc2d598499febd4e",
+  "original_requests_sha256": "b189a72bd4524344bf8cf905aeea6b33465bcd7abeff80a86a4037f8d28ab010",
+  "notes": [
+    "Complete dataset generation including cold startup, packaging, validation and publication; zero reused captures.",
+    "Baseline uses the original per-request process with timing-only instrumentation.",
+    "Background host workloads were not controlled; byte equality and throughput are hardware-scoped.",
+    "Runtime telemetry and manifest provenance are intentionally different; all data files must match exactly."
+  ]
+}
