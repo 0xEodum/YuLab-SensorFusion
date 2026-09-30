@@ -112,5 +112,9 @@
     "Baseline uses the original per-request process with timing-only instrumentation.",
     "Background host workloads were not controlled; byte equality and throughput are hardware-scoped.",
     "Runtime telemetry and manifest provenance are intentionally different; all data files must match exactly."
-  ]
+  ],
+  "sensor_performance_revision": "b0935f0",
+  "final_implementation_revision": "99131c80d878f7707ab2b4cbbfd86286b5f78a95",
+  "full_300_comparison": "docs/evidence/sf10-performance/full-comparison.json",
+  "final_wire_parity": "docs/evidence/sf10-performance/final-wire-parity.json"
 }

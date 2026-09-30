@@ -1,7 +1,8 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-29. SF-10 visibility labels and dataset jobs passed local
-acceptance with a validated 300-capture tri-modal pilot. SF-11 learning pilot
+Updated: 2026-09-30. SF-10 visibility labels and dataset jobs passed local
+acceptance with a validated 300-capture tri-modal pilot. Its collection performance
+follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines is READY.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
@@ -45,6 +46,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-08 | Weather, time and sensor noise | SF-07 | DONE |
 | SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | DONE |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
+| SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | READY |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
@@ -391,6 +393,14 @@ splits. The observation-only load boundary passed with truth and annotations
 unavailable; model inference begins in SF-11. See the
 [SF-10 evidence](evidence/SF-10-visibility-dataset.md) for commands, hashes,
 metrics, visual review and limits.
+
+User-requested SF-10P follow-up on 2026-09-30: persistent dataset sessions and
+bounded CPU terrain reuse improved the matched 24-request complete job by 5.55x.
+The full 300-request replay took 657.62 s versus the original 5,076.44 s, with
+all 12,000 data files byte-identical and the independent label audit passing.
+Final worker/contract implementation is `99131c8`; SF-11 remains READY. See
+[performance evidence](evidence/SF-10-performance.md) for source revisions,
+commands, hashes, measured memory, regression checks and benchmark limits.
 
 ## SF-11 — Learning pilot and baselines
 

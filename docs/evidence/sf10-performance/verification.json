@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-30",
+  "implementation_revision": "99131c80d878f7707ab2b4cbbfd86286b5f78a95",
+  "sensor_performance_revision": "b0935f0",
+  "reference_revision": "03f2259",
+  "source_sha256": {
+    "workers/capture/browser.ts": "dbfec8f8e8c0711da6a15bb718f50365784b9e3db65a1ad649c1817c724d6875",
+    "workers/capture/geometry.ts": "7a0786f3b026014661d978f2b4dc263e5be4ecd252cb1ceb82025d466e61606d",
+    "workers/capture/index.mjs": "7d8959630ee98fe68b1b9810c41e8ec43673e2276823398389804f02c04a8a29",
+    "backend/app/capture_worker.py": "4acaeac6d73b5a783d2e0d2835c4eff34237ab92544c5207f9a69e2387b5cd3d",
+    "backend/app/capture_session.py": "75f4686590b4e5232528d61a4925238ca001bb8a018c57386f224d96e64e8bed",
+    "tools/dataset-job.py": "b0881b5e607863f027b02dbf6fcc48e51f66370c269635fbd60f1cf571179705",
+    "tools/compare-capture-datasets.py": "40f7e4c166b07a8edb6e9679a0282b2cf291cbc62490081ddd0664e0de321499",
+    "tests/world/capture-cache.test.ts": "04f937c334f8fa7b1795d6c0ee09c8396031392dec00200584b82b721c5a1f7b",
+    "backend/tests/test_capture_session.py": "9348b8489e84d2c380a24c3d9ee63b301ce3eb4ee65e148a196ffb96529265bb",
+    "tests/browser/capture.spec.ts": "c8249eb708e1e06dfe4bb389e8a34d52fde275821a69ea8aa8879b28396868bc",
+    "tsconfig.capture.json": "355a668062eac94773aee046a755c4ab4ce1d38aaf3847d06b7b8ffc93ff859c",
+    "contracts/lab.schema.json": "3dfc56fb07a1126cd6f31fcd1c6e68a2b647a30af8ba3f7bf646aeddc5cef406"
+  },
+  "log_sha256": {
+    "artifacts/perf-sf10/verify-fixed.log": "8a6d79c68eb5a9da34ddc9ae826f215f23e64f300ce829408d7649f6f9834a0c",
+    "artifacts/perf-sf10/browser-fixed.log": "cac8d9af9db8598c160f33e35163f67e4b4044879e712c3956657846ef204a16",
+    "artifacts/perf-sf10/browser-inventory.log": "3d79a2dced4f6a90da4ec832dcc0a272b00da134242defee717c943d341144f3",
+    "artifacts/perf-sf10/full-300.log": "917de6c8d27fede9f0e67ec35ee1c70710d61f4b5b330b8ba382aecce7b03fc0",
+    "artifacts/perf-sf10/final-24.log": "0fe76a10f5f8d4dea8381023ceee574caddfe36998e5fd4cd913f982f46ada0d"
+  },
+  "evidence_sha256": {
+    "final-wire-parity.json": "b191e5b8081c9bcd5df5b1f412c22a44b461f7f7d873b6088b332e7a990c32a4",
+    "full-comparison.json": "d4dd0670e278f48f4338da00b1d1c2924ee3f9f09ad1b1e781b74f54c352c0fe",
+    "pilot-audit.json": "c37e93b6cea8b15a0eb3cd4438e2d144deacd9e18005e2370cb2c0abb295c5c7"
+  },
+  "commands": [
+    {
+      "command": "npm run verify",
+      "exit_code": 0,
+      "results": {
+        "contracts": 65,
+        "world": 22,
+        "sensors": 30,
+        "assets": 8,
+        "backend": 118,
+        "build": "passed",
+        "capture_worker_typecheck": "passed"
+      }
+    },
+    {
+      "command": "npm run test:browser -- tests/browser/capture.spec.ts tests/browser/weather.spec.ts",
+      "exit_code": 1,
+      "results": "Three passed; browser-closure inventory assertion still lacked SF-10 ir_instance and rgb_raw."
+    },
+    {
+      "command": "npm run test:browser -- tests/browser/capture.spec.ts --grep 'closing the submitting browser'",
+      "exit_code": 0,
+      "results": "One passed after correcting the stale SF-10 inventory assertion; all four scenarios passed."
+    },
+    {
+      "command": "tools/compare-capture-datasets.py original-pilot full-300",
+      "exit_code": 0,
+      "results": "300 captures / 12000 byte-identical data files."
+    },
+    {
+      "command": "tools/audit-sf10-pilot.py full-300 requests-v4.json",
+      "exit_code": 0,
+      "results": "Independent masks, boxes, counts, eligibility, calibration and grouped splits passed."
+    },
+    {
+      "command": "tools/compare-capture-datasets.py baseline final-24",
+      "exit_code": 0,
+      "results": "24 fresh captures / 960 byte-identical data files with final strict result validation."
+    }
+  ]
+}

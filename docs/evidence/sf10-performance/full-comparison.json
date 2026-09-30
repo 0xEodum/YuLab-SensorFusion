@@ -1,0 +1,60 @@
+{
+  "captures": 300,
+  "identical_files": 12000,
+  "parity": "byte-identical; runtime telemetry excluded",
+  "before_manifest_sha256": "c71680f7e2d2451991a772a05c6b977a8944c476cd453d1dcf1b9f0bace47ebe",
+  "after_manifest_sha256": "05b0898a5aca02faa7e1bc492686ec9ae7fbbdb1d59d8ce087a1bdcfe57f5908",
+  "after_mean_phase_ms": {
+    "world_mesh_ms": 531.1756666666766,
+    "scene_assets_ms": 243.33966666663065,
+    "renderer_setup_ms": 5.941999999955296,
+    "posed_boxes_ms": 5.624666666698952,
+    "rgb_reference_ms": 242.5276666666319,
+    "visibility_ms": 65.83900000001614,
+    "thermal_ms": 36.16100000002111,
+    "lidar_build_ms": 214.21899999997268,
+    "lidar_scan_ms": 49.1756666666766,
+    "lidar_preview_ms": 10.298999999997516
+  },
+  "before_mean_phase_ms": {},
+  "after_capture_browser_ms": {
+    "median": 906.0499999998137,
+    "p95": 4320.800000000745
+  },
+  "peak_cache_bytes": 133383544,
+  "peak_cache_chunks": 37,
+  "peak_browser_heap_bytes": 367126114,
+  "peak_node_rss_bytes": 168202240,
+  "before": {
+    "count": 300,
+    "reused_captures": 0,
+    "elapsed_s": 5076.4401779,
+    "captures_per_s": 0.059096530144496395,
+    "new_captures_per_s": 0.059096530144496395,
+    "bytes_total": 720572553,
+    "bytes_per_capture": 2401908.51,
+    "estimate_3000_bytes": 7205725529.999999,
+    "splits": {
+      "train": 200,
+      "validation": 50,
+      "test": 50
+    }
+  },
+  "after": {
+    "count": 300,
+    "reused_captures": 0,
+    "worker_mode": "persistent",
+    "elapsed_s": 657.6224930000008,
+    "captures_per_s": 0.45618877576926137,
+    "new_captures_per_s": 0.45618877576926137,
+    "bytes_total": 720746818,
+    "bytes_per_capture": 2402489.3933333335,
+    "estimate_3000_bytes": 7207468180.000001,
+    "splits": {
+      "train": 200,
+      "validation": 50,
+      "test": 50
+    }
+  },
+  "speedup": 7.719383433406975
+}

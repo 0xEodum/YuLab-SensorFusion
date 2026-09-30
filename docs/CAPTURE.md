@@ -138,3 +138,5 @@ previews, raw arrays, masks, calibration, observations, labels and truth.
 Only runtime telemetry in `metadata_json` and manifest provenance may differ.
 Per-stage timings and cache/memory counters are retained in capture metadata.
 The interactive API continues to use isolated single-capture processes.
+The [SF-10 performance evidence](evidence/SF-10-performance.md) records the
+matched benchmark, full-pilot byte parity, memory measurements and known limits.

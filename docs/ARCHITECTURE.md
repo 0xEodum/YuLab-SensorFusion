@@ -1,7 +1,7 @@
 # Sensor-fusion lab architecture
 
-Status: SF-10 visibility labels and 300-capture dataset pilot passed local acceptance; SF-11 is next.
-Updated 2026-09-29.
+Status: SF-10 visibility labels, 300-capture dataset pilot and exact-parity collection performance follow-up passed local acceptance; SF-11 is next.
+Updated 2026-09-30.
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
