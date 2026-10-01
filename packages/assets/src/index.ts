@@ -119,12 +119,60 @@ function batchTemplate(root: THREE.Group) {
   return out;
 }
 
+/** Independent copy: own geometry arrays and materials, cloned in creation order
+ * so per-scene render ordering by material id matches a freshly parsed template. */
+function copyTemplate(template: THREE.Group) {
+  const sources = new Set<THREE.Material>();
+  template.traverse((o) => {
+    if (o instanceof THREE.Mesh) sources.add(o.material as THREE.Material);
+  });
+  const materials = new Map<THREE.Material, THREE.Material>();
+  // Material.id is the runtime creation counter three.js sorts by; untyped here.
+  const created = (m: THREE.Material) => (m as unknown as { id: number }).id;
+  for (const material of [...sources].sort((a, b) => created(a) - created(b)))
+    materials.set(material, material.clone());
+  const copy = template.clone(true);
+  copy.traverse((o) => {
+    if (!(o instanceof THREE.Mesh)) return;
+    o.geometry = o.geometry.clone();
+    o.material = materials.get(o.material as THREE.Material)!;
+  });
+  return copy;
+}
+
+/** Verified, batched templates retained across scenes, keyed by content hash.
+ * Scenes always receive copies, because sensor passes (e.g. LiDAR BVH builds)
+ * may index or annotate the geometry they are given. */
+export class AssetTemplateCache {
+  private templates = new Map<string, THREE.Group>();
+  readonly stats = { hits: 0, loaded: 0 };
+  private key(record: AssetRecord) {
+    return `${record.asset_id}@${record.content_sha256}`;
+  }
+  take(record: AssetRecord) {
+    const template = this.templates.get(this.key(record));
+    if (!template) return null;
+    this.stats.hits++;
+    return copyTemplate(template);
+  }
+  retain(record: AssetRecord, template: THREE.Group) {
+    this.stats.loaded++;
+    this.templates.set(this.key(record), copyTemplate(template));
+  }
+  dispose() {
+    this.templates.forEach(disposeObject);
+    this.templates.clear();
+  }
+}
+
 export class AssetLibrary {
   readonly templates = new Map<string, THREE.Group>();
   private disposed = false;
   readonly catalog: Catalog;
-  constructor(catalog: Catalog) {
+  private cache: AssetTemplateCache | null;
+  constructor(catalog: Catalog, cache: AssetTemplateCache | null = null) {
     this.catalog = catalog;
+    this.cache = cache;
   }
   async load(spec: WorldSpec, signal: AbortSignal) {
     const fetchSignal = AbortSignal.any([signal, AbortSignal.timeout(30000)]);
@@ -137,6 +185,11 @@ export class AssetLibrary {
         )
       )
         throw new Error(`${id}: world asset hash mismatch`);
+      const cached = this.cache?.take(record);
+      if (cached) {
+        this.templates.set(id, cached);
+        continue;
+      }
       try {
         const response = await fetch(`/catalog/${id}.glb`, {
           signal: fetchSignal,
@@ -187,6 +240,7 @@ export class AssetLibrary {
           throw new Error("GLB semantic node missing");
         }
         const template = batchTemplate(gltf.scene);
+        this.cache?.retain(record, template);
         this.templates.set(id, template);
       } catch (e) {
         throw new Error(`${id}: ${e instanceof Error ? e.message : String(e)}`);

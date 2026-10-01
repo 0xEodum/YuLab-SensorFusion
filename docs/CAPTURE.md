@@ -114,7 +114,12 @@ The retention budget never excludes geometry required by a capture. Oversized
 chunks are generated normally and are not retained.
 
 Each request builds and disposes its own scene, renderer, asset instances and
-LiDAR BVHs. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
+LiDAR BVHs. A session also retains the validated catalog and, per asset, the
+hash-verified batched template (`AssetTemplateCache`, keyed by asset ID and
+content SHA-256). Each request receives its own copy with cloned geometry
+arrays and materials, cloned in original creation order so three.js render
+ordering is unchanged; sensor passes may therefore index or annotate their copy
+(LiDAR BVH builds do) without affecting later requests. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
 all run again with the submitted seeds and calibration. Continued thermal history
 still resolves its explicit hash-verified prior artifact. No observations or
 labels are cached. Cancellation, the per-request 120 s timeout and validation

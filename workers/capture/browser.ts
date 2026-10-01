@@ -1,6 +1,6 @@
 import { CaptureGeometryCache } from "./geometry.ts";
 import * as THREE from "three";
-import { AssetLibrary, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
+import { AssetLibrary, AssetTemplateCache, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
 import { HARBOR_GENERATOR, AERODROME_GENERATOR } from "@yulab/world";
 import { validatePayload } from "@yulab/contracts";
 import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec } from "@yulab/contracts";
@@ -172,6 +172,9 @@ function addChunk(root: THREE.Group, data: ChunkData) {
 }
 
 const geometryCache = new CaptureGeometryCache();
+// The served catalog is fixed for a session; templates are verified on first load.
+const assetCache = new AssetTemplateCache();
+let sessionCatalog: Promise<Catalog> | null = null;
 
 async function capture(request: Request) {
   validatePayload("WorldSpec", request.world);
@@ -221,8 +224,12 @@ async function capture(request: Request) {
   let site: ReturnType<typeof buildAerodromeScene> | null = null;
   let catalog: Catalog | null = null;
   if (request.world.instances.length) {
-    catalog = await loadCatalog();
-    assets = new AssetLibrary(catalog);
+    sessionCatalog ??= loadCatalog().catch((error) => {
+      sessionCatalog = null;
+      throw error;
+    });
+    catalog = await sessionCatalog;
+    assets = new AssetLibrary(catalog, assetCache);
     await assets.load(request.world, AbortSignal.timeout(30_000));
   }
   if (assets || [HARBOR_GENERATOR, AERODROME_GENERATOR].includes(request.world.generator_version)) {
@@ -404,6 +411,7 @@ async function capture(request: Request) {
       elapsed_ms: performance.now() - started,
       timings_ms: timings,
       geometry_cache: geometryCache.snapshot(),
+      asset_cache: { ...assetCache.stats },
       total_browser_ms: performance.now() - jobStarted,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),
     };
