@@ -46,7 +46,11 @@ def resume_published(item: dict, root: Path) -> dict:
     """Metadata for a capture already published into the dataset directory."""
     capture_id = item["request"]["plan"]["capture_id"]
     directory = root / capture_id
-    metadata = {"capture_id": capture_id}
+    result = json.loads((directory / "metadata_json").read_text(encoding="utf-8"))
+    sequence_id = item["request"]["plan"]["sequence_id"]
+    if result["capture_id"] != capture_id or result["sequence_id"] != sequence_id:
+        raise ValueError("Resume capture/sequence identity mismatch")
+    metadata = {"capture_id": capture_id, "sequence_id": sequence_id}
     for name in ("observation", "annotations", "truth"):
         path = directory / f"{name}.json"
         metadata[name] = {"id": name, "sha256": digest(path),
@@ -68,5 +72,6 @@ def finalize_capture(item: dict, root: str) -> dict:
     discard_partial(stage, dataset_root)
     metadata = package_capture(request, result, capture_dir, stage, catalog_records())
     validate_capture_files(stage, metadata)
-    os.replace(stage, directory)
+    from .capture_session import _retry_sharing
+    _retry_sharing(lambda source: os.replace(source, directory), stage)
     return _inventory(item, directory, metadata)

@@ -740,7 +740,7 @@ class Detection(TypedDict):
     class_id: int
     box_3d: Box3
     score: float
-    position_variance_m2: list[PositionVarianceM2Item]
+    position_variance_m2: list[PositionVarianceM2Item] | None
     observation_supported: bool
     routing: list[RoutingItem] | None
 

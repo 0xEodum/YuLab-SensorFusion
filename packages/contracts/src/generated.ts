@@ -857,10 +857,9 @@ export interface Detection {
   box_3d: Box3;
   score: number;
   /**
-   * @minItems 3
-   * @maxItems 3
+   * Null when a baseline does not estimate position variance.
    */
-  position_variance_m2: [number, number, number];
+  position_variance_m2: [number, number, number] | null;
   observation_supported: boolean;
   routing: [number, number, number, number, number, number, number, number] | null;
 }

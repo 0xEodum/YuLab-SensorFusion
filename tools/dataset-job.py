@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "backend"))
 from app.capture_worker import ARTIFACT_ROOT, run_capture_worker  # noqa: E402
 from app.capture_lanes import UnitScheduler, plan_units  # noqa: E402
 from app.capture_session import CaptureWorkerSession  # noqa: E402
+from app.capture_session import _retry_sharing  # noqa: E402
 from app.contracts import validate_payload  # noqa: E402
 from app.dataset import digest, publish_manifest, validate_manifest  # noqa: E402
 from app.dataset_pipeline import (capture_job_id, catalog_records, discard_partial,  # noqa: E402
@@ -26,7 +27,7 @@ from app.dataset_pipeline import (capture_job_id, catalog_records, discard_parti
 def write_state(path: Path, state: dict) -> None:
     partial = path.with_suffix(".json.partial")
     partial.write_text(json.dumps(state, sort_keys=True, indent=2) + "\n", encoding="utf-8")
-    os.replace(partial, path)
+    _retry_sharing(lambda source: os.replace(source, path), partial)
 
 
 def default_workers() -> int:

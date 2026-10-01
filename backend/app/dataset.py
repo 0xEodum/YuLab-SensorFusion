@@ -315,6 +315,7 @@ def publish_manifest(root: Path, dataset_id: str, entries: list[dict],
     validate_payload("DatasetManifest", manifest)
     staging = root / "manifest.json.partial"
     json_file(staging, manifest)
-    os.replace(staging, root / "manifest.json")
+    from .capture_session import _retry_sharing
+    _retry_sharing(lambda source: os.replace(source, root / "manifest.json"), staging)
     validate_manifest(root, executor)
     return manifest

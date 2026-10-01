@@ -79,6 +79,12 @@ sensor output is added in this stage.
 | `DatasetManifest` | Immutable file hashes, capture IDs, generation provenance, disjoint split group IDs, class map and summary counts | Validation, training, evaluation |
 | `PredictionBundle` | Capture/checkpoint ID, predicted class/box/score/uncertainty, measured latency, optional routing/state | Demo and evaluation |
 
+SF-11 `baseline-v1` predicts upright 3D boxes from observations. Baselines report
+`position_variance_m2: null` and `routing: null` because those estimates are not
+implemented. The nullable variance extension is generated in both runtimes and
+has a shared positive fixture. It never substitutes a fixed invented variance.
+See [learning profile](LEARNING_BASELINES.md) for preprocessing and evaluation.
+
 Inference rejects unknown truth-bearing fields. It cannot open dataset label
 directories or resolve a capture ID into world state. A prediction object cannot
 carry a truth instance ID; evaluation performs matching separately. Calibration

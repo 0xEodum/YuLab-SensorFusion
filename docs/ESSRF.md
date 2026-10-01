@@ -2,8 +2,11 @@
 
 ## 0. Lab implementation status and decision record
 
-**Status (2026-09-21): design only.** There is no ESSRF implementation, trained
-checkpoint, convergence result or measured latency in this repository. Sections
+**Status (2026-10-01): SF-11 baselines in progress; ESSRF remains design only.**
+The observation-only `baseline-v1` set detector and independent 3D evaluator
+are implemented; collection/training acceptance is in progress. See
+[baseline profile](LEARNING_BASELINES.md). There is no ESSRF implementation or
+ESSRF checkpoint/convergence/latency result in this repository. Sections
 1–7 describe the research target; this section defines how it will be implemented
 and tested in the sensor-fusion lab. The [architecture](ARCHITECTURE.md),
 [data contracts](DATA_CONTRACTS.md), and [backlog](BACKLOG.md) specify the system

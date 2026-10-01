@@ -82,3 +82,19 @@ def test_sharing_violation_is_retried_then_surfaced(monkeypatch):
 
     with pytest.raises(PermissionError):
         capture_session._retry_sharing(denied, "x")
+
+
+def test_resume_preserves_sequence_and_rejects_mismatched_identity(tmp_path, monkeypatch):
+    import json
+    from app import dataset_pipeline
+    directory = tmp_path / "capture-1"; directory.mkdir()
+    (directory / "metadata_json").write_text(json.dumps({"capture_id": "capture-1", "sequence_id": "seq-1"}))
+    for name in ("observation", "annotations", "truth"):
+        (directory / f"{name}.json").write_text("{}")
+    item = {"request": {"plan": {"capture_id": "capture-1", "sequence_id": "seq-1"}},
+            "group_id": "layout-1", "split": "train"}
+    monkeypatch.setattr(dataset_pipeline, "_inventory", lambda item, directory, metadata: metadata)
+    assert dataset_pipeline.resume_published(item, tmp_path)["sequence_id"] == "seq-1"
+    item["request"]["plan"]["sequence_id"] = "seq-other"
+    with pytest.raises(ValueError, match="identity mismatch"):
+        dataset_pipeline.resume_published(item, tmp_path)

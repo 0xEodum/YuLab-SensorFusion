@@ -1,14 +1,16 @@
 # Sensor-fusion lab architecture
 
-Status: SF-10 visibility labels, 300-capture dataset pilot and exact-parity collection performance follow-up passed local acceptance; SF-11 is next.
-Updated 2026-09-30.
+Status: SF-10 and collection performance follow-up passed local acceptance;
+SF-11 grouped learning pilot and diagnostic baselines are in progress.
+Updated 2026-10-01.
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
 RGB capture, geometric depth/instance references, raw thermal IR and sparse
 first-return LiDAR, visibility labels and local dataset jobs are implemented;
-model training and inference remain planned. No unimplemented sensor/training
+local baseline training and checkpoint inference are being validated in SF-11;
+service/UI model integration remains planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
 belong to [DATA_CONTRACTS.md](DATA_CONTRACTS.md).
@@ -334,6 +336,12 @@ condition severity, range and occlusion bins. Report per-class results and
 false positives on empty/distractor scenes. Compare models with the same data,
 training budget and inference inputs. A converged loss is not proof of a useful
 detector. No claim that ESSRF beats baselines until measured on untouched data.
+
+SF-11's initial baseline head is 3D-only; visible 2D AP remains an explicit
+evaluation extension. Its fixed reduced preprocessing, learned query discovery,
+3D metric thresholds and optional learning environment are documented in
+[LEARNING_BASELINES.md](LEARNING_BASELINES.md). Dataset raw cameras are 640 x 384;
+the diagnostic encoders area-resize to 160 x 96 and use 256 observed points.
 
 Record source commit, configuration, asset/dataset hashes, split identity, seed,
 dependencies/device, runtime, peak memory, learning curves and checkpoint hash.

@@ -3309,14 +3309,22 @@
             "maximum": 1
           },
           "position_variance_m2": {
-            "type": "array",
-            "items": {
-              "type": "number",
-              "minimum": 0,
-              "maximum": 1000000000
-            },
-            "minItems": 3,
-            "maxItems": 3
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Null when a baseline does not estimate position variance."
           },
           "observation_supported": {
             "type": "boolean"

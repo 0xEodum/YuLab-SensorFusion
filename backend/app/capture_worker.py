@@ -131,5 +131,6 @@ def run_capture_worker(request: dict[str, Any], cancel: threading.Event, *, sess
             raise WorkerCrashed("Capture artifact validation failed before publication.")
     if cancel.is_set():
         raise WorkerCrashed("Capture worker was cancelled before publication.")
-    os.replace(partial, final)
+    from .capture_session import _retry_sharing
+    _retry_sharing(lambda source: os.replace(source, final), partial)
     return result

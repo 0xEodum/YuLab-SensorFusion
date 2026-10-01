@@ -157,3 +157,7 @@ npm run capture:capabilities
 Datasets, larger future asset bundles, caches and model checkpoints belong under
 ignored `artifacts/`/`assets/imported/`, not ordinary Git history. Versioned
 manifests identify them when their implementation stages are reached.
+
+SF-11 local collection/training/checkpoint inference commands, the separate
+hash-locked PyTorch environment, and exact preprocessing/evaluation semantics
+are documented in [the learning baseline profile](docs/LEARNING_BASELINES.md).

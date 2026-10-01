@@ -47,7 +47,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | DONE |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
-| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | READY |
+| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | IN PROGRESS |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |

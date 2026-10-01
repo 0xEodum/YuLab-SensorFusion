@@ -20,14 +20,15 @@ const argument = (name: string, fallback: number) => {
   const index = process.argv.indexOf(name);
   return index < 0 ? fallback : Number(process.argv[index + 1]);
 };
-const count = argument("--count", 300), width = argument("--width", 320),
-  height = argument("--height", 192), rows = argument("--rows", 32),
+const learning = process.argv.includes("--learning");
+const count = argument("--count", learning ? 3000 : 300), width = argument("--width", learning ? 640 : 320),
+  height = argument("--height", learning ? 384 : 192), rows = argument("--rows", 32),
   columns = argument("--columns", 256);
 const outputIndex = process.argv.indexOf("--output");
 const output = outputIndex < 0 ? undefined : process.argv[outputIndex + 1];
 const prefixIndex = process.argv.indexOf("--id-prefix");
-const idPrefix = prefixIndex < 0 ? "sf10" : process.argv[prefixIndex + 1];
-if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 || count > 300 ||
+const idPrefix = prefixIndex < 0 ? (learning ? "sf11" : "sf10") : process.argv[prefixIndex + 1];
+if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 || count > (learning ? 3000 : 300) ||
     ![width, height, rows, columns].every((n) => Number.isInteger(n) && n > 0) ||
     !/^[a-z][a-z0-9_-]{1,30}$/.test(idPrefix))
   throw new Error("Use --output FILE [--count 1..300] [--width N --height N --rows N --columns N]");
@@ -38,19 +39,23 @@ const presets: [WeatherPreset, number, number][] = [
   ["snow", 0.8, 10], ["hot-background", 0.9, 15],
   ["clear-day", 0, 17], ["night", 1, 21],
 ];
-const layouts = [
+const layouts: {site: string; seed: number; split: string}[] = learning ? Array.from({length: 60}, (_, i) => ({
+  site: i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + i * 7919,
+  split: i < 42 ? "train" : i < 51 ? "validation" : "test",
+})) : [
   { site: "airfield", seed: 0, split: "train" },
   { site: "airfield", seed: 48291, split: "train" },
   { site: "harbor", seed: 7, split: "train" },
   { site: "harbor", seed: 90210, split: "train" },
   { site: "airfield", seed: 2718, split: "validation" },
   { site: "harbor", seed: 31415, split: "test" },
-] as const;
+];
 const requests: { group_id: string; split: string; request: CaptureRequest }[] = [];
 for (const [layoutIndex, layout] of layouts.entries()) {
   const world = layout.site === "airfield"
-    ? aerodromeWorldSpec(layout.seed, records, "catalog")
+    ? aerodromeWorldSpec(layout.seed, records, learning && layoutIndex % 6 === 0 ? "fixtures" : "catalog")
     : harborWorldSpec(layout.seed, records);
+  if (learning && layoutIndex % 10 === 9) world.instances = [];
   for (let view = 0; view < 5; view++) for (let condition = 0; condition < 10; condition++) {
     const n = layoutIndex * 50 + view * 10 + condition;
     if (n >= count) continue;
@@ -67,9 +72,22 @@ for (const [layoutIndex, layout] of layouts.entries()) {
       [[250, 28, -205], [190, 14, -205]],
       [[250, 28, 120], [190, 14, 120]],
     ];
+    if (learning && layout.site === "airfield" && layoutIndex % 6 === 0) {
+      viewpoints[0] = [[38, 32, 108], [40, 26.5, 70]];
+      viewpoints[1] = [[70, 34, 50], [60, 26, 0]];
+      viewpoints[2] = [[135, 32, 160], [110, 26, 105]];
+      viewpoints[3] = [[151, 28, 106], [180, 26.5, 50]];
+      viewpoints[4] = [[210, 28, 15], [210, 26.5, -40]];
+    }
     const [position, target] = viewpoints[view];
     const base = new THREE.Vector3(...position);
     const center = new THREE.Vector3(...target);
+    if (learning) {
+      const phase = layout.seed * 0.001 + view * 2.39;
+      // Pose/range variation depends on layout, never on condition or labels.
+      base.sub(center).multiplyScalar(0.8 + 0.45 * (0.5 + 0.5 * Math.sin(phase)));
+      base.applyAxisAngle(new THREE.Vector3(0, 1, 0), 0.16 * Math.cos(phase)).add(center);
+    }
     const camera = new THREE.PerspectiveCamera();
     camera.position.copy(base);
     camera.lookAt(center);

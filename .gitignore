@@ -1,6 +1,7 @@
 dist/
 node_modules/
 .venv/
+.venv-learning/
 .tools/
 __pycache__/
 *.py[cod]

@@ -849,6 +849,16 @@
     ]
   },
   {
+    "name": "baseline explicitly lacks position variance and routing",
+    "schema": "PredictionBundle",
+    "base": "PredictionBundle.json",
+    "valid": true,
+    "patches": [
+      {"op": "set", "path": ["detections", 0, "position_variance_m2"], "value": null},
+      {"op": "set", "path": ["detections", 0, "routing"], "value": null}
+    ]
+  },
+  {
     "name": "non-finite JSON NaN",
     "schema": "Health",
     "valid": false,
