@@ -9,6 +9,7 @@ import signal
 import sys
 import threading
 import time
+from concurrent.futures import Future, ProcessPoolExecutor, wait
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,8 +18,9 @@ from app.capture_worker import ARTIFACT_ROOT, run_capture_worker  # noqa: E402
 from app.capture_lanes import UnitScheduler, plan_units  # noqa: E402
 from app.capture_session import CaptureWorkerSession  # noqa: E402
 from app.contracts import validate_payload  # noqa: E402
-from app.dataset import (artifact, digest, package_capture, publish_manifest,
-                         validate_capture_files, validate_manifest)  # noqa: E402
+from app.dataset import digest, publish_manifest, validate_manifest  # noqa: E402
+from app.dataset_pipeline import (capture_job_id, catalog_records, discard_partial,  # noqa: E402
+                                  finalize_capture, resume_published)
 
 
 def write_state(path: Path, state: dict) -> None:
@@ -27,52 +29,22 @@ def write_state(path: Path, state: dict) -> None:
     os.replace(partial, path)
 
 
-def discard_partial(path: Path, root: Path) -> None:
-    if path.resolve().parent != root.resolve() or not path.name.endswith(".partial"):
-        raise ValueError("Unsafe partial path")
-    if path.exists():
-        shutil.rmtree(path)
-
-
 def default_workers() -> int:
     # Each session is one mostly single-threaded browser plus packaging work.
     return max(1, min(6, (os.cpu_count() or 2) // 2))
 
 
-def capture_item(item: dict, root: Path, records: dict, cancel: threading.Event,
-                 session: CaptureWorkerSession | None) -> tuple[dict, bool]:
-    """Capture (or resume) and publish one request; returns (metadata, reused)."""
-    request = item["request"]
-    capture_id = request["plan"]["capture_id"]
-    directory = root / capture_id
-    job_id = f"capture-job-{capture_id}"
-    capture_dir = ARTIFACT_ROOT / job_id
-    reused = False
-    if directory.exists():
-        reused = True
-        metadata = {"capture_id": capture_id}
-        for name in ("observation", "annotations", "truth"):
-            path = directory / f"{name}.json"
-            metadata[name] = {"id": name, "sha256": digest(path),
-                              "byte_length": path.stat().st_size, "media_type": "application/json"}
-    else:
-        if capture_dir.exists():
-            reused = True
-            result = json.loads((capture_dir / "result.json").read_text(encoding="utf-8"))
-            if result["capture_id"] != capture_id:
-                raise ValueError("Existing capture has a different identity")
-        else:
-            discard_partial(ARTIFACT_ROOT / f"{job_id}.partial", ARTIFACT_ROOT)
-            result = run_capture_worker({**request, "_job_id": job_id}, cancel, session=session)
-        stage = root / f"{capture_id}.partial"
-        discard_partial(stage, root)
-        metadata = package_capture(request, result, capture_dir, stage, records)
-        validate_capture_files(stage, metadata)
-        os.replace(stage, directory)
-    metadata.update(group_id=item["group_id"], split=item["split"])
-    metadata["files"] = [artifact(path) for path in sorted(directory.iterdir()) if path.is_file()]
-    validate_capture_files(directory, metadata)
-    return metadata, reused
+def capture_item(item: dict, root: Path, cancel: threading.Event,
+                 session: CaptureWorkerSession | None) -> tuple[dict | None, bool]:
+    """Capture one request unless resumable. Returns (published metadata or None, reused)."""
+    if (root / item["request"]["plan"]["capture_id"]).exists():
+        return resume_published(item, root), True
+    job_id = capture_job_id(item)
+    if (ARTIFACT_ROOT / job_id).exists():
+        return None, True
+    discard_partial(ARTIFACT_ROOT / f"{job_id}.partial", ARTIFACT_ROOT)
+    run_capture_worker({**item["request"], "_job_id": job_id}, cancel, session=session)
+    return None, False
 
 
 def main() -> None:
@@ -92,7 +64,8 @@ def main() -> None:
         raise ValueError("--workers must be at least 1")
     root = args.output.resolve()
     if args.validate:
-        manifest = validate_manifest(root)
+        with ProcessPoolExecutor(max_workers=args.workers) as pool:
+            manifest = validate_manifest(root, pool)
         print(json.dumps({"validated": len(manifest["captures"]), "counts": manifest["counts"]}))
         return
     if args.cancel:
@@ -134,8 +107,7 @@ def main() -> None:
                  "request_sha256": input_hash, "requested_count": len(jobs),
                  "completed": [], "error": None}
         write_state(state_path, state)
-    records = {v["asset_id"]: v for v in json.loads(
-        (ROOT / "frontend/public/catalog/catalog.json").read_text(encoding="utf-8"))["assets"]}
+    records = catalog_records()
     cancel = threading.Event()
     def interrupt(_signum, _frame):
         cancel.set()
@@ -149,6 +121,7 @@ def main() -> None:
     progress = threading.Lock()
     stopped = threading.Event()
     errors: list[BaseException] = []
+    finalizing: list[Future] = []
 
     def cancelled() -> bool:
         return cancel.is_set() or (root / "cancel.requested").exists()
@@ -163,7 +136,28 @@ def main() -> None:
             print(f"{len(entries)}/{len(jobs)} {metadata['capture_id']} "
                   f"{time.monotonic() - started:.1f}s", flush=True)
 
-    def lane(scheduler: UnitScheduler) -> None:
+    def fail(error: BaseException) -> None:
+        with progress:
+            errors.append(error)
+        stopped.set()
+
+    def finalize(pool: ProcessPoolExecutor, index: int, was_reused: bool) -> None:
+        # Publication runs in a worker process; this session moves on to the next capture.
+        future = pool.submit(finalize_capture, jobs[index], str(root))
+
+        def done(result: Future) -> None:
+            if result.cancelled():
+                return
+            if result.exception() is not None:
+                fail(result.exception())
+            else:
+                record(index, result.result(), was_reused)
+
+        future.add_done_callback(done)
+        with progress:
+            finalizing.append(future)
+
+    def lane(scheduler: UnitScheduler, pool: ProcessPoolExecutor) -> None:
         session = None if args.single_use else CaptureWorkerSession()
         unit = None
         try:
@@ -175,15 +169,18 @@ def main() -> None:
                     if stopped.is_set() or cancelled():
                         stopped.set()
                         return
-                    record(index, *capture_item(jobs[index], root, records, cancel, session))
+                    metadata, was_reused = capture_item(jobs[index], root, cancel, session)
+                    if metadata is not None:
+                        record(index, metadata, was_reused)
+                    else:
+                        finalize(pool, index, was_reused)
         except BaseException as error:
-            with progress:
-                errors.append(error)
-            stopped.set()
+            fail(error)
         finally:
             if session is not None:
                 session.close(force=stopped.is_set())
 
+    pool = None
     try:
         # Create the shared capture root before lanes start: on Windows, resolving a
         # path while another thread creates its parent can briefly disagree.
@@ -191,7 +188,8 @@ def main() -> None:
         units = plan_units([item["request"] for item in jobs])
         workers = max(1, min(args.workers, len(units)))
         scheduler = UnitScheduler(units)
-        threads = [threading.Thread(target=lane, args=(scheduler,), daemon=True)
+        pool = ProcessPoolExecutor(max_workers=workers)
+        threads = [threading.Thread(target=lane, args=(scheduler, pool), daemon=True)
                    for _ in range(workers)]
         for thread in threads:
             thread.start()
@@ -199,6 +197,15 @@ def main() -> None:
             # Short joins keep the main thread responsive to SIGINT.
             while thread.is_alive():
                 thread.join(0.2)
+        while True:
+            with progress:
+                waiting = [f for f in finalizing if not f.done()]
+            if not waiting:
+                break
+            if stopped.is_set():
+                for future in waiting:
+                    future.cancel()
+            wait(waiting, timeout=0.2)
         if errors:
             raise errors[0]
         if len(entries) < len(jobs):
@@ -208,7 +215,7 @@ def main() -> None:
             return
         ordered = [entries[i] for i in range(len(jobs))]
         manifest = publish_manifest(root, args.dataset_id, ordered,
-                                    [j["request"] for j in jobs], records)
+                                    [j["request"] for j in jobs], records, executor=pool)
         total_bytes = sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
         seconds = time.monotonic() - started
         metrics = {"count": len(ordered), "reused_captures": reused,
@@ -229,6 +236,9 @@ def main() -> None:
         state["error"] = str(error)
         write_state(state_path, state)
         raise
+    finally:
+        if pool is not None:
+            pool.shutdown(wait=True, cancel_futures=True)
 
 
 if __name__ == "__main__":

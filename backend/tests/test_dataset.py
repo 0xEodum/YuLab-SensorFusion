@@ -110,3 +110,13 @@ def test_manifest_rejects_group_split_leakage(tmp_path, monkeypatch):
         (directory / "observation.json").write_text(json.dumps(observation), encoding="utf-8")
     with pytest.raises(ValueError, match="Group leaks"):
         validate_manifest(tmp_path)
+
+
+def test_manifest_validation_on_executor_surfaces_capture_failures(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    fixture = Path(__file__).resolve().parents[2] / "contracts/fixtures/DatasetManifest.json"
+    manifest = json.loads(fixture.read_text(encoding="utf-8"))
+    manifest["captures"][0]["files"] = [manifest["captures"][0]["observation"]]
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    with ThreadPoolExecutor(max_workers=2) as pool, pytest.raises(FileNotFoundError):
+        validate_manifest(tmp_path, pool)

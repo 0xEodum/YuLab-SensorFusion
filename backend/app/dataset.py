@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 import subprocess
+from concurrent.futures import Executor
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -254,21 +255,26 @@ def validate_capture_files(directory: Path, entry: dict) -> None:
         walk(payload)
 
 
-def validate_manifest(root: Path) -> dict:
+def validate_manifest(root: Path, executor: Executor | None = None) -> dict:
+    """Validate a published dataset; per-capture file checks may run on an executor."""
     manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     validate_payload("DatasetManifest", manifest)
     captures = manifest["captures"]
     if len({x["capture_id"] for x in captures}) != len(captures):
         raise ValueError("Duplicate capture ID")
     groups = {}
-    fingerprints = set()
     for entry in captures:
         if not entry.get("files"):
             raise ValueError("Capture file inventory missing")
         previous = groups.setdefault(entry["group_id"], entry["split"])
         if previous != entry["split"]:
             raise ValueError("Group leaks across splits")
-        validate_capture_files(root / entry["capture_id"], entry)
+    directories = [root / entry["capture_id"] for entry in captures]
+    # map() re-raises the first failing capture's error while iterating.
+    for _ in (executor.map if executor else map)(validate_capture_files, directories, captures):
+        pass
+    fingerprints = set()
+    for entry in captures:
         observation = json.loads((root / entry["capture_id"] / "observation.json").read_text(encoding="utf-8"))
         fingerprint = tuple(observation[name]["data"][field]["artifact"]["sha256"]
             for name, field in (("rgb", "image"), ("ir", "radiance"), ("lidar", "xyz")))
@@ -282,7 +288,8 @@ def validate_manifest(root: Path) -> dict:
 
 
 def publish_manifest(root: Path, dataset_id: str, entries: list[dict],
-                     requests: list[dict], records: dict[str, dict]) -> dict:
+                     requests: list[dict], records: dict[str, dict],
+                     executor: Executor | None = None) -> dict:
     if not entries or len(entries) != len(requests):
         raise ValueError("Manifest requires one completed entry per request")
     if len({x["capture_id"] for x in entries}) != len(entries):
@@ -309,5 +316,5 @@ def publish_manifest(root: Path, dataset_id: str, entries: list[dict],
     staging = root / "manifest.json.partial"
     json_file(staging, manifest)
     os.replace(staging, root / "manifest.json")
-    validate_manifest(root)
+    validate_manifest(root, executor)
     return manifest

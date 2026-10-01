@@ -125,7 +125,11 @@ unit per capture sequence, or one unit per world snapshot when any of its
 requests continues thermal history. A unit runs in request order on a single
 session; a session prefers further units of the world it already has cached.
 The manifest is always published in request order, so output does not depend
-on `--workers`. `--workers 1` reproduces fully sequential collection.
+on `--workers`. Packaging, validation and atomic publication of each
+capture run in a process pool (`backend/app/dataset_pipeline.py`) so this
+CPU-bound Python work does not serialize sessions on the coordinator's GIL;
+a session starts its next capture while the previous one is published. Final
+manifest validation checks captures on the same pool. `--workers 1` reproduces fully sequential collection.
 
 Terrain meshing evaluates the density lattice column by column: height, grading
 and feature x/z bounds are computed once per (x, z) instead of once per sample,
