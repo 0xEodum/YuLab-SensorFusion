@@ -8,6 +8,20 @@ import time
 
 from .jobs import WorkerContextLost, WorkerCrashed, WorkerTimedOut
 
+SHARING_RETRY_S = 2.0
+
+
+def _retry_sharing(operation, path):
+    """Windows briefly denies access to a just-renamed file (scanners, handle release)."""
+    deadline = time.monotonic() + SHARING_RETRY_S
+    while True:
+        try:
+            return operation(path)
+        except PermissionError:
+            if time.monotonic() > deadline:
+                raise
+            time.sleep(0.01)
+
 
 class CaptureWorkerSession:
     def __init__(self):
@@ -59,13 +73,14 @@ class CaptureWorkerSession:
                     raise WorkerCrashed("Persistent capture worker exited before responding.")
                 if time.monotonic() - started > TIMEOUT_S:
                     raise WorkerTimedOut(f"Capture exceeded the {TIMEOUT_S:g} second worker limit.")
-            acknowledgement = json.loads(response.read_text(encoding="utf-8"))
+            acknowledgement = json.loads(
+                _retry_sharing(lambda path: path.read_text(encoding="utf-8"), response))
             if not acknowledgement.get("ok"):
                 error = acknowledgement.get("error", "Capture session failed")
                 if "worker_context_lost" in error:
                     raise WorkerContextLost("Capture browser lost the required rendering context.")
                 raise WorkerCrashed(error)
-            response.unlink()
+            _retry_sharing(lambda path: path.unlink(), response)
             if cancel.is_set():
                 raise WorkerCrashed("Capture worker was cancelled before publication.")
             return json.dumps(json.loads((output / "result.json").read_text(encoding="utf-8")))

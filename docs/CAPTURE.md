@@ -105,8 +105,9 @@ not installed.
 
 ## Dataset throughput
 
-`tools/dataset-job.py` keeps one Node process, asset server, and browser page for
-the dataset job. It retains deterministic CPU terrain/placement data for the
+`tools/dataset-job.py` runs `--workers` parallel capture sessions (default: half
+the logical CPUs, at most 6). Each session keeps one Node process, asset server
+and browser page for the dataset job and retains deterministic CPU terrain/placement data for the
 current complete WorldSpec snapshot in an LRU cache (64 chunks, 128 MiB). A
 changed snapshot clears the cache; new viewpoints generate only missing chunks.
 The retention budget never excludes geometry required by a capture. Oversized
@@ -116,8 +117,20 @@ Each request builds and disposes its own scene, renderer, asset instances and
 LiDAR BVHs. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
 all run again with the submitted seeds and calibration. Continued thermal history
 still resolves its explicit hash-verified prior artifact. No observations or
-labels are cached. Sequential request order, cancellation, the per-request 120 s
-timeout and validation before atomic publication remain in effect.
+labels are cached. Cancellation, the per-request 120 s timeout and validation
+before atomic publication remain in effect.
+
+Requests are split into independent units (`backend/app/capture_lanes.py`): one
+unit per capture sequence, or one unit per world snapshot when any of its
+requests continues thermal history. A unit runs in request order on a single
+session; a session prefers further units of the world it already has cached.
+The manifest is always published in request order, so output does not depend
+on `--workers`. `--workers 1` reproduces fully sequential collection.
+
+Terrain meshing evaluates the density lattice column by column: height, grading
+and feature x/z bounds are computed once per (x, z) instead of once per sample,
+with identical arithmetic. Chunk bytes are unchanged
+(`tests/world/mesh-parity.test.ts` pins pre-optimization hashes).
 
 Use the existing collection command; persistent execution is the default:
 

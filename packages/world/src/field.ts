@@ -18,6 +18,8 @@ export type ChunkCoord = { x: number; z: number };
 export type World = {
   readonly spec: WorldSpec;
   density: (x: number, y: number, z: number) => number;
+  /** Same values as density(x, y, z), with the y-independent terms evaluated once. */
+  densityColumn: (x: number, z: number) => (y: number) => number;
   normal: (x: number, y: number, z: number) => Vec3;
   color: (x: number, y: number, z: number, up: number) => Vec3;
   baseHeight: (x: number, z: number) => number;
@@ -313,18 +315,62 @@ export function createWorld(input: WorldSpec): World {
     const h = terrainHeight(x, z, spec.seed);
     return pad ? mix(h, pad.center_m[1], gradeWeight(pad, x, z)) : h;
   };
+  const volumes = spec.features
+    .filter((f) => f.type !== "aerodrome" && f.type !== "harbor")
+    .map((f) => ({
+      f,
+      half: f.extent_m.map((e) => e / 2) as Vec3,
+      minExtent: Math.min(...f.extent_m),
+    }));
+  // featureDensity's coarse cull, split so the x/z terms can be reused per column.
+  const cullBound = (local: number, half: number) => 1.14 - Math.abs(local / half);
+  const volumeDensity = (
+    v: (typeof volumes)[number],
+    boundX: number,
+    boundZ: number,
+    x: number,
+    y: number,
+    z: number,
+  ) => {
+    const rawBound = Math.min(
+      boundX,
+      cullBound(y - v.f.center_m[1], v.half[1]),
+      boundZ,
+    );
+    return rawBound < 0
+      ? rawBound * v.minExtent * 0.5
+      : featureDensity(v.f, x, y, z);
+  };
+  // Height, grading and feature x/z bounds depend only on (x, z); a column reuses
+  // them for every y. The arithmetic is identical to featureDensity(), so values are bit-equal.
+  const densityColumn = (x: number, z: number) => {
+    const base = baseHeight(x, z);
+    const grade = pad ? gradeWeight(pad, x, z) : 0;
+    const boundX = volumes.map((v) => cullBound(x - v.f.center_m[0], v.half[0]));
+    const boundZ = volumes.map((v) => cullBound(z - v.f.center_m[2], v.half[2]));
+    return (y: number) => {
+      let d = base - y;
+      for (let i = 0; i < volumes.length; i++)
+        d = Math.max(d, volumeDensity(volumes[i], boundX[i], boundZ[i], x, y, z));
+      if (pad) d = mix(d, base - y, grade);
+      return d;
+    };
+  };
   const density = (x: number, y: number, z: number) => {
-    let d = baseHeight(x, z) - y;
-    for (const f of spec.features)
-      if (f.type !== "aerodrome" && f.type !== "harbor")
-        d = Math.max(d, featureDensity(f, x, y, z));
-    if (pad) d = mix(d, baseHeight(x, z) - y, gradeWeight(pad, x, z));
+    const base = baseHeight(x, z);
+    let d = base - y;
+    for (const v of volumes)
+      d = Math.max(d, volumeDensity(v,
+        cullBound(x - v.f.center_m[0], v.half[0]),
+        cullBound(z - v.f.center_m[2], v.half[2]), x, y, z));
+    if (pad) d = mix(d, base - y, gradeWeight(pad, x, z));
     return d;
   };
   const normal = (x: number, y: number, z: number): Vec3 => {
     const h = 0.05;
+    const column = densityColumn(x, z);
     const a = density(x - h, y, z) - density(x + h, y, z),
-      b = density(x, y - h, z) - density(x, y + h, z),
+      b = column(y - h) - column(y + h),
       c = density(x, y, z - h) - density(x, y, z + h);
     const len = Math.hypot(a, b, c);
     return len > 1e-12 ? [a / len, b / len, c / len] : [0, 1, 0];
@@ -349,7 +395,14 @@ export function createWorld(input: WorldSpec): World {
       0.91 + 0.1 * noise(x / 10, y / 12, z / 10, spec.seed + 19) + strataTone;
     return stone.map((v, i) => mix(v, green[i], grass) * shade) as Vec3;
   };
-  return Object.freeze({ spec, density, normal, color, baseHeight });
+  return Object.freeze({
+    spec,
+    density,
+    densityColumn,
+    normal,
+    color,
+    baseHeight,
+  });
 }
 
 export function chunkAddress(x: number, z: number): ChunkCoord {

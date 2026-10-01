@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 from app.capture_worker import ARTIFACT_ROOT, run_capture_worker  # noqa: E402
+from app.capture_lanes import UnitScheduler, plan_units  # noqa: E402
 from app.capture_session import CaptureWorkerSession  # noqa: E402
 from app.contracts import validate_payload  # noqa: E402
 from app.dataset import (artifact, digest, package_capture, publish_manifest,
@@ -33,6 +34,47 @@ def discard_partial(path: Path, root: Path) -> None:
         shutil.rmtree(path)
 
 
+def default_workers() -> int:
+    # Each session is one mostly single-threaded browser plus packaging work.
+    return max(1, min(6, (os.cpu_count() or 2) // 2))
+
+
+def capture_item(item: dict, root: Path, records: dict, cancel: threading.Event,
+                 session: CaptureWorkerSession | None) -> tuple[dict, bool]:
+    """Capture (or resume) and publish one request; returns (metadata, reused)."""
+    request = item["request"]
+    capture_id = request["plan"]["capture_id"]
+    directory = root / capture_id
+    job_id = f"capture-job-{capture_id}"
+    capture_dir = ARTIFACT_ROOT / job_id
+    reused = False
+    if directory.exists():
+        reused = True
+        metadata = {"capture_id": capture_id}
+        for name in ("observation", "annotations", "truth"):
+            path = directory / f"{name}.json"
+            metadata[name] = {"id": name, "sha256": digest(path),
+                              "byte_length": path.stat().st_size, "media_type": "application/json"}
+    else:
+        if capture_dir.exists():
+            reused = True
+            result = json.loads((capture_dir / "result.json").read_text(encoding="utf-8"))
+            if result["capture_id"] != capture_id:
+                raise ValueError("Existing capture has a different identity")
+        else:
+            discard_partial(ARTIFACT_ROOT / f"{job_id}.partial", ARTIFACT_ROOT)
+            result = run_capture_worker({**request, "_job_id": job_id}, cancel, session=session)
+        stage = root / f"{capture_id}.partial"
+        discard_partial(stage, root)
+        metadata = package_capture(request, result, capture_dir, stage, records)
+        validate_capture_files(stage, metadata)
+        os.replace(stage, directory)
+    metadata.update(group_id=item["group_id"], split=item["split"])
+    metadata["files"] = [artifact(path) for path in sorted(directory.iterdir()) if path.is_file()]
+    validate_capture_files(directory, metadata)
+    return metadata, reused
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--requests", type=Path, required=True)
@@ -40,10 +82,14 @@ def main() -> None:
     parser.add_argument("--dataset-id", default="sf10-pilot-v1")
     parser.add_argument("--count", type=int)
     parser.add_argument("--single-use", action="store_true", help="Launch a fresh browser for every capture (reference mode)")
+    parser.add_argument("--workers", type=int, default=default_workers(),
+                        help="Parallel capture sessions (default: %(default)s)")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--cancel", action="store_true")
     parser.add_argument("--validate", action="store_true")
     args = parser.parse_args()
+    if args.workers < 1:
+        raise ValueError("--workers must be at least 1")
     root = args.output.resolve()
     if args.validate:
         manifest = validate_manifest(root)
@@ -98,72 +144,91 @@ def main() -> None:
     state["error"] = None
     write_state(state_path, state)
     started = time.monotonic()
-    entries = []
+    entries: dict[int, dict] = {}
     reused = 0
-    session = None if args.single_use else CaptureWorkerSession()
-    try:
-        for index, item in enumerate(jobs):
-            if cancel.is_set() or (root / "cancel.requested").exists():
-                state["state"] = "cancelled"
-                write_state(state_path, state)
-                print(f"Cancelled after {len(entries)} captures", flush=True)
-                return
-            request = item["request"]
-            capture_id = request["plan"]["capture_id"]
-            directory = root / capture_id
-            job_id = f"capture-job-{capture_id}"
-            capture_dir = ARTIFACT_ROOT / job_id
-            if directory.exists():
-                reused += 1
-                metadata = {"capture_id": capture_id}
-                for name in ("observation", "annotations", "truth"):
-                    path = directory / f"{name}.json"
-                    metadata[name] = {"id": name, "sha256": digest(path),
-                                      "byte_length": path.stat().st_size, "media_type": "application/json"}
-            else:
-                if capture_dir.exists():
-                    reused += 1
-                    result = json.loads((capture_dir / "result.json").read_text(encoding="utf-8"))
-                    if result["capture_id"] != capture_id:
-                        raise ValueError("Existing capture has a different identity")
-                else:
-                    discard_partial(ARTIFACT_ROOT / f"{job_id}.partial", ARTIFACT_ROOT)
-                    result = run_capture_worker({**request, "_job_id": job_id}, cancel, session=session)
-                stage = root / f"{capture_id}.partial"
-                discard_partial(stage, root)
-                metadata = package_capture(request, result, capture_dir, stage, records)
-                validate_capture_files(stage, metadata)
-                os.replace(stage, directory)
-            metadata.update(group_id=item["group_id"], split=item["split"])
-            metadata["files"] = [artifact(path) for path in sorted(directory.iterdir()) if path.is_file()]
-            validate_capture_files(directory, metadata)
-            entries.append(metadata)
-            state["completed"] = [x["capture_id"] for x in entries]
+    progress = threading.Lock()
+    stopped = threading.Event()
+    errors: list[BaseException] = []
+
+    def cancelled() -> bool:
+        return cancel.is_set() or (root / "cancel.requested").exists()
+
+    def record(index: int, metadata: dict, was_reused: bool) -> None:
+        nonlocal reused
+        with progress:
+            entries[index] = metadata
+            reused += was_reused
+            state["completed"] = [entries[i]["capture_id"] for i in sorted(entries)]
             write_state(state_path, state)
-            print(f"{index + 1}/{len(jobs)} {capture_id} {time.monotonic() - started:.1f}s", flush=True)
-        manifest = publish_manifest(root, args.dataset_id, entries,
+            print(f"{len(entries)}/{len(jobs)} {metadata['capture_id']} "
+                  f"{time.monotonic() - started:.1f}s", flush=True)
+
+    def lane(scheduler: UnitScheduler) -> None:
+        session = None if args.single_use else CaptureWorkerSession()
+        unit = None
+        try:
+            while not stopped.is_set():
+                unit = scheduler.take(unit)
+                if unit is None:
+                    return
+                for index in unit.indices:
+                    if stopped.is_set() or cancelled():
+                        stopped.set()
+                        return
+                    record(index, *capture_item(jobs[index], root, records, cancel, session))
+        except BaseException as error:
+            with progress:
+                errors.append(error)
+            stopped.set()
+        finally:
+            if session is not None:
+                session.close(force=stopped.is_set())
+
+    try:
+        # Create the shared capture root before lanes start: on Windows, resolving a
+        # path while another thread creates its parent can briefly disagree.
+        ARTIFACT_ROOT.mkdir(parents=True, exist_ok=True)
+        units = plan_units([item["request"] for item in jobs])
+        workers = max(1, min(args.workers, len(units)))
+        scheduler = UnitScheduler(units)
+        threads = [threading.Thread(target=lane, args=(scheduler,), daemon=True)
+                   for _ in range(workers)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            # Short joins keep the main thread responsive to SIGINT.
+            while thread.is_alive():
+                thread.join(0.2)
+        if errors:
+            raise errors[0]
+        if len(entries) < len(jobs):
+            state["state"] = "cancelled"
+            write_state(state_path, state)
+            print(f"Cancelled after {len(entries)} captures", flush=True)
+            return
+        ordered = [entries[i] for i in range(len(jobs))]
+        manifest = publish_manifest(root, args.dataset_id, ordered,
                                     [j["request"] for j in jobs], records)
         total_bytes = sum(path.stat().st_size for path in root.rglob("*") if path.is_file())
         seconds = time.monotonic() - started
-        metrics = {"count": len(entries), "reused_captures": reused,
-                   "worker_mode": "single-use" if args.single_use else "persistent", "elapsed_s": seconds,
-                   "captures_per_s": len(entries) / seconds,
-                   "new_captures_per_s": (len(entries) - reused) / seconds,
-                   "bytes_total": total_bytes, "bytes_per_capture": total_bytes / len(entries),
-                   "estimate_3000_bytes": total_bytes / len(entries) * 3000,
+        metrics = {"count": len(ordered), "reused_captures": reused,
+                   "worker_mode": "single-use" if args.single_use else "persistent",
+                   "workers": workers, "elapsed_s": seconds,
+                   "captures_per_s": len(ordered) / seconds,
+                   "new_captures_per_s": (len(ordered) - reused) / seconds,
+                   "bytes_total": total_bytes, "bytes_per_capture": total_bytes / len(ordered),
+                   "estimate_3000_bytes": total_bytes / len(ordered) * 3000,
                    "splits": manifest["counts"]}
         (root / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n", encoding="utf-8")
         state["state"] = "succeeded"
         write_state(state_path, state)
         print(json.dumps(metrics), flush=True)
     except Exception as error:
+        stopped.set()
         state["state"] = "cancelled" if cancel.is_set() else "failed"
         state["error"] = str(error)
         write_state(state_path, state)
         raise
-    finally:
-        if session is not None:
-            session.close()
 
 
 if __name__ == "__main__":

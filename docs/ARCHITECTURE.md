@@ -66,8 +66,8 @@ error codes, and worker capability handshake. The Python coordinator invokes the
 Node worker; Node manages the pinned browser. A worker accesses only its assigned
 job directory and local asset catalog. No arbitrary shell or URL supplied by UI.
 
-Dataset collection also supports sequential commands within one Node/browser
-session. It reuses bounded CPU terrain/placement data keyed by the complete world
+Dataset collection runs independent request units on several parallel
+Node/browser sessions; each session processes its commands sequentially and reuses bounded CPU terrain/placement data keyed by the complete world
 snapshot; scenes, GPU resources and all sensor/label outputs remain per request.
 This removes repeated world meshing and worker startup without changing data
 semantics. See [dataset throughput](CAPTURE.md#dataset-throughput).
