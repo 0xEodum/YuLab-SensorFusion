@@ -12,7 +12,7 @@ import {
   captureCamera,
   validateRigGeometry,
 } from "@yulab/sensors";
-import { beamFor, buildLidarScene, scanLidar } from "@yulab/sensors/lidar";
+import { beamFor, buildLidarScene, LidarGeometryCache, scanLidar } from "@yulab/sensors/lidar";
 import { LIDAR_CLASS_TABLE } from "@yulab/sensors/lidarClass";
 import { renderReferencePasses, renderThermalPass, renderVisibilityPass, rendererCapabilities } from "@yulab/sensors/capture";
 import {
@@ -174,6 +174,8 @@ function addChunk(root: THREE.Group, data: ChunkData) {
 const geometryCache = new CaptureGeometryCache();
 // The served catalog is fixed for a session; templates are verified on first load.
 const assetCache = new AssetTemplateCache();
+// Triangle BVHs for terrain chunk and asset template vertex arrays retained above.
+const lidarCache = new LidarGeometryCache();
 let sessionCatalog: Promise<Catalog> | null = null;
 
 async function capture(request: Request) {
@@ -313,7 +315,7 @@ async function capture(request: Request) {
     let lidarGeometry: ReturnType<typeof buildLidarScene> | null = null;
     try {
       if (lidarRequested) {
-        lidarGeometry = buildLidarScene(scene, catalog?.assets ?? []);
+        lidarGeometry = buildLidarScene(scene, catalog?.assets ?? [], lidarCache);
         mark("lidar_build_ms");
         lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar, {
           environment: request.environment,
@@ -412,6 +414,7 @@ async function capture(request: Request) {
       timings_ms: timings,
       geometry_cache: geometryCache.snapshot(),
       asset_cache: { ...assetCache.stats },
+      lidar_cache: { ...lidarCache.stats },
       total_browser_ms: performance.now() - jobStarted,
       resident_chunks: coords.map(({ x, z }) => `${x},${z}@2`),
     };

@@ -98,22 +98,70 @@ function opaque(mesh: THREE.Mesh, catalog: readonly AssetRecord[]) {
   });
 }
 
+function triangleCount(geometry: THREE.BufferGeometry) {
+  return geometry.index ? geometry.index.count / 3 : geometry.getAttribute("position").count / 3;
+}
+
+function buildBoundsTree(geometry: THREE.BufferGeometry) {
+  geometry.computeBoundsTree = computeBoundsTree;
+  geometry.disposeBoundsTree = disposeBoundsTree;
+  geometry.computeBoundsTree({ targetLeafSize: 16 });
+}
+
+/** Retains triangle BVHs for immutable, non-indexed source geometry across scans.
+ * The BVH is built on a detached geometry that shares the source attributes, so
+ * the index it creates and reorders never reaches the rendered geometry. Keys are
+ * position arrays, which callers must not mutate; entries die with their arrays. */
+export class LidarGeometryCache {
+  private entries = new WeakMap<object, THREE.BufferGeometry>();
+  readonly stats = { hits: 0, built: 0 };
+  static accepts(geometry: THREE.BufferGeometry) {
+    return !geometry.index && geometry.groups.length === 0 &&
+      geometry.drawRange.start === 0 && geometry.drawRange.count === Infinity;
+  }
+  take(source: THREE.BufferGeometry) {
+    const key = source.getAttribute("position").array;
+    const cached = this.entries.get(key);
+    if (cached) {
+      this.stats.hits++;
+      return cached;
+    }
+    const geometry = new THREE.BufferGeometry();
+    for (const [name, attribute] of Object.entries(source.attributes))
+      geometry.setAttribute(name, attribute);
+    buildBoundsTree(geometry);
+    this.entries.set(key, geometry);
+    this.stats.built++;
+    return geometry;
+  }
+}
+
 /** Mesh BVHs accelerate triangles; a second BVH culls whole scene meshes. */
-export function buildLidarScene(root: THREE.Object3D, catalog: readonly AssetRecord[] = []) {
+export function buildLidarScene(
+  root: THREE.Object3D,
+  catalog: readonly AssetRecord[] = [],
+  cache: LidarGeometryCache | null = null,
+) {
   root.updateMatrixWorld(true);
   const entries: Entry[] = [];
-  const geometries = new Set<THREE.BufferGeometry>();
+  // Geometries whose BVH this scan built in place and must release.
+  const owned = new Set<THREE.BufferGeometry>();
+  const prepared = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
   let triangles = 0;
   root.traverse((object) => {
     if (!(object instanceof THREE.Mesh) || !shouldCaptureObject(object) || !opaque(object, catalog)) return;
-    const geometry = object.geometry;
-    if (!geometry.getAttribute("position")) return;
-    if (!geometries.has(geometry)) {
-      geometry.computeBoundsTree = computeBoundsTree;
-      geometry.disposeBoundsTree = disposeBoundsTree;
-      geometry.computeBoundsTree({ targetLeafSize: 16 });
-      geometries.add(geometry);
-      triangles += geometry.index ? geometry.index.count / 3 : geometry.getAttribute("position").count / 3;
+    const source = object.geometry as THREE.BufferGeometry;
+    if (!source.getAttribute("position")) return;
+    let geometry = prepared.get(source);
+    if (!geometry) {
+      triangles += triangleCount(source);
+      if (cache && LidarGeometryCache.accepts(source)) geometry = cache.take(source);
+      else {
+        buildBoundsTree(source);
+        owned.add(source);
+        geometry = source;
+      }
+      prepared.set(source, geometry);
     }
     // Double-sided opaque geometry lets scans from inside a solid see its exit face.
     const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }));
@@ -180,7 +228,7 @@ export function buildLidarScene(root: THREE.Object3D, catalog: readonly AssetRec
     },
     dispose() {
       for (const entry of entries) (entry.mesh.material as THREE.Material).dispose();
-      for (const geometry of geometries) geometry.disposeBoundsTree();
+      for (const geometry of owned) geometry.disposeBoundsTree();
     },
   };
 }

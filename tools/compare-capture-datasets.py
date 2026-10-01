@@ -34,7 +34,7 @@ def compare(before: Path, after: Path) -> dict:
         # Only timing/memory/cache counters and corresponding file provenance can differ.
         runtime = {"elapsed_ms", "render_elapsed_ms", "timings_ms", "total_browser_ms",
                    "node_rss_bytes", "browser_heap_bytes", "gpu_memory_bytes", "geometry_cache",
-                   "asset_cache"}
+                   "asset_cache", "lidar_cache"}
         if {k: v for k, v in am.items() if k not in runtime} != \
            {k: v for k, v in bm.items() if k not in runtime}:
             raise ValueError(f"Non-runtime metadata changed: {id_}")

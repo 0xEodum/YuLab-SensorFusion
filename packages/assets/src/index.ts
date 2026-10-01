@@ -119,8 +119,10 @@ function batchTemplate(root: THREE.Group) {
   return out;
 }
 
-/** Independent copy: own geometry arrays and materials, cloned in creation order
- * so per-scene render ordering by material id matches a freshly parsed template. */
+/** Per-scene copy: own geometry objects (and index) and materials, with shared,
+ * never-mutated vertex attributes. Materials are cloned in creation order so
+ * per-scene render ordering by material id matches a freshly parsed template.
+ * Shared attribute arrays also let LiDAR reuse their BVHs across scenes. */
 function copyTemplate(template: THREE.Group) {
   const sources = new Set<THREE.Material>();
   template.traverse((o) => {
@@ -134,7 +136,17 @@ function copyTemplate(template: THREE.Group) {
   const copy = template.clone(true);
   copy.traverse((o) => {
     if (!(o instanceof THREE.Mesh)) return;
-    o.geometry = o.geometry.clone();
+    const source = o.geometry as THREE.BufferGeometry;
+    const geometry = new THREE.BufferGeometry();
+    for (const [name, attribute] of Object.entries(source.attributes))
+      geometry.setAttribute(name, attribute);
+    if (source.index) geometry.setIndex(source.index.clone());
+    for (const group of source.groups)
+      geometry.addGroup(group.start, group.count, group.materialIndex);
+    geometry.setDrawRange(source.drawRange.start, source.drawRange.count);
+    geometry.name = source.name;
+    geometry.userData = structuredClone(source.userData);
+    o.geometry = geometry;
     o.material = materials.get(o.material as THREE.Material)!;
   });
   return copy;

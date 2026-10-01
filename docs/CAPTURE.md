@@ -116,10 +116,15 @@ chunks are generated normally and are not retained.
 Each request builds and disposes its own scene, renderer, asset instances and
 LiDAR BVHs. A session also retains the validated catalog and, per asset, the
 hash-verified batched template (`AssetTemplateCache`, keyed by asset ID and
-content SHA-256). Each request receives its own copy with cloned geometry
-arrays and materials, cloned in original creation order so three.js render
+content SHA-256). Each request receives its own copy with its own geometry
+objects (sharing immutable vertex attributes) and materials, cloned in original creation order so three.js render
 ordering is unchanged; sensor passes may therefore index or annotate their copy
-(LiDAR BVH builds do) without affecting later requests. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
+(LiDAR BVH builds do) without affecting later requests. The LiDAR triangle BVH of
+non-indexed geometry is retained per session in `LidarGeometryCache`, keyed by
+the immutable position array (terrain chunk arrays from the geometry cache,
+asset template arrays from the template cache). It is built on a detached
+geometry sharing those attributes, so the index the BVH creates never reaches
+rendered geometry; returns are identical to a per-request build. RGB, thermal state/IR, weather/noise, LiDAR, visibility and packaging
 all run again with the submitted seeds and calibration. Continued thermal history
 still resolves its explicit hash-verified prior artifact. No observations or
 labels are cached. Cancellation, the per-request 120 s timeout and validation

@@ -30,8 +30,10 @@ test("cached templates are keyed by content hash and handed out as independent c
   assert.deepEqual(cache.stats, { hits: 2, loaded: 1 });
   for (const [a, b, s] of meshes(first).map((m, i) => [m, meshes(second)[i], meshes(source)[i]])) {
     assert.notEqual(a.geometry, b.geometry);
-    assert.notEqual(a.geometry.getAttribute("position").array, s.geometry.getAttribute("position").array);
+    // Vertex data is immutable and shared; geometry objects and indices are per copy.
+    assert.equal(a.geometry.getAttribute("position"), b.geometry.getAttribute("position"));
     assert.deepEqual(a.geometry.getAttribute("position").array, s.geometry.getAttribute("position").array);
+    assert.notEqual(a.geometry.index, b.geometry.index);
     assert.notEqual(a.material, b.material);
     assert.notEqual(a.material, s.material);
   }

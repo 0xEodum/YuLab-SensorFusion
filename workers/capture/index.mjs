@@ -298,6 +298,7 @@ async function run() {
       const metadata = Buffer.from(`${JSON.stringify({ ...result,
         timings_ms: capture.timings_ms, total_browser_ms: capture.total_browser_ms,
         geometry_cache: capture.geometry_cache, asset_cache: capture.asset_cache,
+        lidar_cache: capture.lidar_cache,
       }, null, 2)}\n`);
       result.artifacts.metadata = await artifact(outputPath, "metadata_json", metadata, "application/json");
       await writeFile(resolve(outputPath, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
