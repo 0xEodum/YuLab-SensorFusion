@@ -1,0 +1,326 @@
+{
+  "eager": {
+    "execution": "eager",
+    "command": [
+      "C:\\Users\\Yu\\AppData\\Local\\Programs\\Python\\Python31310\\python.exe",
+      "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\tools\\learning-pilot.py",
+      "train",
+      "--execution",
+      "eager",
+      "--epochs",
+      "40",
+      "--run-root",
+      "artifacts\\sf11\\performance\\full-eager"
+    ],
+    "epochs": 40,
+    "exit_code": 0,
+    "complete_cli_wall_s": 235.58949960000064,
+    "runs": {
+      "rgb": {
+        "elapsed_s": 54.645932500001436,
+        "process_rss_bytes": 1759051776,
+        "process_peak_working_set_bytes": 1794097152,
+        "gpu_peak_allocated_bytes": 768931840,
+        "gpu_peak_reserved_bytes": 799014912,
+        "parameters": 141004,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "3cdc3e04927638377bce392aa84f5426053d4779e1b5cd80f3435400dc1550a5",
+        "best_validation_ap": 0.351040586342239,
+        "execution": "eager",
+        "graph_setup_s": 4.850000004807953e-05,
+        "phase_seconds": {
+          "training": 47.22957430000133,
+          "validation": 6.393460600000253,
+          "artifact_writes": 1.0063496999955532
+        },
+        "tiny_capture_ids": null
+      },
+      "ir": {
+        "elapsed_s": 56.405274000000645,
+        "process_rss_bytes": 1759170560,
+        "process_peak_working_set_bytes": 1794097152,
+        "gpu_peak_allocated_bytes": 768922624,
+        "gpu_peak_reserved_bytes": 799014912,
+        "parameters": 140204,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "bf1ae743a52788bacbe1fcfa8f396c0920774b1d82527037728a5598c739c2f2",
+        "best_validation_ap": 0.48126301713028613,
+        "execution": "eager",
+        "graph_setup_s": 3.1400000807479955e-05,
+        "phase_seconds": {
+          "training": 48.67286249999779,
+          "validation": 6.769661099993755,
+          "artifact_writes": 0.9452862999987701
+        },
+        "tiny_capture_ids": null
+      },
+      "lidar": {
+        "elapsed_s": 53.11734310000065,
+        "process_rss_bytes": 1759162368,
+        "process_peak_working_set_bytes": 1794097152,
+        "gpu_peak_allocated_bytes": 754948096,
+        "gpu_peak_reserved_bytes": 799014912,
+        "parameters": 117196,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "558a41e025638b6d3added4958b745d735976da02d9141e2d310c261ecfd08fb",
+        "best_validation_ap": 0.33730520290386573,
+        "execution": "eager",
+        "graph_setup_s": 3.139999898849055e-05,
+        "phase_seconds": {
+          "training": 46.11444360000132,
+          "validation": 6.075901599997451,
+          "artifact_writes": 0.9111634000037157
+        },
+        "tiny_capture_ids": null
+      },
+      "fusion": {
+        "elapsed_s": 65.99327230000017,
+        "process_rss_bytes": 1760100352,
+        "process_peak_working_set_bytes": 1794097152,
+        "gpu_peak_allocated_bytes": 847367168,
+        "gpu_peak_reserved_bytes": 882900992,
+        "parameters": 172972,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "19f64a99938f52c0928046548e7db5e264de2edff9a28dcbec0586e70d3afb32",
+        "best_validation_ap": 0.39690698424291054,
+        "execution": "eager",
+        "graph_setup_s": 4.540000009001233e-05,
+        "phase_seconds": {
+          "training": 57.93114510000669,
+          "validation": 6.882167099996877,
+          "artifact_writes": 1.1588916999935464
+        },
+        "tiny_capture_ids": null
+      }
+    },
+    "telemetry_samples": 2155,
+    "telemetry_mean": {
+      "gpu_util_percent": 41.33874709976798,
+      "power_w": 88.40327610208817,
+      "memory_mib": 2977.22969837587,
+      "sm_clock_mhz": 794.5962877030163
+    }
+  },
+  "accelerated": {
+    "execution": "cuda-graph",
+    "command": [
+      "C:\\Users\\Yu\\AppData\\Local\\Programs\\Python\\Python31310\\python.exe",
+      "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\tools\\learning-pilot.py",
+      "train",
+      "--execution",
+      "cuda-graph",
+      "--epochs",
+      "40",
+      "--run-root",
+      "artifacts\\sf11\\performance\\full-native-evaluation"
+    ],
+    "epochs": 40,
+    "exit_code": 0,
+    "complete_cli_wall_s": 80.75932439999997,
+    "runs": {
+      "rgb": {
+        "elapsed_s": 14.762773599999491,
+        "process_rss_bytes": 1868316672,
+        "process_peak_working_set_bytes": 1870528512,
+        "gpu_peak_allocated_bytes": 769759744,
+        "gpu_peak_reserved_bytes": 918552576,
+        "parameters": 141004,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "47cf502aa502ae5df931eb6d33dc89ab695cbc5df2f8d7ab8e7d966537b8bbab",
+        "best_validation_ap": 0.351040586342239,
+        "execution": "cuda-graph",
+        "graph_optimizer_prefix": true,
+        "native_evaluation": true,
+        "deterministic_algorithms": true,
+        "deterministic_fill": false,
+        "graph_setup_s": 0.7181366000004346,
+        "phase_seconds": {
+          "training": 10.080620299995644,
+          "validation": 2.9287411000041175,
+          "artifact_writes": 0.9998559000032401
+        },
+        "tiny_capture_ids": null
+      },
+      "ir": {
+        "elapsed_s": 17.149573200000304,
+        "process_rss_bytes": 1870557184,
+        "process_peak_working_set_bytes": 1872453632,
+        "gpu_peak_allocated_bytes": 813672448,
+        "gpu_peak_reserved_bytes": 1061158912,
+        "parameters": 140204,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "2973caa9d65876439e8a004cabe160cf0c595a7cf7ee49ea88831e5acd70ad05",
+        "best_validation_ap": 0.48126301713028613,
+        "execution": "cuda-graph",
+        "graph_optimizer_prefix": true,
+        "native_evaluation": true,
+        "deterministic_algorithms": true,
+        "deterministic_fill": false,
+        "graph_setup_s": 0.12947840000015276,
+        "phase_seconds": {
+          "training": 13.182108799996058,
+          "validation": 2.862878699988869,
+          "artifact_writes": 0.9352448000008735
+        },
+        "tiny_capture_ids": null
+      },
+      "lidar": {
+        "elapsed_s": 15.309671600000001,
+        "process_rss_bytes": 1871814656,
+        "process_peak_working_set_bytes": 1873829888,
+        "gpu_peak_allocated_bytes": 854374912,
+        "gpu_peak_reserved_bytes": 1145044992,
+        "parameters": 117196,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "0f5eeec868b06d0bff46ee665afff1ca6af42a120ef570df1f60848328ba1c7a",
+        "best_validation_ap": 0.33730520290386573,
+        "execution": "cuda-graph",
+        "graph_optimizer_prefix": true,
+        "native_evaluation": true,
+        "deterministic_algorithms": true,
+        "deterministic_fill": false,
+        "graph_setup_s": 0.11731680000048073,
+        "phase_seconds": {
+          "training": 11.16760890000478,
+          "validation": 3.028646500008108,
+          "artifact_writes": 0.9554962999973213
+        },
+        "tiny_capture_ids": null
+      },
+      "fusion": {
+        "elapsed_s": 28.225286400000186,
+        "process_rss_bytes": 1877176320,
+        "process_peak_working_set_bytes": 1879326720,
+        "gpu_peak_allocated_bytes": 979082240,
+        "gpu_peak_reserved_bytes": 1314914304,
+        "parameters": 172972,
+        "torch": "2.13.0+cu130",
+        "device": "NVIDIA GeForce RTX 3090",
+        "checkpoint_sha256": "5d431e33217412e4a5603081cb9c1b0d3f3eb554f58db25d0cafa6ee32f2c156",
+        "best_validation_ap": 0.39690698424291054,
+        "execution": "cuda-graph",
+        "graph_optimizer_prefix": true,
+        "native_evaluation": true,
+        "deterministic_algorithms": true,
+        "deterministic_fill": false,
+        "graph_setup_s": 0.1502182999993238,
+        "phase_seconds": {
+          "training": 23.255887499997698,
+          "validation": 3.5894979999993666,
+          "artifact_writes": 1.1885287999975844
+        },
+        "tiny_capture_ids": null
+      }
+    },
+    "telemetry_samples": 738,
+    "telemetry_mean": {
+      "gpu_util_percent": 79.22628726287263,
+      "power_w": 110.92027100271004,
+      "memory_mib": 3017.6639566395665,
+      "sm_clock_mhz": 867.8252032520326
+    }
+  },
+  "complete_cli_speedup": 2.9171801689812145,
+  "correctness": {
+    "rgb": {
+      "all_epoch_histories_exact": true,
+      "history_budget_complete": true,
+      "best_model_tensors_exact": true,
+      "best_optimizer_tensors_exact": true,
+      "selected_epoch_exact": true,
+      "saved_validation_predictions_exact": true,
+      "dataset_preprocessing_budget_exact": true
+    },
+    "ir": {
+      "all_epoch_histories_exact": true,
+      "history_budget_complete": true,
+      "best_model_tensors_exact": true,
+      "best_optimizer_tensors_exact": true,
+      "selected_epoch_exact": true,
+      "saved_validation_predictions_exact": true,
+      "dataset_preprocessing_budget_exact": true
+    },
+    "lidar": {
+      "all_epoch_histories_exact": true,
+      "history_budget_complete": true,
+      "best_model_tensors_exact": true,
+      "best_optimizer_tensors_exact": true,
+      "selected_epoch_exact": true,
+      "saved_validation_predictions_exact": true,
+      "dataset_preprocessing_budget_exact": true
+    },
+    "fusion": {
+      "all_epoch_histories_exact": true,
+      "history_budget_complete": true,
+      "best_model_tensors_exact": true,
+      "best_optimizer_tensors_exact": true,
+      "selected_epoch_exact": true,
+      "saved_validation_predictions_exact": true,
+      "dataset_preprocessing_budget_exact": true
+    }
+  },
+  "telemetry_peaks": {
+    "eager": {
+      "utilization_max_percent": 96.0,
+      "power_max_w": 140.66,
+      "samples_at_100_percent": 0,
+      "sample_count": 2155
+    },
+    "accelerated": {
+      "utilization_max_percent": 100.0,
+      "power_max_w": 189.59,
+      "samples_at_100_percent": 404,
+      "sample_count": 738
+    }
+  },
+  "nsight": {
+    "complete_train_epoch": {
+      "range_s": 0.292017012,
+      "kernel_union_s": 0.273875746,
+      "kernel_active_fraction": 0.9378759960738178,
+      "kernel_instances": 36892,
+      "cuda_api_calls": {
+        "cuKernelGetName": 200,
+        "cudaGraphLaunch_v10000": 132,
+        "cudaHostAlloc_v3020": 1,
+        "cudaLaunchKernel_v7000": 200,
+        "cudaMemcpyAsync_v3020": 134,
+        "cudaStreamIsCapturing_v10000": 1,
+        "cudaStreamSynchronize_v3020": 2
+      }
+    },
+    "validation": {
+      "range_s": 0.063273393,
+      "kernel_union_s": 0.016746918,
+      "kernel_active_fraction": 0.2646755169269965,
+      "kernel_instances": 2061,
+      "cuda_api_calls": {
+        "cuKernelGetName": 2,
+        "cudaDeviceSynchronize_v3020": 1,
+        "cudaGraphLaunch_v10000": 15,
+        "cudaLaunchKernel_v7000": 2,
+        "cudaMemcpyAsync_v3020": 96,
+        "cudaStreamIsCapturing_v10000": 6,
+        "cudaStreamSynchronize_v3020": 6
+      }
+    }
+  },
+  "source_sha256": {
+    "backend\\learning\\data.py": "2f91e3291b33ba94eea33ac62a38d2ccd0aef3fd417bf8e9fdff571587791ac8",
+    "backend\\learning\\evaluate.py": "1f0d92598bfff63d8174065d2a433a6485fd62335acad75de1d16914c87fc69f",
+    "backend\\learning\\inference.py": "33c821627a5f7e6ea6bc69183e85f1e7e0e804addfdf1072f62ae82a69cc2d23",
+    "backend\\learning\\matching.py": "121c2ee2719bc3e7aa84f2f80b2048a3eed334b9d3901ff7f471a4772105ff66",
+    "backend\\learning\\model.py": "9a56c03fdae84e9f63e2b954c87fafc77f6aac03261cf03d96b4dfc1f8ba2f58",
+    "backend\\learning\\runtime.py": "d25d0edcc0c78bc80b1e866d28186f97c801a71cff3fe95465d3b0a1b6baa62e",
+    "backend\\learning\\__init__.py": "349aff882af70809cfb8f7e783cce0d8ef29336ae793b60522f0ca8fa6d3048a",
+    "backend\\learning\\cuda\\matching.cu": "d25e226b098ade53a82e5c12317f5cf7e6d3fdff74399a501b8271abad00b7a5",
+    "tools\\learning-pilot.py": "251335d4d79b46d67d4622a0e4b630a21cb1a9219346675d47d4eb71d863021b"
+  }
+}

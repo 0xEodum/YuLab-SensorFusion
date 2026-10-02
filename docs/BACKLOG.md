@@ -1,9 +1,9 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-09-30. SF-10 visibility labels and dataset jobs passed local
+Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
-and baselines is READY.
+and baselines is IN PROGRESS; its staged performance follow-up passed locally.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -418,6 +418,12 @@ Acceptance:
 - Record loss curves, AP/recall/localization, calibration, runtime and peak memory.
   Save loadable checkpoint, exact preprocessing and dataset hash. Set explicit
   class/condition quality targets for SF-15 using validation, before test access.
+
+The 2026-10-02 performance follow-up adds CUDA assignment/overlap kernels and
+graph execution with exact complete-budget parity against batched eager training.
+See [staged profiling and optimization](evidence/SF-11-performance.md). This
+performance acceptance does not close the remaining SF-11 delivery gates or
+replace the previously frozen canonical checkpoints/test evidence.
 
 ## SF-12 — Compact ESSRF
 

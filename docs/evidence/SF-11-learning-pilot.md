@@ -67,6 +67,11 @@ and will accompany final evidence. This limitation is not hidden by the lockfile
 
 ## Outstanding acceptance
 
+The 2026-10-02 resource-utilization follow-up is recorded separately in
+[SF-11 performance](SF-11-performance.md). Optimized runs use separate directories;
+the original frozen runs and test reports are preserved. The performance gate
+checks train/validation only and does not reopen the sealed test for tuning.
+
 Complete the independent label audit, equal-budget unimodal/simple-fusion runs,
 validation selection, SF-15 targets freeze before test observations, sealed-test
 reports, checkpoint prediction replay, observation-only inference with labels and

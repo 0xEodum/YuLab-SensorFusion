@@ -56,6 +56,54 @@ uses selected train-only positives of all three classes plus an empty frame and
 requires mAP >= .90. Loss histories include validation metrics. Best checkpoints
 are chosen by validation 3D mAP. Test runs verify the frozen checkpoint hashes.
 
+### CUDA execution (2026-10-02)
+
+The pilot's preprocessed observations occupy about 609 MiB for train plus
+validation and are uploaded once. Training also packs supervision once in VRAM;
+these buffers stay separate from the observation-only model inputs. There is no
+per-step disk loader or repeated image upload in the training loop.
+
+After `tools/build-learning-cuda.ps1`, `--execution auto` chooses `cuda-graph`
+on the measured CUDA machine. Explicit modes are `eager` (portable batched loss,
+SciPy assignment), `cuda-native` (device assignment), `cuda-graph-body` (captured
+forward/loss/backward/clipping), and `cuda-graph` (also captures fixed AdamW work).
+An explicitly requested CUDA mode fails if the matching library is absent or
+stale. Auto uses eager when the native build is unavailable. The build records
+source/library hashes, toolkit and the explicit compiler override, if used.
+The current native build targets RTX 3090 / `sm_86` on Windows.
+
+The exact bounded assignment kernel supports up to 16 queries, empty frames,
+negative finite costs and full query capacity. Equally optimal tied assignments
+are deterministic; arbitrary ties need not use SciPy's same permutation. The
+measured full pilot has exact eager/native/graph histories and selected checkpoint
+tensors. GPU graphs retain stable parameter, target and gradient addresses;
+actual tail shapes are captured separately. AdamW keeps its original foreach
+operation order, CPU step counters, CPU bias corrections and standard checkpoint
+format. Warmup/capture does not commit an optimizer update.
+
+Accelerated modes skip PyTorch's debug filling of uninitialized allocations;
+all observation, supervision, kernel outputs and scratch buffers are completely
+written before use. Deterministic algorithms remain enabled. Use
+`--deterministic-fill` to restore that debugging aid. Nonfinite loss is checked
+at the epoch boundary, with a device flag tracking every graph step. This avoids
+a scalar CPU/GPU synchronization per update; detection is deferred to epoch end.
+
+Validation captures the model forwards and softmax, then reads back the whole
+split once. Graph modes also batch oriented 3D overlap clipping on CUDA, using
+CPU-prepared FP32 corners/vertical endpoints/volumes to preserve the independent
+scalar evaluator's rounding. Fused multiply-add is disabled in the native build.
+Exact scalar IoU remains the reference and is used by eager evaluation. Frame
+matching, AP/calibration/localization reductions and condition reports remain on
+CPU. Matches are reused across global and condition reports. The CPU path rejects
+disjoint bounding intervals before polygon clipping. Dataset, preprocessing, precision, batch size,
+optimizer settings, update count and every-epoch validation stay unchanged.
+
+Use `--run-root` to write a separate training comparison while sharing the
+immutable cache/index under `--output`. This option applies to training only;
+freeze/test continue using the canonical `--output/runs` checkpoints. See the
+[staged performance evidence](evidence/SF-11-performance.md) for complete-budget
+parity, measured throughput, Nsight traces and remaining costs.
+
 ## Evaluation and output
 
 The independent evaluator clips oriented ground rectangles and intersects vertical
