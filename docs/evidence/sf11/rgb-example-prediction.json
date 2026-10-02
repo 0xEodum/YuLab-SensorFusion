@@ -1,0 +1,65 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "PredictionBundle",
+  "capture_id": "sf11-0000",
+  "checkpoint_id": "baseline-rgb",
+  "checkpoint_sha256": "4aa86c2b19afe325d63d10a4eb67ad1f8fb46bfee6ffec1e312e73f1ae129665",
+  "latency_ms": 112.21780000050785,
+  "detections": [
+    {
+      "prediction_id": "prediction-0",
+      "class_id": 8,
+      "score": 0.9864116907119751,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          58.03249285146688,
+          25.695036253557717,
+          -2.9838784356575445
+        ],
+        "extent_m": [
+          35.85231018066406,
+          4.482369899749756,
+          14.996012687683105
+        ],
+        "quaternion_xyzw": [
+          0,
+          0.0005841438791990128,
+          0,
+          0.9999998293879496
+        ]
+      },
+      "observation_supported": true,
+      "position_variance_m2": null,
+      "routing": null
+    },
+    {
+      "prediction_id": "prediction-1",
+      "class_id": 8,
+      "score": 0.9988532066345215,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          42.41553041860555,
+          27.262003264055764,
+          74.78088444276042
+        ],
+        "extent_m": [
+          23.084339141845703,
+          5.1151909828186035,
+          16.88929557800293
+        ],
+        "quaternion_xyzw": [
+          0,
+          -0.004204542095091318,
+          0,
+          0.9999911608738202
+        ]
+      },
+      "observation_supported": true,
+      "position_variance_m2": null,
+      "routing": null
+    }
+  ],
+  "state": null
+}

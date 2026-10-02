@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+from concurrent.futures import ProcessPoolExecutor
 import hashlib
 import json
 import sys
@@ -15,12 +16,46 @@ from app.dataset import validate_manifest  # noqa: E402
 
 
 def canonical_hash(value: dict) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True,
-        ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode()).hexdigest()
+    def encode(node):
+        if isinstance(node, dict):
+            return "{" + ",".join(json.dumps(k, ensure_ascii=False) + ":" + encode(node[k])
+                                  for k in sorted(node)) + "}"
+        if isinstance(node, list):
+            return "[" + ",".join(encode(v) for v in node) + "]"
+        if isinstance(node, float):
+            if not np.isfinite(node):
+                raise ValueError("Nonfinite request value")
+            if node == 0:
+                return "0"
+            if node.is_integer() and abs(node) < 1e21:
+                return str(int(node))
+            number = repr(node)
+            if "e" in number:
+                mantissa, exponent = number.split("e")
+                power = int(exponent)
+                if 1e-6 <= abs(node) < 1e21:
+                    sign = "-" if mantissa.startswith("-") else ""
+                    mantissa = mantissa.lstrip("-")
+                    position = len(mantissa.split(".")[0]) + power
+                    digits = mantissa.replace(".", "")
+                    number = sign + ("0." + "0" * -position + digits if position <= 0 else
+                                     digits[:position] + "." + digits[position:] if position < len(digits) else
+                                     digits + "0" * (position - len(digits)))
+                else:
+                    number = mantissa.removesuffix(".0") + "e" + ("+" if power >= 0 else "-") + str(abs(power))
+            return number
+        return json.dumps(node, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
+    return hashlib.sha256(encode(value).encode()).hexdigest()
 
 
-def run(root: Path, requests: Path) -> dict:
-    manifest = validate_manifest(root)
+def run(root: Path, requests: Path, workers: int = 1) -> dict:
+    if workers < 1:
+        raise ValueError("workers must be positive")
+    if workers == 1:
+        manifest = validate_manifest(root)
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            manifest = validate_manifest(root, pool)
     expected = json.loads(requests.read_text(encoding="utf-8"))["requests"]
     by_id = {item["request"]["plan"]["capture_id"]: item for item in expected}
     if len(by_id) != len(expected) or set(by_id) != {entry["capture_id"] for entry in manifest["captures"]}:
@@ -119,8 +154,9 @@ def main() -> None:
     parser.add_argument("dataset", type=Path)
     parser.add_argument("requests", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--workers", type=int, default=1)
     args = parser.parse_args()
-    report = run(args.dataset.resolve(), args.requests.resolve())
+    report = run(args.dataset.resolve(), args.requests.resolve(), args.workers)
     encoded = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

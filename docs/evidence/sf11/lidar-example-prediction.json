@@ -1,0 +1,65 @@
+{
+  "schema_version": "lab.v1",
+  "kind": "PredictionBundle",
+  "capture_id": "sf11-0000",
+  "checkpoint_id": "baseline-lidar",
+  "checkpoint_sha256": "a4328faa6415fc159c8f2073a42e73643f8516a598ca927724a95632a552d492",
+  "latency_ms": 23.972899998625508,
+  "detections": [
+    {
+      "prediction_id": "prediction-0",
+      "class_id": 8,
+      "score": 0.9924687743186951,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          43.90170786306356,
+          26.60943253956846,
+          53.62754887147136
+        ],
+        "extent_m": [
+          9.169577598571777,
+          5.409572124481201,
+          16.84029769897461
+        ],
+        "quaternion_xyzw": [
+          0,
+          -0.009876395193634467,
+          0,
+          0.9999512272195975
+        ]
+      },
+      "observation_supported": true,
+      "position_variance_m2": null,
+      "routing": null
+    },
+    {
+      "prediction_id": "prediction-1",
+      "class_id": 9,
+      "score": 0.553125262260437,
+      "box_3d": {
+        "frame": "east-up-south",
+        "center_m": [
+          39.43136761114095,
+          27.593397936449563,
+          51.60553425355144
+        ],
+        "extent_m": [
+          9.416593551635742,
+          4.875445365905762,
+          5.4527740478515625
+        ],
+        "quaternion_xyzw": [
+          0,
+          -0.002560364544679017,
+          0,
+          0.9999967222613274
+        ]
+      },
+      "observation_supported": true,
+      "position_variance_m2": null,
+      "routing": null
+    }
+  ],
+  "state": null
+}

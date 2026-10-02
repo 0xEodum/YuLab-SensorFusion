@@ -1,0 +1,21 @@
+{
+  "elapsed_s": 55.08145700000023,
+  "process_rss_bytes": 1824448512,
+  "process_peak_working_set_bytes": 1826492416,
+  "gpu_peak_allocated_bytes": 740597760,
+  "gpu_peak_reserved_bytes": 761266176,
+  "parameters": 172972,
+  "torch": "2.13.0+cu130",
+  "device": "NVIDIA GeForce RTX 3090",
+  "checkpoint_sha256": "7f15bdb48309a410ca525da709f67d85a1675c8991b326ea1b88d413691fdc02",
+  "best_validation_ap": 1.0,
+  "tiny_capture_ids": [
+    "sf11-0000",
+    "sf11-0002",
+    "sf11-0020",
+    "sf11-0022",
+    "sf11-0040",
+    "sf11-0050",
+    "sf11-0052"
+  ]
+}
