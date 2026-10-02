@@ -222,8 +222,8 @@ def train(args):
             tiny_ids = sorted(set(tiny_ids))
         trainer = None
         setup_started = time.perf_counter()
-        if execution == "cuda-graph":
-            trainer = GraphTrainer(model, features, packed_targets)
+        if execution in ("cuda-graph", "cuda-graph-body"):
+            trainer = GraphTrainer(model, features, packed_targets, optimizer if execution == "cuda-graph" else None)
             sample_count = len(tiny_ids) if args.tiny else len(targets)
             for shape in {min(sample_count, args.batch_size), sample_count % args.batch_size} - {0}:
                 trainer.prepare(shape)
@@ -284,7 +284,8 @@ def train(args):
                    "parameters": sum(p.numel() for p in model.parameters()), "torch": torch.__version__,
                    "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
                    "checkpoint_sha256": digest(folder / "best.pt"), "best_validation_ap": best,
-                   "execution": execution, "graph_setup_s": graph_setup_s, "phase_seconds": phase_seconds,
+                   "execution": execution, "graph_optimizer_prefix": bool(trainer and trainer.optimizer_prefix),
+                   "graph_setup_s": graph_setup_s, "phase_seconds": phase_seconds,
                    "tiny_capture_ids": [records[i]["capture_id"] for i in tiny_ids] if args.tiny else None}
         write(folder / "runtime.json", summary)
         if args.tiny and best < .90:
@@ -360,7 +361,7 @@ def main():
     parser.add_argument("--tiny-steps", type=int, default=1200)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=.001)
-    parser.add_argument("--execution", choices=["auto", "eager", "cuda-native", "cuda-graph"], default="auto")
+    parser.add_argument("--execution", choices=["auto", "eager", "cuda-native", "cuda-graph", "cuda-graph-body"], default="auto")
     parser.add_argument("--run-root", type=Path, help="Separate training artifacts; cache/index stay under --output")
     args = parser.parse_args(); args.tiny = args.stage == "tiny"
     if args.stage == "prepare": seed_all(args.seed); prepare(args)

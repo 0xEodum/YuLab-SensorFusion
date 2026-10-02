@@ -27,4 +27,11 @@ try {
     & cmd.exe /d /c $build
     if ($LASTEXITCODE -ne 0) { throw "CUDA matcher compilation failed ($LASTEXITCODE)" }
     Get-FileHash -LiteralPath $source,$dll -Algorithm SHA256
+    @{
+        source_sha256 = (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash.ToLowerInvariant()
+        library_sha256 = (Get-FileHash -LiteralPath $dll -Algorithm SHA256).Hash.ToLowerInvariant()
+        architecture = 'sm_86'
+        nvcc_version = (& $nvcc --version | Out-String).Trim()
+        compiler_override = [bool]$AllowUnsupportedCudaCompiler
+    } | ConvertTo-Json | Set-Content -LiteralPath ([IO.Path]::ChangeExtension($dll, '.json')) -Encoding utf8
 } finally { Pop-Location }

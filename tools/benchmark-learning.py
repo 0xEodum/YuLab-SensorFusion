@@ -37,7 +37,7 @@ def main():
     parser.add_argument("--steps", type=int, default=70)
     parser.add_argument("--profile", action="store_true")
     parser.add_argument("--nsight", action="store_true", help="Capture the complete epoch with cudaProfilerStart/Stop")
-    parser.add_argument("--variant", choices=["reference", "batched", "selected", "native", "graph"], default="selected")
+    parser.add_argument("--variant", choices=["reference", "batched", "selected", "native", "graph", "graph-optimizer"], default="selected")
     parser.add_argument("--reference-revision", default="0c015d76525ed492d6eabbf1f1a1370bd312044d")
     args = parser.parse_args()
     pilot.seed_all(11)
@@ -59,7 +59,7 @@ def main():
     old_pilot = module_from(reference / "learning-pilot.py", "reference_pilot")
     old_pilot.Detector = old_model.Detector; old_pilot.predictions = old_model.predictions; old_pilot.evaluate = old_eval.evaluate
     packed_targets = pack_targets(targets, device)
-    native = args.variant in ("native", "graph")
+    native = args.variant in ("native", "graph", "graph-optimizer")
     def loss_function(output, target):
         return old_model.detection_loss(output, target) if args.variant == "reference" else detection_loss(output, target, native=native)
     cycle = old_pilot if args.variant in ("reference", "batched") else pilot
@@ -91,10 +91,10 @@ def main():
         raise ValueError("Observation predictions changed")
     graph_setup_s = 0
     trainer = None
-    if args.variant == "graph":
+    if args.variant in ("graph", "graph-optimizer"):
         setup = time.perf_counter()
         model.train()
-        trainer = GraphTrainer(model, features, packed_targets)
+        trainer = GraphTrainer(model, features, packed_targets, optimizer if args.variant == "graph-optimizer" else None)
         trainer.prepare(32); trainer.prepare(len(targets) % 32)
         model.graph_inference = GraphInference(model)
         graph_report, graph_predictions = pilot.score(model, vf, vt, vr, 32)
@@ -143,7 +143,13 @@ def main():
                 loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); optimizer.step()
         args.output.with_suffix(".profile.txt").write_text(prof.key_averages().table(sort_by="self_cpu_time_total", row_limit=30))
     # Complete epoch timing keeps asynchronous execution and includes validation.
-    pilot.seed_all(11); model.load_state_dict(checkpoint["model"]); optimizer.load_state_dict(copy.deepcopy(checkpoint["optimizer"]))
+    pilot.seed_all(11); model.load_state_dict(checkpoint["model"])
+    stable_state = optimizer.state if trainer and trainer.optimizer_prefix else None
+    optimizer.load_state_dict(copy.deepcopy(checkpoint["optimizer"]))
+    if stable_state is not None:
+        for p,state in stable_state.items():
+            for key,value in state.items(): value.copy_(optimizer.state[p][key])
+        optimizer.state = stable_state
     epoch_order = torch.randperm(len(targets)).tolist()
     epoch_device_order = torch.tensor(epoch_order, device=device)
     model.train(); sync(); epoch_started = time.perf_counter()

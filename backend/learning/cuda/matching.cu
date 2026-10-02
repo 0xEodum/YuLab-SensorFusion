@@ -13,6 +13,16 @@ __global__ void assign(const float* costs, const int64_t* counts,
     const int f = blockIdx.x;
     const int n = static_cast<int>(counts[f]);
     for (int q = 0; q < queries; ++q) result[f * queries + q] = -1;
+    if (n < 0 || n > capacity) {
+        for (int q = 0; q < queries; ++q) result[f * queries + q] = -2;
+        return;
+    }
+    for (int q = 0; q < queries; ++q) for (int t = 0; t < n; ++t) {
+        if (!isfinite(costs[(f * queries + q) * capacity + t])) {
+            for (int j = 0; j < queries; ++j) result[f * queries + j] = -2;
+            return;
+        }
+    }
     double u[17] = {}, v[17] = {};
     int owner[17] = {}, previous[17] = {};
     for (int t = 1; t <= n; ++t) {

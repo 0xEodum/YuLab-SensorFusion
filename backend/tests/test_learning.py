@@ -138,6 +138,10 @@ def test_native_assignment_optimality_and_graph_stream():
             r, c = linear_sum_assignment(costs[i, :, :count].numpy())
             assert float(costs[i, rows, actual[i, rows]].double().sum()) == pytest.approx(
                 float(costs[i, r, c].double().sum()), abs=1e-7)
+    invalid = torch.zeros(3,16,2,device="cuda")
+    invalid[2,0,0] = float("nan")
+    result = assignment(invalid, torch.tensor([-1,3,1],device="cuda",dtype=torch.int64))
+    assert (result == -2).all()
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
@@ -160,7 +164,8 @@ def test_native_loss_preserves_reference_values_and_gradients():
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
 @pytest.mark.parametrize("modality", ["rgb", "ir", "lidar", "fusion"])
-def test_graph_training_mixed_shapes_matches_eager_and_inference(modality):
+@pytest.mark.parametrize("graph_optimizer", [False, True])
+def test_graph_training_mixed_shapes_matches_eager_and_inference(modality, graph_optimizer):
     import copy
     from learning.matching import available
     from learning.model import target_batch, predictions
@@ -180,7 +185,7 @@ def test_graph_training_mixed_shapes_matches_eager_and_inference(modality):
     eager = Detector(modality).cuda(); graphed = copy.deepcopy(eager)
     left = torch.optim.AdamW(eager.parameters(), lr=.001, weight_decay=.0001)
     right = torch.optim.AdamW(graphed.parameters(), lr=.001, weight_decay=.0001)
-    trainer = GraphTrainer(graphed, inputs, packed)
+    trainer = GraphTrainer(graphed, inputs, packed, right if graph_optimizer else None)
     trainer.prepare(3); trainer.prepare(2)
     for indices in ([0, 2, 4], [3, 1], [2, 1, 0], [4, 0]):
         eager.train(); graphed.train()
@@ -191,6 +196,8 @@ def test_graph_training_mixed_shapes_matches_eager_and_inference(modality):
         graph_loss = trainer.step(ids, right)
         torch.testing.assert_close(graph_loss, loss, rtol=0, atol=0)
         for a,b in zip(eager.parameters(), graphed.parameters()): torch.testing.assert_close(a,b,rtol=0,atol=0)
+        for a,b in zip(eager.parameters(), graphed.parameters()):
+            for key in left.state[a]: torch.testing.assert_close(left.state[a][key],right.state[b][key],rtol=0,atol=0)
     graphed.eval()
     reference = []
     with torch.no_grad():

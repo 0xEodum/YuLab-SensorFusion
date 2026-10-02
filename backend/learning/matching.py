@@ -1,14 +1,23 @@
 """Stream-aware native matching; CPU/SciPy remains the portable reference."""
 import ctypes
+import hashlib
+import json
 from pathlib import Path
 import torch
 
 LIBRARY = Path(__file__).resolve().parents[2] / "artifacts/sf11/cuda/learning_matching.dll"
+SOURCE = Path(__file__).parent / "cuda/matching.cu"
 _library = None
 
 
 def available():
-    return LIBRARY.is_file()
+    manifest = LIBRARY.with_suffix(".json")
+    if not LIBRARY.is_file() or not manifest.is_file(): return False
+    try:
+        provenance = json.loads(manifest.read_text(encoding="utf-8-sig"))
+        return (provenance["source_sha256"] == hashlib.sha256(SOURCE.read_bytes()).hexdigest()
+                and provenance["library_sha256"] == hashlib.sha256(LIBRARY.read_bytes()).hexdigest())
+    except (ValueError, KeyError, OSError): return False
 
 
 def load():

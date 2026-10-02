@@ -139,7 +139,10 @@ def detection_loss(output, targets, *, native=False):
     center = ((boxes[..., :3] - truth[..., :3]).abs() * valid[..., None]).sum((1, 2)) / (denominator * 3)
     extent = ((boxes[..., 3:6].log() - truth[..., 3:6].log()).abs() * valid[..., None]).sum((1, 2)) / (denominator * 3)
     yaw = ((1 - torch.cos(boxes[..., 6] - truth[..., 6])) * valid).sum(1) / denominator
-    return (classification + 8 * center + .5 * extent + .2 * yaw).mean()
+    loss = (classification + 8 * center + .5 * extent + .2 * yaw).mean()
+    # Device sentinel rejects invalid native supervision/costs without a host
+    # branch in the captured step. Epoch finite checks report the failure.
+    return loss.masked_fill((matched < -1).any(), float("nan")) if native else loss
 
 
 @torch.no_grad()
