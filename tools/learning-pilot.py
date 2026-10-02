@@ -174,7 +174,11 @@ def score(model, features, targets, records, size, timings=None):
     started = time.perf_counter()
     predicted, actual = infer(model, features, size), meters(targets)
     inferred = time.perf_counter()
-    matches = match_frames(predicted, actual)
+    overlaps = None
+    if getattr(model,"native_evaluation",False):
+        from learning.matching import frame_overlaps
+        overlaps = frame_overlaps(predicted, actual, device=features["calibration"].device)
+    matches = match_frames(predicted, actual, overlaps)
     matched = time.perf_counter()
     report = evaluate(predicted, actual, matches)
     report["conditions"] = {}
@@ -229,6 +233,7 @@ def train(args):
             for shape in {min(sample_count, args.batch_size), sample_count % args.batch_size} - {0}:
                 trainer.prepare(shape)
             model.graph_inference = GraphInference(model)
+            model.native_evaluation = True
         if device.type == "cuda": torch.cuda.synchronize()
         graph_setup_s = time.perf_counter()-setup_started
         phase_seconds = {"training": 0.0, "validation": 0.0, "artifact_writes": 0.0}
@@ -286,6 +291,7 @@ def train(args):
                    "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
                    "checkpoint_sha256": digest(folder / "best.pt"), "best_validation_ap": best,
                    "execution": execution, "graph_optimizer_prefix": bool(trainer and trainer.optimizer_prefix),
+                   "native_evaluation": bool(getattr(model,"native_evaluation",False)),
                    "deterministic_algorithms": True, "deterministic_fill": torch.utils.deterministic.fill_uninitialized_memory,
                    "graph_setup_s": graph_setup_s, "phase_seconds": phase_seconds,
                    "tiny_capture_ids": [records[i]["capture_id"] for i in tiny_ids] if args.tiny else None}

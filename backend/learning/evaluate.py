@@ -50,29 +50,31 @@ def box_iou(a, b):
     return float(np.clip(intersection / (np.prod(a[3:6]) + np.prod(b[3:6]) - intersection), 0, 1))
 
 
-def match_frames(predictions, targets):
+def match_frames(predictions, targets, overlaps=None):
     """Cache frame-local one-to-one matches for global and condition reductions."""
     result = []
-    for prediction, target in zip(predictions, targets):
+    for frame_index,(prediction, target) in enumerate(zip(predictions, targets)):
         frame = {"positives": [int(np.count_nonzero(target["classes"] == cls)) for cls in range(3)],
                  "empty": len(target["boxes"]) == 0, "records": []}
         for cls in range(3):
-            ranked = sorted([(float(score), box) for box, label, score in
-                zip(prediction["boxes"], prediction["classes"], prediction["scores"]) if label == cls], key=lambda x: -x[0])
+            ranked = sorted([(float(score), box, k) for k,(box,label,score) in enumerate(
+                zip(prediction["boxes"], prediction["classes"], prediction["scores"])) if label == cls], key=lambda x: -x[0])
             used = set()
             wanted_boxes = target["boxes"][target["classes"] == cls]
             # Reject disjoint bounding intervals in bulk before exact polygon
             # clipping. Broad phase never decides a hit; overlapping pairs use
             # the original scalar 3D IoU, including its tolerances.
-            if len(wanted_boxes):
+            if len(wanted_boxes) and overlaps is None:
                 rectangles = np.array([rectangle(b) for b in wanted_boxes])
                 lower, upper = rectangles.min(1), rectangles.max(1)
                 height_lower = wanted_boxes[:, 1] - wanted_boxes[:, 4]/2
                 height_upper = wanted_boxes[:, 1] + wanted_boxes[:, 4]/2
-                wanted_ids = np.flatnonzero(target["classes"] == cls)
-            for score, box in ranked:
+            wanted_ids = np.flatnonzero(target["classes"] == cls)
+            for score, box, prediction_index in ranked:
                 candidates = []
-                if len(wanted_boxes):
+                if overlaps is not None:
+                    candidates = [(float(overlaps[frame_index][prediction_index,j]),int(j)) for j in wanted_ids if j not in used]
+                elif len(wanted_boxes):
                     bounds = rectangle(box)
                     possible = ((upper >= bounds.min(0)-1e-8) & (lower <= bounds.max(0)+1e-8)).all(1)
                     possible &= (height_upper >= box[1]-box[4]/2) & (height_lower <= box[1]+box[4]/2)

@@ -210,3 +210,22 @@ def test_graph_training_mixed_shapes_matches_eager_and_inference(modality, graph
         for k in a: np.testing.assert_array_equal(a[k], b[k])
     # Capture must not perform a hidden optimizer update.
     assert all(float(s["step"]) == 4 for s in right.state.values())
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
+def test_native_oriented_overlap_matches_independent_scalar():
+    from learning.matching import available, frame_overlaps
+    if not available(): pytest.skip("Native kernels have not been built")
+    generator=np.random.default_rng(313)
+    predictions=[]; targets=[]
+    for i in range(80):
+        a=generator.normal(size=(i%17,7)).astype(np.float32)
+        b=generator.normal(size=((i+3)%17,7)).astype(np.float32)
+        a[:,3:6]=np.abs(a[:,3:6])+1
+        b[:,3:6]=np.abs(b[:,3:6])+1
+        if len(a) and len(b): b[0]=a[0]
+        predictions.append({"boxes":a}); targets.append({"boxes":b})
+    actual=frame_overlaps(predictions,targets)
+    for a,b,result in zip(predictions,targets,actual):
+        reference=np.array([[box_iou(x,y) for y in b["boxes"]] for x in a["boxes"]],dtype=np.float32).reshape(result.shape)
+        np.testing.assert_array_equal(result,reference)

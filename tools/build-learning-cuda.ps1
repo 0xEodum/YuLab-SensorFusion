@@ -17,7 +17,7 @@ $command = @"
 set "PATH=$(Split-Path -Parent $vswhere);%PATH%"
 call "$vcvars"
 if errorlevel 1 exit /b 1
-"$nvcc" -shared -O3 -arch=sm_86 $override "$source" -o "$dll"
+"$nvcc" -shared -O3 --fmad=false -arch=sm_86 $override "$source" -o "$dll"
 exit /b %errorlevel%
 "@
 $build = Join-Path $output 'build.cmd'

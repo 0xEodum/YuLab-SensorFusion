@@ -28,6 +28,8 @@ def load():
         _library = ctypes.CDLL(str(LIBRARY))
         _library.learning_assign.argtypes = [ctypes.c_void_p] * 3 + [ctypes.c_int] * 3 + [ctypes.c_void_p]
         _library.learning_assign.restype = ctypes.c_int
+        _library.learning_overlaps.argtypes = [ctypes.c_void_p] * 5 + [ctypes.c_int] * 3 + [ctypes.c_void_p]
+        _library.learning_overlaps.restype = ctypes.c_int
     return _library
 
 
@@ -46,3 +48,38 @@ def assignment(cost, counts):
     if error:
         raise RuntimeError(f"CUDA assignment launch failed: {error}")
     return result
+
+
+def frame_overlaps(predictions, targets, device=None):
+    """Exact FP32 clipping over CPU-prepared geometry, one transfer per split."""
+    import numpy as np
+    from .evaluate import rectangle
+    count = len(predictions)
+    device = torch.device("cuda") if device is None else torch.device(device)
+    if count != len(targets) or count == 0: raise ValueError("Evaluation frame count mismatch")
+
+    def packed(frames):
+        counts = np.array([len(f["boxes"]) for f in frames],dtype=np.int64)
+        capacity = max(1,int(counts.max()))
+        if capacity > 16: raise ValueError("Native evaluation supports at most 16 boxes per frame")
+        data = np.zeros((count,capacity,11),dtype=np.float32)
+        for i,frame in enumerate(frames):
+            boxes = frame["boxes"]
+            if boxes.dtype != np.float32: raise ValueError("Native evaluation requires the FP32 baseline profile")
+            if not np.isfinite(boxes).all() or (boxes[:,3:6] <= 0).any(): raise ValueError("Invalid detection box")
+            for j,box in enumerate(boxes):
+                data[i,j,:8] = rectangle(box).ravel()
+                data[i,j,8:10] = [box[1]-box[4]/2,box[1]+box[4]/2]
+                data[i,j,10] = np.prod(box[3:6])
+        if not np.isfinite(data).all(): raise ValueError("Nonfinite evaluation geometry")
+        return torch.from_numpy(data).to(device),torch.from_numpy(counts).to(device)
+
+    left,na = packed(predictions); right,nb = packed(targets)
+    output = torch.empty((count,left.shape[1],right.shape[1]),device=left.device,dtype=torch.float32)
+    with torch.cuda.device(left.device):
+        error = load().learning_overlaps(left.data_ptr(),right.data_ptr(),na.data_ptr(),nb.data_ptr(),output.data_ptr(),
+                                        count,left.shape[1],right.shape[1],torch.cuda.current_stream().cuda_stream)
+    if error: raise RuntimeError(f"CUDA overlap launch failed: {error}")
+    matrices = output.cpu().numpy()
+    if not np.isfinite(matrices).all(): raise ValueError("Invalid native overlap result")
+    return [matrices[i,:len(p["boxes"]),:len(t["boxes"])] for i,(p,t) in enumerate(zip(predictions,targets))]

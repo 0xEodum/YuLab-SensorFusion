@@ -39,6 +39,7 @@ def main():
     parser.add_argument("--nsight", action="store_true", help="Capture the complete epoch with cudaProfilerStart/Stop")
     parser.add_argument("--skip-deterministic-fill", action="store_true",
                         help="Skip debug filling of empty allocations; deterministic algorithms stay enabled")
+    parser.add_argument("--native-evaluation",action="store_true")
     parser.add_argument("--variant", choices=["reference", "batched", "selected", "native", "graph", "graph-optimizer"], default="selected")
     parser.add_argument("--reference-revision", default="0c015d76525ed492d6eabbf1f1a1370bd312044d")
     args = parser.parse_args()
@@ -100,6 +101,7 @@ def main():
         trainer = GraphTrainer(model, features, packed_targets, optimizer if args.variant == "graph-optimizer" else None)
         trainer.prepare(32); trainer.prepare(len(targets) % 32)
         model.graph_inference = GraphInference(model)
+        model.native_evaluation = args.native_evaluation
         graph_report, graph_predictions = pilot.score(model, vf, vt, vr, 32)
         if graph_report != reference_report or any(not np.array_equal(p[k], q[k])
             for p,q in zip(reference_predictions, graph_predictions) for k in p):
@@ -184,6 +186,7 @@ def main():
     epoch_total_s = time.perf_counter()-epoch_started
     value = {"variant": args.variant, "dataset_sha256": pilot.digest(config.dataset / "manifest.json"), "batch_size": 32,
              "deterministic_fill": not args.skip_deterministic_fill,
+             "native_evaluation": args.native_evaluation,
              "reference_revision": args.reference_revision, "checkpoint_sha256": pilot.digest(config.output / "runs/fusion/best.pt"),
              "correctness": {"loss_absolute_error": float(abs(old_loss-new_loss).detach()), "gradient_max_absolute_error": gradient_error,
                              "validation_predictions_exact": True, "validation_metrics_exact": True},
