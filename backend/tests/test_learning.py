@@ -4,7 +4,7 @@ import pytest
 torch = pytest.importorskip("torch", reason="Run learning tests with the locked learning environment")
 
 from learning.evaluate import box_iou, evaluate
-from learning.model import Detector, detection_loss
+from learning.model import Detector, detection_loss, detection_loss_reference, pack_targets
 
 
 def test_oriented_iou_known_volumes():
@@ -66,6 +66,23 @@ def test_matching_is_permutation_invariant_and_wrong_boxes_cost_more():
     assert detection_loss({"boxes": wrong, "logits": logits}, [target]) > correct + 3
 
 
+@pytest.mark.parametrize("device", ["cpu", pytest.param("cuda", marks=pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable"))])
+def test_batched_loss_preserves_reference_values_and_gradients(device):
+    torch.manual_seed(11)
+    boxes = torch.rand(8, 16, 7, device=device); boxes[..., 3:6] += .1
+    logits = torch.randn(8, 16, 4, device=device)
+    targets = [{"boxes": torch.rand(i % 4, 7), "classes": torch.arange(i % 4) % 3} for i in range(8)]
+    for target in targets: target["boxes"][:, 3:6] += .1
+    original = {"boxes": boxes.clone().requires_grad_(), "logits": logits.clone().requires_grad_()}
+    batched = {"boxes": boxes.clone().requires_grad_(), "logits": logits.clone().requires_grad_()}
+    old = detection_loss_reference(original, targets)
+    new = detection_loss(batched, pack_targets(targets, device))
+    torch.testing.assert_close(new, old, rtol=2e-6, atol=1e-6)
+    old.backward(); new.backward()
+    for key in original:
+        torch.testing.assert_close(batched[key].grad, original[key].grad, rtol=3e-6, atol=1e-6)
+
+
 def test_observation_preprocess_with_truth_files_absent(tmp_path):
     import json
     import shutil
@@ -88,3 +105,100 @@ def test_observation_preprocess_with_truth_files_absent(tmp_path):
     assert all(torch.equal(original[k], isolated[k]) for k in original)
     assert not (directory / "annotations.json").exists()
     assert not (directory / "truth.json").exists()
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
+def test_native_assignment_optimality_and_graph_stream():
+    from learning.matching import available, assignment, load
+    from scipy.optimize import linear_sum_assignment
+    if not available(): pytest.skip("Native matcher has not been built")
+    load()
+    generator = torch.Generator().manual_seed(921)
+    # Empty/full targets, continuous costs and many ties; negative costs are valid.
+    for queries in (1, 5, 16):
+        capacity = queries
+        costs = torch.randn(80, queries, capacity, generator=generator)
+        costs[40:] = costs[40:].round()
+        costs[0] = 0
+        counts = torch.arange(80, dtype=torch.int64) % (capacity + 1)
+        counts[0] = capacity
+        gpu_cost, gpu_counts = costs.cuda(), counts.cuda()
+        with torch.cuda.stream(torch.cuda.Stream()):
+            matched = assignment(gpu_cost, gpu_counts)
+            graph = torch.cuda.CUDAGraph()
+            with torch.cuda.graph(graph): replayed = assignment(gpu_cost, gpu_counts)
+            graph.replay()
+        torch.cuda.synchronize()
+        torch.testing.assert_close(matched, replayed, rtol=0, atol=0)
+        actual = matched.cpu().numpy()
+        for i, count in enumerate(counts.tolist()):
+            rows = np.flatnonzero(actual[i] >= 0)
+            assert len(rows) == count
+            assert len(set(actual[i, rows])) == count
+            r, c = linear_sum_assignment(costs[i, :, :count].numpy())
+            assert float(costs[i, rows, actual[i, rows]].double().sum()) == pytest.approx(
+                float(costs[i, r, c].double().sum()), abs=1e-7)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
+def test_native_loss_preserves_reference_values_and_gradients():
+    from learning.matching import available
+    if not available(): pytest.skip("Native matcher has not been built")
+    torch.manual_seed(321)
+    boxes = torch.rand(17, 16, 7, device="cuda"); boxes[..., 3:6] += .1
+    logits = torch.randn(17, 16, 4, device="cuda")
+    targets = [{"boxes": torch.rand(i, 7), "classes": torch.arange(i) % 3} for i in range(17)]
+    for target in targets: target["boxes"][:, 3:6] += .1
+    left = {"boxes": boxes.clone().requires_grad_(), "logits": logits.clone().requires_grad_()}
+    right = {k: v.detach().clone().requires_grad_() for k,v in left.items()}
+    old = detection_loss_reference(left, targets)
+    new = detection_loss(right, pack_targets(targets, "cuda"), native=True)
+    torch.testing.assert_close(new, old, rtol=2e-6, atol=1e-6)
+    old.backward(); new.backward()
+    for key in left: torch.testing.assert_close(right[key].grad, left[key].grad, rtol=3e-6, atol=1e-6)
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
+@pytest.mark.parametrize("modality", ["rgb", "ir", "lidar", "fusion"])
+def test_graph_training_mixed_shapes_matches_eager_and_inference(modality):
+    import copy
+    from learning.matching import available
+    from learning.model import target_batch, predictions
+    from learning.runtime import GraphTrainer, GraphInference
+    if not available(): pytest.skip("Native matcher has not been built")
+    torch.manual_seed(981)
+    torch.use_deterministic_algorithms(True)
+    torch.backends.cuda.enable_flash_sdp(False)
+    torch.backends.cuda.enable_mem_efficient_sdp(False)
+    inputs = {"rgb": torch.rand(5, 3, 96, 160, device="cuda"), "ir": torch.rand(5, 1, 96, 160, device="cuda"),
+              "lidar": torch.rand(5, 256, 4, device="cuda"),
+              "point_valid": torch.ones(5, 256, dtype=torch.bool, device="cuda"),
+              "calibration": torch.rand(5, 32, device="cuda")}
+    targets = [{"boxes": torch.rand(i % 4, 7), "classes": torch.arange(i % 4) % 3} for i in range(5)]
+    for t in targets: t["boxes"][:, 3:6] += .1
+    packed = pack_targets(targets, "cuda")
+    eager = Detector(modality).cuda(); graphed = copy.deepcopy(eager)
+    left = torch.optim.AdamW(eager.parameters(), lr=.001, weight_decay=.0001)
+    right = torch.optim.AdamW(graphed.parameters(), lr=.001, weight_decay=.0001)
+    trainer = GraphTrainer(graphed, inputs, packed)
+    trainer.prepare(3); trainer.prepare(2)
+    for indices in ([0, 2, 4], [3, 1], [2, 1, 0], [4, 0]):
+        eager.train(); graphed.train()
+        ids = torch.tensor(indices, device="cuda")
+        left.zero_grad(set_to_none=True)
+        loss = detection_loss(eager({k:v[ids] for k,v in inputs.items()}), target_batch(packed, indices), native=True)
+        loss.backward(); torch.nn.utils.clip_grad_norm_(eager.parameters(), 1.0); left.step()
+        graph_loss = trainer.step(ids, right)
+        torch.testing.assert_close(graph_loss, loss, rtol=0, atol=0)
+        for a,b in zip(eager.parameters(), graphed.parameters()): torch.testing.assert_close(a,b,rtol=0,atol=0)
+    graphed.eval()
+    reference = []
+    with torch.no_grad():
+        for start in range(0,5,3): reference.extend(predictions(graphed({k:v[start:start+3] for k,v in inputs.items()})))
+    for p in reference: p["boxes"][:, :6] *= 200
+    runner = GraphInference(graphed)
+    actual = runner.infer(inputs,3)
+    for a,b in zip(reference,actual):
+        for k in a: np.testing.assert_array_equal(a[k], b[k])
+    # Capture must not perform a hidden optimizer update.
+    assert all(float(s["step"]) == 4 for s in right.state.values())

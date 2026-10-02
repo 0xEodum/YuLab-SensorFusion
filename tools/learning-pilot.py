@@ -20,8 +20,10 @@ import psutil
 import torch
 from app.dataset import digest
 from learning.data import PROFILE, preprocess, supervision
-from learning.model import Detector, detection_loss, predictions
-from learning.evaluate import evaluate, NAMES
+from learning.model import Detector, detection_loss, predictions, pack_targets, target_batch
+from learning.evaluate import evaluate, match_frames, NAMES
+from learning.runtime import GraphTrainer, GraphInference
+from learning.matching import available as native_available
 
 
 def write(path, value):
@@ -140,6 +142,8 @@ def load_split(args, split, device):
 
 
 def batch(features, ids):
+    if isinstance(ids, list):
+        ids = torch.as_tensor(ids, device=features["calibration"].device, dtype=torch.long)
     return {k: v[ids] for k, v in features.items()}
 
 
@@ -155,6 +159,8 @@ def meters(targets):
 @torch.no_grad()
 def infer(model, features, size):
     model.eval(); output = []
+    if getattr(model, "graph_inference", None) is not None:
+        return model.graph_inference.infer(features, size)
     for start in range(0, len(features["calibration"]), size):
         items = predictions(model(batch(features, slice(start, start + size))))
         for item in items:
@@ -163,14 +169,22 @@ def infer(model, features, size):
     return output
 
 
-def score(model, features, targets, records, size):
+def score(model, features, targets, records, size, timings=None):
+    started = time.perf_counter()
     predicted, actual = infer(model, features, size), meters(targets)
-    report = evaluate(predicted, actual)
+    inferred = time.perf_counter()
+    matches = match_frames(predicted, actual)
+    matched = time.perf_counter()
+    report = evaluate(predicted, actual, matches)
     report["conditions"] = {}
     for condition in range(10):
         ids = [i for i, r in enumerate(records) if r["condition"] == condition]
-        report["conditions"][str(condition)] = evaluate([predicted[i] for i in ids], [actual[i] for i in ids])
+        report["conditions"][str(condition)] = evaluate([predicted[i] for i in ids], [actual[i] for i in ids],
+                                                      [matches[i] for i in ids])
     report["ignored_objects"] = sum(len(t["ignored"]) for t in targets)
+    if timings is not None:
+        timings.update(inference_and_readback_s=inferred-started, exact_geometry_matching_s=matched-inferred,
+                       metric_reductions_s=time.perf_counter()-matched)
     return report, predicted
 
 
@@ -182,12 +196,18 @@ def train(args):
     seed_all(args.seed)
     device = torch.device(args.device)
     features, targets, records = load_split(args, "train", device)
+    packed_targets = pack_targets(targets, device)
     val_features, val_targets, val_records = load_split(args, "validation", device)
+    execution = args.execution
+    if execution == "auto":
+        execution = "cuda-graph" if device.type == "cuda" and native_available() else "eager"
+    if execution != "eager" and (device.type != "cuda" or not native_available()):
+        raise ValueError("CUDA execution requires a GPU and tools/build-learning-cuda.ps1")
     for modality in (["fusion"] if args.tiny else ["rgb", "ir", "lidar", "fusion"]):
         seed_all(args.seed)
         model = Detector(modality).to(device)
         optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.0001)
-        folder = args.output / ("tiny" if args.tiny else "runs") / modality
+        folder = (args.run_root or args.output) / ("tiny" if args.tiny else "runs") / modality
         folder.mkdir(parents=True, exist_ok=True)
         if device.type == "cuda":
             torch.cuda.reset_peak_memory_stats()
@@ -200,25 +220,49 @@ def train(args):
                 tiny_ids.extend([chosen, chosen + 2])
             tiny_ids.append(next(i for i, t in enumerate(targets) if len(t["boxes"]) == 0))
             tiny_ids = sorted(set(tiny_ids))
+        trainer = None
+        setup_started = time.perf_counter()
+        if execution == "cuda-graph":
+            trainer = GraphTrainer(model, features, packed_targets)
+            sample_count = len(tiny_ids) if args.tiny else len(targets)
+            for shape in {min(sample_count, args.batch_size), sample_count % args.batch_size} - {0}:
+                trainer.prepare(shape)
+            model.graph_inference = GraphInference(model)
+        if device.type == "cuda": torch.cuda.synchronize()
+        graph_setup_s = time.perf_counter()-setup_started
+        phase_seconds = {"training": 0.0, "validation": 0.0, "artifact_writes": 0.0}
         for epoch in range(args.tiny_steps if args.tiny else args.epochs):
             model.train(); losses = []
             order = tiny_ids if args.tiny else torch.randperm(len(targets)).tolist()
+            device_order = torch.as_tensor(order, device=device) if trainer else None
+            training_started = time.perf_counter()
+            if trainer: trainer.begin_epoch()
             for start in range(0, len(order), args.batch_size):
+                if trainer:
+                    losses.append(trainer.step(device_order[start:start+args.batch_size], optimizer))
+                    continue
                 ids = order[start:start + args.batch_size]
                 optimizer.zero_grad(set_to_none=True)
-                loss = detection_loss(model(batch(features, ids)), [targets[i] for i in ids])
-                if not torch.isfinite(loss):
-                    raise ValueError("Nonfinite loss")
+                loss = detection_loss(model(batch(features, ids)), target_batch(packed_targets, ids),
+                                      native=execution == "cuda-native")
                 loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); optimizer.step()
-                losses.append(float(loss.detach()))
+                losses.append(loss.detach())
+            epoch_loss = float(torch.stack(losses).mean())
+            if not np.isfinite(epoch_loss):
+                raise ValueError("Nonfinite loss")
+            if trainer: trainer.check_finite()
+            phase_seconds["training"] += time.perf_counter()-training_started
             if args.tiny and epoch % 50 != 0 and epoch != args.tiny_steps - 1:
                 continue
+            validation_started = time.perf_counter()
             if args.tiny:
                 report, predicted = score(model, batch(features, tiny_ids), [targets[i] for i in tiny_ids],
                                           [records[i] for i in tiny_ids], args.batch_size)
             else:
                 report, predicted = score(model, val_features, val_targets, val_records, args.batch_size)
-            row = {"epoch": epoch + 1, "loss": float(np.mean(losses)), "validation": report}
+            phase_seconds["validation"] += time.perf_counter()-validation_started
+            artifact_started = time.perf_counter()
+            row = {"epoch": epoch + 1, "loss": epoch_loss, "validation": report}
             history.append(row); write(folder / "history.json", history)
             quality = report["map_3d"] or 0
             print(f"{modality} epoch {epoch+1} loss {row['loss']:.4f} AP {quality:.4f}", flush=True)
@@ -232,6 +276,7 @@ def train(args):
                             "source_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()}, folder / "best.pt")
                 write(folder / "validation.json", report)
                 write(folder / "validation-predictions.json", [{k: v.tolist() for k, v in p.items()} for p in predicted])
+            phase_seconds["artifact_writes"] += time.perf_counter()-artifact_started
         summary = {"elapsed_s": time.perf_counter()-started, "process_rss_bytes": psutil.Process().memory_info().rss,
                    "process_peak_working_set_bytes": getattr(psutil.Process().memory_info(), "peak_wset", None),
                    "gpu_peak_allocated_bytes": torch.cuda.max_memory_allocated() if device.type == "cuda" else 0,
@@ -239,6 +284,7 @@ def train(args):
                    "parameters": sum(p.numel() for p in model.parameters()), "torch": torch.__version__,
                    "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
                    "checkpoint_sha256": digest(folder / "best.pt"), "best_validation_ap": best,
+                   "execution": execution, "graph_setup_s": graph_setup_s, "phase_seconds": phase_seconds,
                    "tiny_capture_ids": [records[i]["capture_id"] for i in tiny_ids] if args.tiny else None}
         write(folder / "runtime.json", summary)
         if args.tiny and best < .90:
@@ -264,6 +310,7 @@ def freeze(args):
           "validation_baselines": summaries})
 
 
+@torch.no_grad()
 def test(args):
     seed_all(args.seed); device = torch.device(args.device)
     features, targets, records = load_split(args, "test", device)
@@ -313,6 +360,8 @@ def main():
     parser.add_argument("--tiny-steps", type=int, default=1200)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=.001)
+    parser.add_argument("--execution", choices=["auto", "eager", "cuda-native", "cuda-graph"], default="auto")
+    parser.add_argument("--run-root", type=Path, help="Separate training artifacts; cache/index stay under --output")
     args = parser.parse_args(); args.tiny = args.stage == "tiny"
     if args.stage == "prepare": seed_all(args.seed); prepare(args)
     elif args.stage in ("train", "tiny"): train(args)

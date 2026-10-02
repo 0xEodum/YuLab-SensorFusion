@@ -50,26 +50,61 @@ def box_iou(a, b):
     return float(np.clip(intersection / (np.prod(a[3:6]) + np.prod(b[3:6]) - intersection), 0, 1))
 
 
-def evaluate(predictions, targets):
+def match_frames(predictions, targets):
+    """Cache frame-local one-to-one matches for global and condition reductions."""
+    result = []
+    for prediction, target in zip(predictions, targets):
+        frame = {"positives": [int(np.count_nonzero(target["classes"] == cls)) for cls in range(3)],
+                 "empty": len(target["boxes"]) == 0, "records": []}
+        for cls in range(3):
+            ranked = sorted([(float(score), box) for box, label, score in
+                zip(prediction["boxes"], prediction["classes"], prediction["scores"]) if label == cls], key=lambda x: -x[0])
+            used = set()
+            wanted_boxes = target["boxes"][target["classes"] == cls]
+            # Reject disjoint bounding intervals in bulk before exact polygon
+            # clipping. Broad phase never decides a hit; overlapping pairs use
+            # the original scalar 3D IoU, including its tolerances.
+            if len(wanted_boxes):
+                rectangles = np.array([rectangle(b) for b in wanted_boxes])
+                lower, upper = rectangles.min(1), rectangles.max(1)
+                height_lower = wanted_boxes[:, 1] - wanted_boxes[:, 4]/2
+                height_upper = wanted_boxes[:, 1] + wanted_boxes[:, 4]/2
+                wanted_ids = np.flatnonzero(target["classes"] == cls)
+            for score, box in ranked:
+                candidates = []
+                if len(wanted_boxes):
+                    bounds = rectangle(box)
+                    possible = ((upper >= bounds.min(0)-1e-8) & (lower <= bounds.max(0)+1e-8)).all(1)
+                    possible &= (height_upper >= box[1]-box[4]/2) & (height_lower <= box[1]+box[4]/2)
+                    candidates = [(box_iou(box, wanted_boxes[k]) if possible[k] else 0.0, int(j))
+                                  for k,j in enumerate(wanted_ids) if j not in used]
+                overlap, match = max(candidates, default=(0, -1))
+                hit = overlap >= THRESHOLDS[cls]
+                error = None
+                if hit:
+                    used.add(match)
+                    error = float(np.linalg.norm(box[:3] - target["boxes"][match, :3]))
+                frame["records"].append((cls, score, hit, error))
+        result.append(frame)
+    return result
+
+
+def evaluate(predictions, targets, matches=None):
+    matches = match_frames(predictions, targets) if matches is None else matches
     classes, confidence, correct, errors = {}, [], [], []
     false_positives = empty_fp = 0
     for cls, name in enumerate(NAMES):
-        count = sum(int(np.count_nonzero(t["classes"] == cls)) for t in targets)
-        ranked = sorted([(float(score), i, box) for i, p in enumerate(predictions)
-            for box, label, score in zip(p["boxes"], p["classes"], p["scores"]) if label == cls], key=lambda x: -x[0])
-        used = set(); hits = []
-        for score, frame, box in ranked:
-            candidates = [(box_iou(box, wanted), j) for j, wanted in enumerate(targets[frame]["boxes"])
-                          if targets[frame]["classes"][j] == cls and (frame, j) not in used]
-            overlap, match = max(candidates, default=(0, -1))
-            hit = overlap >= THRESHOLDS[cls]
+        count = sum(frame["positives"][cls] for frame in matches)
+        ranked = sorted([(score, i, hit, error) for i, frame in enumerate(matches)
+                         for label, score, hit, error in frame["records"] if label == cls], key=lambda x: -x[0])
+        hits = []
+        for score, frame, hit, error in ranked:
             hits.append(int(hit)); confidence.append(score); correct.append(int(hit))
             if hit:
-                used.add((frame, match))
-                errors.append(float(np.linalg.norm(box[:3] - targets[frame]["boxes"][match, :3])))
+                errors.append(error)
             else:
                 false_positives += 1
-                empty_fp += len(targets[frame]["boxes"]) == 0
+                empty_fp += matches[frame]["empty"]
         tp = np.cumsum(hits); fp = np.arange(1, len(hits) + 1) - tp
         recall = tp / max(count, 1); precision = tp / np.maximum(tp + fp, 1)
         r = np.r_[0, recall, 1]; p = np.r_[0, precision, 0]

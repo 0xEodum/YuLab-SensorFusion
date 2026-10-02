@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import torch
+import numpy as np
 from torch import nn
 import torch.nn.functional as F
 from scipy.optimize import linear_sum_assignment
@@ -55,7 +56,7 @@ class Detector(nn.Module):
         return {"logits": self.classifier(decoded), "boxes": boxes}
 
 
-def detection_loss(output, targets):
+def detection_loss_reference(output, targets):
     loss = output["boxes"].sum() * 0
     for logits, boxes, target in zip(output["logits"], output["boxes"], targets):
         wanted = target["boxes"].to(boxes.device)
@@ -78,13 +79,83 @@ def detection_loss(output, targets):
     return loss / len(targets)
 
 
+def pack_targets(targets, device):
+    """Supervision-only padded storage; uploaded once, outside the epoch loop."""
+    counts = np.array([len(t["boxes"]) for t in targets], dtype=np.int64)
+    maximum = max(1, int(counts.max(initial=0)))
+    if maximum > 16:
+        raise ValueError("Targets exceed learned query capacity")
+    boxes = torch.zeros(len(targets), maximum, 7)
+    boxes[..., 3:6] = 1  # finite log extents in masked padding
+    classes = torch.zeros(len(targets), maximum, dtype=torch.long)
+    for i, target in enumerate(targets):
+        boxes[i, :counts[i]] = target["boxes"].cpu()
+        classes[i, :counts[i]] = target["classes"].cpu()
+    return {"boxes": boxes.to(device), "classes": classes.to(device), "counts": counts,
+            "counts_device": torch.from_numpy(counts).to(device),
+            "weights": torch.tensor([1, 1, 1, .15], device=device)}
+
+
+def target_batch(packed, ids):
+    # counts are CPU matching metadata; neither path is supplied to Detector.
+    tensor_ids = torch.as_tensor(ids, device=packed["boxes"].device, dtype=torch.long)
+    return {"boxes": packed["boxes"][tensor_ids], "classes": packed["classes"][tensor_ids],
+            "counts": packed["counts"][ids], "counts_device": packed["counts_device"][tensor_ids],
+            "weights": packed["weights"]}
+
+
+def detection_loss(output, targets, *, native=False):
+    """Same per-frame objective, with one matching transfer and batched losses."""
+    boxes, logits = output["boxes"], output["logits"]
+    if isinstance(targets, list):
+        targets = pack_targets(targets, boxes.device)
+    wanted, classes, counts = targets["boxes"], targets["classes"], targets["counts"]
+    batch, queries = logits.shape[:2]
+    if max(counts, default=0) > queries:
+        raise ValueError("Targets exceed learned query capacity")
+    with torch.no_grad():
+        probability = logits.softmax(-1)
+        cost = 8 * torch.cdist(boxes[..., :3], wanted[..., :3], p=1) + \
+               4 * torch.cdist(boxes[..., 3:6], wanted[..., 3:6], p=1) - \
+               probability.gather(2, classes[:, None, :].expand(-1, queries, -1))
+        if native:
+            from .matching import assignment as cuda_assignment
+            matched = cuda_assignment(cost.contiguous(), targets["counts_device"])
+        else:
+            costs = cost.cpu().numpy()  # one bounded D2H synchronization per batch
+            assignment = np.full((batch, queries), -1, dtype=np.int64)
+            for i, count in enumerate(counts):
+                if count:
+                    row, col = linear_sum_assignment(costs[i, :, :count])
+                    assignment[i, row] = col
+            matched = torch.from_numpy(assignment).to(boxes.device)
+        valid = matched >= 0
+        columns = matched.clamp_min(0)
+        labels = classes.gather(1, columns).masked_fill(~valid, 3)
+    truth = wanted.gather(1, columns[..., None].expand(-1, -1, 7))
+    weights = targets["weights"]
+    classification = F.cross_entropy(logits.transpose(1, 2), labels, weight=weights, reduction="none").sum(1) / weights[labels].sum(1)
+    denominator = valid.sum(1).clamp_min(1)
+    center = ((boxes[..., :3] - truth[..., :3]).abs() * valid[..., None]).sum((1, 2)) / (denominator * 3)
+    extent = ((boxes[..., 3:6].log() - truth[..., 3:6].log()).abs() * valid[..., None]).sum((1, 2)) / (denominator * 3)
+    yaw = ((1 - torch.cos(boxes[..., 6] - truth[..., 6])) * valid).sum(1) / denominator
+    return (classification + 8 * center + .5 * extent + .2 * yaw).mean()
+
+
 @torch.no_grad()
 def predictions(output, threshold=.05):
+    probability = output["logits"].softmax(-1)
+    # One transfer for all boxes/probabilities, instead of three per frame.
+    arrays = torch.cat((output["boxes"], probability), -1).cpu().numpy()
+    return predictions_from_arrays(arrays, threshold)
+
+
+def predictions_from_arrays(arrays, threshold=.05):
     result = []
-    for logits, boxes in zip(output["logits"], output["boxes"]):
-        probability = logits.softmax(-1)
-        scores, classes = probability[:, :3].max(-1)
+    for frame in arrays:
+        boxes, probability = frame[:, :7], frame[:, 7:]
+        classes = probability[:, :3].argmax(-1)
+        scores = probability[np.arange(len(frame)), classes]
         keep = (scores >= threshold) & (probability.argmax(-1) != 3)
-        result.append({"boxes": boxes[keep].cpu().numpy(), "classes": classes[keep].cpu().numpy(),
-                       "scores": scores[keep].cpu().numpy()})
+        result.append({"boxes": boxes[keep], "classes": classes[keep], "scores": scores[keep]})
     return result
