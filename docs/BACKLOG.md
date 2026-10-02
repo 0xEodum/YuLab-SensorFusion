@@ -3,7 +3,7 @@
 Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
-and baselines is IN PROGRESS; its staged performance follow-up passed locally.
+and baselines passed local acceptance; SF-12 compact ESSRF is READY.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -47,8 +47,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-09 | 15-project asset catalog and coast/harbor world | SF-08 | DONE |
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
-| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | IN PROGRESS |
-| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | PLANNED |
+| SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
+| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | READY |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
@@ -422,8 +422,15 @@ Acceptance:
 The 2026-10-02 performance follow-up adds CUDA assignment/overlap kernels and
 graph execution with exact complete-budget parity against batched eager training.
 See [staged profiling and optimization](evidence/SF-11-performance.md). This
-performance acceptance does not close the remaining SF-11 delivery gates or
-replace the previously frozen canonical checkpoints/test evidence.
+performance acceptance does not replace the frozen canonical checkpoints/test evidence.
+
+SF-11 passed local acceptance on 2026-10-02 using the frozen 2026-10-01 runs:
+independent label audit, equal-budget baselines, validation selection, SF-15
+targets frozen in `656e99c` before test access, sealed-test reports, exact
+checkpoint replay and observation-only inference. IR-only is the strongest
+baseline (test mAP 0.476); simple fusion reached 0.393. All baselines are below
+the SF-15 targets. SF-12 is READY. See the
+[SF-11 acceptance record](evidence/SF-11-learning-pilot.md).
 
 ## SF-12 — Compact ESSRF
 

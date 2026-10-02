@@ -1,6 +1,6 @@
 # SF-11 learning pilot acceptance record
 
-Date: 2026-10-01. Status: **IN PROGRESS**; held-out baseline acceptance pending.
+Date: 2026-10-01; closed 2026-10-02. Status: **DONE** (local acceptance).
 
 The task began from clean `main` revision
 `2fc8faf0c440978a6f11e3dbcd095d37bf421c6a`. No hosted workflows were run.
@@ -65,14 +65,58 @@ remains unverified. Actual learning runs use the installed Windows CPython
 Exact installed versions are retained in `artifacts/sf11/measured-environment.json`
 and will accompany final evidence. This limitation is not hidden by the lockfile.
 
-## Outstanding acceptance
+## Held-out acceptance
 
 The 2026-10-02 resource-utilization follow-up is recorded separately in
 [SF-11 performance](SF-11-performance.md). Optimized runs use separate directories;
-the original frozen runs and test reports are preserved. The performance gate
-checks train/validation only and does not reopen the sealed test for tuning.
+the frozen 2026-10-01 runs below are the canonical SF-11 results. The closing
+review on 2026-10-02 re-hashed them; no model was retrained or re-evaluated.
 
-Complete the independent label audit, equal-budget unimodal/simple-fusion runs,
-validation selection, SF-15 targets freeze before test observations, sealed-test
-reports, checkpoint prediction replay, observation-only inference with labels and
-truth absent, curves and artifact hashes. SF-11 stays IN PROGRESS until these pass.
+| Gate | Evidence | Result |
+| --- | --- | --- |
+| Independent label audit | `tools/audit-sf10-pilot.py` over all 3,000 captures (`artifacts/sf11/independent-audit-final.log`, `pilot-audit.json`) | Pass: 4,610 eligible/8,690 ignored objects, equal geometry hashes across 300 condition-variant sequences, 42/9/9 train/validation/test layout groups with both sites in each split. An earlier parallel attempt stopped on a request rig-hash mismatch and was superseded by this run. |
+| Equal-budget baselines | `sf11/<model>-history.json`, `-runtime.json` | All four models: 40 epochs, same train/validation groups, one seed; 0.75–0.85 GB peak GPU allocation. |
+| Validation selection | `best_validation_ap` epoch per model | Selected on validation only. |
+| SF-15 targets frozen first | Commit `656e99c` (14:40:41); first sealed-test log 14:46:59 | `sf15-targets.json` unchanged since that commit. |
+| Sealed-test reports | `sf11/<model>-test.json` | Recorded below; no tuning followed test access. |
+| Checkpoint prediction replay | `checkpoint_reload_exact_prediction_parity` | True for all four; checkpoint and test-prediction SHA-256 values match `sf11/artifact-manifest.json`. |
+| Observation-only inference | `artifacts/sf11/inference-isolated/` (12 observation files, no truth/annotation) | Identical detections for all four models. |
+| Curves and hashes | `sf11/learning-curves.png`, `artifact-manifest.json` | Present; dataset SHA-256 `00f167a9…179e3f`. |
+
+### Results
+
+3D mAP; class AP uses IoU 0.25 for aircraft/ground vehicle and 0.5 for ships.
+Validation positives are aircraft 350/ground vehicle 140/ship 180; test positives
+are 320/150/240.
+
+| Model | Val mAP | Test mAP | Test AP air/ground/ship | Test centre error | Test ECE | Empty-scene FP (60 test) | p95 batch-1 ms |
+| --- | ---: | ---: | --- | ---: | ---: | ---: | ---: |
+| RGB | 0.287 | 0.369 | 0.269 / 0.346 / 0.492 | 4.41 m | 0.442 | 22 | 5.57 |
+| **IR** | **0.387** | **0.476** | 0.313 / 0.297 / 0.819 | 5.26 m | 0.348 | 10 | 5.37 |
+| LiDAR | 0.288 | 0.366 | 0.067 / 0.300 / 0.730 | 5.64 m | 0.512 | 101 | 4.48 |
+| Simple fusion | 0.309 | 0.393 | 0.384 / 0.018 / 0.779 | 5.44 m | 0.435 | 29 | 6.47 |
+
+Findings:
+
+- **IR-only is the strongest baseline** on validation and test, so SF-12 should
+  compare against IR-only as well as simple fusion. Beating simple fusion alone
+  is not enough.
+- **Simple fusion does not beat the best single modality.** It has the best
+  aircraft AP, but its ground-vehicle result is unstable: 0.271 AP on validation,
+  0.018 on test. The likely causes are a single seed, few independent
+  ground-vehicle layout groups and concatenation without any reliability
+  weighting. This is the gap that ESSRF's reliability and subset routing target.
+- Every baseline is below the frozen SF-15 targets: class AP ≥ 0.5 (ship ≈ 0.76),
+  recall ≥ 0.7, centre error ≤ 5 m, empty-scene FP ≤ 0.1 per frame and
+  ECE ≤ 0.15. Confidence is uncalibrated softmax (ECE 0.35–0.51).
+- Test mAP is higher than validation mAP for every model. The test layouts appear
+  easier rather than the result being tuned, but the difference shows how much
+  noise a 15-layout split carries.
+
+### Limits
+
+One training seed; static synthetic scenes with shared meshes; 3D-only heads.
+Fresh installation of the hash-locked environment remains unverified. Runs used
+the recorded installed environment. Resident latency excludes observation
+readback; isolated end-to-end example timings are 24–112 ms. The sealed test
+has now been observed once and must not be used to select SF-12 profiles.

@@ -2,9 +2,10 @@
 
 ## 0. Lab implementation status and decision record
 
-**Status (2026-10-01): SF-11 baselines in progress; ESSRF remains design only.**
-The observation-only `baseline-v1` set detector and independent 3D evaluator
-are implemented; collection/training acceptance is in progress. See
+**Status (2026-10-02): SF-11 baselines accepted; ESSRF remains design only.**
+The observation-only `baseline-v1` detectors and independent 3D evaluator passed
+SF-11 acceptance. IR-only is the strongest baseline; simple fusion does not beat
+it ([results](evidence/SF-11-learning-pilot.md)). See
 [baseline profile](LEARNING_BASELINES.md). There is no ESSRF implementation or
 ESSRF checkpoint/convergence/latency result in this repository. Sections
 1–7 describe the research target; this section defines how it will be implemented
