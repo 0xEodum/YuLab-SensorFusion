@@ -37,10 +37,13 @@ def main():
     parser.add_argument("--steps", type=int, default=70)
     parser.add_argument("--profile", action="store_true")
     parser.add_argument("--nsight", action="store_true", help="Capture the complete epoch with cudaProfilerStart/Stop")
+    parser.add_argument("--skip-deterministic-fill", action="store_true",
+                        help="Skip debug filling of empty allocations; deterministic algorithms stay enabled")
     parser.add_argument("--variant", choices=["reference", "batched", "selected", "native", "graph", "graph-optimizer"], default="selected")
     parser.add_argument("--reference-revision", default="0c015d76525ed492d6eabbf1f1a1370bd312044d")
     args = parser.parse_args()
     pilot.seed_all(11)
+    torch.utils.deterministic.fill_uninitialized_memory = not args.skip_deterministic_fill
     config = argparse.Namespace(dataset=ROOT / "artifacts/sf11/pilot-3000", output=ROOT / "artifacts/sf11/learning")
     device = torch.device("cuda")
     startup = time.perf_counter()
@@ -144,6 +147,7 @@ def main():
         args.output.with_suffix(".profile.txt").write_text(prof.key_averages().table(sort_by="self_cpu_time_total", row_limit=30))
     # Complete epoch timing keeps asynchronous execution and includes validation.
     pilot.seed_all(11); model.load_state_dict(checkpoint["model"])
+    torch.utils.deterministic.fill_uninitialized_memory = not args.skip_deterministic_fill
     stable_state = optimizer.state if trainer and trainer.optimizer_prefix else None
     optimizer.load_state_dict(copy.deepcopy(checkpoint["optimizer"]))
     if stable_state is not None:
@@ -179,6 +183,7 @@ def main():
     if args.nsight: torch.cuda.profiler.stop()
     epoch_total_s = time.perf_counter()-epoch_started
     value = {"variant": args.variant, "dataset_sha256": pilot.digest(config.dataset / "manifest.json"), "batch_size": 32,
+             "deterministic_fill": not args.skip_deterministic_fill,
              "reference_revision": args.reference_revision, "checkpoint_sha256": pilot.digest(config.output / "runs/fusion/best.pt"),
              "correctness": {"loss_absolute_error": float(abs(old_loss-new_loss).detach()), "gradient_max_absolute_error": gradient_error,
                              "validation_predictions_exact": True, "validation_metrics_exact": True},

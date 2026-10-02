@@ -33,10 +33,11 @@ def write(path, value):
     os.replace(partial, path)
 
 
-def seed_all(seed):
+def seed_all(seed, fill=True):
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     torch.use_deterministic_algorithms(True)
+    torch.utils.deterministic.fill_uninitialized_memory = fill
     torch.backends.cudnn.benchmark = False
     torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
@@ -204,7 +205,7 @@ def train(args):
     if execution != "eager" and (device.type != "cuda" or not native_available()):
         raise ValueError("CUDA execution requires a GPU and tools/build-learning-cuda.ps1")
     for modality in (["fusion"] if args.tiny else ["rgb", "ir", "lidar", "fusion"]):
-        seed_all(args.seed)
+        seed_all(args.seed, fill=args.deterministic_fill or execution == "eager")
         model = Detector(modality).to(device)
         optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=.0001)
         folder = (args.run_root or args.output) / ("tiny" if args.tiny else "runs") / modality
@@ -285,6 +286,7 @@ def train(args):
                    "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
                    "checkpoint_sha256": digest(folder / "best.pt"), "best_validation_ap": best,
                    "execution": execution, "graph_optimizer_prefix": bool(trainer and trainer.optimizer_prefix),
+                   "deterministic_algorithms": True, "deterministic_fill": torch.utils.deterministic.fill_uninitialized_memory,
                    "graph_setup_s": graph_setup_s, "phase_seconds": phase_seconds,
                    "tiny_capture_ids": [records[i]["capture_id"] for i in tiny_ids] if args.tiny else None}
         write(folder / "runtime.json", summary)
@@ -363,6 +365,8 @@ def main():
     parser.add_argument("--lr", type=float, default=.001)
     parser.add_argument("--execution", choices=["auto", "eager", "cuda-native", "cuda-graph", "cuda-graph-body"], default="auto")
     parser.add_argument("--run-root", type=Path, help="Separate training artifacts; cache/index stay under --output")
+    parser.add_argument("--deterministic-fill", action="store_true",
+                        help="Debug-fill uninitialized allocations during accelerated execution")
     args = parser.parse_args(); args.tiny = args.stage == "tiny"
     if args.stage == "prepare": seed_all(args.seed); prepare(args)
     elif args.stage in ("train", "tiny"): train(args)

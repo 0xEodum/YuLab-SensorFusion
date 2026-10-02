@@ -173,6 +173,7 @@ def test_graph_training_mixed_shapes_matches_eager_and_inference(modality, graph
     if not available(): pytest.skip("Native matcher has not been built")
     torch.manual_seed(981)
     torch.use_deterministic_algorithms(True)
+    torch.utils.deterministic.fill_uninitialized_memory = not graph_optimizer
     torch.backends.cuda.enable_flash_sdp(False)
     torch.backends.cuda.enable_mem_efficient_sdp(False)
     inputs = {"rgb": torch.rand(5, 3, 96, 160, device="cuda"), "ir": torch.rand(5, 1, 96, 160, device="cuda"),
