@@ -67,7 +67,7 @@ def support_distribution(args):
     write(args.output / "support-distribution.json", report)
 
 
-def main():
+def build_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument("stage", choices=["prepare", "support", "tiny", "train", "evaluate"])
     parser.add_argument("--dataset", type=Path, default=ROOT / "artifacts/sf11/pilot-3000")
@@ -81,15 +81,24 @@ def main():
     parser.add_argument("--tiny-steps", type=int, default=600)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=5e-4)
-    parser.add_argument("--queries", type=int, default=128)
+    parser.add_argument("--queries", type=int, default=16)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--samples", type=int, default=16)
     parser.add_argument("--layers", type=int, default=2)
     parser.add_argument("--subset-warmup", type=int, default=6)
     parser.add_argument("--reliability-warmup", type=int, default=4)
     parser.add_argument("--subset-weight", type=float, default=1.0)
+    parser.add_argument("--schedule", choices=["curriculum", "legacy"], default="curriculum")
+    parser.add_argument("--clean-epochs", type=int, default=8)
+    parser.add_argument("--ramp-epochs", type=int, default=16)
+    parser.add_argument("--full-sensor-probability", type=float, default=.7)
     parser.add_argument("--local-only", action="store_true", help="Attempt-2 ablation: no per-modality global context")
     parser.add_argument("--clean", action="store_true", help="Control: no dropout, corruption, warm-up or subset/reliability terms")
+    return parser
+
+
+def main():
+    parser = build_parser()
     args = parser.parse_args(); args.tiny = args.stage == "tiny"
     if args.stage == "prepare":
         prepare(args)

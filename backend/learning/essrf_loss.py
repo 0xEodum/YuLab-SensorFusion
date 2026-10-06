@@ -203,9 +203,11 @@ def query_regions(out, inputs, regions):
     return {"known": inside & (family == 1), "ood": inside & (family == 2)}
 
 
-def availability_patterns(batch, generator, device, p_full=.5):
-    """Modality dropout: half the frames full, the rest uniform over all eight patterns."""
-    pattern = torch.randint(0, 8, (batch,), generator=generator, device=device)
+def availability_patterns(batch, generator, device, p_full=.5, *, exact_full=False):
+    """Legacy sampling includes pattern 7 in the random branch; curriculum excludes it."""
+    if not 0 <= p_full <= 1:
+        raise ValueError("Full-sensor probability must be in [0, 1]")
+    pattern = torch.randint(0, 7 if exact_full else 8, (batch,), generator=generator, device=device)
     pattern = torch.where(torch.rand(batch, generator=generator, device=device) < p_full,
                           torch.full_like(pattern, 7), pattern)
     bits = torch.stack([(pattern >> m) & 1 for m in range(3)], 1).bool()

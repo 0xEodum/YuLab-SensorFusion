@@ -116,6 +116,34 @@ def phase_weights(epoch: int, args) -> dict:
     return {"mix": 1., "sub": args.subset_weight, "rel": 1.}
 
 
+def training_plan(epoch: int, args) -> dict:
+    """Clean mixture start, then linear introduction of dropout/corruption/auxiliary losses."""
+    if args.clean_epochs < 0 or args.ramp_epochs < 0 or args.subset_weight < 0 or \
+            not 0 <= args.full_sensor_probability <= 1:
+        raise ValueError("Invalid curriculum parameters")
+    if args.clean:
+        progress = 0.
+    elif args.schedule == "legacy":
+        return {"weights": phase_weights(epoch, args), "p_full": .5,
+                "p_known": .25, "p_ood": .1, "exact_full": False}
+    elif epoch < args.clean_epochs:
+        progress = 0.
+    else:
+        progress = min(1., (epoch - args.clean_epochs + 1) / max(1, args.ramp_epochs))
+    return {"weights": {"mix": 1., "sub": progress * args.subset_weight, "rel": progress},
+            "p_full": 1 - progress * (1 - args.full_sensor_probability),
+            "p_known": progress * .25, "p_ood": progress * .1, "exact_full": True}
+
+
+def selection_eligible(epoch: int, args) -> bool:
+    """A curriculum candidate must have reached its declared final training regime."""
+    if args.clean:
+        return True
+    if args.schedule == "legacy":
+        return phase_weights(epoch, args)["mix"] > 0
+    return epoch >= args.clean_epochs + max(1, args.ramp_epochs) - 1
+
+
 def tiny_ids(targets) -> list[int]:
     chosen = []
     for cls in range(3):
@@ -125,21 +153,27 @@ def tiny_ids(targets) -> list[int]:
     return sorted(set(chosen))
 
 
-def step(model, optimizer, inputs, truth, generator, weights, tiny, counters):
+def step(model, optimizer, inputs, truth, generator, weights, tiny, counters, plan=None):
     device = inputs["rgb"].device
     size = len(inputs["rgb"])
     if tiny:
         augmented, regions = L.augment(inputs, generator, p_known=0, p_ood=0)
         available = torch.ones(size, 3, dtype=torch.bool, device=device)
     else:
-        augmented, regions = L.augment(inputs, generator)
-        available = L.availability_patterns(size, generator, device)
+        plan = plan or {"p_known": .25, "p_ood": .1, "p_full": .5, "exact_full": False}
+        augmented, regions = L.augment(inputs, generator, p_known=plan["p_known"], p_ood=plan["p_ood"])
+        available = L.availability_patterns(size, generator, device, p_full=plan["p_full"],
+                                           exact_full=plan["exact_full"])
     available = available & inputs["available"]
     subsets = L.sample_expert_subsets(available, generator)
     bits = (available.long() * torch.tensor([1, 2, 4], device=device)).sum(1)
     for name, values in (("subsets", subsets), ("patterns", bits)):
         for value in values.tolist():
             counters[name][str(value)] += 1
+    if "corruptions" in counters:
+        for m, name in enumerate(("rgb", "ir", "lidar")):
+            for family in (1, 2):
+                counters["corruptions"][f"{name}-{family}"] += int(((regions["family"][:, m] == family) & available[:, m]).sum())
     out = model(augmented, available=available, expert_subsets=subsets)
     # All-unavailable frames are supervised as abstention: no matched targets, no boxes.
     counts = truth["counts"] * available.any(1).cpu().numpy()
@@ -161,13 +195,17 @@ def save(path, model, optimizer, epoch, args):
     torch.save({"profile": ESSRF.profile, "model": model.state_dict(), "optimizer": optimizer.state_dict(),
                 "epoch": epoch, "seed": args.seed,
                 "config": {**model.config, **{k: getattr(args, k) for k in
-                           ("epochs", "batch_size", "lr", "subset_warmup", "reliability_warmup", "subset_weight")}},
+                           ("epochs", "batch_size", "lr", "subset_warmup", "reliability_warmup", "subset_weight",
+                            "schedule", "clean", "clean_epochs", "ramp_epochs", "full_sensor_probability")}},
                 "weights": L.WEIGHTS, "support": essrf_data.SUPPORT, "preprocessing": essrf_data.PROFILE,
                 "dataset_sha256": digest(args.dataset / "manifest.json"),
                 "source_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()}, path)
 
 
 def train(args) -> None:
+    training_plan(0, args)  # reject invalid configuration before loading large caches
+    if not args.tiny and not selection_eligible(args.epochs - 1, args):
+        raise ValueError("Epoch budget must include the final training regime")
     seed_all(args.seed)
     device = torch.device(args.device)
     features, targets, rows = load(args, "train", device)
@@ -183,21 +221,22 @@ def train(args) -> None:
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter(); history = []; best = -1.0
-    counters = {"subsets": {str(s): 0 for s in SUBSETS}, "patterns": {str(s): 0 for s in SUBSETS}}
+    counters = {"subsets": {str(s): 0 for s in SUBSETS}, "patterns": {str(s): 0 for s in SUBSETS},
+                "corruptions": {f"{m}-{f}": 0 for m in ("rgb", "ir", "lidar") for f in (1, 2)}}
     epochs = args.tiny_steps if args.tiny else args.epochs
     for epoch in range(epochs):
+        plan = training_plan(epoch, args)
         if args.tiny:
             weights = {"mix": 1., "sub": 1., "rel": 1.}
-        elif args.clean:
-            weights = {"mix": 1., "sub": 0., "rel": 0.}  # control: mixture only, clean full-sensor input
         else:
-            weights = phase_weights(epoch, args)
+            weights = plan["weights"]
+        epoch_counters = {k: dict(v) for k, v in counters.items()}
         model.train(); losses = []; sums: dict[str, float] = {}
         order = order_ids if args.tiny else torch.randperm(len(order_ids)).tolist()
         for start in range(0, len(order), args.batch_size):
             ids = order[start:start + args.batch_size]
             loss, parts = step(model, optimizer, batch(features, ids), L.select(packed, ids), generator,
-                               weights, args.tiny or args.clean, counters)
+                               weights, args.tiny or args.clean or plan["p_full"] == 1, counters, plan)
             losses.append(loss)
             for key, value in parts.items():
                 sums[key] = sums.get(key, 0.0) + value
@@ -215,16 +254,20 @@ def train(args) -> None:
             report["expert_all_map_3d"] = evaluate(*_expert_pair(model, val_features, val_targets, args.batch_size))["map_3d"]
         steps = len(losses)
         history.append({"epoch": epoch + 1, "loss": epoch_loss, "weights": weights,
+                        "training_plan": plan,
+                        "sampling_counts": {k: {s: v - epoch_counters[k][s] for s, v in values.items()}
+                                            for k, values in counters.items()},
                         "parts": {k: v / steps for k, v in sums.items()}, "validation": report})
         write(folder / "history.json", history)
         quality = report["map_3d"] or 0
         print(f"epoch {epoch + 1} loss {epoch_loss:.4f} AP {quality:.4f} expert7 {report.get('expert_all_map_3d') or 0:.4f} pi0 {report['routing']['pi_mean'][0]:.3f} "
               f"r {[round(v, 3) for v in report['routing']['reliability_mean']]}", flush=True)
         # Selection only among epochs that train the evaluated mixture output.
-        if (weights["mix"] > 0) and quality >= best:
+        if (args.tiny or selection_eligible(epoch, args)) and quality >= best:
             best = quality
             save(folder / "best.pt", model, optimizer, epoch + 1, args)
             write(folder / "validation.json", report)
+    save(folder / "last.pt", model, optimizer, epochs, args)
     write(folder / "runtime.json", {
         "elapsed_s": time.perf_counter() - started, "best_validation_ap": best,
         "gpu_peak_allocated_bytes": torch.cuda.max_memory_allocated() if device.type == "cuda" else 0,
@@ -232,6 +275,8 @@ def train(args) -> None:
         "process_peak_working_set_bytes": getattr(psutil.Process().memory_info(), "peak_wset", None),
         "parameters": sum(p.numel() for p in model.parameters()), "torch": torch.__version__,
         "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
-        "expert_subset_counts": counters["subsets"], "availability_pattern_counts": counters["patterns"]})
+        "expert_subset_counts": counters["subsets"], "availability_pattern_counts": counters["patterns"],
+        "corruption_counts": counters["corruptions"], "checkpoint_sha256": digest(folder / "best.pt"),
+        "epochs": epochs, "optimizer_updates": epochs * ((len(order_ids) + args.batch_size - 1) // args.batch_size)})
     if args.tiny and best < .90:
         raise ValueError("Tiny-set overfit acceptance requires mAP >= .90")

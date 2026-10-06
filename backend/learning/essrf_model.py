@@ -253,7 +253,7 @@ class Expert(nn.Module):
 class ESSRF(nn.Module):
     profile = "essrf-static-v1"
 
-    def __init__(self, queries: int = 128, width: int = 128, samples: int = 16, layers: int = 2,
+    def __init__(self, queries: int = 16, width: int = 128, samples: int = 16, layers: int = 2,
                  references: torch.Tensor | None = None, global_context: bool = True):
         super().__init__()
         self.queries, self.width = queries, width
