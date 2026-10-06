@@ -41,3 +41,41 @@ optimizer-update budget, eligible selection and checkpoint reload.
 
 Only local validation is used. Static frame-wise scope remains; no temporal or
 calibration-uncertainty claims, and no new access to the sealed test split.
+
+## Additional diagnosed issues and final verification
+
+- The working global learning Python lacked the project's pinned
+  `rfc3339-validator==0.1.4`. Consequently jsonschema had no date-time checker and
+  the pre-existing bad-timestamp test failed. Installing the declared dependency
+  repaired the environment; no payload-validation code was weakened.
+- The original CUDA image sampler's forward repeated exactly, but its gradients
+  differed by up to 1.502e-5 at identical inputs/weights. Deterministic mode
+  rejected `cudnn_grid_sampler_backward`. `test_essrf_sampling.py` reproduced
+  this and the absent replacement: four RED tests (`f7ed9dc`).
+- `bilinear-v1` uses align-corners, zero-padding bilinear interpolation with
+  deterministic gather gradients. CPU float64/float32 values and both feature
+  and coordinate gradients match the reference within 1e-12 / 2e-6 respectively.
+  Complete CUDA model forward/backward repeats exactly. Sampler/config/numerical
+  provenance regressions contributed two additional RED failures (`fcfbfca`),
+  fixed at `35d9310`. Legacy checkpoints retain their original grid sampler.
+- Full-data replay at `f0b47be`: two independent two-epoch runs, with one clean
+  epoch and one final-regime epoch, gave **identical histories, all model tensors
+  and AdamW state**. Both used 2,100 train and 450 validation captures. The
+  result is `docs/evidence/sf12/reproducibility.json` once published.
+- Ungated surviving-subset expert scores and evaluation-device provenance are
+  now reported to diagnose routing versus detection weakness. One RED
+  integration assertion (`08c308a`) became GREEN at `f0b47be`.
+
+Final validation command:
+
+```
+# COVERAGE_FILE=artifacts/sf12/tdd-final.coverage
+python -m coverage run --source=backend/learning -m pytest backend/tests -q
+```
+
+**201 passed**. Changed learning-file coverage is **87%** (951 statements, 121
+uncovered): model 99%, curriculum 87%, shared corruption 100%, comparison 93%.
+Pre-existing supervision/standalone-evaluation gaps listed above remain.
+`npm run verify` also passed (contracts, TypeScript checks, world/sensor/asset
+tests, locked backend tests and production build). Its locked backend run skips
+the learning tests, which are independently exercised by the command above.
