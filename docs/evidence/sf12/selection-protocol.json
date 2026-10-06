@@ -5,11 +5,12 @@
   "selection_seed": 11,
   "confirmatory_seeds": [12, 13],
   "queries_to_compare": [16, 32],
-  "architecture": {"width": 128, "samples": 16, "layers": 2, "global_context": false, "max_points": 8192},
+  "architecture": {"width": 128, "samples": 16, "layers": 2, "global_context": false, "max_points": 8192,
+                   "image_sampler": "bilinear-v1"},
   "training": {
     "epochs": 40, "batch_size": 32, "optimizer_updates": 2640,
     "optimizer": "AdamW", "lr": 0.0005, "weight_decay": 0.0001,
-    "precision": "FP32", "gradient_clip": 1,
+    "precision": "FP32", "gradient_clip": 1, "deterministic_algorithms": true,
     "schedule": "curriculum", "clean_epochs": 8, "ramp_epochs": 16,
     "final_full_sensor_probability": 0.7, "subset_weight": 1,
     "p_known": 0.25, "p_ood": 0.1,
@@ -28,5 +29,6 @@
     "ood_caveat": "unlabelled training exposure family, not a held-out corruption family",
     "uncertainty": "three-seed sample standard deviation, not an independent validation-group confidence interval"
   },
-  "reason": "User approved testing the same curriculum with 32 after its clean seed-11 control reached 0.4004 versus Q16 0.2879. Freeze this criterion before inspecting the curriculum comparison; preserve all pilots."
+  "reason": "User approved testing the same curriculum with 32 after its clean seed-11 control reached 0.4004 versus Q16 0.2879. Criterion frozen before curriculum comparison; preserve all pilots.",
+  "numerical_repair": "CUDA grid_sample backward was verified nondeterministic (same forward, gradient difference 1.502e-5; deterministic mode rejects it). Repeat both query pilots with equivalent differentiable bilinear-v1 and deterministic algorithms before selecting the three-seed configuration. The query selection metric is unchanged."
 }

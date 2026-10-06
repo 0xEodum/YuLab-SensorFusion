@@ -142,6 +142,7 @@ def compare(args):
     clean_baseline = {k: v.to(device) for k, v in cache["features"].items()}
     models = _models(args, device, dataset_sha)
     result = {"version": "sf12-comparison.v1", "split": "validation", "dataset_sha256": dataset_sha,
+              "device": str(device), "torch": torch.__version__,
               "capture_ids": [r["capture_id"] for r in rows], "degradation": PROFILE,
               "prediction_threshold": .05, "source_revision": subprocess.check_output(
                   ["git", "rev-parse", "HEAD"], text=True).strip(), "models": {}}
@@ -149,6 +150,7 @@ def compare(args):
         result["models"][name] = {"checkpoint_sha256": digest(path), "checkpoint_epoch": saved["epoch"],
                                  "training_source_revision": saved["source_revision"],
                                  "seed": saved["seed"], "profile": saved["profile"],
+                                 "numerics": saved.get("numerics", {"deterministic_algorithms": None}),
                                  "config": saved["config"], "scenarios": {}}
     started = time.perf_counter()
     for scenario in SCENARIOS:
@@ -164,6 +166,9 @@ def compare(args):
                 report["detections"] = sum(len(p["scores"]) for p in predicted)
                 if scenario == "availability-0" and report["detections"]:
                     raise ValueError("ESSRF all-unavailable input emitted detections")
+                if scenario.startswith("availability-") and 0 < bits < 7:
+                    expert_report, _ = score(model, essrf, targets, rows, args.batch_size, expert=bits)
+                    report["expert_ungated_map_3d"] = expert_report["map_3d"]
             else:
                 report = score_baseline(model, baseline, targets, rows, args.batch_size)
             result["models"][name]["scenarios"][scenario] = report

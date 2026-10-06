@@ -130,6 +130,16 @@ per-condition, false-positive, calibration, localization and routing results.
 
 Start with FP32 reference checks; enable mixed precision only after checking
 digamma/evidence/NLL stability, finite gradients and validation equivalence.
+New static training uses deterministic PyTorch algorithms and `bilinear-v1`
+image sampling: zero-padded align-corners interpolation through deterministic
+gather gradients. Both features and sample coordinates remain differentiable.
+CPU float64/float32 values and gradients are checked against `grid_sample`, and
+complete CUDA backward repeats exactly. The old CUDA grid sampler had identical
+forwards but differing gradients (max 1.502e-5 in a fixed-input probe), so one
+seed did not specify an exactly repeatable training trajectory. Legacy checkpoints
+retain `grid-sample` on reload; `--legacy-sampling` allows explicit old training.
+Repaired pilots use fresh artifact roots. Checkpoints freeze the source revision
+at training start and record sampler/numerical settings.
 Train within the measured GPU budget in ARCHITECTURE. Gradient accumulation,
 point limits, resolution and query-count changes are recorded configuration
 changes. Raw local point neighborhoods must never be replaced with truth object
@@ -172,6 +182,7 @@ selection must not use the sealed test set.
 | 2026-09-21 | Qualify surviving-subset limit; gate GRU measurement update | Algebraic correction, implementation tests pending |
 | 2026-10-06 | Q=16; mixture-first 8+16 curriculum, exact 70% full sensors; paired raw degradation | Controls: clean Q128 .048, clean Q16 .288, legacy Q16 .134, seed 11 / 40 epochs; three-seed comparison pending |
 | 2026-10-06 | Correct rank ties in vacuity AUROC | Equal scores previously returned 0.0; regression requires 0.5. Training is unchanged |
+| 2026-10-06 | Deterministic bilinear image sampler; rerun query pilots | CUDA backward nondeterminism measured; equivalent interpolation and coordinate/feature gradients pass reference tests, full CUDA gradients repeat exactly |
 
 ---
 
