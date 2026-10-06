@@ -28,8 +28,10 @@ def write(path: Path, value) -> None:
     os.replace(partial, path)
 
 
-def seed_all(seed: int) -> None:
+def seed_all(seed: int, *, deterministic=True) -> None:
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed); torch.cuda.manual_seed_all(seed)
+    torch.use_deterministic_algorithms(deterministic)
+    torch.utils.deterministic.fill_uninitialized_memory = False
     torch.backends.cudnn.benchmark = False
 
 
@@ -198,15 +200,19 @@ def save(path, model, optimizer, epoch, args):
                            ("epochs", "batch_size", "lr", "subset_warmup", "reliability_warmup", "subset_weight",
                             "schedule", "clean", "clean_epochs", "ramp_epochs", "full_sensor_probability")}},
                 "weights": L.WEIGHTS, "support": essrf_data.SUPPORT, "preprocessing": essrf_data.PROFILE,
+                "numerics": {"deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
+                             "cudnn_benchmark": torch.backends.cudnn.benchmark},
                 "dataset_sha256": digest(args.dataset / "manifest.json"),
-                "source_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()}, path)
+                "source_revision": args.source_revision}, path)
 
 
 def train(args) -> None:
     training_plan(0, args)  # reject invalid configuration before loading large caches
     if not args.tiny and not selection_eligible(args.epochs - 1, args):
         raise ValueError("Epoch budget must include the final training regime")
-    seed_all(args.seed)
+    args.source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+    legacy_sampling = getattr(args, "legacy_sampling", False)
+    seed_all(args.seed, deterministic=not legacy_sampling)
     device = torch.device(args.device)
     features, targets, rows = load(args, "train", device)
     val_features, val_targets, val_rows = load(args, "validation", device)
@@ -214,7 +220,8 @@ def train(args) -> None:
     generator = torch.Generator(device=device).manual_seed(args.seed)
     order_ids = tiny_ids(targets) if args.tiny else list(range(len(targets)))
     model = ESSRF(queries=args.queries, width=args.width, samples=args.samples, layers=args.layers,
-                  global_context=not args.local_only).to(device)
+                  global_context=not args.local_only,
+                  image_sampler="grid-sample" if legacy_sampling else "bilinear-v1").to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     folder = args.run_root / ("tiny" if args.tiny else f"seed-{args.seed}")
     folder.mkdir(parents=True, exist_ok=True)
@@ -277,6 +284,8 @@ def train(args) -> None:
         "device": torch.cuda.get_device_name() if device.type == "cuda" else "cpu",
         "expert_subset_counts": counters["subsets"], "availability_pattern_counts": counters["patterns"],
         "corruption_counts": counters["corruptions"], "checkpoint_sha256": digest(folder / "best.pt"),
+        "source_revision": args.source_revision, "image_sampler": model.config["image_sampler"],
+        "deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
         "epochs": epochs, "optimizer_updates": epochs * ((len(order_ids) + args.batch_size - 1) // args.batch_size)})
     if args.tiny and best < .90:
         raise ValueError("Tiny-set overfit acceptance requires mAP >= .90")

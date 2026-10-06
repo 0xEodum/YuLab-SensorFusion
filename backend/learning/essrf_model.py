@@ -101,9 +101,11 @@ class LocalLayer(nn.Module):
 class Stream(nn.Module):
     """One modality's global context, local sampling and reference refinement."""
 
-    def __init__(self, modality: str, width: int, samples: int, layers: int, global_context: bool = True):
+    def __init__(self, modality: str, width: int, samples: int, layers: int, global_context: bool = True,
+                 image_sampler: str = "bilinear-v1"):
         super().__init__()
         self.modality, self.samples, self.global_context = modality, samples, global_context
+        self.image_sampler = image_sampler
         self.layers = nn.ModuleList(LocalLayer(width, global_context=global_context) for _ in range(layers))
         self.offsets = nn.ModuleList(nn.Linear(width, samples * 3) for _ in range(layers))
         self.refine = nn.ModuleList(nn.Linear(width, 3) for _ in range(layers))
@@ -161,7 +163,8 @@ class Stream(nn.Module):
         valid = (depth > .5) & (u >= 0) & (u <= width - 1) & (v >= 0) & (v <= height - 1)
         grid = torch.stack((u / (width - 1) * 2 - 1, v / (height - 1) * 2 - 1), -1)
         grid = torch.where(valid[..., None], grid, torch.zeros_like(grid))
-        sampled = F.grid_sample(features, grid.reshape(batch, queries * count, 1, 2), align_corners=True)
+        grid = grid.reshape(batch, queries * count, 1, 2)
+        sampled = F.grid_sample(features, grid, align_corners=True) if self.image_sampler == "grid-sample" else bilinear_sample(features, grid)
         return sampled.reshape(batch, -1, queries, count).permute(0, 2, 3, 1), valid
 
     def sample_lidar(self, point_features, xyz, point_valid, reference):
@@ -215,6 +218,28 @@ def _sample_pattern(samples: int) -> torch.Tensor:
                         radius * torch.sin(phi) * torch.sin(theta)), -1).float()
 
 
+def bilinear_sample(features: torch.Tensor, grid: torch.Tensor) -> torch.Tensor:
+    """Zero-padded, align-corners bilinear interpolation with deterministic gather gradients.
+
+    grid_sample's CUDA backward uses unordered accumulation. torch.gather has a
+    deterministic implementation when deterministic algorithms are enabled.
+    Coordinates and features remain differentiable; no neighborhood is detached.
+    """
+    batch, channels, height, width = features.shape
+    x = (grid[..., 0].reshape(batch, -1) + 1) * ((width - 1) / 2)
+    y = (grid[..., 1].reshape(batch, -1) + 1) * ((height - 1) / 2)
+    x0, y0 = x.floor(), y.floor()
+    dx, dy = x - x0, y - y0
+    xx = torch.stack((x0, x0 + 1, x0, x0 + 1), -1).long()
+    yy = torch.stack((y0, y0, y0 + 1, y0 + 1), -1).long()
+    inside = (xx >= 0) & (xx < width) & (yy >= 0) & (yy < height)
+    weights = torch.stack(((1 - dx) * (1 - dy), dx * (1 - dy), (1 - dx) * dy, dx * dy), -1)
+    index = (yy.clamp(0, height - 1) * width + xx.clamp(0, width - 1)).reshape(batch, 1, -1)
+    samples = features.flatten(2).gather(2, index.expand(-1, channels, -1)).reshape(batch, channels, -1, 4)
+    value = (samples * (weights * inside)[:, None]).sum(-1)
+    return value.reshape(batch, channels, *grid.shape[1:-1])
+
+
 def default_references(queries: int, depression_rad: float = 0.0) -> torch.Tensor:
     """Input-independent heading-frame references over the declared forward frustum."""
     generator = torch.Generator().manual_seed(1201)
@@ -254,15 +279,18 @@ class ESSRF(nn.Module):
     profile = "essrf-static-v1"
 
     def __init__(self, queries: int = 16, width: int = 128, samples: int = 16, layers: int = 2,
-                 references: torch.Tensor | None = None, global_context: bool = True):
+                 references: torch.Tensor | None = None, global_context: bool = True,
+                 image_sampler: str = "bilinear-v1"):
         super().__init__()
         self.queries, self.width = queries, width
+        if image_sampler not in ("bilinear-v1", "grid-sample"):
+            raise ValueError("Unknown image sampler")
         self.config = {"queries": queries, "width": width, "samples": samples, "layers": layers,
-                       "global_context": global_context}
+                       "global_context": global_context, "image_sampler": image_sampler}
         self.rgb_encoder = ImageEncoder(3, width)
         self.ir_encoder = ImageEncoder(3, width)
         self.point_encoder = nn.Sequential(nn.Linear(4, width), nn.GELU(), nn.Linear(width, width))
-        self.streams = nn.ModuleList(Stream(m, width, samples, layers, global_context) for m in MODALITIES)
+        self.streams = nn.ModuleList(Stream(m, width, samples, layers, global_context, image_sampler) for m in MODALITIES)
         self.query = nn.Parameter(torch.randn(queries, width) * .1)
         self.reference = nn.Parameter(default_references(queries) if references is None else references.clone())
         # Reliability input: [q; mean(G); var(G); valid fraction; physical fraction].

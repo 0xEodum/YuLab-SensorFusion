@@ -93,6 +93,7 @@ def build_parser():
     parser.add_argument("--ramp-epochs", type=int, default=16)
     parser.add_argument("--full-sensor-probability", type=float, default=.7)
     parser.add_argument("--local-only", action="store_true", help="Attempt-2 ablation: no per-modality global context")
+    parser.add_argument("--legacy-sampling", action="store_true", help="Replay old non-deterministic CUDA grid_sample training")
     parser.add_argument("--clean", action="store_true", help="Control: no dropout, corruption, warm-up or subset/reliability terms")
     return parser
 

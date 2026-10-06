@@ -25,7 +25,8 @@ def load_checkpoint(path, device, dataset_sha):
         raise ValueError("Checkpoint profile/preprocessing/dataset mismatch")
     config = saved["config"]
     model = ESSRF(queries=config["queries"], width=config["width"], samples=config["samples"],
-                  layers=config["layers"], global_context=config.get("global_context", False)).to(device)
+                  layers=config["layers"], global_context=config.get("global_context", False),
+                  image_sampler=config.get("image_sampler", "grid-sample")).to(device)
     model.load_state_dict(saved["model"]); model.eval()
     return model, saved
 
