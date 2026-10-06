@@ -98,6 +98,9 @@ def test_training_loop_records_plan_sampling_budget_and_reloadable_checkpoints(t
     loaded, saved = load_checkpoint(tmp_path / "seed-11/best.pt", "cpu", T.digest(tmp_path / "manifest.json"))
     assert saved["epoch"] >= 2 and saved["config"]["schedule"] == "curriculum"
     assert saved["config"]["clean_epochs"] == 1 and not saved["config"]["global_context"]
+    assert saved["config"]["image_sampler"] == "bilinear-v1"
+    assert saved["numerics"]["deterministic_algorithms"] is True
+    assert saved["source_revision"] == runtime["source_revision"]
     assert loaded.queries == 4 and (tmp_path / "seed-11/last.pt").exists()
 
 

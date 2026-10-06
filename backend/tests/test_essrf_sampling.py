@@ -29,6 +29,22 @@ def test_sampler_edges_and_off_image_neighborhoods_preserve_zero_padding():
     assert torch.allclose(bilinear_sample(features, grid), F.grid_sample(features, grid, align_corners=True), atol=1e-6)
 
 
+def test_old_checkpoints_keep_original_sampler_and_new_checkpoints_name_the_operation(tmp_path):
+    from learning.essrf_model import ESSRF
+    from learning.essrf_evaluation import load_checkpoint
+    from learning import essrf_data
+    model = ESSRF(queries=4, width=16, samples=2, layers=1, global_context=False)
+    assert model.config["image_sampler"] == "bilinear-v1"
+    legacy = dict(model.config)
+    legacy.pop("image_sampler")
+    path = tmp_path / "old.pt"
+    torch.save(dict(profile=ESSRF.profile, preprocessing=essrf_data.PROFILE, dataset_sha256="dataset",
+        support=essrf_data.SUPPORT, config=legacy, model=model.state_dict()), path)
+    restored, _ = load_checkpoint(path, "cpu", "dataset")
+    assert restored.config["image_sampler"] == "grid-sample"
+    assert restored.streams[0].image_sampler == "grid-sample"
+
+
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA acceptance")
 def test_complete_essrf_backward_is_repeatable_under_deterministic_cuda():
     from learning.essrf_model import ESSRF
