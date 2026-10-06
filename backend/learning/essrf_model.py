@@ -57,43 +57,96 @@ class ImageEncoder(nn.Module):
         return self.net(image)
 
 
-class LocalLayer(nn.Module):
-    """Query-local cross-attention over s samples, within-stream self-attention, FFN."""
+GLOBAL_POOL = 4            # camera global tokens: 48 x 80 stride-8 map -> 12 x 20
+GLOBAL_POINTS = 256        # LiDAR global tokens: uniform indices over each scan's observed points
+REFINE_STEPS_M = (40.0, 10.0)
 
-    def __init__(self, width: int, heads: int = 4):
+
+def _attend(attention, query, keys, valid, empty):
+    """Cross-attention with a learned always-valid token (finite when nothing is valid)."""
+    rows, _, width = keys.shape
+    keys = torch.cat((empty.expand(rows, 1, width), keys), 1)
+    mask = torch.cat((valid.new_ones(rows, 1), valid), 1)
+    return attention(query, keys, keys, key_padding_mask=~mask, need_weights=False)[0]
+
+
+class LocalLayer(nn.Module):
+    """Own-modality global and query-local cross-attention, within-stream self-attention, FFN."""
+
+    def __init__(self, width: int, heads: int = 4, global_context: bool = True):
         super().__init__()
+        self.global_context = global_context
         self.cross = nn.MultiheadAttention(width, heads, batch_first=True)
+        self.global_cross = nn.MultiheadAttention(width, heads, batch_first=True) if global_context else None
         self.self_attention = nn.MultiheadAttention(width, heads, batch_first=True)
         self.ffn = nn.Sequential(nn.Linear(width, width * 2), nn.GELU(), nn.Linear(width * 2, width))
-        self.norms = nn.ModuleList(nn.LayerNorm(width) for _ in range(3))
+        self.norms = nn.ModuleList(nn.LayerNorm(width) for _ in range(4))
         self.empty = nn.Parameter(torch.zeros(1, 1, width))
+        self.global_empty = nn.Parameter(torch.zeros(1, 1, width))
 
-    def forward(self, query, samples, valid):
+    def forward(self, query, position, tokens, token_valid, samples, valid):
         batch, queries, count, width = samples.shape
-        flat_query = query.reshape(batch * queries, 1, width)
-        # A learned always-valid token keeps attention finite when no sample is valid.
-        keys = torch.cat((self.empty.expand(batch * queries, 1, width),
-                          samples.reshape(batch * queries, count, width)), 1)
-        mask = torch.cat((valid.new_ones(batch * queries, 1), valid.reshape(batch * queries, count)), 1)
-        attended = self.cross(flat_query, keys, keys, key_padding_mask=~mask, need_weights=False)[0]
-        query = self.norms[0](query + attended.reshape(batch, queries, width))
-        query = self.norms[1](query + self.self_attention(query, query, query, need_weights=False)[0])
+        if self.global_context:
+            attended = _attend(self.global_cross, query + position, tokens, token_valid, self.global_empty)
+            query = self.norms[3](query + attended)
+        local = _attend(self.cross, (query + position).reshape(batch * queries, 1, width),
+                        samples.reshape(batch * queries, count, width), valid.reshape(batch * queries, count),
+                        self.empty)
+        query = self.norms[0](query + local.reshape(batch, queries, width))
+        mixed = query + position
+        query = self.norms[1](query + self.self_attention(mixed, mixed, query, need_weights=False)[0])
         return self.norms[2](query + self.ffn(query))
 
 
 class Stream(nn.Module):
-    """One modality's local sampling and reference refinement."""
+    """One modality's global context, local sampling and reference refinement."""
 
-    def __init__(self, modality: str, width: int, samples: int, layers: int):
+    def __init__(self, modality: str, width: int, samples: int, layers: int, global_context: bool = True):
         super().__init__()
-        self.modality, self.samples = modality, samples
-        self.layers = nn.ModuleList(LocalLayer(width) for _ in range(layers))
+        self.modality, self.samples, self.global_context = modality, samples, global_context
+        self.layers = nn.ModuleList(LocalLayer(width, global_context=global_context) for _ in range(layers))
         self.offsets = nn.ModuleList(nn.Linear(width, samples * 3) for _ in range(layers))
         self.refine = nn.ModuleList(nn.Linear(width, 3) for _ in range(layers))
         self.relative = nn.Sequential(nn.Linear(3, width), nn.GELU(), nn.Linear(width, width))
+        # Token keys by heading-frame view direction; queries by direction and log range.
+        self.key_position = nn.Sequential(nn.Linear(3, width), nn.GELU(), nn.Linear(width, width))
+        self.query_position = nn.Sequential(nn.Linear(4, width), nn.GELU(), nn.Linear(width, width))
         for layer in list(self.offsets) + list(self.refine):
             nn.init.zeros_(layer.weight); nn.init.zeros_(layer.bias)
         self.register_buffer("pattern", _sample_pattern(samples) * (8 / 200))
+        self.steps = REFINE_STEPS_M if layers == 2 else (10.0,) * layers
+
+    def encode_position(self, reference):
+        distance = reference.norm(dim=-1, keepdim=True).clamp_min(1e-4)
+        return self.query_position(torch.cat((reference / distance, (distance * 200).log() / 5), -1))
+
+    def global_tokens(self, data):
+        if self.modality == "lidar":
+            features, xyz, valid = data["features"], data["xyz"], data["valid"]
+            count = valid.sum(1)
+            # Valid points are stored first; indices repeat for scans shorter than GLOBAL_POINTS.
+            fraction = torch.linspace(0, 1, GLOBAL_POINTS, device=xyz.device)
+            index = (fraction[None] * (count[:, None] - 1).clamp_min(0)).round().long()
+            token_valid = (count[:, None] > 0).expand(-1, GLOBAL_POINTS)
+            tokens = torch.gather(features, 1, index[..., None].expand(-1, -1, features.shape[-1]))
+            positions = torch.gather(xyz, 1, index[..., None].expand(-1, -1, 3))
+            direction = positions / positions.norm(dim=-1, keepdim=True).clamp_min(1e-4)
+            return tokens + self.key_position(direction), token_valid
+        pooled = F.avg_pool2d(data["features"], GLOBAL_POOL)              # [B,C,12,20]
+        batch, _, rows, cols = pooled.shape
+        scale = 8 * GLOBAL_POOL                                           # input pixels per pooled cell
+        v = (torch.arange(rows, device=pooled.device) + .5) * scale
+        u = (torch.arange(cols, device=pooled.device) + .5) * scale
+        grid_v, grid_u = torch.meshgrid(v, u, indexing="ij")
+        k = data["intrinsics"]
+        direction = torch.stack(((grid_u[None] - k[:, None, None, 2]) / k[:, None, None, 0],
+                                 (grid_v[None] - k[:, None, None, 3]) / k[:, None, None, 1],
+                                 torch.ones(batch, rows, cols, device=pooled.device)), -1).reshape(batch, -1, 3)
+        rotation = data["transform"][:, :3, :3]                           # camera <- heading, scaled
+        heading = torch.einsum("bji,bnj->bni", rotation, direction)       # R^T d, then normalized
+        heading = heading / heading.norm(dim=-1, keepdim=True)
+        tokens = pooled.flatten(2).transpose(1, 2) + self.key_position(heading)
+        return tokens, torch.ones(batch, rows * cols, dtype=torch.bool, device=pooled.device)
 
     def sample_camera(self, features, transform, intrinsics, points):
         """Project heading-frame points [B,Q,s,3] -> bilinear samples, validity."""
@@ -127,7 +180,8 @@ class Stream(nn.Module):
 
     def forward(self, query, reference, data):
         last = None
-        for layer, offsets, refine in zip(self.layers, self.offsets, self.refine):
+        tokens, token_valid = self.global_tokens(data) if self.global_context else (None, None)
+        for layer, offsets, refine, step in zip(self.layers, self.offsets, self.refine, self.steps):
             if self.modality == "lidar":
                 samples, relative, valid = self.sample_lidar(data["features"], data["xyz"], data["valid"], reference)
                 physical = valid.float()
@@ -139,8 +193,8 @@ class Stream(nn.Module):
                 sampled_physical = self.sample_camera(data["physical"], data["transform"], data["intrinsics"], points)[0]
                 physical = sampled_physical[..., -1] * valid
             samples = samples + self.relative(relative)
-            query = layer(query, samples, valid)
-            reference = reference.detach() + torch.tanh(refine(query)) * (10 / 200)
+            query = layer(query, self.encode_position(reference), tokens, token_valid, samples, valid)
+            reference = reference.detach() + torch.tanh(refine(query)) * (step / 200)
             last = (samples, valid, physical)
         samples, valid, physical = last
         weight = valid.float()[..., None]
@@ -200,14 +254,15 @@ class ESSRF(nn.Module):
     profile = "essrf-static-v1"
 
     def __init__(self, queries: int = 128, width: int = 128, samples: int = 16, layers: int = 2,
-                 references: torch.Tensor | None = None):
+                 references: torch.Tensor | None = None, global_context: bool = True):
         super().__init__()
         self.queries, self.width = queries, width
-        self.config = {"queries": queries, "width": width, "samples": samples, "layers": layers}
+        self.config = {"queries": queries, "width": width, "samples": samples, "layers": layers,
+                       "global_context": global_context}
         self.rgb_encoder = ImageEncoder(3, width)
         self.ir_encoder = ImageEncoder(3, width)
         self.point_encoder = nn.Sequential(nn.Linear(4, width), nn.GELU(), nn.Linear(width, width))
-        self.streams = nn.ModuleList(Stream(m, width, samples, layers) for m in MODALITIES)
+        self.streams = nn.ModuleList(Stream(m, width, samples, layers, global_context) for m in MODALITIES)
         self.query = nn.Parameter(torch.randn(queries, width) * .1)
         self.reference = nn.Parameter(default_references(queries) if references is None else references.clone())
         # Reliability input: [q; mean(G); var(G); valid fraction; physical fraction].

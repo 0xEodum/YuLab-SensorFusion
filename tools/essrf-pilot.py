@@ -88,6 +88,8 @@ def main():
     parser.add_argument("--subset-warmup", type=int, default=6)
     parser.add_argument("--reliability-warmup", type=int, default=4)
     parser.add_argument("--subset-weight", type=float, default=1.0)
+    parser.add_argument("--local-only", action="store_true", help="Attempt-2 ablation: no per-modality global context")
+    parser.add_argument("--clean", action="store_true", help="Control: no dropout, corruption, warm-up or subset/reliability terms")
     args = parser.parse_args(); args.tiny = args.stage == "tiny"
     if args.stage == "prepare":
         prepare(args)

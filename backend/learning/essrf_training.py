@@ -175,7 +175,8 @@ def train(args) -> None:
     packed = L.pack(targets, device)
     generator = torch.Generator(device=device).manual_seed(args.seed)
     order_ids = tiny_ids(targets) if args.tiny else list(range(len(targets)))
-    model = ESSRF(queries=args.queries, width=args.width, samples=args.samples, layers=args.layers).to(device)
+    model = ESSRF(queries=args.queries, width=args.width, samples=args.samples, layers=args.layers,
+                  global_context=not args.local_only).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     folder = args.run_root / ("tiny" if args.tiny else f"seed-{args.seed}")
     folder.mkdir(parents=True, exist_ok=True)
@@ -185,13 +186,18 @@ def train(args) -> None:
     counters = {"subsets": {str(s): 0 for s in SUBSETS}, "patterns": {str(s): 0 for s in SUBSETS}}
     epochs = args.tiny_steps if args.tiny else args.epochs
     for epoch in range(epochs):
-        weights = {"mix": 1., "sub": 1., "rel": 1.} if args.tiny else phase_weights(epoch, args)
+        if args.tiny:
+            weights = {"mix": 1., "sub": 1., "rel": 1.}
+        elif args.clean:
+            weights = {"mix": 1., "sub": 0., "rel": 0.}  # control: mixture only, clean full-sensor input
+        else:
+            weights = phase_weights(epoch, args)
         model.train(); losses = []; sums: dict[str, float] = {}
         order = order_ids if args.tiny else torch.randperm(len(order_ids)).tolist()
         for start in range(0, len(order), args.batch_size):
             ids = order[start:start + args.batch_size]
             loss, parts = step(model, optimizer, batch(features, ids), L.select(packed, ids), generator,
-                               weights, args.tiny, counters)
+                               weights, args.tiny or args.clean, counters)
             losses.append(loss)
             for key, value in parts.items():
                 sums[key] = sums.get(key, 0.0) + value
