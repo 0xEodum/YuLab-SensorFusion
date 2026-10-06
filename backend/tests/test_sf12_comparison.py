@@ -117,4 +117,6 @@ def test_complete_comparison_uses_all_cases_and_frozen_checkpoints(tmp_path, mon
     assert result["models"]["essrf-seed-11"]["scenarios"]["availability-0"]["detections"] == 0
     assert result["models"]["baseline-fusion-seed-11"]["scenarios"]["availability-0"]["false_positives"] == 16
     assert "reliability" in result["models"]["essrf-seed-11"]
+    assert "expert_ungated_map_3d" in result["models"]["essrf-seed-11"]["scenarios"]["availability-1"]
+    assert result["device"] == "cpu"
     assert not targets[0]["boxes"].numel()  # no corruption rewrites truth
