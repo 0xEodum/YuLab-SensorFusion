@@ -39,7 +39,13 @@ def main():
             raise ValueError("Incomplete paired scenarios")
     summary = {"dataset_sha256": report["dataset_sha256"], "split": "validation", "seeds": [11, 12, 13],
                "uncertainty": "sample SD across three training seeds, not a validation-group confidence interval",
-               "scenarios": {}, "robustness_macro": {}, "paired_essrf_minus_fusion": {}}
+               "scenarios": {}, "clean_classes": {}, "robustness_macro": {}, "paired_essrf_minus_fusion": {}}
+    for cls in ("aircraft", "ground_vehicle", "ship"):
+        summary["clean_classes"][cls] = {}
+        for name, group in groups.items():
+            values = [m["scenarios"]["availability-7"]["classes"][cls]["ap"] for m in group]
+            summary["clean_classes"][cls][name] = {"mean": float(np.mean(values)),
+                "sample_sd": float(np.std(values, ddof=1)), "by_seed": values}
     for case in NAMES:
         summary["scenarios"][case] = {}
         for name, group in groups.items():
@@ -62,8 +68,16 @@ def main():
     for seed in (11, 12, 13):
         for name in ("history.json", "runtime.json", "validation.json"):
             shutil.copyfile(args.runs / f"seed-{seed}" / name, args.output / f"seed-{seed}-{name}")
+    baseline_runtime = {}
+    for seed in (11, 12, 13):
+        root = ROOT / ("artifacts/sf11/learning" if seed == 11 else f"artifacts/sf12/baseline-seeds/seed-{seed}")
+        for name in ("rgb", "ir", "lidar", "fusion"):
+            baseline_runtime[f"{name}-seed-{seed}"] = json.loads((root / f"runs/{name}/runtime.json").read_text())
+    (args.output / "baseline-runtime.json").write_text(json.dumps(baseline_runtime, indent=2, allow_nan=False) + "\n")
     for source, name in ((ROOT / "artifacts/sf12/reproducibility.json", "reproducibility.json"),
                          (ROOT / "artifacts/sf12/sampling-determinism.json", "legacy-sampling-determinism.json"),
+                         (ROOT / "artifacts/sf12/query-support-diagnostic.json", "query-support-diagnostic.json"),
+                         (ROOT / "artifacts/sf12/deterministic-q32-last-comparison.json", "seed-11-last-comparison.json"),
                          (ROOT / "artifacts/sf12/inference-resources.json", "inference-resources.json")):
         shutil.copyfile(source, args.output / name)
     # Actual failed/diagnostic controls, rather than only the selected result.
@@ -84,6 +98,9 @@ def main():
         controls.append({"label": label, "folder": str(root.relative_to(ROOT)), "runtime": runtime,
                          "history_sha256": digest(root / "history.json"), "checkpoint_sha256": digest(root / "best.pt"),
                          "last_epoch_map": history[-1]["validation"]["map_3d"]})
+    tiny = args.runs / "tiny"
+    for name in ("runtime.json", "validation.json"):
+        shutil.copyfile(tiny / name, args.output / f"tiny-{name}")
     (args.output / "controls.json").write_text(json.dumps(controls, indent=2, allow_nan=False) + "\n")
     colors = {"essrf": "#176b9b", "baseline-fusion": "#d17a21", "baseline-ir": "#616161"}
     labels = {"essrf": "ESSRF", "baseline-fusion": "Fusion baseline", "baseline-ir": "IR baseline"}
@@ -100,6 +117,17 @@ def main():
     fig.savefig(args.output / "degradation.png", dpi=180)
     fig.savefig(args.output / "degradation.svg")
     plt.close(fig)
+    fig, ax = plt.subplots(figsize=(9, 4), layout="constrained")
+    classes = ["aircraft", "ground_vehicle", "ship"]
+    x = np.arange(3)
+    for i, name in enumerate(colors):
+        ax.bar(x + (i - 1) * .24, [summary["clean_classes"][c][name]["mean"] for c in classes], width=.22,
+               yerr=[summary["clean_classes"][c][name]["sample_sd"] for c in classes],
+               color=colors[name], capsize=3, label=labels[name])
+    ax.set(xticks=x, xticklabels=["Aircraft (IoU .25)", "Ground vehicles (IoU .25)", "Ships (IoU .5)"],
+           ylabel="Clean validation AP (mean and sample SD, 3 seeds)", title="SF-12 class-level strengths and failures")
+    ax.legend(); ax.grid(axis="y", alpha=.2)
+    fig.savefig(args.output / "classes.png", dpi=180); plt.close(fig)
     fig, axes = plt.subplots(1, 2, figsize=(11, 4), layout="constrained")
     for seed in (11, 12, 13):
         history = json.loads((args.runs / f"seed-{seed}/history.json").read_text())
