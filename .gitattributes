@@ -9,4 +9,6 @@ docs/evidence/sf05/*.json -text
 docs/evidence/sf06/*.json -text
 docs/evidence/sf06/*.png binary
 # SF-12 comparison artifacts are addressed by raw byte hashes across platforms.
-docs/evidence/sf12/* -text
+docs/evidence/sf12/* -text whitespace=cr-at-eol
+# Matplotlib retains significant path formatting in its generated SVG artifact.
+docs/evidence/sf12/*.svg -whitespace
