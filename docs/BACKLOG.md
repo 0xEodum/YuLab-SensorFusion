@@ -3,7 +3,7 @@
 Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
-and baselines passed local acceptance; SF-12 compact ESSRF is READY.
+and baselines passed local acceptance; SF-12 compact ESSRF is IN PROGRESS.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -48,7 +48,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
-| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | READY |
+| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | IN PROGRESS |
 | SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
@@ -450,6 +450,13 @@ Acceptance:
 - Compare to SF-11 on the same validation groups/budget, report failures as well
   as gains, and satisfy memory limits. Do not call this the full temporal ESSRF.
 - Update ESSRF with measured choices, losses, query/sample counts and all changes.
+
+Implementation and controls are present at `f8de68e`. The 2026-10-06 follow-up
+uses 16 queries, a clean mixture start followed by gradual dropout/corruption
+and auxiliary losses, and paired validation degradation of frozen SF-11 models.
+The sealed test split remains closed to this work. See the
+[curriculum TDD record](evidence/SF-12-curriculum-tdd.md); final acceptance awaits
+the measured three-seed comparison and resource report.
 
 ## SF-13 — Temporal and calibration dataset extension
 
