@@ -54,6 +54,11 @@ def camera_from_heading(world_from_rig, world_from_heading, rig_from_sensor) -> 
 
 def preprocess(root: Path, capture_id: str) -> dict[str, torch.Tensor]:
     obs, arrays = load_observation_only(root, {"capture_id": capture_id})
+    return preprocess_arrays(obs, arrays)
+
+
+def preprocess_arrays(obs: dict, arrays: dict) -> dict[str, torch.Tensor]:
+    """The same fixed profile, usable after shared observation-level degradation."""
     world_from_rig = np.array(obs["rig"]["T_world_from_rig"]).reshape(4, 4)
     world_from_heading = heading_frame(world_from_rig)
     sensors = {s["modality"]: s for s in obs["rig"]["sensors"]}

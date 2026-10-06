@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import numpy as np
 import torch
+from scipy.stats import rankdata
 
 from app.dataset import digest
 from . import essrf_data, essrf_loss as L
@@ -46,7 +47,7 @@ def auroc(positive: np.ndarray, negative: np.ndarray) -> float | None:
     if not len(positive) or not len(negative):
         return None
     values = np.concatenate((positive, negative))
-    ranks = values.argsort().argsort() + 1.0
+    ranks = rankdata(values, method="average")
     return float((ranks[:len(positive)].sum() - len(positive) * (len(positive) + 1) / 2) / (len(positive) * len(negative)))
 
 
