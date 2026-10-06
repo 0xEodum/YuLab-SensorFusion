@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-06",
+  "profile": "essrf-static-v1",
+  "selection_split": "validation",
+  "selection_seed": 11,
+  "confirmatory_seeds": [12, 13],
+  "queries_to_compare": [16, 32],
+  "architecture": {"width": 128, "samples": 16, "layers": 2, "global_context": false, "max_points": 8192},
+  "training": {
+    "epochs": 40, "batch_size": 32, "optimizer_updates": 2640,
+    "optimizer": "AdamW", "lr": 0.0005, "weight_decay": 0.0001,
+    "precision": "FP32", "gradient_clip": 1,
+    "schedule": "curriculum", "clean_epochs": 8, "ramp_epochs": 16,
+    "final_full_sensor_probability": 0.7, "subset_weight": 1,
+    "p_known": 0.25, "p_ood": 0.1,
+    "checkpoint_selection": "clean grouped validation mAP, epochs 24-40"
+  },
+  "comparison": {
+    "version": "sf12-degradation.v1", "seed": 1234,
+    "checkpoint_choice": "frozen validation-selected checkpoint, no per-scenario selection",
+    "labels": "unchanged geometrically eligible objects",
+    "threshold": 0.05,
+    "primary_query_choice": "equal-weight mean mAP over availability-1 through availability-6 and six corruption cases",
+    "secondary_query_choice": "clean mAP if primary ties within 0.0001",
+    "none_case": "hard ESSRF abstention gate, reported separately; excluded from robustness mean",
+    "resource_gate": "peak allocated training GPU memory <= 18 GiB",
+    "clean_results": "reported even if worse; not required to defeat baseline",
+    "ood_caveat": "unlabelled training exposure family, not a held-out corruption family",
+    "uncertainty": "three-seed sample standard deviation, not an independent validation-group confidence interval"
+  },
+  "reason": "User approved testing the same curriculum with 32 after its clean seed-11 control reached 0.4004 versus Q16 0.2879. Freeze this criterion before inspecting the curriculum comparison; preserve all pilots."
+}
