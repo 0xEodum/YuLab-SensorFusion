@@ -28,12 +28,16 @@ uncertainty. It cannot claim those properties merely by using the ESSRF name.
 The final target includes the temporal profile; a different final architecture
 requires measured justification and an explicit document/backlog revision.
 
-Measured working static configuration: Q=16 learned discovery queries, C=128,
+Measured working static configuration: Q=32 learned discovery queries, C=128,
 s=16 local samples per query/modality, lightweight image encoders, and a bounded
 sparse point encoder (at most 8,192 observed points). Use the 640x384 pilot
 images. The original Q=128 was a starting choice, not a validated optimum; it
 reached only 0.048 validation mAP in the 40-epoch clean control, versus 0.288
-with Q=16. Q=32 is an additional clean control, not an assumed improvement. Query reference
+with Q=16. The additional clean Q32 control reached .400 (non-deterministic CUDA
+sampling). After repairing sampling, the matched curriculum pilots gave clean /
+degradation macro mAP .118 / .062 at Q16 and .314 / .177 at Q32. Q32 was selected
+before confirmatory seeds 12/13; it is the model/CLI default. Q16 remains an
+explicit ablation, not a universal optimum. Query reference
 positions are learned or initialized from declared rig range/frustum geometry,
 never from simulator object centers. Empty/off-image neighborhoods have validity
 masks and finite outputs. The subset experts are small adapters, not eight copies
@@ -183,6 +187,7 @@ selection must not use the sealed test set.
 | 2026-10-06 | Q=16; mixture-first 8+16 curriculum, exact 70% full sensors; paired raw degradation | Controls: clean Q128 .048, clean Q16 .288, legacy Q16 .134, seed 11 / 40 epochs; three-seed comparison pending |
 | 2026-10-06 | Correct rank ties in vacuity AUROC | Equal scores previously returned 0.0; regression requires 0.5. Training is unchanged |
 | 2026-10-06 | Deterministic bilinear image sampler; rerun query pilots | CUDA backward nondeterminism measured; equivalent interpolation and coordinate/feature gradients pass reference tests, full CUDA gradients repeat exactly |
+| 2026-10-06 | Select Q32 using predeclared paired degradation mean; freeze remaining seeds | Q16 .062 versus Q32 .177 (seed 11); Q32 clean .314. Final epoch deteriorates to clean .057 / degradation .040, so extra epochs are not presumed beneficial. See `evidence/sf12/selected-configuration.json` |
 
 ---
 

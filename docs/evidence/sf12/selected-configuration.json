@@ -1,0 +1,47 @@
+{
+  "profile": "essrf-static-v1",
+  "selected_queries": 32,
+  "seed11_query_comparison": {
+    "16": {
+      "clean_map": 0.1179896586379221,
+      "robustness_macro": 0.06195733824808283,
+      "checkpoint_epoch": 24,
+      "checkpoint_sha256": "fd6fc7e2dc884aeb422e43ace1b949a1821c3d0b54b4a564b48de5d7777541cd"
+    },
+    "32": {
+      "clean_map": 0.3144869508550303,
+      "robustness_macro": 0.17685293625957924,
+      "checkpoint_epoch": 24,
+      "checkpoint_sha256": "c1e9c232dd7e136de9ec0b21f351126c27db3e0d6efe1c3482c5423ae1858ee8"
+    }
+  },
+  "selection_protocol": "selection-protocol.json",
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "training_config": {
+    "queries": 32,
+    "width": 128,
+    "samples": 16,
+    "layers": 2,
+    "global_context": false,
+    "image_sampler": "bilinear-v1",
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 0.0005,
+    "subset_warmup": 6,
+    "reliability_warmup": 4,
+    "subset_weight": 1.0,
+    "schedule": "curriculum",
+    "clean": false,
+    "clean_epochs": 8,
+    "ramp_epochs": 16,
+    "full_sensor_probability": 0.7
+  },
+  "confirmatory_seeds": [
+    12,
+    13
+  ],
+  "fixed_before_confirmatory_training": true,
+  "checkpoint_policy": "clean grouped validation mAP, only epochs 24-40; degradation reports do not select checkpoints",
+  "final_run_root": "artifacts/sf12/essrf/deterministic-q32",
+  "retained_failure": "Epoch-40 Q32 checkpoint: clean 0.05682330973335329, robustness macro 0.03997287172048366; not used to replace the predeclared checkpoint policy"
+}

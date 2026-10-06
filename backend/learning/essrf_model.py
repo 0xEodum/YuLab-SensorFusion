@@ -278,7 +278,7 @@ class Expert(nn.Module):
 class ESSRF(nn.Module):
     profile = "essrf-static-v1"
 
-    def __init__(self, queries: int = 16, width: int = 128, samples: int = 16, layers: int = 2,
+    def __init__(self, queries: int = 32, width: int = 128, samples: int = 16, layers: int = 2,
                  references: torch.Tensor | None = None, global_context: bool = True,
                  image_sampler: str = "bilinear-v1"):
         super().__init__()

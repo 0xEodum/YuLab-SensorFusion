@@ -81,7 +81,7 @@ def build_parser():
     parser.add_argument("--tiny-steps", type=int, default=600)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=5e-4)
-    parser.add_argument("--queries", type=int, default=16)
+    parser.add_argument("--queries", type=int, default=32)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--samples", type=int, default=16)
     parser.add_argument("--layers", type=int, default=2)

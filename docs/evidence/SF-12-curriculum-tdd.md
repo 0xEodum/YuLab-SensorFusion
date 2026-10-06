@@ -79,3 +79,10 @@ Pre-existing supervision/standalone-evaluation gaps listed above remain.
 `npm run verify` also passed (contracts, TypeScript checks, world/sensor/asset
 tests, locked backend tests and production build). Its locked backend run skips
 the learning tests, which are independently exercised by the command above.
+
+The initial Q16 default was subsequently superseded by measured selection of
+Q32: paired-degradation macro .062 versus .177, seed 11, identical repaired
+sampler/curriculum/budget. Public model and CLI defaults follow that choice,
+while `--queries 16` remains supported. This behavioral revision had one RED
+default assertion (`3a05656`), followed by 16 passing curriculum/sampling tests.
+The final configuration is fixed before training seeds 12/13.
