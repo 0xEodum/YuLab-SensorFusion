@@ -15,13 +15,14 @@ def args(**changes):
         subset_warmup=6, reliability_warmup=4), **changes))
 
 
-def test_query_defaults_are_16_and_cli_keeps_32_ablation():
-    assert ESSRF().queries == 16
+def test_query_defaults_follow_selected_32_and_cli_keeps_16_ablation():
+    assert ESSRF().queries == 32
     spec = importlib.util.spec_from_file_location("essrf_cli", Path(__file__).parents[2] / "tools/essrf-pilot.py")
     cli = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(cli)
-    assert cli.build_parser().parse_args(["train"]).queries == 16
-    assert cli.build_parser().parse_args(["train", "--queries", "32"]).queries == 32
+    assert cli.build_parser().parse_args(["train"]).queries == 32
+    assert cli.build_parser().parse_args(["train", "--queries", "16"]).queries == 16
+    assert ESSRF(queries=16).queries == 16
 
 
 def test_curriculum_trains_mixture_from_first_epoch_and_ramps_all_terms():
