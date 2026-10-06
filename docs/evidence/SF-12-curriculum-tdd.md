@@ -86,3 +86,10 @@ sampler/curriculum/budget. Public model and CLI defaults follow that choice,
 while `--queries 16` remains supported. This behavioral revision had one RED
 default assertion (`3a05656`), followed by 16 passing curriculum/sampling tests.
 The final configuration is fixed before training seeds 12/13.
+
+The post-export artifact audit also checked committed Git blobs, rather than
+only working-tree files. Windows text normalization made 24 committed evidence
+hashes differ from the raw-byte manifest (RED at `b72cd3e`). Marking the SF-12
+artifact directory `-text` in `.gitattributes` and restaging its original bytes
+repairs this packaging issue; all 28 manifest entries match the staged blobs.
+This preserves the existing evidence-directory convention across platforms.
