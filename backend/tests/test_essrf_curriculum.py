@@ -72,3 +72,36 @@ def test_curriculum_checkpoint_cannot_select_clean_warm_start():
     assert T.selection_eligible(0, args(clean=True))
     assert not T.selection_eligible(9, args(schedule="legacy"))
     assert T.selection_eligible(10, args(schedule="legacy"))
+
+
+def test_training_loop_records_plan_sampling_budget_and_reloadable_checkpoints(tmp_path, monkeypatch):
+    from test_essrf import synthetic_inputs
+    features = synthetic_inputs(batch=3)
+    targets = [dict(boxes=torch.tensor([[.1, 0, -.3, .02, .02, .02, 0]]),
+        classes=torch.tensor([i]), ignored=torch.empty(0, 7), support=torch.ones(1, 3, dtype=torch.bool)) for i in range(3)]
+    rows = [dict(condition=i) for i in range(3)]
+    monkeypatch.setattr(T, "load", lambda args, split, device: (features, targets, rows))
+    (tmp_path / "manifest.json").write_text("{}")
+    cfg = args(dataset=tmp_path, run_root=tmp_path, device="cpu", seed=11,
+        queries=4, width=16, samples=2, layers=1, local_only=True,
+        tiny=False, epochs=3, batch_size=3, lr=5e-4, clean_epochs=1, ramp_epochs=1)
+    T.train(cfg)
+    import json
+    history = json.loads((tmp_path / "seed-11/history.json").read_text())
+    assert len(history) == 3
+    assert history[0]["sampling_counts"]["patterns"]["7"] == 3
+    assert sum(history[0]["sampling_counts"]["corruptions"].values()) == 0
+    assert history[0]["training_plan"]["weights"] == {"mix": 1., "sub": 0., "rel": 0.}
+    runtime = json.loads((tmp_path / "seed-11/runtime.json").read_text())
+    assert runtime["optimizer_updates"] == 3
+    from learning.essrf_evaluation import load_checkpoint
+    loaded, saved = load_checkpoint(tmp_path / "seed-11/best.pt", "cpu", T.digest(tmp_path / "manifest.json"))
+    assert saved["epoch"] >= 2 and saved["config"]["schedule"] == "curriculum"
+    assert saved["config"]["clean_epochs"] == 1 and not saved["config"]["global_context"]
+    assert loaded.queries == 4 and (tmp_path / "seed-11/last.pt").exists()
+
+
+def test_too_short_budget_rejected_before_loading_data(monkeypatch):
+    monkeypatch.setattr(T, "load", lambda *a: pytest.fail("invalid configuration reached data"))
+    with pytest.raises(ValueError, match="budget"):
+        T.train(args(tiny=False, epochs=23))
