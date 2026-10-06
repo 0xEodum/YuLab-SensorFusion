@@ -1,0 +1,102 @@
+{
+  "split": "validation",
+  "sample_captures": [
+    "sf11-2100",
+    "sf11-2115",
+    "sf11-2130",
+    "sf11-2146",
+    "sf11-2161",
+    "sf11-2177",
+    "sf11-2192",
+    "sf11-2208",
+    "sf11-2223",
+    "sf11-2239",
+    "sf11-2254",
+    "sf11-2270",
+    "sf11-2285",
+    "sf11-2301",
+    "sf11-2316",
+    "sf11-2332",
+    "sf11-2347",
+    "sf11-2363",
+    "sf11-2378",
+    "sf11-2394",
+    "sf11-2409",
+    "sf11-2425",
+    "sf11-2440",
+    "sf11-2456",
+    "sf11-2471",
+    "sf11-2487",
+    "sf11-2502",
+    "sf11-2518",
+    "sf11-2533",
+    "sf11-2549"
+  ],
+  "scope": "30 stratified frames; diagnostic sample, not a full-split accuracy comparison",
+  "models": {
+    "clean-q16": {
+      "checkpoint_epoch": 38,
+      "config": {
+        "queries": 16,
+        "width": 128,
+        "samples": 16,
+        "layers": 2,
+        "global_context": false,
+        "epochs": 40,
+        "batch_size": 32,
+        "lr": 0.0005,
+        "subset_warmup": 6,
+        "reliability_warmup": 4,
+        "subset_weight": 1.0
+      },
+      "camera_sample_in_frustum_fraction": {
+        "rgb": 0.47337239582945284,
+        "ir": 0.701497400800387
+      },
+      "expert_same_query_target_agreement": {
+        "1": 0.17391304347826086,
+        "2": 0.41304347826086957,
+        "3": 0.2826086956521739,
+        "4": 0.6521739130434783,
+        "5": 0.5217391304347826,
+        "6": 0.43478260869565216,
+        "7": 0.13043478260869565
+      }
+    },
+    "deterministic-curriculum-q16": {
+      "checkpoint_epoch": 24,
+      "config": {
+        "queries": 16,
+        "width": 128,
+        "samples": 16,
+        "layers": 2,
+        "global_context": false,
+        "image_sampler": "bilinear-v1",
+        "epochs": 40,
+        "batch_size": 32,
+        "lr": 0.0005,
+        "subset_warmup": 6,
+        "reliability_warmup": 4,
+        "subset_weight": 1.0,
+        "schedule": "curriculum",
+        "clean": false,
+        "clean_epochs": 8,
+        "ramp_epochs": 16,
+        "full_sensor_probability": 0.7
+      },
+      "camera_sample_in_frustum_fraction": {
+        "rgb": 0.5872395833333334,
+        "ir": 0.5740885411699613
+      },
+      "expert_same_query_target_agreement": {
+        "1": 0.45652173913043476,
+        "2": 0.6304347826086957,
+        "3": 0.5434782608695652,
+        "4": 0.5652173913043478,
+        "5": 0.8478260869565217,
+        "6": 0.9565217391304348,
+        "7": 0.9565217391304348
+      }
+    }
+  }
+}

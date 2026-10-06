@@ -1,0 +1,396 @@
+[
+  {
+    "label": "C1 clean Q128",
+    "folder": "artifacts\\sf12\\essrf\\controls\\c1-clean-q128\\seed-11",
+    "runtime": {
+      "elapsed_s": 570.1255679000005,
+      "best_validation_ap": 0.04768093250761914,
+      "gpu_peak_allocated_bytes": 9569333248,
+      "gpu_peak_reserved_bytes": 10229907456,
+      "process_peak_working_set_bytes": 4074303488,
+      "parameters": 3202764,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 0,
+        "1": 12031,
+        "2": 12115,
+        "3": 11945,
+        "4": 11930,
+        "5": 11889,
+        "6": 11972,
+        "7": 12118
+      },
+      "availability_pattern_counts": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 84000
+      }
+    },
+    "history_sha256": "43e08d18f15e2d5471b0cd5ea2d33d6ac78b43552b4ea4502949381e9fe27e15",
+    "checkpoint_sha256": "0e07461ac20db4fd4227b33851c5cf209b0e544dece91519ee86ae0ddd16f940",
+    "last_epoch_map": 0.032111087002003234
+  },
+  {
+    "label": "C2 clean Q16",
+    "folder": "artifacts\\sf12\\essrf\\controls\\c2-clean-q16\\seed-11",
+    "runtime": {
+      "elapsed_s": 399.5015857999988,
+      "best_validation_ap": 0.28793315935994557,
+      "gpu_peak_allocated_bytes": 8154081792,
+      "gpu_peak_reserved_bytes": 9181331456,
+      "process_peak_working_set_bytes": 4074700800,
+      "parameters": 3188092,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 0,
+        "1": 12031,
+        "2": 12115,
+        "3": 11945,
+        "4": 11930,
+        "5": 11889,
+        "6": 11972,
+        "7": 12118
+      },
+      "availability_pattern_counts": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 84000
+      }
+    },
+    "history_sha256": "300611410f78b808a18047103b492acb6954a37664ebed89df312ab89f5f453e",
+    "checkpoint_sha256": "a65f99bf198abdc112a5063f25dd508a37371dae049acbd49b5770f8e4a43d7e",
+    "last_epoch_map": 0.27876033999280825
+  },
+  {
+    "label": "C3 legacy Q16",
+    "folder": "artifacts\\sf12\\essrf\\controls\\c3-full-q16\\seed-11",
+    "runtime": {
+      "elapsed_s": 481.2003424000013,
+      "best_validation_ap": 0.1344152418739512,
+      "gpu_peak_allocated_bytes": 8154081792,
+      "gpu_peak_reserved_bytes": 9181331456,
+      "process_peak_working_set_bytes": 4074659840,
+      "parameters": 3188092,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 5432,
+        "1": 15471,
+        "2": 15570,
+        "3": 8422,
+        "4": 15301,
+        "5": 8456,
+        "6": 8507,
+        "7": 6841
+      },
+      "availability_pattern_counts": {
+        "0": 5432,
+        "1": 5270,
+        "2": 5361,
+        "3": 5215,
+        "4": 5216,
+        "5": 5265,
+        "6": 5222,
+        "7": 47019
+      }
+    },
+    "history_sha256": "c76b3f12e8f37cf21fbf9bf60dc305cfc03ae5ceb9e373daf986f7abf9b6ac7e",
+    "checkpoint_sha256": "d05961148ae3629ac048dc32f667cff4bc3045a817827cc27b63086fd4467aad",
+    "last_epoch_map": 0.09625193062766406
+  },
+  {
+    "label": "C4 clean Q32",
+    "folder": "artifacts\\sf12\\essrf\\controls\\c4-clean-q32\\seed-11",
+    "runtime": {
+      "elapsed_s": 474.0455980000006,
+      "best_validation_ap": 0.40038671104670764,
+      "gpu_peak_allocated_bytes": 8285373952,
+      "gpu_peak_reserved_bytes": 9472835584,
+      "process_peak_working_set_bytes": 4074807296,
+      "parameters": 3190188,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 0,
+        "1": 12031,
+        "2": 12115,
+        "3": 11945,
+        "4": 11930,
+        "5": 11889,
+        "6": 11972,
+        "7": 12118
+      },
+      "availability_pattern_counts": {
+        "0": 0,
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 84000
+      },
+      "corruption_counts": {
+        "rgb-1": 0,
+        "rgb-2": 0,
+        "ir-1": 0,
+        "ir-2": 0,
+        "lidar-1": 0,
+        "lidar-2": 0
+      },
+      "checkpoint_sha256": "51facf4e9c44c45afac5a977938cd78b3eaa0153b070b55efa02be569a67535c",
+      "epochs": 40,
+      "optimizer_updates": 2640
+    },
+    "history_sha256": "d82de9401f57c417754e0411feabf801c43b7fa4e7c9300072f4f66496658491",
+    "checkpoint_sha256": "51facf4e9c44c45afac5a977938cd78b3eaa0153b070b55efa02be569a67535c",
+    "last_epoch_map": 0.3276480079824291
+  },
+  {
+    "label": "Attempt 2 local Q128",
+    "folder": "artifacts\\sf12\\essrf\\runs\\attempt-2-local-seed-11",
+    "runtime": {
+      "elapsed_s": 664.677087,
+      "best_validation_ap": 0.15463572187031863,
+      "gpu_peak_allocated_bytes": 9513140736,
+      "gpu_peak_reserved_bytes": 10158604288,
+      "process_peak_working_set_bytes": 4074274816,
+      "parameters": 3097932,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 5432,
+        "1": 15471,
+        "2": 15570,
+        "3": 8422,
+        "4": 15301,
+        "5": 8456,
+        "6": 8507,
+        "7": 6841
+      },
+      "availability_pattern_counts": {
+        "0": 5432,
+        "1": 5270,
+        "2": 5361,
+        "3": 5215,
+        "4": 5216,
+        "5": 5265,
+        "6": 5222,
+        "7": 47019
+      }
+    },
+    "history_sha256": "8679778669a1d2a8caae7f5406139a634c2744338913dcd33d989c0dd331a9ab",
+    "checkpoint_sha256": "29b9eb8cf9a3560003e314140ac7cb2706acbd60e4116dd425aa72b590b87e38",
+    "last_epoch_map": 0.06317665896932949
+  },
+  {
+    "label": "Non-deterministic curriculum Q16",
+    "folder": "artifacts\\sf12\\essrf\\curriculum-q16\\seed-11",
+    "runtime": {
+      "elapsed_s": 566.9357940999998,
+      "best_validation_ap": 0.27848143974178985,
+      "gpu_peak_allocated_bytes": 8154081792,
+      "gpu_peak_reserved_bytes": 9181331456,
+      "process_peak_working_set_bytes": 4097355776,
+      "parameters": 3188092,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 2230,
+        "1": 13380,
+        "2": 13559,
+        "3": 10588,
+        "4": 13550,
+        "5": 10572,
+        "6": 10295,
+        "7": 9826
+      },
+      "availability_pattern_counts": {
+        "0": 2230,
+        "1": 2134,
+        "2": 2207,
+        "3": 2256,
+        "4": 2253,
+        "5": 2268,
+        "6": 2174,
+        "7": 68478
+      },
+      "corruption_counts": {
+        "rgb-1": 10887,
+        "rgb-2": 4342,
+        "ir-1": 10761,
+        "ir-2": 4322,
+        "lidar-1": 10874,
+        "lidar-2": 4402
+      },
+      "checkpoint_sha256": "3ab7a3523914832068ecf4f5a07fc4d84432dca189eb51b342a92592423ab6d1",
+      "epochs": 40,
+      "optimizer_updates": 2640
+    },
+    "history_sha256": "10e1aec07d0ab4158e6f0d19cfc3efac4cfab942a973446377b68a7a153dcc09",
+    "checkpoint_sha256": "3ab7a3523914832068ecf4f5a07fc4d84432dca189eb51b342a92592423ab6d1",
+    "last_epoch_map": 0.2215938329844119
+  },
+  {
+    "label": "Non-deterministic curriculum Q32",
+    "folder": "artifacts\\sf12\\essrf\\curriculum-q32\\seed-11",
+    "runtime": {
+      "elapsed_s": 721.3420487999992,
+      "best_validation_ap": 0.2766933048862835,
+      "gpu_peak_allocated_bytes": 8285373952,
+      "gpu_peak_reserved_bytes": 9472835584,
+      "process_peak_working_set_bytes": 4096360448,
+      "parameters": 3190188,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 2230,
+        "1": 13380,
+        "2": 13559,
+        "3": 10588,
+        "4": 13550,
+        "5": 10572,
+        "6": 10295,
+        "7": 9826
+      },
+      "availability_pattern_counts": {
+        "0": 2230,
+        "1": 2134,
+        "2": 2207,
+        "3": 2256,
+        "4": 2253,
+        "5": 2268,
+        "6": 2174,
+        "7": 68478
+      },
+      "corruption_counts": {
+        "rgb-1": 10887,
+        "rgb-2": 4342,
+        "ir-1": 10761,
+        "ir-2": 4322,
+        "lidar-1": 10874,
+        "lidar-2": 4402
+      },
+      "checkpoint_sha256": "869b1085621cf0e4ae67b8dc5f8374a7fea0355166500e3929b95f7af1515881",
+      "epochs": 40,
+      "optimizer_updates": 2640
+    },
+    "history_sha256": "35648c88af6dd323b767105fe6188457876edbefac9c3e24bca4d82ce320a43e",
+    "checkpoint_sha256": "869b1085621cf0e4ae67b8dc5f8374a7fea0355166500e3929b95f7af1515881",
+    "last_epoch_map": 0.2332395236141002
+  },
+  {
+    "label": "Deterministic curriculum Q16",
+    "folder": "artifacts\\sf12\\essrf\\deterministic-q16\\seed-11",
+    "runtime": {
+      "elapsed_s": 737.0660694999988,
+      "best_validation_ap": 0.1179896586379221,
+      "gpu_peak_allocated_bytes": 8211454464,
+      "gpu_peak_reserved_bytes": 9328132096,
+      "process_peak_working_set_bytes": 4163596288,
+      "parameters": 3188092,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 2230,
+        "1": 13380,
+        "2": 13559,
+        "3": 10588,
+        "4": 13550,
+        "5": 10572,
+        "6": 10295,
+        "7": 9826
+      },
+      "availability_pattern_counts": {
+        "0": 2230,
+        "1": 2134,
+        "2": 2207,
+        "3": 2256,
+        "4": 2253,
+        "5": 2268,
+        "6": 2174,
+        "7": 68478
+      },
+      "corruption_counts": {
+        "rgb-1": 10887,
+        "rgb-2": 4342,
+        "ir-1": 10761,
+        "ir-2": 4322,
+        "lidar-1": 10874,
+        "lidar-2": 4402
+      },
+      "checkpoint_sha256": "fd6fc7e2dc884aeb422e43ace1b949a1821c3d0b54b4a564b48de5d7777541cd",
+      "source_revision": "f0b47be98c32f064ee704f1d962845e25bcd3294",
+      "image_sampler": "bilinear-v1",
+      "deterministic_algorithms": true,
+      "epochs": 40,
+      "optimizer_updates": 2640
+    },
+    "history_sha256": "ddcc5189f01123e3c286c366513009840ab17c54f0a349162555c7bc3068ebaf",
+    "checkpoint_sha256": "fd6fc7e2dc884aeb422e43ace1b949a1821c3d0b54b4a564b48de5d7777541cd",
+    "last_epoch_map": 0.09822368531104857
+  },
+  {
+    "label": "Deterministic curriculum Q32",
+    "folder": "artifacts\\sf12\\essrf\\deterministic-q32\\seed-11",
+    "runtime": {
+      "elapsed_s": 861.0733725999999,
+      "best_validation_ap": 0.3144869508550303,
+      "gpu_peak_allocated_bytes": 8484997120,
+      "gpu_peak_reserved_bytes": 9865003008,
+      "process_peak_working_set_bytes": 4164214784,
+      "parameters": 3190188,
+      "torch": "2.13.0+cu130",
+      "device": "NVIDIA GeForce RTX 3090",
+      "expert_subset_counts": {
+        "0": 2230,
+        "1": 13380,
+        "2": 13559,
+        "3": 10588,
+        "4": 13550,
+        "5": 10572,
+        "6": 10295,
+        "7": 9826
+      },
+      "availability_pattern_counts": {
+        "0": 2230,
+        "1": 2134,
+        "2": 2207,
+        "3": 2256,
+        "4": 2253,
+        "5": 2268,
+        "6": 2174,
+        "7": 68478
+      },
+      "corruption_counts": {
+        "rgb-1": 10887,
+        "rgb-2": 4342,
+        "ir-1": 10761,
+        "ir-2": 4322,
+        "lidar-1": 10874,
+        "lidar-2": 4402
+      },
+      "checkpoint_sha256": "c1e9c232dd7e136de9ec0b21f351126c27db3e0d6efe1c3482c5423ae1858ee8",
+      "source_revision": "0add0156d3cc55229008f8ca3a974e975b7be558",
+      "image_sampler": "bilinear-v1",
+      "deterministic_algorithms": true,
+      "epochs": 40,
+      "optimizer_updates": 2640
+    },
+    "history_sha256": "d6868e04599f89d90a79c67e4bccfcbc5931a594b703d34f0e3140ec57922c4d",
+    "checkpoint_sha256": "c1e9c232dd7e136de9ec0b21f351126c27db3e0d6efe1c3482c5423ae1858ee8",
+    "last_epoch_map": 0.05682330973335329
+  }
+]

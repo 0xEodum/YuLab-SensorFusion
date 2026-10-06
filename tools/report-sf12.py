@@ -113,7 +113,9 @@ def main():
         ax.barh(y + (i - 1) * .24, means, height=.22, xerr=sd, label=labels[name], color=colors[name], capsize=2)
     ax.set(yticks=y, yticklabels=[NAMES[c] for c in cases], xlabel="Validation 3D mAP (mean and sample SD, 3 seeds)",
            title="SF-12 paired sensor degradation; fixed checkpoints, unchanged labels")
-    ax.invert_yaxis(); ax.legend(loc="lower right"); ax.grid(axis="x", alpha=.2)
+    ax.invert_yaxis()
+    ax.legend(loc="upper center", bbox_to_anchor=(.5, -.09), ncol=3)
+    ax.grid(axis="x", alpha=.2)
     fig.savefig(args.output / "degradation.png", dpi=180)
     fig.savefig(args.output / "degradation.svg")
     plt.close(fig)

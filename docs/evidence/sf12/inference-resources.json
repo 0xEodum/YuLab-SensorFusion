@@ -1,0 +1,173 @@
+{
+  "device": "NVIDIA GeForce RTX 3090",
+  "torch": "2.13.0+cu130",
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "split": "validation",
+  "capture_ids": [
+    "sf11-2100",
+    "sf11-2115",
+    "sf11-2130",
+    "sf11-2146",
+    "sf11-2161",
+    "sf11-2177",
+    "sf11-2192",
+    "sf11-2208",
+    "sf11-2223",
+    "sf11-2239",
+    "sf11-2254",
+    "sf11-2270",
+    "sf11-2285",
+    "sf11-2301",
+    "sf11-2316",
+    "sf11-2332",
+    "sf11-2347",
+    "sf11-2363",
+    "sf11-2378",
+    "sf11-2394",
+    "sf11-2409",
+    "sf11-2425",
+    "sf11-2440",
+    "sf11-2456",
+    "sf11-2471",
+    "sf11-2487",
+    "sf11-2502",
+    "sf11-2518",
+    "sf11-2533",
+    "sf11-2549"
+  ],
+  "cpu_threads": 2,
+  "scope": "warm filesystem, batch one; includes raw observation read/validation, fixed preprocessing, H2D, forward, D2H/decode; excludes checkpoint load and capture generation",
+  "models": {
+    "fusion": {
+      "checkpoint_sha256": "effa15dfc46a47bc5fcadf780072d6dcd18de98a49e2d3cbbf12fbe08a2b105c",
+      "config": {
+        "epochs": 40,
+        "batch_size": 32,
+        "lr": 0.001,
+        "queries": 16,
+        "width": 64,
+        "prediction_threshold": 0.05
+      },
+      "source_revision": "0c015d76525ed492d6eabbf1f1a1370bd312044d",
+      "latency_ms": {
+        "read_ms": {
+          "p50": 101.72595000221918,
+          "p95": 143.87171499874955
+        },
+        "preprocess_ms": {
+          "p50": 4.500650000409223,
+          "p95": 5.322414999682223
+        },
+        "h2d_ms": {
+          "p50": 0.47199999971780926,
+          "p95": 0.6434949993490591
+        },
+        "forward_ms": {
+          "p50": 4.081850000147824,
+          "p95": 5.7879449990650755
+        },
+        "d2h_decode_ms": {
+          "p50": 0.20355000015115365,
+          "p95": 0.326924999899347
+        },
+        "end_to_end_ms": {
+          "p50": 111.76550000163843,
+          "p95": 154.37350499942102
+        }
+      },
+      "peak_allocated_bytes": 35107328,
+      "peak_reserved_bytes": 35651584
+    },
+    "ir": {
+      "checkpoint_sha256": "58434b53224832372f8d3bb72c4627b80a9ced4e055e6e9e87802048846c2a53",
+      "config": {
+        "epochs": 40,
+        "batch_size": 32,
+        "lr": 0.001,
+        "queries": 16,
+        "width": 64,
+        "prediction_threshold": 0.05
+      },
+      "source_revision": "2fc8faf0c440978a6f11e3dbcd095d37bf421c6a",
+      "latency_ms": {
+        "read_ms": {
+          "p50": 14.462600000115344,
+          "p95": 19.162319998395102
+        },
+        "preprocess_ms": {
+          "p50": 3.837449998172815,
+          "p95": 5.337470000631583
+        },
+        "h2d_ms": {
+          "p50": 0.44439999874157365,
+          "p95": 0.6210000010469227
+        },
+        "forward_ms": {
+          "p50": 2.9345499988266965,
+          "p95": 4.755004998150979
+        },
+        "d2h_decode_ms": {
+          "p50": 0.18075000116368756,
+          "p95": 0.23332499895332148
+        },
+        "end_to_end_ms": {
+          "p50": 22.908049999387003,
+          "p95": 28.460455000094953
+        }
+      },
+      "peak_allocated_bytes": 34870272,
+      "peak_reserved_bytes": 35651584
+    },
+    "essrf": {
+      "checkpoint_sha256": "c1e9c232dd7e136de9ec0b21f351126c27db3e0d6efe1c3482c5423ae1858ee8",
+      "config": {
+        "queries": 32,
+        "width": 128,
+        "samples": 16,
+        "layers": 2,
+        "global_context": false,
+        "image_sampler": "bilinear-v1",
+        "epochs": 40,
+        "batch_size": 32,
+        "lr": 0.0005,
+        "subset_warmup": 6,
+        "reliability_warmup": 4,
+        "subset_weight": 1.0,
+        "schedule": "curriculum",
+        "clean": false,
+        "clean_epochs": 8,
+        "ramp_epochs": 16,
+        "full_sensor_probability": 0.7
+      },
+      "source_revision": "0add0156d3cc55229008f8ca3a974e975b7be558",
+      "latency_ms": {
+        "read_ms": {
+          "p50": 14.546749998771702,
+          "p95": 16.969130001598383
+        },
+        "preprocess_ms": {
+          "p50": 4.072100000485079,
+          "p95": 5.699739998635777
+        },
+        "h2d_ms": {
+          "p50": 2.701899999010493,
+          "p95": 3.3819300015238687
+        },
+        "forward_ms": {
+          "p50": 31.947149998813984,
+          "p95": 38.951180000731256
+        },
+        "d2h_decode_ms": {
+          "p50": 0.1596000001882203,
+          "p95": 0.21716999817726898
+        },
+        "end_to_end_ms": {
+          "p50": 52.821950001089135,
+          "p95": 63.826870000048075
+        }
+      },
+      "peak_allocated_bytes": 74876416,
+      "peak_reserved_bytes": 98566144
+    }
+  }
+}

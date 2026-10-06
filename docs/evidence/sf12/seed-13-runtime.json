@@ -1,0 +1,44 @@
+{
+  "elapsed_s": 1006.7950894999994,
+  "best_validation_ap": 0.12362933649028367,
+  "gpu_peak_allocated_bytes": 8484997120,
+  "gpu_peak_reserved_bytes": 9865003008,
+  "process_peak_working_set_bytes": 4164329472,
+  "parameters": 3190188,
+  "torch": "2.13.0+cu130",
+  "device": "NVIDIA GeForce RTX 3090",
+  "expert_subset_counts": {
+    "0": 2128,
+    "1": 13380,
+    "2": 13432,
+    "3": 10572,
+    "4": 13407,
+    "5": 10639,
+    "6": 10516,
+    "7": 9926
+  },
+  "availability_pattern_counts": {
+    "0": 2128,
+    "1": 2162,
+    "2": 2119,
+    "3": 2257,
+    "4": 2177,
+    "5": 2167,
+    "6": 2202,
+    "7": 68788
+  },
+  "corruption_counts": {
+    "rgb-1": 11011,
+    "rgb-2": 4425,
+    "ir-1": 11075,
+    "ir-2": 4333,
+    "lidar-1": 10898,
+    "lidar-2": 4333
+  },
+  "checkpoint_sha256": "bce57a2476a448b924843540a67f24f394212b8c2d65eadb9660c6fe0a3df711",
+  "source_revision": "51e77c5f5ff562ece097c33a11e8efa80b5dd147",
+  "image_sampler": "bilinear-v1",
+  "deterministic_algorithms": true,
+  "epochs": 40,
+  "optimizer_updates": 2640
+}

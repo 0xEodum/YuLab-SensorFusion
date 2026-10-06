@@ -1,0 +1,144 @@
+{
+  "files": [
+    {
+      "path": "acceptance-checks.json",
+      "sha256": "9cd75a158ba831c4ea0692d2a850aff25b45cbd1b5d1c173c4f89dd73c61b876",
+      "bytes": 1458
+    },
+    {
+      "path": "baseline-runtime.json",
+      "sha256": "329d17de1da051a24e5ccc82ba970062dc827f5005d5700d278de9a186c3c0de",
+      "bytes": 9125
+    },
+    {
+      "path": "classes.png",
+      "sha256": "8967147a05af5dd47a15f8ab819063277cf1cac24384602a7184f46cba70f44d",
+      "bytes": 58171
+    },
+    {
+      "path": "comparison.json",
+      "sha256": "22f6af07d4e0cbd9b28a422428749e15d1ad1e1a96b4a4fef7564d200ea0357b",
+      "bytes": 2633706
+    },
+    {
+      "path": "controls.json",
+      "sha256": "13b6043c3697fb09f9ff9ea3a74fa7f4d7ff9edbda0b004f32abe11695b6ef6f",
+      "bytes": 12090
+    },
+    {
+      "path": "degradation.png",
+      "sha256": "524bc4fd3f8cf6958edb88030c0a3fd1b6189004d5887c728f53a76e839cc569",
+      "bytes": 84809
+    },
+    {
+      "path": "degradation.svg",
+      "sha256": "823de1155fdc5b6004f991f2730a60569ab44cf902e821a9a7fe98c62c46f2af",
+      "bytes": 71975
+    },
+    {
+      "path": "inference-resources.json",
+      "sha256": "3625a8afe416fb39e2cdd0ad4c38fb775bb4d70d3c672acdd7dff1956bcc085f",
+      "bytes": 4786
+    },
+    {
+      "path": "learning-curves.png",
+      "sha256": "58c14c7351237890f616223acfbb99e5c79bf9326b45ec356a50aa64790fac2d",
+      "bytes": 218167
+    },
+    {
+      "path": "legacy-sampling-determinism.json",
+      "sha256": "ddeb6e962893d202ff0fc8e1de985805489404602483880813fcf5b36b92f5d2",
+      "bytes": 1291
+    },
+    {
+      "path": "matrix.md",
+      "sha256": "e3b0158c0af039f6dc88860aadca6499f78eebe342783ae7cc8fe79cd5a876ea",
+      "bytes": 968
+    },
+    {
+      "path": "query-support-diagnostic.json",
+      "sha256": "930cbd1ecdd0ac2d07b870bca1a32ed2e2b87afc1eeeb8d74b8b98b7382c3a2e",
+      "bytes": 2535
+    },
+    {
+      "path": "reproducibility.json",
+      "sha256": "6661363ef0435b94f4e57e508a41b7a037c19e0f90dd1ec5cc9e4bcc88cd5c2f",
+      "bytes": 426
+    },
+    {
+      "path": "seed-11-history.json",
+      "sha256": "d6868e04599f89d90a79c67e4bccfcbc5931a594b703d34f0e3140ec57922c4d",
+      "bytes": 518809
+    },
+    {
+      "path": "seed-11-last-comparison.json",
+      "sha256": "59904418cca9eec51d8544ef02a9f29130fb1c1e18be9310844590d231622fe9",
+      "bytes": 885453
+    },
+    {
+      "path": "seed-11-runtime.json",
+      "sha256": "ded2d066393ca022306659617a35488129699245561fcf02d1fb7c4f7bff1272",
+      "bytes": 1084
+    },
+    {
+      "path": "seed-11-validation.json",
+      "sha256": "3e9a98ed54922ab82ceb3a9177b1b9ef6cfe4e8dc7dc0a64b3cef37ffc166fb4",
+      "bytes": 10127
+    },
+    {
+      "path": "seed-12-history.json",
+      "sha256": "f8caf4c64ce69a132ac069816db8953547f13450373df922b11d90f5feff6694",
+      "bytes": 520380
+    },
+    {
+      "path": "seed-12-runtime.json",
+      "sha256": "14e5b03043f28c2f89e7fd288aaed18ee518bdeec8804c1df4c35eb088f78d69",
+      "bytes": 1085
+    },
+    {
+      "path": "seed-12-validation.json",
+      "sha256": "6cdf93a2c29ebe23a8abb6c584265d797d0736d1b10a9667c656567d9f4f8ec8",
+      "bytes": 10257
+    },
+    {
+      "path": "seed-13-history.json",
+      "sha256": "673bdad824622e68549c21e0f5d8dc7ef4353d2bd08d4569b4efa5fac4f5b9a4",
+      "bytes": 519583
+    },
+    {
+      "path": "seed-13-runtime.json",
+      "sha256": "0416b95ef9712913f554cafe1c843c7f682ddb6b408284c8080ee32f73e00ffe",
+      "bytes": 1086
+    },
+    {
+      "path": "seed-13-validation.json",
+      "sha256": "13bf7b0ca7ec547c72322496ee6bfa7efc941c89866774e57c603fa2901e4f0c",
+      "bytes": 10210
+    },
+    {
+      "path": "selected-configuration.json",
+      "sha256": "1af1cd0a7c653689b363a2415c5d080e4822ee6f559a5b410729a75e64914b8a",
+      "bytes": 1618
+    },
+    {
+      "path": "selection-protocol.json",
+      "sha256": "9550c5015cbda94ce470c8006cbedbe88d29d5ab0fd5b6923b15ba3124a4ebd0",
+      "bytes": 2248
+    },
+    {
+      "path": "summary.json",
+      "sha256": "a1642e8b2c29ec63a754ec0543e0a072a4563ce983d6e4f206ad7d9292465e9f",
+      "bytes": 26510
+    },
+    {
+      "path": "tiny-runtime.json",
+      "sha256": "7305351d1b09e81fdab74ec37e5772a2cedbb5652a3858230c36ed0f8edaf95c",
+      "bytes": 1010
+    },
+    {
+      "path": "tiny-validation.json",
+      "sha256": "1557513eb3cb023e0a5ae3bc19f18879d076440f3173de29bc0e050a8116732e",
+      "bytes": 8770
+    }
+  ]
+}

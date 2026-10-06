@@ -2,14 +2,19 @@
 
 ## 0. Lab implementation status and decision record
 
-**Status (2026-10-06): static implementation and controls exist; SF-12 comparison in progress.**
+**Status (2026-10-06): SF-12 static comparison complete; general robustness advantage not demonstrated.**
 The observation-only `baseline-v1` detectors and independent 3D evaluator passed
 SF-11 acceptance. IR-only is the strongest baseline; simple fusion does not beat
 it ([results](evidence/SF-11-learning-pilot.md)). See
 [baseline profile](LEARNING_BASELINES.md). `backend/learning/essrf_*.py` implements
 the static model and validation-only pilot. Initial clean controls show a query
 budget/convergence problem, and full training at 40 epochs loses clean accuracy.
-These observations do not settle robustness or the architecture's eventual merit. Sections
+The deterministic Q32 curriculum's final three-seed clean mAP is .249 ± .109;
+degradation macro is .136 ± .064 versus fusion .165 ± .030 and IR .275 ± .030.
+IR-stripe gains coexist with weak surviving experts, calibration failures,
+seed sensitivity and late-training deterioration. See the
+[complete measured report](evidence/SF-12-ESSRF.md). These observations do not
+settle the architecture's eventual merit. Sections
 1–7 describe the research target; this section defines how it is implemented
 and tested in the sensor-fusion lab. The [architecture](ARCHITECTURE.md),
 [data contracts](DATA_CONTRACTS.md), and [backlog](BACKLOG.md) specify the system
@@ -184,10 +189,11 @@ selection must not use the sealed test set.
 | --- | --- | --- |
 | 2026-09-21 | Baselines, compact static profile, then full temporal profile | Planning decision; no measured result |
 | 2026-09-21 | Qualify surviving-subset limit; gate GRU measurement update | Algebraic correction, implementation tests pending |
-| 2026-10-06 | Q=16; mixture-first 8+16 curriculum, exact 70% full sensors; paired raw degradation | Controls: clean Q128 .048, clean Q16 .288, legacy Q16 .134, seed 11 / 40 epochs; three-seed comparison pending |
+| 2026-10-06 | Initially Q=16; mixture-first 8+16 curriculum, exact 70% full sensors; paired raw degradation | Controls: clean Q128 .048, clean Q16 .288, legacy Q16 .134, seed 11 / 40 epochs; Q32 later selected below |
 | 2026-10-06 | Correct rank ties in vacuity AUROC | Equal scores previously returned 0.0; regression requires 0.5. Training is unchanged |
 | 2026-10-06 | Deterministic bilinear image sampler; rerun query pilots | CUDA backward nondeterminism measured; equivalent interpolation and coordinate/feature gradients pass reference tests, full CUDA gradients repeat exactly |
 | 2026-10-06 | Select Q32 using predeclared paired degradation mean; freeze remaining seeds | Q16 .062 versus Q32 .177 (seed 11); Q32 clean .314. Final epoch deteriorates to clean .057 / degradation .040, so extra epochs are not presumed beneficial. See `evidence/sf12/selected-configuration.json` |
+| 2026-10-06 | Complete three-seed static comparison without quality promotion | Clean .249 ± .109; degradation .136 ± .064 versus fusion .165 ± .030. IR stripes .247 versus fusion .140 / IR .039, but seed 13 loses to fusion. Single-sensor/calibration failures retained; 7.902 GiB training allocation, 52.8/63.8 ms end-to-end p50/p95. See `evidence/SF-12-ESSRF.md` |
 
 ---
 
