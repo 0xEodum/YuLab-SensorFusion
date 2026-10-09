@@ -1,0 +1,530 @@
+{
+  "artifacts": [
+    {
+      "path": "docs/evidence/sf-quality/acceptance-checks.json",
+      "sha256": "eb2b95016fe9ef4f9d7d84cd1c46aaa9754cbf630f933f1c6edb6e1a211f7f01",
+      "bytes": 894
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-bundle-runtime.json",
+      "sha256": "65975872e98a10ff2d30eb011874455118e68989fe8e81f276347c6f8c2e0d52",
+      "bytes": 3429
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-freeze.json",
+      "sha256": "a19b02d7d662a319b638f0ac8db23b8709a1454b12cc2857575e7c5fb7bbb831",
+      "bytes": 19002
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-inference-parity.json",
+      "sha256": "e258e716ba4d837cf91908ed6a7a5270bae286828f0613e84a2719b585c697d6",
+      "bytes": 217
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-inference-runtime.json",
+      "sha256": "d943420ea5f2fa597b02d6fc5eb219b8d2af47739168e5badc9758a9830148df",
+      "bytes": 3634
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-selection-protocol.json",
+      "sha256": "da0d5f253b54edbff0a0861e174e78d70997d6fd6dc65beaa30e646ee49e545e",
+      "bytes": 3721
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-candidate-seed-11.json",
+      "sha256": "95f1e0f03053fd8a8b25fe84173687abecc37ec2867e1f75cbfa4ab4c02a50be",
+      "bytes": 23235
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-candidate-seed-14.json",
+      "sha256": "776b2de3b7982430e08313640dd5fa2bf0eefc72c1275e3393a485484a9f291d",
+      "bytes": 23157
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-candidate-seed-17.json",
+      "sha256": "4a4b590a8af153cab5e88c54e97346a942015348e8e4cbd774f841c2fa52051d",
+      "bytes": 23247
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-360-seed-11.json",
+      "sha256": "5ea90d1289f5a075134cc4f97d90130f3cba434964ae83c67f56c786c96dbc68",
+      "bytes": 23399
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-360-seed-14.json",
+      "sha256": "c26ae1975dda9b7da201f397e57f3605564e5aaef53192964dc4b319ffc5509e",
+      "bytes": 23257
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-360-seed-17.json",
+      "sha256": "95a901babb4671e839c1dcc2656e429bc36c4535e4098744e825c13d70fb3814",
+      "bytes": 23387
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-seed-11.json",
+      "sha256": "37989f3320915efe3206c116efc6fb1a90d750593261489663114d2aed9cc854",
+      "bytes": 23420
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-seed-14.json",
+      "sha256": "80c106c4f25e1dff22ee857b4cbfc51bda571c4e425237d53d44870fae0ba992",
+      "bytes": 23367
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-seed-17.json",
+      "sha256": "25041bbff3dc598fbe5ce5441b561e9f5992e25b8bde89b12e4417a23318a7d2",
+      "bytes": 23393
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-snapshots-seed-11.json",
+      "sha256": "c9d84eb7aabf042edc9f704f5a479fc61a6d8fcf6f15545d80358c88931c6046",
+      "bytes": 23248
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-snapshots-seed-14.json",
+      "sha256": "684412054e8ba3eb44e510a3e86d096e1b935e5f09ea116bf912a6a6570a28f0",
+      "bytes": 23297
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-snapshots-seed-17.json",
+      "sha256": "7dfcab97b2f416b9d037e3cadd09cd0371ebef127f374a0a7333946694304dda",
+      "bytes": 23230
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-swa-seed-11.json",
+      "sha256": "5f9d9804476af6266a577e0e479040da5787e7ba89c536362d7a667af02da5cc",
+      "bytes": 23373
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-swa-seed-14.json",
+      "sha256": "b94701ccc33e2a5e281337e159ab19105af117516ffbd73f802cfb4d7f5e501f",
+      "bytes": 23417
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-fusion-swa-seed-17.json",
+      "sha256": "f04df797a0d435bff17d6c559a5307b5d4e9afea770446b71d561d2ee2229c72",
+      "bytes": 23363
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-raw-seed-11.json",
+      "sha256": "527ba88d762dd432f72d593b9c8c15e28146d65873e95096bfa050ff4b02dafc",
+      "bytes": 23433
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-raw-seed-14.json",
+      "sha256": "e97065707111229a5e6fb089337fd0cefdfd2dbe7b62a285036204144c538afb",
+      "bytes": 23392
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-raw-seed-17.json",
+      "sha256": "7b78295d11d253655a32fbb1265a77014680b6212b116c92c2c95efb4fad00f8",
+      "bytes": 23412
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-seed-11.json",
+      "sha256": "6493a57b115f36bbaf6e232a89db276c0960a34ec1d2d8962c464378281119c2",
+      "bytes": 23293
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-seed-14.json",
+      "sha256": "f0fb6f6372fcb45762d54741fd61fa5c0f26751a3426f4527d0364e95fd23e0c",
+      "bytes": 23439
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-seed-17.json",
+      "sha256": "fc4c0bdb8e53b87cbaab11f0786ff155a4f723eebacec4c3ece6325d45c01879",
+      "bytes": 23431
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-swa-seed-11.json",
+      "sha256": "73f9dd0b72fbcf5180d85c22548d06cc3dc00347d451db91d7939780133e54a5",
+      "bytes": 23152
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-swa-seed-14.json",
+      "sha256": "5b5f51a29cc0944a56f82bd59818ded80092d1cb35c095fb8d626669220c777f",
+      "bytes": 23475
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-ir-swa-seed-17.json",
+      "sha256": "81a7c7845436dfdbbb2f182671623bb82cd45455a92806a54de91c53ed511d70",
+      "bytes": 23473
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-raw-seed-11.json",
+      "sha256": "2e0c4bdf965aaa26e5a5d25c5ced6ec47404c29f1eb6f3d1c08bdebbc94e0278",
+      "bytes": 22953
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-raw-seed-14.json",
+      "sha256": "f359fe76743c76610adbd8a297f4d5f6bd82a85f2f6d3bf9ea36afd62989b4a7",
+      "bytes": 23192
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-raw-seed-17.json",
+      "sha256": "d63cb20bd15eea39826b94898a3f989c4bbaa3b92c077a8cad33c3674d23e308",
+      "bytes": 23285
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-seed-11.json",
+      "sha256": "f44943477bf91942304433cff27931f4084e21663980179398218f9074541232",
+      "bytes": 23003
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-seed-14.json",
+      "sha256": "7be83b289109abf1f0fae94947a1867837be8c185ab7369a1afb27053161a983",
+      "bytes": 23067
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-seed-17.json",
+      "sha256": "94d008dd495af038783a81749f218e5a05aefd1fb2e2b4ead1fb99e617396c0c",
+      "bytes": 23316
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-swa-seed-11.json",
+      "sha256": "6082bf74ad4d6005725014108bb9f798e00c5da6ca3cfc8ceaa037316578cd37",
+      "bytes": 22798
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-swa-seed-14.json",
+      "sha256": "df9e32955acf33c242a7df0d462e2d4dedb7259724e679705383f547c166056a",
+      "bytes": 23166
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-lidar-swa-seed-17.json",
+      "sha256": "3f406a78a362b1ad59a58604a206aa209a5df29d903d36960fa46e8bee771043",
+      "bytes": 23166
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-raw-seed-11.json",
+      "sha256": "435fe988adef7f428f03944f57ee5c0dbb04e32a409dd5b7cc04d8bc029c4445",
+      "bytes": 23255
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-raw-seed-14.json",
+      "sha256": "4bf3c18aeb75b8643f67b0a87043b2c6a9364a645502ec8e29d194c39e98115d",
+      "bytes": 23315
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-raw-seed-17.json",
+      "sha256": "0c4752c4e9de5c27b46d3dc78038043685bf3412736fdf3f5e6574c2fdd32f65",
+      "bytes": 23218
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-seed-11.json",
+      "sha256": "5f5d8c1ca9c2fb3a2aeea7f610ea23a21b960b546d86a887e5fcda3ce7613da3",
+      "bytes": 23435
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-seed-14.json",
+      "sha256": "72522fbc33be577b4fbcf53102c0adc0d21f289f1f859ba3728e2af233f6faaf",
+      "bytes": 23344
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-seed-17.json",
+      "sha256": "7e0f1f95345e7fb544de8700d82e698204691e19fe05db7ef90751cfc46178df",
+      "bytes": 23331
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-swa-seed-11.json",
+      "sha256": "f3263e0612791084dda157a13d04420d305af46489aff811f7279580b7434a74",
+      "bytes": 23345
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-swa-seed-14.json",
+      "sha256": "5f1c729f0571468c754ea5054789a1c8e9506f0b2bd9aa5593ab0e515d3a23fa",
+      "bytes": 23305
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-rgb-swa-seed-17.json",
+      "sha256": "910e24ac6c2a4c659dee234390659f9cb1155c38b78602fcc714185501f7feaf",
+      "bytes": 22971
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-test-summary.json",
+      "sha256": "57d6f6e411a996bcfcc60d69861e609ca84e5c3b17744b519ee3ff54ec63cc14",
+      "bytes": 14957
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-training-resources.json",
+      "sha256": "c216fe3e5cb9f02b86037401ef5a6bcb265d7f34ac8a1dee6ddd0841b244c243",
+      "bytes": 6779
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-candidate-seed-11.json",
+      "sha256": "ca7270e45d0ed9da21147caf7fa66a81d9fce3c50e549eabda99e5d2c304e0ca",
+      "bytes": 23567
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-candidate-seed-14.json",
+      "sha256": "8560f06177d00a2cc81036b58a04687458e22cc2b8c121493852b6491bf6760c",
+      "bytes": 23544
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-candidate-seed-17.json",
+      "sha256": "2d9ad5395c57dca283b7c7127c16d6e8ab287cf911fb890143a8cd18c789acc8",
+      "bytes": 23588
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-360-seed-11.json",
+      "sha256": "80282f8502966d4b20333c0d2c45549b256a8ec459c0b498b6dea124642b49ff",
+      "bytes": 23591
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-360-seed-14.json",
+      "sha256": "37b5900368fd420b2d81fc8d562187cebfaa671d74cf1a74d97f903a8163159a",
+      "bytes": 23698
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-360-seed-17.json",
+      "sha256": "048fa8618b665a2e9b836e67b1fab481f34998409789ad983784d6a54a7d9dda",
+      "bytes": 23646
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-seed-11.json",
+      "sha256": "6ba1a919adc3e631efb2b42fa20ac9731b9d8ffc7eaa87b4bdcbcebb1360493b",
+      "bytes": 23753
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-seed-14.json",
+      "sha256": "b139395f5b4d56f5bf5ae638050f253981019cdbedad021348dbbb99f71028d5",
+      "bytes": 23679
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-seed-17.json",
+      "sha256": "dd9e0f59a080e9bd87964890309499bc3d07dde226a5a5d1a5b7982d24066be5",
+      "bytes": 23707
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-snapshots-seed-11.json",
+      "sha256": "2c2c0af079bd0797030b2148ed68965e1049a08d3d09e55d5eb08a80c7c38350",
+      "bytes": 23585
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-snapshots-seed-14.json",
+      "sha256": "234001463f160f469d1fdba7bf2c6e4f60afef362b904d29b6dae2b4ed53477a",
+      "bytes": 23586
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-snapshots-seed-17.json",
+      "sha256": "a46317fdff4c760736fd8501957e3c43bbde44364fa9a5ee205d40f8088167c3",
+      "bytes": 23583
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-swa-seed-11.json",
+      "sha256": "9187d650316e89ef32ba19407823491a0fc44e5977d1fb615f3cba8de706ea03",
+      "bytes": 23680
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-swa-seed-14.json",
+      "sha256": "9d0e3ceefd27a3bb98c1f8dd84c5f0f3be7696cff8783b33db07b77362343cde",
+      "bytes": 23630
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-fusion-swa-seed-17.json",
+      "sha256": "d638f7b66ea669dac7c059300f423c1df8dab9d68e6da463f5dee00ee63692dd",
+      "bytes": 23717
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-raw-seed-11.json",
+      "sha256": "c5b68d861ede539e9d1ed84b946283637ef08149f7cdca400021316f0253769f",
+      "bytes": 23698
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-raw-seed-14.json",
+      "sha256": "e81937d165d2c7d7d7d6d26b93692e10e3bc92d7a98ea8e0d161f3124afb2f1d",
+      "bytes": 23535
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-raw-seed-17.json",
+      "sha256": "72072028c4b6abb9270f5e0fd699e78f8b3706e5d163b336cd1bb71c7b9d35d9",
+      "bytes": 23739
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-seed-11.json",
+      "sha256": "15e165477dbb2a9d0daba3bf5379e745deeecf2f500ba585c4f9e15319e1f52e",
+      "bytes": 23479
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-seed-14.json",
+      "sha256": "88a96e7b09b111918d74410b903a1c33ef95dee7bf6adba8405e39d404423084",
+      "bytes": 23725
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-seed-17.json",
+      "sha256": "186d14c186ad96f1c768aa4e5efcc4a537f09936ae72d88c35faadab45ec5858",
+      "bytes": 23646
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-swa-seed-11.json",
+      "sha256": "99d5c72b82ed0f81f5738f8dfc434da7f124d35d373975c45dd2a885387b7a77",
+      "bytes": 23518
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-swa-seed-14.json",
+      "sha256": "eab73990d801cb018308b20cbbc4f18d6825f027185902b67ce4df53175a90a3",
+      "bytes": 23690
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-ir-swa-seed-17.json",
+      "sha256": "35e037ae9f1257baf840af75754a227ba5fa3743fdfb0ab5cab908933f2c27cd",
+      "bytes": 23487
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-raw-seed-11.json",
+      "sha256": "5247aa06e2bb779e558e6d4f5ad8537596fda616f6933be13ffea47da4395f53",
+      "bytes": 23286
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-raw-seed-14.json",
+      "sha256": "f45d581793775db98c963fff541ec23c0e6752920adc6dc8bf48b1d6cdc672d7",
+      "bytes": 22992
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-raw-seed-17.json",
+      "sha256": "f3375b69f66a96e12a1435992b577f1d0c8b47dedfd70397f7516768a6efe0c8",
+      "bytes": 23446
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-seed-11.json",
+      "sha256": "5143417b01082c056f3f64f2e0d120e1b3aad81195def91784d3a3161a535acd",
+      "bytes": 23290
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-seed-14.json",
+      "sha256": "de52e59e9b12efb79a0edbdb73a14045c1344bbe4facf557abfe6cba33f56a7d",
+      "bytes": 23201
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-seed-17.json",
+      "sha256": "e155af045acc4e716f08191a99b22c8549386a758ca8750a7f8ad3e318acdd32",
+      "bytes": 23319
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-swa-seed-11.json",
+      "sha256": "e2720b65e9813759a448605a6487ed968329a332333c7a20a69d2c27687ed7e6",
+      "bytes": 23288
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-swa-seed-14.json",
+      "sha256": "3debea46efe93f1d8ca7369a9cdc10807c6fd60e2d1708ab533a55ca77e77075",
+      "bytes": 23179
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-lidar-swa-seed-17.json",
+      "sha256": "e117aa97c2610efe8369d463fcd4eacb725f52ea3592b6de91cf3e1f52dc547e",
+      "bytes": 23424
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-raw-seed-11.json",
+      "sha256": "f3a25da187a8991986b5eae1e1d7cb254ff9f7c1c71f1977ddf7718868a85e6f",
+      "bytes": 23546
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-raw-seed-14.json",
+      "sha256": "ac7c35c04a1046d5d0e6ae8855bb683782d2c97051580fcef5cc2be283584538",
+      "bytes": 23634
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-raw-seed-17.json",
+      "sha256": "3b28b97b0166e05957a853a8be4134fee81178e9e884decadb8ff9d1ad27350d",
+      "bytes": 23505
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-seed-11.json",
+      "sha256": "3382e1287d5b226593415da3cb6a45b1af1a92cddbbdec7ecab3c5d1d1e1db10",
+      "bytes": 23671
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-seed-14.json",
+      "sha256": "8ea2e9764449c80dec42ce63928d57e93f32a91ac34f5398e36540019abb4b13",
+      "bytes": 23658
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-seed-17.json",
+      "sha256": "39bde4257198e5c235aa5f33cdc6dc5c01644c9017a71577a83d67c101369254",
+      "bytes": 23510
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-swa-seed-11.json",
+      "sha256": "ffa67728f0c15ea6d6ba6551414c59c7453f113b8e4381369f4abe4957e98c6d",
+      "bytes": 23611
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-swa-seed-14.json",
+      "sha256": "62f04d22f673350a066b6656b34f490142efa2bb9d530b13a8cf697bc575b791",
+      "bytes": 23339
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-rgb-swa-seed-17.json",
+      "sha256": "b838390daefb1ebbe7744fc46c6e41715be0606e10f617605aea8efda3a710e8",
+      "bytes": 23264
+    },
+    {
+      "path": "docs/evidence/sf-quality/ensemble-validation-summary.json",
+      "sha256": "81239063d0f2fd3c68b43489679c42bec611a552555ae51025f4a7b001ba9d37",
+      "bytes": 14954
+    },
+    {
+      "path": "docs/evidence/sf-quality/fresh-degradation-cases.png",
+      "sha256": "19cc0306db8693933306b13ea6929e35e5b002b581ab2c1659045f8dd518db25",
+      "bytes": 256897
+    },
+    {
+      "path": "docs/evidence/sf-quality/fresh-holdout.png",
+      "sha256": "ee47cb719394c07b8abb489c9225ac3741838712d4788d6eb8e107b54c10d5db",
+      "bytes": 88987
+    },
+    {
+      "path": "docs/evidence/sf-quality/initial-freeze.json",
+      "sha256": "cb2315df205ea6748d8c1b605dade1ba493576a1532aaa52d64abf0e8b606f1f",
+      "bytes": 6674
+    },
+    {
+      "path": "docs/evidence/sf-quality/initial-test-summary.json",
+      "sha256": "de69b1e06086b114a28e955571644f161ce192532bbebaa27bd803a4a19b5227",
+      "bytes": 6551
+    },
+    {
+      "path": "docs/evidence/sf-quality/initial-validation-summary.json",
+      "sha256": "67700ecc611bdd5550e1481b4f8fac849a10d9ef70b5bfb10ab4ced4e1f34877",
+      "bytes": 6580
+    },
+    {
+      "path": "docs/evidence/sf-quality/model-bundle.json",
+      "sha256": "4e5868f904941bb748328aacf2d6e80537e41730aef4b416692498c2ab6e82ec",
+      "bytes": 4963
+    },
+    {
+      "path": "docs/evidence/sf-quality/quality-profiling.json",
+      "sha256": "85366477691353e9b7b4e505504a18098cf0c75df8bd9e9f480d17aaf7771661",
+      "bytes": 2023
+    },
+    {
+      "path": "docs/evidence/sf-quality/selection-protocol.json",
+      "sha256": "bd719be729fdc5e5ca12cf2835cd9a6575529d03f72ed817074232a8592b0483",
+      "bytes": 2117
+    },
+    {
+      "path": "docs/evidence/sf-quality/snapshot-confirmatory-failure.json",
+      "sha256": "9933e873ab00dd0c02d727e3f1fabf9cd30a3c4ec70002be034186c52733242c",
+      "bytes": 630
+    },
+    {
+      "path": "docs/evidence/sf-quality/snapshot-selection-protocol.json",
+      "sha256": "659609ff5cee0b07c9f527866a7e2061c13d01e26d385d524fe06b9f36c9efdf",
+      "bytes": 2800
+    },
+    {
+      "path": "docs/evidence/sf-quality/swa-five-seed-failure.json",
+      "sha256": "aff54d15909beeded2f36897702b95ae7c8cadb9bc28aba02c8f0b3a34311757",
+      "bytes": 741
+    },
+    {
+      "path": "docs/evidence/sf-quality/swa-selection-protocol.json",
+      "sha256": "eaf3720d4a6ff884aa7d7e86ee607559ab46b6469620a36b308303a59d3cb3e1",
+      "bytes": 2690
+    }
+  ],
+  "manifest_excludes_itself": true
+}

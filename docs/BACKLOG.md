@@ -5,8 +5,8 @@ acceptance with a validated 300-capture tri-modal pilot. Its collection performa
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
 with robustness failures retained. The 2026-10-09 quality request authorizes
-alternate architectures and data expansion before temporal work. SF-Q is IN
-PROGRESS; SF-13 is deferred until the quality investigation is complete.
+alternate architectures and data expansion before temporal work. SF-Q passed
+fresh holdout acceptance; SF-13 is READY as the next separate roadmap item.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -52,8 +52,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
-| SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | IN PROGRESS |
-| SF-13 | Temporal capture and uncertain calibration | SF-Q | PLANNED |
+| SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | DONE |
+| SF-13 | Temporal capture and uncertain calibration | SF-Q | READY |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
@@ -466,6 +466,18 @@ These failures satisfy the explicit honest-comparison requirement, not a quality
 promotion. The sealed test remains closed. See the
 [SF-12 acceptance report](evidence/SF-12-ESSRF.md) and
 [curriculum TDD record](evidence/SF-12-curriculum-tdd.md). SF-13 is READY.
+
+## SF-Q — Static quality recovery (DONE)
+
+Accepted 2026-10-09: frozen independent RGB/IR/LiDAR expert ensembles achieved
+fresh 600-frame clean mAP .7967 ± .0180 and degradation macro .7713 ± .0104,
+beating every declared control. SD measures three disjoint three-initialization
+ensembles; each deployed model has 18 networks. Single-initialization failures
+remain visible. All checkpoints and sources froze before fresh scoring, short
+CUDA profiling established parity, 219 backend tests and local verification
+passed. See [quality acceptance](evidence/SF-Q-quality.md) for costs, complete
+controls, data/checkpoint hashes, inference instructions and synthetic scope.
+Temporal and service/UI integration remain separate future items.
 
 ## SF-13 — Temporal and calibration dataset extension
 

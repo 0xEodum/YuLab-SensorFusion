@@ -13,6 +13,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from learning.quality_acceptance import validate_freeze
+from learning.decision_inference import DecisionFusionPredictor
 
 
 def read(path): return json.loads(path.read_text())
@@ -82,7 +83,8 @@ def main():
                 else: path=f"artifacts/sf-quality/swa-seed-{seed}/{m}/{filename}"
                 record=next(x for x in frozen["checkpoints"] if x["path"] == path)
                 experts.append({"modality":m,"snapshot":filename,"seed":seed,**record})
-    write(a.output/"model-bundle.json",{"profile":frozen["protocol"]["candidate"]["profile"],"default_seed":default_seed,
+    predictor=DecisionFusionPredictor([ROOT/x["path"] for x in experts],expected_hashes=[x["sha256"] for x in experts])
+    write(a.output/"model-bundle.json",{"profile":frozen["protocol"]["candidate"]["profile"],"default_seed":default_seed,"checkpoint_sha256":predictor.sha256,
                                          "training_sha256":frozen["protocol"]["dataset_sha256"],"averaged_epochs":60,"consensus_iou":.1,
                                          "weights":[1]*9,"member_seeds":members,"experts":experts,"inference_cli":"tools/infer-decision-fusion.py"})
     artifacts=[]

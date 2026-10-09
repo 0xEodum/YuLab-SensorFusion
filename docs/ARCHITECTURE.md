@@ -1,15 +1,15 @@
 # Sensor-fusion lab architecture
 
 Status: SF-10 and collection performance follow-up passed local acceptance;
-SF-11 grouped learning pilot and diagnostic baselines are in progress.
-Updated 2026-10-01.
+SF-11 baselines and SF-12 comparison passed; SF-Q independent-expert ensembles
+passed static synthetic quality acceptance. Updated 2026-10-09.
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
 exist, with worker streaming and independent sensor-geometry residency.
 RGB capture, geometric depth/instance references, raw thermal IR and sparse
 first-return LiDAR, visibility labels and local dataset jobs are implemented;
-local baseline training and checkpoint inference are being validated in SF-11;
+local baseline/ensemble training and observation-only checkpoint inference pass;
 service/UI model integration remains planned. No unimplemented sensor/training
 capability is advertised. Verification is local only by user instruction.
 Execution order and acceptance belong to [BACKLOG.md](BACKLOG.md); data semantics
@@ -46,6 +46,10 @@ dataset changes before temporal work. [SF-Q](QUALITY_EXPERIMENTS.md) evaluates
 independent RGB/IR/LiDAR experts with detection consensus after query-loss and
 dropout controls failed to meet both quality goals. All inference still uses
 ObservationBundle only; the common 3D evaluator and original evidence remain.
+The accepted profile averages two snapshots and three independent initializations
+per sensor before availability-gated sensor consensus, using 18 inference networks.
+Its fresh holdout clean/macro mAP is .7967/.7713 with SD .0180/.0104 across three
+disjoint ensembles. Costs and limits are in [acceptance](evidence/SF-Q-quality.md).
 
 | ID | Decision | Reason / revisit condition |
 | --- | --- | --- |

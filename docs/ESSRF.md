@@ -4,8 +4,11 @@
 
 2026-10-09: the user authorizes replacing ESSRF and expanding data to meet clean,
 degradation, and stability targets. The active [quality investigation](QUALITY_EXPERIMENTS.md)
-tests a size-balanced query detector and explicit sensor availability. ESSRF is
-retained as historical evidence; it is not the required final architecture.
+accepts independent sensor experts with snapshot/initialization consensus:
+fresh clean mAP .7967 ± .0180, degradation macro .7713 ± .0104. SD is across
+three disjoint ensembles, each containing 18 inference networks. See the
+[quality acceptance](evidence/SF-Q-quality.md). Balanced-loss and ESSRF variants
+remain historical experiments; ESSRF is not the required final architecture.
 
 **Status (2026-10-06): SF-12 static comparison complete; general robustness advantage not demonstrated.**
 The observation-only `baseline-v1` detectors and independent 3D evaluator passed
@@ -30,6 +33,7 @@ around the model. No theoretical routing identity guarantees detection accuracy.
 | Profile | Scope | Backlog gate |
 | --- | --- | --- |
 | `baseline-v1` | RGB-only, IR-only, LiDAR-only and simple fusion detectors with a common evaluator | SF-11 |
+| `independent-experts-initialization-consensus.v1` | Three independent initializations and two snapshots per sensor, availability-gated detection consensus; static synthetic quality accepted | SF-Q |
 | `essrf-static-v1` | Compact frame-wise sparse queries, local modality features, evidential reliability, eight subset experts and explicit null abstention | SF-12 |
 | `essrf-temporal-v1` | Temporal query bank, motion/state covariance, calibration-aware local sampling and gated measurement update | SF-14 |
 

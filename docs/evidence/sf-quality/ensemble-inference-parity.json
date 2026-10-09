@@ -1,0 +1,7 @@
+{
+  "fixture": "sf11-2100",
+  "classes_equal": true,
+  "boxes_max_abs": 0.00016021728515625,
+  "scores_max_abs": 0.0,
+  "checkpoint_sha256": "fbe84065cbc1fb832ff963f8fb9d4e29911e9b704c7cfadb8dff0947daf17b56"
+}

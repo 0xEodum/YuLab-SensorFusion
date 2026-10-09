@@ -1,0 +1,54 @@
+{
+  "baseline": {
+    "variant": "graph-optimizer",
+    "correctness": {
+      "loss_absolute_error": 7.450580596923828e-09,
+      "gradient_max_absolute_error": 1.7171259969472885e-09,
+      "validation_predictions_exact": true,
+      "validation_metrics_exact": true
+    },
+    "startup": {
+      "train_load_s": 13.793635700001687,
+      "validation_load_s": 3.1277783999994426,
+      "graph_setup_s": 0.5889355000017531
+    },
+    "resident_feature_bytes": 638112000,
+    "complete_epoch_train_s": 0.27112769999985176,
+    "complete_epoch_total_s": 0.33940890000121726
+  },
+  "eager": {
+    "variant": "selected",
+    "correctness": {
+      "loss_absolute_error": 7.450580596923828e-09,
+      "gradient_max_absolute_error": 1.7171259969472885e-09,
+      "validation_predictions_exact": true,
+      "validation_metrics_exact": true
+    },
+    "startup": {
+      "train_load_s": 1.0339523999991798,
+      "validation_load_s": 0.33653980000053707,
+      "graph_setup_s": 0
+    },
+    "resident_feature_bytes": 638112000,
+    "complete_epoch_train_s": 1.6658501000001706,
+    "complete_epoch_total_s": 1.852723200001492
+  },
+  "graph-repeat": {
+    "variant": "graph-optimizer",
+    "correctness": {
+      "loss_absolute_error": 7.450580596923828e-09,
+      "gradient_max_absolute_error": 1.7171259969472885e-09,
+      "validation_predictions_exact": true,
+      "validation_metrics_exact": true
+    },
+    "startup": {
+      "train_load_s": 1.035803800001304,
+      "validation_load_s": 0.32095660000049975,
+      "graph_setup_s": 0.4781220000004396
+    },
+    "resident_feature_bytes": 638112000,
+    "complete_epoch_train_s": 0.30986029999985476,
+    "complete_epoch_total_s": 0.39553069999965373
+  },
+  "interpretation": "Short observational runs under concurrent unrelated GPU training. Full training+validation measured; no isolated throughput claim. CUDA launch/synchronization is the measured bottleneck, data already resident. Parity precedes optimization."
+}

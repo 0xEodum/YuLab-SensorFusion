@@ -1,0 +1,117 @@
+{
+  "model_load_s": 0.4348570000001928,
+  "preprocessing_inference_fusion_ms": {
+    "p50": 80.71184999789693,
+    "p95": 87.54287000065233
+  },
+  "repetitions": 20,
+  "device": "cuda",
+  "identity": {
+    "profile": "independent-experts-initialization-consensus.v1",
+    "averaged_epochs": 60,
+    "experts": [
+      {
+        "modality": "rgb",
+        "sha256": "44c01fec675f6b9e3d81ae9c373fdbaeec9a1404390de3f6259edcf5f14c18e4"
+      },
+      {
+        "modality": "ir",
+        "sha256": "b9d916aaad3aca96a0f3d2d83b22d83916da56201aedd23b0b168ded195a5454"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "b19bbbc3d7f8b5311c3182374241a572d0e036f5fe28d9f81b9fd129bac62a9b"
+      },
+      {
+        "modality": "rgb",
+        "sha256": "cdab1bc5f89890dacff0002c5845eac0f1becefe1d33bf3e30bfc89517f4a6b0"
+      },
+      {
+        "modality": "ir",
+        "sha256": "b3d174f74abffb08becbc290b8c74a7480e9a34cbae15aeb2f4373235b244b4f"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "831f7dca53c77b6d93121443885f067e3deb19bff548f3ea5e93b0abaf6ddc9f"
+      },
+      {
+        "modality": "rgb",
+        "sha256": "aa8b1c379fd0ca3d512da7cb190b8b894a36b95eefb7d96b2746405336957556"
+      },
+      {
+        "modality": "ir",
+        "sha256": "12b1d66e181068d2e00189bc748e07dd4f3b413805fc65f681d8ce5b243c779a"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "c997b58250b1fb21bd124b043b8b156809d457155a124dbb2fdf61cb526dac5e"
+      },
+      {
+        "modality": "rgb",
+        "sha256": "d28496a800f784167be699ddd1f4e6117dbb3a4621d90a0789f29765fbc20f04"
+      },
+      {
+        "modality": "ir",
+        "sha256": "dd8737ca6ccb4086a8f166d790c20d96e08d44578734a6bf7294926ab2e1fb91"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "b91429569fde633f7e47bfbcf6e0e840e3cc909262296a4ede3df03452513be1"
+      },
+      {
+        "modality": "rgb",
+        "sha256": "1dbf824f40b2fc8cd4888c9fdba396249c270492f9c78ba80c1fda4fdf585f71"
+      },
+      {
+        "modality": "ir",
+        "sha256": "b1da2a2d7e53c44ef365ec996ab77c44c1d918e447c39a4e2ea38b17bcfe4158"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "b023217b2b58a23be2aa07dc4aaab44b718f004dcdcd4ea12ae5b6fa4916e6c4"
+      },
+      {
+        "modality": "rgb",
+        "sha256": "caf52385db90522764a57e4481346468becd4d1a8bc1e98b11a1a9060d1255fa"
+      },
+      {
+        "modality": "ir",
+        "sha256": "1d3e30d883332352822665ff036460239bbdcae84625e0928c3eacd461c4276b"
+      },
+      {
+        "modality": "lidar",
+        "sha256": "d2a3c70a025d361a1f6d7683c3034bc9ee708623d94832dc01be5064de237109"
+      }
+    ],
+    "iou": 0.1,
+    "weights": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "preprocessing": {
+      "version": "baseline-preprocess.v1",
+      "image_hw": [
+        96,
+        160
+      ],
+      "points": 256,
+      "coordinate_scale_m": 200.0,
+      "rgb": "sRGB / 255, area resize",
+      "ir": "radiance / 100, invalid=0, area resize",
+      "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+    },
+    "member_seeds": [
+      11,
+      12,
+      13
+    ]
+  },
+  "checkpoint_sha256": "fbe84065cbc1fb832ff963f8fb9d4e29911e9b704c7cfadb8dff0947daf17b56"
+}

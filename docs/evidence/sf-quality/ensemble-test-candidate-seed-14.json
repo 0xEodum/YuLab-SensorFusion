@@ -1,0 +1,774 @@
+{
+  "seed": 14,
+  "member_seeds": [
+    14,
+    15,
+    16
+  ],
+  "clean_map": 0.7786476295963878,
+  "degradation_macro": 0.7629262568739373,
+  "cases": {
+    "availability-0": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 0,
+          "iou_threshold": 0.25,
+          "ap": 0.0,
+          "recall": 0.0
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 0,
+          "iou_threshold": 0.25,
+          "ap": 0.0,
+          "recall": 0.0
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 0,
+          "iou_threshold": 0.5,
+          "ap": 0.0,
+          "recall": 0.0
+        }
+      },
+      "map_3d": 0.0,
+      "false_positives": 0,
+      "empty_scene_false_positives": 0,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.0,
+      "matched_center_error_m": null,
+      "detections": 0
+    },
+    "availability-1": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 493,
+          "iou_threshold": 0.25,
+          "ap": 0.8300716278813962,
+          "recall": 0.9024390243902439
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 238,
+          "iou_threshold": 0.25,
+          "ap": 0.4925514642310235,
+          "recall": 0.695
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 344,
+          "iou_threshold": 0.5,
+          "ap": 0.7419141020666141,
+          "recall": 0.8166666666666667
+        }
+      },
+      "map_3d": 0.6881790647263446,
+      "false_positives": 321,
+      "empty_scene_false_positives": 72,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.17662096694458362,
+      "matched_center_error_m": 3.8311160250470557,
+      "detections": 1075
+    },
+    "availability-2": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 572,
+          "iou_threshold": 0.25,
+          "ap": 0.749547509745411,
+          "recall": 0.8658536585365854
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 252,
+          "iou_threshold": 0.25,
+          "ap": 0.6153269799719288,
+          "recall": 0.79
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 426,
+          "iou_threshold": 0.5,
+          "ap": 0.7882281151600032,
+          "recall": 0.8666666666666667
+        }
+      },
+      "map_3d": 0.7177008682924476,
+      "false_positives": 477,
+      "empty_scene_false_positives": 90,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.17290144211053846,
+      "matched_center_error_m": 4.031575392628087,
+      "detections": 1250
+    },
+    "availability-3": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 622,
+          "iou_threshold": 0.25,
+          "ap": 0.828871577878979,
+          "recall": 0.9146341463414634
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 280,
+          "iou_threshold": 0.25,
+          "ap": 0.6263819199984859,
+          "recall": 0.805
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 440,
+          "iou_threshold": 0.5,
+          "ap": 0.8191178182186347,
+          "recall": 0.8733333333333333
+        }
+      },
+      "map_3d": 0.7581237720320333,
+      "false_positives": 544,
+      "empty_scene_false_positives": 108,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.12843384221196175,
+      "matched_center_error_m": 3.856358080691562,
+      "detections": 1342
+    },
+    "availability-4": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 569,
+          "iou_threshold": 0.25,
+          "ap": 0.8637016624325773,
+          "recall": 0.9146341463414634
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 247,
+          "iou_threshold": 0.25,
+          "ap": 0.6318452921486097,
+          "recall": 0.815
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 415,
+          "iou_threshold": 0.5,
+          "ap": 0.800490541896187,
+          "recall": 0.9
+        }
+      },
+      "map_3d": 0.7653458321591247,
+      "false_positives": 423,
+      "empty_scene_false_positives": 61,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.1635331805526096,
+      "matched_center_error_m": 4.008404118442299,
+      "detections": 1231
+    },
+    "availability-5": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 616,
+          "iou_threshold": 0.25,
+          "ap": 0.9383159680665971,
+          "recall": 0.9609756097560975
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 287,
+          "iou_threshold": 0.25,
+          "ap": 0.6465987029966532,
+          "recall": 0.84
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 442,
+          "iou_threshold": 0.5,
+          "ap": 0.7753955899581647,
+          "recall": 0.88
+        }
+      },
+      "map_3d": 0.7867700870071382,
+      "false_positives": 519,
+      "empty_scene_false_positives": 89,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.12992209541476354,
+      "matched_center_error_m": 3.81777787928359,
+      "detections": 1345
+    },
+    "availability-6": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 680,
+          "iou_threshold": 0.25,
+          "ap": 0.9157374564780472,
+          "recall": 0.948780487804878
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 288,
+          "iou_threshold": 0.25,
+          "ap": 0.6500828999163277,
+          "recall": 0.845
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 484,
+          "iou_threshold": 0.5,
+          "ap": 0.8503564718438664,
+          "recall": 0.9066666666666666
+        }
+      },
+      "map_3d": 0.8053922760794138,
+      "false_positives": 622,
+      "empty_scene_false_positives": 105,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.13610732440449316,
+      "matched_center_error_m": 3.9232368753168236,
+      "detections": 1452
+    },
+    "availability-7": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 726,
+          "iou_threshold": 0.25,
+          "ap": 0.9083268014599875,
+          "recall": 0.948780487804878
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 316,
+          "iou_threshold": 0.25,
+          "ap": 0.5985999592884319,
+          "recall": 0.805
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 492,
+          "iou_threshold": 0.5,
+          "ap": 0.8290161280407442,
+          "recall": 0.8933333333333333
+        }
+      },
+      "map_3d": 0.7786476295963878,
+      "false_positives": 716,
+      "empty_scene_false_positives": 120,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.12369464108334291,
+      "matched_center_error_m": 3.818078228780285,
+      "detections": 1534,
+      "conditions": {
+        "0": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 70,
+              "iou_threshold": 0.25,
+              "ap": 0.9088115795432868,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 32,
+              "iou_threshold": 0.25,
+              "ap": 0.6399498327759197,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 50,
+              "iou_threshold": 0.5,
+              "ap": 0.8120064154694135,
+              "recall": 0.8666666666666667
+            }
+          },
+          "map_3d": 0.7869226092628733,
+          "false_positives": 71,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.13385087223478448,
+          "matched_center_error_m": 3.7072176374035117
+        },
+        "1": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 67,
+              "iou_threshold": 0.25,
+              "ap": 0.9126763611421361,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 31,
+              "iou_threshold": 0.25,
+              "ap": 0.6268254848306,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.8552920293565455,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.7982646251097605,
+          "false_positives": 64,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.1366849205877683,
+          "matched_center_error_m": 3.803292221412426
+        },
+        "2": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 65,
+              "iou_threshold": 0.25,
+              "ap": 0.9254881625062584,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 31,
+              "iou_threshold": 0.25,
+              "ap": 0.5704451688662215,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.8503154761904762,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.7820829358543188,
+          "false_positives": 62,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.12951146203300196,
+          "matched_center_error_m": 3.8096358979620586
+        },
+        "3": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 72,
+              "iou_threshold": 0.25,
+              "ap": 0.9154823862340129,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 29,
+              "iou_threshold": 0.25,
+              "ap": 0.6069377990430622,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.840911558109834,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.7877772477956363,
+          "false_positives": 67,
+          "empty_scene_false_positives": 10,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.12844707755584445,
+          "matched_center_error_m": 3.905074865534538
+        },
+        "4": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 77,
+              "iou_threshold": 0.25,
+              "ap": 0.887442812600169,
+              "recall": 0.926829268292683
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 29,
+              "iou_threshold": 0.25,
+              "ap": 0.6663879598662207,
+              "recall": 0.85
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 49,
+              "iou_threshold": 0.5,
+              "ap": 0.8245658420789606,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.7927988715151167,
+          "false_positives": 73,
+          "empty_scene_false_positives": 13,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.12437447168894356,
+          "matched_center_error_m": 3.9519651246870438
+        },
+        "5": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 85,
+              "iou_threshold": 0.25,
+              "ap": 0.8705536585737446,
+              "recall": 0.926829268292683
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 35,
+              "iou_threshold": 0.25,
+              "ap": 0.7004816709292412,
+              "recall": 0.85
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 51,
+              "iou_threshold": 0.5,
+              "ap": 0.7930760810071156,
+              "recall": 0.8666666666666667
+            }
+          },
+          "map_3d": 0.7880371368367004,
+          "false_positives": 90,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.12548289666965345,
+          "matched_center_error_m": 3.67284878389335
+        },
+        "6": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 88,
+              "iou_threshold": 0.25,
+              "ap": 0.8771030225803172,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 34,
+              "iou_threshold": 0.25,
+              "ap": 0.5229573293848432,
+              "recall": 0.75
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 54,
+              "iou_threshold": 0.5,
+              "ap": 0.8428163353969805,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.747625562454047,
+          "false_positives": 95,
+          "empty_scene_false_positives": 13,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.11924136190844534,
+          "matched_center_error_m": 3.8878257245193293
+        },
+        "7": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 68,
+              "iou_threshold": 0.25,
+              "ap": 0.9580355058933365,
+              "recall": 0.975609756097561
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 31,
+              "iou_threshold": 0.25,
+              "ap": 0.6056187290969901,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.8522521911990603,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.805302142063129,
+          "false_positives": 64,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.12955704958615255,
+          "matched_center_error_m": 3.8183587405336907
+        },
+        "8": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 68,
+              "iou_threshold": 0.25,
+              "ap": 0.9262749445676275,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 31,
+              "iou_threshold": 0.25,
+              "ap": 0.6166417469998033,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.8504404761904762,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.797785722585969,
+          "false_positives": 65,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.14113969077058391,
+          "matched_center_error_m": 3.7945654297747264
+        },
+        "9": {
+          "classes": {
+            "aircraft": {
+              "positives": 41,
+              "predictions": 66,
+              "iou_threshold": 0.25,
+              "ap": 0.9219297618196123,
+              "recall": 0.9512195121951219
+            },
+            "ground_vehicle": {
+              "positives": 20,
+              "predictions": 33,
+              "iou_threshold": 0.25,
+              "ap": 0.598792270531401,
+              "recall": 0.8
+            },
+            "ship": {
+              "positives": 30,
+              "predictions": 48,
+              "iou_threshold": 0.5,
+              "ap": 0.8556210317460318,
+              "recall": 0.9
+            }
+          },
+          "map_3d": 0.7921143546990151,
+          "false_positives": 65,
+          "empty_scene_false_positives": 12,
+          "empty_scenes": 7,
+          "detection_ece_10_bins": 0.13162288002568445,
+          "matched_center_error_m": 3.8277219712007335
+        }
+      }
+    },
+    "rgb-known": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 1023,
+          "iou_threshold": 0.25,
+          "ap": 0.8597276227657085,
+          "recall": 0.9560975609756097
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 438,
+          "iou_threshold": 0.25,
+          "ap": 0.7029624738017262,
+          "recall": 0.855
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 604,
+          "iou_threshold": 0.5,
+          "ap": 0.7804746270942404,
+          "recall": 0.8866666666666667
+        }
+      },
+      "map_3d": 0.7810549078872251,
+      "false_positives": 1236,
+      "empty_scene_false_positives": 154,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.10532664557057489,
+      "matched_center_error_m": 3.9572661363747783,
+      "detections": 2065
+    },
+    "rgb-ood": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 1221,
+          "iou_threshold": 0.25,
+          "ap": 0.8494790811111326,
+          "recall": 0.9585365853658536
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 452,
+          "iou_threshold": 0.25,
+          "ap": 0.6221107351951324,
+          "recall": 0.82
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 771,
+          "iou_threshold": 0.5,
+          "ap": 0.818447911213554,
+          "recall": 0.9
+        }
+      },
+      "map_3d": 0.7633459091732729,
+      "false_positives": 1617,
+      "empty_scene_false_positives": 172,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.10326751005803822,
+      "matched_center_error_m": 4.31782302528872,
+      "detections": 2444
+    },
+    "ir-known": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 1037,
+          "iou_threshold": 0.25,
+          "ap": 0.8746098706385675,
+          "recall": 0.9512195121951219
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 446,
+          "iou_threshold": 0.25,
+          "ap": 0.6255109592629099,
+          "recall": 0.855
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 565,
+          "iou_threshold": 0.5,
+          "ap": 0.8097946113173091,
+          "recall": 0.9
+        }
+      },
+      "map_3d": 0.7699718137395956,
+      "false_positives": 1217,
+      "empty_scene_false_positives": 140,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.11062518238941263,
+      "matched_center_error_m": 3.966214986233361,
+      "detections": 2048
+    },
+    "ir-ood": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 2065,
+          "iou_threshold": 0.25,
+          "ap": 0.8499317781607802,
+          "recall": 0.9341463414634147
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 672,
+          "iou_threshold": 0.25,
+          "ap": 0.6419376100931333,
+          "recall": 0.835
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 994,
+          "iou_threshold": 0.5,
+          "ap": 0.778957442671304,
+          "recall": 0.8966666666666666
+        }
+      },
+      "map_3d": 0.7569422769750725,
+      "false_positives": 2912,
+      "empty_scene_false_positives": 265,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.10685502432328674,
+      "matched_center_error_m": 4.296436043358402,
+      "detections": 3731
+    },
+    "lidar-known": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 768,
+          "iou_threshold": 0.25,
+          "ap": 0.890036441910654,
+          "recall": 0.9463414634146341
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 314,
+          "iou_threshold": 0.25,
+          "ap": 0.622215476046109,
+          "recall": 0.82
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 531,
+          "iou_threshold": 0.5,
+          "ap": 0.8251305013546208,
+          "recall": 0.92
+        }
+      },
+      "map_3d": 0.7791274731037946,
+      "false_positives": 785,
+      "empty_scene_false_positives": 131,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.10518901790645244,
+      "matched_center_error_m": 3.882813031492746,
+      "detections": 1613
+    },
+    "lidar-ood": {
+      "classes": {
+        "aircraft": {
+          "positives": 410,
+          "predictions": 784,
+          "iou_threshold": 0.25,
+          "ap": 0.8851711820901115,
+          "recall": 0.9439024390243902
+        },
+        "ground_vehicle": {
+          "positives": 200,
+          "predictions": 374,
+          "iou_threshold": 0.25,
+          "ap": 0.6424397175020287,
+          "recall": 0.82
+        },
+        "ship": {
+          "positives": 300,
+          "predictions": 511,
+          "iou_threshold": 0.5,
+          "ap": 0.8218715043432159,
+          "recall": 0.8933333333333333
+        }
+      },
+      "map_3d": 0.7831608013117853,
+      "false_positives": 850,
+      "empty_scene_false_positives": 133,
+      "empty_scenes": 70,
+      "detection_ece_10_bins": 0.11206612933523075,
+      "matched_center_error_m": 3.8929403071110937,
+      "detections": 1669
+    }
+  },
+  "split": "test",
+  "dataset_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc"
+}

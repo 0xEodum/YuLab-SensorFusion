@@ -1,0 +1,460 @@
+{
+  "version": "quality-freeze.v1",
+  "protocol": {
+    "version": "decision-fusion-quality.v4-initialization-ensemble",
+    "frozen_date": "2026-10-09",
+    "exploratory_seeds": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "all_seeds": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "confirmatory_seeds": [
+      19
+    ],
+    "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+    "evaluation_dataset_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc",
+    "hypothesis": "Average independent training initializations as well as training snapshots to reduce optimization variability; all nine contiguous seeds are retained in three disjoint ensembles.",
+    "candidate": {
+      "profile": "independent-experts-initialization-consensus.v1",
+      "expert_architecture": "baseline-v1",
+      "experts": [
+        "rgb",
+        "ir",
+        "lidar"
+      ],
+      "epochs_per_expert": 120,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "schedule": "constant",
+      "queries": 16,
+      "width": 64,
+      "batch_size": 32,
+      "snapshots_per_sensor": 2,
+      "raw_snapshot_selection": "highest clean validation mAP across every epoch, ties choose latest",
+      "average_snapshot": "uniform end-of-epoch parameters for epochs 61 through 120, final average only",
+      "averaged_epochs": 60,
+      "snapshot_consensus_iou": 0.1,
+      "sensor_consensus_iou": 0.1,
+      "weights": "uniform at every level",
+      "output_capacity": 16,
+      "all_missing": "zero detections",
+      "inference_networks": 18,
+      "training_budget_note": "Nine 120-epoch expert trajectories per deployed ensemble, 1080 total epochs; two snapshots each, no extra training for snapshots",
+      "initializations_per_sensor": 3,
+      "initialization_consensus_iou": 0.1
+    },
+    "controls": [
+      "Three-initialization committees for every raw, averaged and two-snapshot unimodal expert",
+      "Three-initialization raw feature fusion at 120 and 360 epochs (360 matches candidate training-update budget)",
+      "Three-initialization averaged and two-snapshot feature fusion at 120 epochs"
+    ],
+    "fresh_holdout": {
+      "captures": 600,
+      "independent_layout_groups": 12,
+      "group_overlap_original": 0,
+      "model_evaluation_before_this_protocol": false,
+      "policy": "All three predeclared disjoint initialization groups count. Freeze all checkpoint and source hashes before fresh holdout scoring. No later tuning against fresh holdout."
+    },
+    "metrics": {
+      "stretch_clean_map": 0.5,
+      "stretch_degradation_macro_map": 0.35,
+      "maximum_sample_sd_clean_and_macro": 0.03,
+      "sample_sd_ddof": 1,
+      "seeds_required": 3,
+      "require_outperform_strongest_control": true,
+      "macro_cases": [
+        "availability-1",
+        "availability-2",
+        "availability-3",
+        "availability-4",
+        "availability-5",
+        "availability-6",
+        "rgb-known",
+        "rgb-ood",
+        "ir-known",
+        "ir-ood",
+        "lidar-known",
+        "lidar-ood"
+      ],
+      "seed_sd_semantics": "Sample SD across three disjoint ensembles, each trained with three independent initialization seeds; not single-initialization SD."
+    },
+    "retained_failures": "Raw consensus historical test clean SD .0456; averaged-only validation clean SD .0347 across five seeds; two-snapshot confirmatory validation clean SD .0482 across seeds16/17/18. None met the complete goal.",
+    "scope": "static synthetic three-class oriented 3D detection; known/exposed corruption family",
+    "initialization_groups": [
+      [
+        11,
+        12,
+        13
+      ],
+      [
+        14,
+        15,
+        16
+      ],
+      [
+        17,
+        18,
+        19
+      ]
+    ]
+  },
+  "protocol_sha256": "da0d5f253b54edbff0a0861e174e78d70997d6fd6dc65beaa30e646ee49e545e",
+  "dataset_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc",
+  "checkpoints": [
+    {
+      "path": "artifacts/sf-quality/swa-seed-11/rgb/best.pt",
+      "sha256": "cdab1bc5f89890dacff0002c5845eac0f1becefe1d33bf3e30bfc89517f4a6b0"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-11/ir/best.pt",
+      "sha256": "b3d174f74abffb08becbc290b8c74a7480e9a34cbae15aeb2f4373235b244b4f"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-11/lidar/best.pt",
+      "sha256": "831f7dca53c77b6d93121443885f067e3deb19bff548f3ea5e93b0abaf6ddc9f"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/fusion/best.pt",
+      "sha256": "8ff80a21fb41dd748fb785db893f84bb5b28f2972abf1117f74b3174d3fcce34"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/rgb/best.pt",
+      "sha256": "44c01fec675f6b9e3d81ae9c373fdbaeec9a1404390de3f6259edcf5f14c18e4"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/ir/best.pt",
+      "sha256": "b9d916aaad3aca96a0f3d2d83b22d83916da56201aedd23b0b168ded195a5454"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/lidar/best.pt",
+      "sha256": "b19bbbc3d7f8b5311c3182374241a572d0e036f5fe28d9f81b9fd129bac62a9b"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-11/fusion/best.pt",
+      "sha256": "5721d027f2eeca2d1b8dd7be7499b1e78e3cfd06946292ed73fdce2d7d8c9748"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-11/best.pt",
+      "sha256": "7561340a7226e76a1224576be24fff1f58a92d4502a4ec0d6ad3f5a793825291"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-12/rgb/best.pt",
+      "sha256": "d28496a800f784167be699ddd1f4e6117dbb3a4621d90a0789f29765fbc20f04"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-12/ir/best.pt",
+      "sha256": "dd8737ca6ccb4086a8f166d790c20d96e08d44578734a6bf7294926ab2e1fb91"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-12/lidar/best.pt",
+      "sha256": "b91429569fde633f7e47bfbcf6e0e840e3cc909262296a4ede3df03452513be1"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/fusion/best.pt",
+      "sha256": "84a10c9de05d142b3a38e8588300cc7c934708e42656c5ae6484fe5c5ae42673"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/rgb/best.pt",
+      "sha256": "aa8b1c379fd0ca3d512da7cb190b8b894a36b95eefb7d96b2746405336957556"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/ir/best.pt",
+      "sha256": "12b1d66e181068d2e00189bc748e07dd4f3b413805fc65f681d8ce5b243c779a"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/lidar/best.pt",
+      "sha256": "c997b58250b1fb21bd124b043b8b156809d457155a124dbb2fdf61cb526dac5e"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-12/fusion/best.pt",
+      "sha256": "4a1ff9560579c8284fdc2e8eaf3c13a08e153f61e24356ac434c2eaf8a4fd32b"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-12/best.pt",
+      "sha256": "c4b0e0079c090400d42d02ba202ae41fb3e06f88e1dd9d3367e9d12c05a52c88"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-13/rgb/best.pt",
+      "sha256": "caf52385db90522764a57e4481346468becd4d1a8bc1e98b11a1a9060d1255fa"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-13/ir/best.pt",
+      "sha256": "1d3e30d883332352822665ff036460239bbdcae84625e0928c3eacd461c4276b"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-13/lidar/best.pt",
+      "sha256": "d2a3c70a025d361a1f6d7683c3034bc9ee708623d94832dc01be5064de237109"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/fusion/best.pt",
+      "sha256": "1563ada0e565829695cbc0b92b1f73eb980c75ebb819ba31c55df633bf5096f3"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/rgb/best.pt",
+      "sha256": "1dbf824f40b2fc8cd4888c9fdba396249c270492f9c78ba80c1fda4fdf585f71"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/ir/best.pt",
+      "sha256": "b1da2a2d7e53c44ef365ec996ab77c44c1d918e447c39a4e2ea38b17bcfe4158"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/lidar/best.pt",
+      "sha256": "b023217b2b58a23be2aa07dc4aaab44b718f004dcdcd4ea12ae5b6fa4916e6c4"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-13/fusion/best.pt",
+      "sha256": "a2174acf1610215e0831eb67aa9c9584cd43862daa12a072f1c776852a0e5d47"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-13/best.pt",
+      "sha256": "62ff6d3459263247767d96a6c0117cfa921497713238509211aa50eeb521be00"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/rgb/best.pt",
+      "sha256": "1586ebacc208d8a1f303460279aa0f68e0e7c7aafb26cf73b0b9cfb9c71099d4"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/ir/best.pt",
+      "sha256": "5ee474b4c47d7178c62bdcbd284304929548254564e8bc422bc374c1b44aead9"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/lidar/best.pt",
+      "sha256": "173a5b28127a492f005831b8919c319ccd1b658a03af5fe342986bec39d08bd4"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/fusion/raw-best.pt",
+      "sha256": "ba6b380cca39ac5b370889c8512a3694650ee646a27e187ac305215caca95191"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/rgb/raw-best.pt",
+      "sha256": "7838905427b7104dd84bf969a1bef088bbbae26eb83052991325a1bc3b9055d9"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/ir/raw-best.pt",
+      "sha256": "cf500f8ed4403c7ea008a0f45df1a5976ef94c0ad87204f9b925166d2187d21f"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/lidar/raw-best.pt",
+      "sha256": "7fd8c6240b80d84e70ff2d438d7f48118f6b7325dd6bdb7864086296835d5e12"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-14/fusion/best.pt",
+      "sha256": "800f6837b7a824b1a608ee5378b32688ea93b34188cea8b2967c39b36428e522"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-14/best.pt",
+      "sha256": "6eca54e2c7781f75a45257da4c1b2ca53f5bfe0a24073ae19f95de2f2fd71ed2"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/rgb/best.pt",
+      "sha256": "b1ad38bd89a900ec9fc50a081bb2c229065fd97eb768d97a32ba3ed742f0e131"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/ir/best.pt",
+      "sha256": "0a9d45b36801531ede62fc0789bac359bcebeb5eea5e5d0effb34beb707092a1"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/lidar/best.pt",
+      "sha256": "c51c6f353e5cfdce6bf64662450cbcad03ae938a621b764c8111c05e659cec63"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/fusion/raw-best.pt",
+      "sha256": "496f3424b5678b4729d8761c93ac7709a0f638231dfb03c60b3d02f50b996703"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/rgb/raw-best.pt",
+      "sha256": "7474cffc5f1afca9212ccf65d76351d949e6f539c7b5c529b67f9dd5ce6ac4ec"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/ir/raw-best.pt",
+      "sha256": "0ad124f64d9b44da5e708eb5c894a0d7bc65d00fd9fbaf187e708ca9f8f7f195"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/lidar/raw-best.pt",
+      "sha256": "89cc2dc49bc2e4fc8059f91d57d7842d449915f13e1c95af349c1e63134ea1b9"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-15/fusion/best.pt",
+      "sha256": "ca63892baf3e3d8befdc06cee3da5f65639f7e88405b4fa641e472aa2127d883"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-15/best.pt",
+      "sha256": "7902bcf15d9fee84cf574db87e334c398d61068ad6ee5baebfd1c1ac5102e35e"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/rgb/best.pt",
+      "sha256": "372c5c0cb39633166db07b56270aeff3c736a257ce10fba7c528e2724ca9e86f"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/ir/best.pt",
+      "sha256": "a230d893d1573eff7c65aabbc2304675c153e8fda11361b08b818d4fb28111ff"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/lidar/best.pt",
+      "sha256": "951020b1954d8655f1b0292e70192a84f2072f3235cf99bea6e885f49aea97f0"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/fusion/raw-best.pt",
+      "sha256": "111d135138f0858958cbe4657406666135d653fcb40d99017b25c0b233d8a126"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/rgb/raw-best.pt",
+      "sha256": "4eea1bc878356b758d93e829bd48a6630e1c36496f0fdb6d7e39dcfb1dd15be7"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/ir/raw-best.pt",
+      "sha256": "f05f0f5d49301ab1462401c83c264a849ca3d0cd47445961fa0562d5aa1f6097"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/lidar/raw-best.pt",
+      "sha256": "2582447912268088d813fde9ae54929af159b651ef45090436f5aecbc8083582"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-16/fusion/best.pt",
+      "sha256": "212073911d91ac8b8e11b77c0b3fc3c0e9d063f948340311695e097230c451b2"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-16/best.pt",
+      "sha256": "2e6c50fb9fd8d78627c3e8931df3ce1f1da5629b092f7c7adf71447c219fe445"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/rgb/best.pt",
+      "sha256": "a152f06969610b556d4151c217cf0778af91eb25feb9f4c322b2e2c819de20e7"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/ir/best.pt",
+      "sha256": "f93ef2e4fd1da0a642407e3a2a86f67cdad389407e0108e130787b14d67057c0"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/lidar/best.pt",
+      "sha256": "baa5c3794493da969c8758a28b7f149f79eaeeebbd65ffa8ee5ff72db98bf1b1"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/fusion/raw-best.pt",
+      "sha256": "708e96ff4faaafc0a6fa8c7136193648d5446ca0ad0e51ae645b4c8ca2e8d617"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/rgb/raw-best.pt",
+      "sha256": "c3f827b3cdad7ec4bf779b60476baa518d7c39d3746c6a347d74222d7384b13b"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/ir/raw-best.pt",
+      "sha256": "c22f905e3edd4c164771003db8b15136fa360445219598c13285cc83d5a62509"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/lidar/raw-best.pt",
+      "sha256": "f222e161f16d52c226fe0bf5c43c82bdda959fdf92a953f19cc900073b00fc89"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-17/fusion/best.pt",
+      "sha256": "19aa4ee83674cf1062d1760f8e730a663b1c9bb912b5be5984021df7b544e3d9"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-17/best.pt",
+      "sha256": "a200273021a2ac2087549d1d7dfdf9b1e5b9feeff5e09b4792c8274e3071f0de"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/rgb/best.pt",
+      "sha256": "e822d029de83fdd6c7e6e8499e7cb6d25aa4971a6a43cb6231e3d6a36f921c7e"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/ir/best.pt",
+      "sha256": "7923249c59252588d5e52f91f5a08e4adaa2df5a0f02098d3f22500c598a2445"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/lidar/best.pt",
+      "sha256": "1566fbe7367906ea79d7415685cdaeb5d982ead39e23bf079fa42350b87d60e8"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/fusion/raw-best.pt",
+      "sha256": "24c120805269d464ac1b4c3d77d7f9d6edf6b5fb0bdc11300141aa458015646b"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/rgb/raw-best.pt",
+      "sha256": "0ced0598d690c332a16480f2ba02bb4ca0ea10d58ec00112237a90414b287e6f"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/ir/raw-best.pt",
+      "sha256": "66df58eb7800c454cc0da6dffffef004421d551fd396b3265cb9f7a95b60cc00"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/lidar/raw-best.pt",
+      "sha256": "0e9fd838eae9eb344502fdc8e51ca150f89eaca9e862747d6fbd2f4b99ce7a8d"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-18/fusion/best.pt",
+      "sha256": "8f26d0f72b4c6a44c0f371241154f2e5719c9baab90687fa5ddfdf057e15709f"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-18/best.pt",
+      "sha256": "a3dd1c3a62c7a6f3387f7e63874459fa32019c0f232db7472d6d09ffa2237966"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/rgb/best.pt",
+      "sha256": "2ac0dfcb0ec7abf2cca0ae3bfd8837c8add6a2e92e679a6ecbc54bed6ab2b82f"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/ir/best.pt",
+      "sha256": "8021adb4fab9beacbfb17126bfdcfc7c69c6637e1eb42ade517ba718365ff86c"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/lidar/best.pt",
+      "sha256": "0d91f095b170cc9ccc4db97e5497ea4ab81823f307cec63a449dcdb78a02b600"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/fusion/raw-best.pt",
+      "sha256": "63df5ccfdfd45feb8744de260392396fb6a2316b98319d7b23a9eea1e12e938e"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/rgb/raw-best.pt",
+      "sha256": "85f7b131cb704cce2775f655509d4993f9aa6acc2f1438e22c6b4f2b2d16e40d"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/ir/raw-best.pt",
+      "sha256": "7f41ec00c56edaecc32b8eb49368d34ab256a9c54289c50e76a32c246c200e09"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/lidar/raw-best.pt",
+      "sha256": "c5dd2226f06b39a701e73cc80b94924d30a98b5a70138ee0b1e743ff8d30b179"
+    },
+    {
+      "path": "artifacts/sf-quality/swa-seed-19/fusion/best.pt",
+      "sha256": "250740ebbc32ed9b6fb4f22e0622f93738a890710af4175b022be08ddbb97d35"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-19/best.pt",
+      "sha256": "8e9c9ad192b78d10d493eb0899010f0261f5375675fec6449f3ad7a2b5112405"
+    }
+  ],
+  "source_hash_normalization": "CRLF to LF",
+  "sources": {
+    "backend/learning/model.py": "9a56c03fdae84e9f63e2b954c87fafc77f6aac03261cf03d96b4dfc1f8ba2f58",
+    "backend/learning/data.py": "8c6d36ba34fbcf03f67fa58533648e59085a806215bb80dccb49a678105219ad",
+    "backend/learning/evaluate.py": "1f0d92598bfff63d8174065d2a433a6485fd62335acad75de1d16914c87fc69f",
+    "backend/learning/decision_fusion.py": "9ece9084f770e1005adf5e334773b12d9b680e1e534bba39689b2e75091bab32",
+    "backend/learning/runtime.py": "295cfeb2899c9eb98ab2dc47a1d96ee12b19b93d1dafa7f5f57406269ffa6314",
+    "backend/learning/matching.py": "121c2ee2719bc3e7aa84f2f80b2048a3eed334b9d3901ff7f471a4772105ff66",
+    "backend/learning/decision_inference.py": "b567fcaae2c037ae3ef2a223bdd89a12a6cffe2fe56e97b810a0e992b3634d27",
+    "backend/learning/sensor_degradation.py": "f0d45099a6be3eb077ab987922254fc30e9bdd3c7faa29792f3c0356f04731f3",
+    "backend/learning/quality_acceptance.py": "fcb66e0317f0d59e886fb394a31bb4e8c913d7c13f8cbe91fbd67a00084f3006",
+    "tools/quality-holdout.py": "5bf1cea6db4f31d087da1c76136379686f573a919709042ae3bb8b324a90e29c",
+    "tools/quality-pilot.py": "6dd8f71c83d5108c9fb23d17da579c5dcd528db610402903c980b8dc38338f89",
+    "tools/ensemble-quality.py": "1e7d87a2fc03f5af700b375d8e6ad53431139f381c1d6fbd11a7b3c1f88129b8"
+  }
+}

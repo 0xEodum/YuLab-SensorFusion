@@ -112,3 +112,11 @@ also count as controls. The fixed recipe is in the
 paired validation and fresh holdout scoring. Persistent inference accepts 18
 checkpoints, ordered raw RGB/IR/LiDAR then averaged RGB/IR/LiDAR for each of the
 three initialization groups. No labels or truth are inference inputs.
+
+
+The frozen initialization ensemble passes fresh-holdout acceptance: clean
+.7967 +/- .0180 and degradation macro .7713 +/- .0104, exceeding every declared
+control. This closes SF-Q for the deployed 18-network ensemble recipe, with SD
+across three disjoint three-initialization ensembles. Full paired cases, runtime,
+failed precursors and observation-only bundle usage are in the
+[quality report](evidence/SF-Q-quality.md). No fresh-test tuning followed scoring.
