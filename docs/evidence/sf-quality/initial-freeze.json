@@ -1,0 +1,161 @@
+{
+  "version": "quality-freeze.v1",
+  "protocol": {
+    "version": "decision-fusion-quality.v1",
+    "frozen_date": "2026-10-09",
+    "exploratory_seed": 11,
+    "confirmatory_seeds": [
+      12,
+      13
+    ],
+    "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+    "selection_split": "validation",
+    "candidate": {
+      "profile": "independent-experts-consensus.v1",
+      "experts": [
+        "rgb",
+        "ir",
+        "lidar"
+      ],
+      "expert_architecture": "baseline-v1",
+      "epochs_per_expert": 120,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "schedule": "constant",
+      "queries": 16,
+      "width": 64,
+      "batch_size": 32,
+      "expert_checkpoint_selection": "highest clean validation mAP over every epoch, ties choose latest; independent per sensor",
+      "consensus_iou": 0.1,
+      "weights_sensor_by_class": [
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1
+        ]
+      ],
+      "score": "sum of supporting sensor confidences / number of available sensors",
+      "box": "confidence weighted metric centers/extents and pi periodic yaw",
+      "output_capacity": 16,
+      "all_missing": "zero detections"
+    },
+    "controls": [
+      "matched seed and 120 epochs: RGB, IR, LiDAR and feature-fusion baseline-v1",
+      "compute sensitivity: feature-fusion baseline-v1 with 360 epochs and same checkpoint policy"
+    ],
+    "metrics": {
+      "minimum_clean_map": 0.45,
+      "stretch_clean_map": 0.5,
+      "minimum_degradation_macro_map": 0.3,
+      "stretch_degradation_macro_map": 0.35,
+      "maximum_sample_sd_clean_and_macro": 0.03,
+      "sample_sd_ddof": 1,
+      "seeds_required": 3,
+      "macro_cases": [
+        "availability-1",
+        "availability-2",
+        "availability-3",
+        "availability-4",
+        "availability-5",
+        "availability-6",
+        "rgb-known",
+        "rgb-ood",
+        "ir-known",
+        "ir-ood",
+        "lidar-known",
+        "lidar-ood"
+      ],
+      "require_outperform_strongest_control": true
+    },
+    "holdout_policy": "Freeze all checkpoint hashes before reading test observations or annotations; no tuning against that test. Historical SF-11 test has already been used for reporting, so independent fresh generated holdout remains desirable for broader generalization.",
+    "scope": "static synthetic three-class oriented 3D detection; no real-world or unseen-corruption claim"
+  },
+  "protocol_sha256": "bd719be729fdc5e5ca12cf2835cd9a6575529d03f72ed817074232a8592b0483",
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "checkpoints": [
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/rgb/best.pt",
+      "sha256": "44c01fec675f6b9e3d81ae9c373fdbaeec9a1404390de3f6259edcf5f14c18e4"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/ir/best.pt",
+      "sha256": "b9d916aaad3aca96a0f3d2d83b22d83916da56201aedd23b0b168ded195a5454"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/lidar/best.pt",
+      "sha256": "b19bbbc3d7f8b5311c3182374241a572d0e036f5fe28d9f81b9fd129bac62a9b"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120/runs/fusion/best.pt",
+      "sha256": "8ff80a21fb41dd748fb785db893f84bb5b28f2972abf1117f74b3174d3fcce34"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-11/best.pt",
+      "sha256": "7561340a7226e76a1224576be24fff1f58a92d4502a4ec0d6ad3f5a793825291"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/rgb/best.pt",
+      "sha256": "aa8b1c379fd0ca3d512da7cb190b8b894a36b95eefb7d96b2746405336957556"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/ir/best.pt",
+      "sha256": "12b1d66e181068d2e00189bc748e07dd4f3b413805fc65f681d8ce5b243c779a"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/lidar/best.pt",
+      "sha256": "c997b58250b1fb21bd124b043b8b156809d457155a124dbb2fdf61cb526dac5e"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/fusion/best.pt",
+      "sha256": "84a10c9de05d142b3a38e8588300cc7c934708e42656c5ae6484fe5c5ae42673"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-12/best.pt",
+      "sha256": "c4b0e0079c090400d42d02ba202ae41fb3e06f88e1dd9d3367e9d12c05a52c88"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/rgb/best.pt",
+      "sha256": "1dbf824f40b2fc8cd4888c9fdba396249c270492f9c78ba80c1fda4fdf585f71"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/ir/best.pt",
+      "sha256": "b1da2a2d7e53c44ef365ec996ab77c44c1d918e447c39a4e2ea38b17bcfe4158"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/lidar/best.pt",
+      "sha256": "b023217b2b58a23be2aa07dc4aaab44b718f004dcdcd4ea12ae5b6fa4916e6c4"
+    },
+    {
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/fusion/best.pt",
+      "sha256": "1563ada0e565829695cbc0b92b1f73eb980c75ebb819ba31c55df633bf5096f3"
+    },
+    {
+      "path": "artifacts/sf-quality/fusion-360-seed-13/best.pt",
+      "sha256": "62ff6d3459263247767d96a6c0117cfa921497713238509211aa50eeb521be00"
+    }
+  ],
+  "source_hash_normalization": "CRLF to LF",
+  "sources": {
+    "backend/learning/model.py": "9a56c03fdae84e9f63e2b954c87fafc77f6aac03261cf03d96b4dfc1f8ba2f58",
+    "backend/learning/data.py": "8c6d36ba34fbcf03f67fa58533648e59085a806215bb80dccb49a678105219ad",
+    "backend/learning/evaluate.py": "1f0d92598bfff63d8174065d2a433a6485fd62335acad75de1d16914c87fc69f",
+    "backend/learning/decision_fusion.py": "8490e32c762dacffdac71675f52676d47cd482d8153b4f7c29245006fdf2f99e",
+    "backend/learning/runtime.py": "295cfeb2899c9eb98ab2dc47a1d96ee12b19b93d1dafa7f5f57406269ffa6314",
+    "backend/learning/matching.py": "121c2ee2719bc3e7aa84f2f80b2048a3eed334b9d3901ff7f471a4772105ff66",
+    "backend/learning/decision_inference.py": "9d98935c3d726a3c5b2e43c48cf301d0a4a7ae9411bfad8260e077ae796268df",
+    "backend/learning/sensor_degradation.py": "f0d45099a6be3eb077ab987922254fc30e9bdd3c7faa29792f3c0356f04731f3",
+    "backend/learning/quality_acceptance.py": "0cedd2c12485ac10bab2d9f8478ff55049380c286f58e9367dc34be1d21d0bd3",
+    "tools/quality-holdout.py": "6bf19ba1137a7f434926c8338bde6b6b6606114228ca31765fbd5a3e5b29418e",
+    "tools/quality-pilot.py": "cc485ef00f9ba21a5d2e6aac5e7a181003a0488b77b54ddad96e6aa2366ff3a4"
+  }
+}

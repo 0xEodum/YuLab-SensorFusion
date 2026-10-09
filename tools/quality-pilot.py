@@ -104,9 +104,13 @@ def main():
     p.add_argument("--execution", choices=("eager", "graph"), default="graph")
     p.add_argument("--constant-lr", action="store_true")
     p.add_argument("--eval-every", type=int, default=5)
+    p.add_argument("--swa-start", type=int, default=0, help="Average end-of-epoch weights starting at this epoch")
+    p.add_argument("--swa-final", action="store_true", help="Select the final average only, independent of validation maxima")
+    p.add_argument("--save-raw-best", action="store_true", help="Retain the paired unaveraged validation-selected control")
     p.add_argument("--tiny", action="store_true")
     a = p.parse_args()
     if a.epochs < 1 or a.batch_size < 1 or a.eval_every < 1 or a.lr <= 0: p.error("Positive training budget required")
+    if not 0 <= a.swa_start <= a.epochs or (a.swa_final and not a.swa_start): p.error("Invalid averaging interval")
     if a.stage == "profile": a.epochs = 5
     a.output.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter(); pilot.seed_all(a.seed, fill=False)
@@ -132,16 +136,18 @@ def main():
         vf, vt = features, targets
     packed = pack_targets(targets, device)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=.0001)
+    averaged = torch.optim.swa_utils.AveragedModel(model) if a.swa_start else None
     torch.cuda.synchronize(); load_s = time.perf_counter()-started
     setup = time.perf_counter()
     trainer = None
     if a.execution == "graph":
-        model.train(); trainer = GraphTrainer(model, features, packed, loss_function=loss_fn)
+        model.train(); trainer = GraphTrainer(model, features, packed, optimizer=opt if a.constant_lr else None, loss_function=loss_fn)
         for shape in {min(len(targets), a.batch_size), len(targets) % a.batch_size} - {0}: trainer.prepare(shape)
     model.graph_inference = GraphInference(model)
+    if averaged: averaged.module.graph_inference = GraphInference(averaged.module)
     torch.cuda.synchronize(); setup_s = time.perf_counter()-setup
     torch.cuda.reset_peak_memory_stats()
-    best=-1; history=[]; phases={"train_s":0., "validation_s":0., "writes_s":0.}
+    best=-1; raw_best=-1; history=[]; phases={"train_s":0., "validation_s":0., "writes_s":0.}
     training = time.perf_counter()
     for epoch in range(a.epochs):
         lr = a.lr if a.constant_lr else a.lr * (.05 + .95 * (1 + np.cos(np.pi * epoch/a.epochs))/2)
@@ -159,15 +165,30 @@ def main():
         loss=float(torch.stack(losses).mean()); phases["train_s"] += time.perf_counter()-before
         if not np.isfinite(loss): raise ValueError("Nonfinite loss")
         if trainer: trainer.check_finite()
+        if averaged is not None and epoch+1 >= a.swa_start: averaged.update_parameters(model)
         if (epoch+1)%a.eval_every and epoch != a.epochs-1: continue
-        before=time.perf_counter(); report=score(model,vf,vt,a.batch_size); phases["validation_s"] += time.perf_counter()-before
+        selected = averaged.module if averaged is not None and epoch+1 >= a.swa_start else model
+        before=time.perf_counter(); report=score(selected,vf,vt,a.batch_size); phases["validation_s"] += time.perf_counter()-before
         quality=report["map_3d"] or 0
         row={"epoch":epoch+1,"lr":float(lr),"loss":loss,"validation":report}; history.append(row)
+        if a.save_raw_best:
+            raw_report=score(model,vf,vt,a.batch_size) if selected is not model else report
+            row["raw_validation"]=raw_report
+            if (raw_report["map_3d"] or 0) >= raw_best:
+                raw_best=raw_report["map_3d"] or 0
+                torch.save({"profile":"baseline-v1","modality":a.modality,"model":model.state_dict(),
+                            "config":vars(a)|{"output":str(a.output),"queries":16},"epoch":epoch+1,"seed":a.seed,"averaged_epochs":0,
+                            "dataset_sha256":digest(config().dataset / "manifest.json"),"preprocessing":PROFILE,
+                            "source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()},a.output/"raw-best.pt")
         print(f"epoch {epoch+1} loss {loss:.4f} AP {quality:.4f}",flush=True)
         before=time.perf_counter()
-        if quality >= best:
+        eligible = (not a.swa_start or epoch+1 >= a.swa_start) and (not a.swa_final or epoch+1 == a.epochs)
+        if eligible and (quality >= best or a.swa_final):
             best=quality
-            torch.save({"model":model.state_dict(),"config":vars(a) | {"output":str(a.output)},"epoch":epoch+1,"seed":a.seed,"dataset_sha256":digest(config().dataset / "manifest.json"),"preprocessing":PROFILE,"source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()},a.output / "best.pt")
+            torch.save({"profile":"baseline-v1" if a.model == "baseline" else RobustQuery.profile,"modality":a.modality,
+                        "model":selected.state_dict(),"config":vars(a) | {"output":str(a.output),"queries":16},"epoch":epoch+1,"seed":a.seed,
+                        "averaged_epochs":0 if averaged is None else int(averaged.n_averaged),
+                        "dataset_sha256":digest(config().dataset / "manifest.json"),"preprocessing":PROFILE,"source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()},a.output / "best.pt")
         pilot.write(a.output / "history.json",history); phases["writes_s"] += time.perf_counter()-before
     torch.cuda.synchronize()
     pilot.write(a.output / "runtime.json",{"load_s":load_s,"graph_setup_s":setup_s,"training_wall_s":time.perf_counter()-training,"cli_wall_s":time.perf_counter()-started,"phases":phases,"peak_allocated_bytes":torch.cuda.max_memory_allocated(),"best_map":best,"device":torch.cuda.get_device_name(),"torch":torch.__version__,"config":vars(a)|{"output":str(a.output)},"checkpoint_sha256":digest(a.output / "best.pt")})

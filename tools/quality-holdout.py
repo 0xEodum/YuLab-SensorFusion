@@ -20,6 +20,9 @@ from learning.sensor_degradation import CORRUPTIONS, PROFILE as DEGRADATION, deg
 from learning.quality_acceptance import freeze, validate_freeze, summarize
 
 PROTOCOL=ROOT / "docs/evidence/sf-quality/selection-protocol.json"
+DATASET=q.config().dataset
+VARIANT="initial"
+SEEDS=(11,12,13)
 SOURCES=["backend/learning/model.py","backend/learning/data.py","backend/learning/evaluate.py",
          "backend/learning/decision_fusion.py","backend/learning/runtime.py","backend/learning/matching.py",
          "backend/learning/decision_inference.py",
@@ -33,24 +36,37 @@ def seed_root(seed):
 
 def paths():
     result={}
-    for seed in (11,12,13):
-        for m in ("rgb","ir","lidar","fusion"): result[(seed,m)]=seed_root(seed)/"runs"/m/"best.pt"
+    for seed in SEEDS:
+        for m in ("rgb","ir","lidar","fusion"):
+            result[(seed,m)]=(ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/best.pt") if VARIANT == "swa" and m != "fusion" else (ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/raw-best.pt" if seed >= 14 else seed_root(seed)/"runs"/m/"best.pt")
+        if VARIANT == "swa":
+            for m in ("rgb","ir","lidar"): result[(seed,f"{m}-raw")]=(ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/raw-best.pt") if seed >= 14 else seed_root(seed)/"runs"/m/"best.pt"
+            result[(seed,"fusion-swa")]=ROOT / f"artifacts/sf-quality/swa-seed-{seed}/fusion/best.pt"
         result[(seed,"fusion-360")]=ROOT / f"artifacts/sf-quality/fusion-360-seed-{seed}/best.pt"
     return result
 
 
 def rows(split):
+    if split == "test" and DATASET != q.config().dataset:
+        entries=json.loads((DATASET / "manifest.json").read_text())["captures"]
+        result=[]
+        for entry in entries:
+            if entry["split"] != "test": raise ValueError("Fresh holdout contains non-test captures")
+            obs=json.loads((DATASET / entry["capture_id"] / "observation.json").read_text())
+            origin=np.array(obs["rig"]["T_world_from_rig"]).reshape(4,4)[:3,3]
+            result.append({"capture_id":entry["capture_id"],"split":"test","group_id":entry["group_id"],"condition":int(entry["capture_id"].rsplit("-",1)[1]) % 10,"origin":origin.tolist()})
+        return result
     return [r for r in json.loads((q.config().output / "index.json").read_text())["records"] if r["split"] == split]
 
 
 def prepare_test(output, frozen):
-    validate_freeze(ROOT,frozen,PROTOCOL,q.config().dataset / "manifest.json")
+    validate_freeze(ROOT,frozen,PROTOCOL,DATASET / "manifest.json")
     records=rows("test"); names=["availability-7"]+list(CORRUPTIONS)
     destination=output / "test-cases"
     if all((destination/f"{n}.pt").exists() for n in names): return
     features={n:[] for n in names}
     for i,r in enumerate(records):
-        obs,arrays=load_observation_only(q.config().dataset,{"capture_id":r["capture_id"]})
+        obs,arrays=load_observation_only(DATASET,{"capture_id":r["capture_id"]})
         features["availability-7"].append(preprocess_arrays(obs,arrays)[0])
         for name in CORRUPTIONS:
             changed,values=degrade(obs,arrays,name,r["capture_id"],seed=DEGRADATION["seed"])
@@ -84,46 +100,48 @@ def report(predicted, targets, records, device):
 
 
 def evaluate_split(output, split, frozen):
-    validate_freeze(ROOT,frozen,PROTOCOL,q.config().dataset / "manifest.json")
+    validate_freeze(ROOT,frozen,PROTOCOL,DATASET / "manifest.json")
     q.pilot.seed_all(11,fill=False); device=torch.device("cuda"); records=rows(split)
     if split == "test":
         features=load_test(output,"availability-7",frozen,device)
-        targets=[supervision(q.config().dataset,r,np.array(r["origin"])) for r in records]
+        targets=[supervision(DATASET,r,np.array(r["origin"])) for r in records]
     else: features,targets,_=q.load("validation",device)
     models={}; expected={x["path"]:x["sha256"] for x in frozen["checkpoints"]}
     for key,path in paths().items():
         if path.relative_to(ROOT).as_posix() not in expected: raise ValueError("Unfrozen checkpoint")
         state=torch.load(path,weights_only=True,map_location="cpu"); seed,name=key
-        if state["seed"] != seed or state["dataset_sha256"] != frozen["dataset_sha256"] or state["preprocessing"] != PROFILE:
+        if state["seed"] != seed or state["dataset_sha256"] != frozen["protocol"]["dataset_sha256"] or state["preprocessing"] != PROFILE:
             raise ValueError("Model provenance mismatch")
         budget=360 if name == "fusion-360" else 120
         if state["config"]["epochs"] != budget or state["config"]["lr"] != .001 or state["config"]["batch_size"] != 32:
             raise ValueError("Training budget mismatch")
-        modality="fusion" if name == "fusion-360" else name
+        modality=name.split("-")[0]
+        if VARIANT == "swa" and name in ("rgb","ir","lidar","fusion-swa") and (state.get("averaged_epochs") != 60 or state["config"].get("swa_start") != 61 or not state["config"].get("swa_final")):
+            raise ValueError("Averaging policy mismatch")
         if state.get("modality",state["config"].get("modality")) != modality: raise ValueError("Model sensor mismatch")
         model=Detector(modality).to(device).eval(); model.load_state_dict(state["model"]); model.graph_inference=GraphInference(model)
         models[key]=model
     reports={key:{} for key in models}
-    for seed in (11,12,13): reports[(seed,"candidate")]={}
+    for seed in SEEDS: reports[(seed,"candidate")]={}
     def one_case(name, changed, bits=7):
         available=[bool(bits & 1<<m) for m in range(3)]
-        for seed in (11,12,13):
-            predicted={m:q.pilot.infer(models[(seed,m)],changed,32) for m in ("rgb","ir","lidar","fusion","fusion-360")}
+        for seed in SEEDS:
+            predicted={m:q.pilot.infer(model,changed,32) for (s,m),model in models.items() if s == seed}
             for m,values in predicted.items(): reports[(seed,m)][name]=report(values,targets,records,device)
             fused=[fuse([predicted[m][i] for m in ("rgb","ir","lidar")],available) for i in range(len(records))]
             reports[(seed,"candidate")][name]=report(fused,targets,records,device)
             if name == "availability-7":
                 q.pilot.write(output / split / f"seed-{seed}-predictions.json",[{"capture_id":r["capture_id"],**{k:v.tolist() for k,v in p.items()}} for r,p in zip(records,fused)])
-        print(split,name,"candidate",[round(reports[(s,"candidate")][name]["map_3d"],4) for s in (11,12,13)],flush=True)
+        print(split,name,"candidate",[round(reports[(s,"candidate")][name]["map_3d"],4) for s in SEEDS],flush=True)
     for bits in range(8): one_case(f"availability-{bits}",q.availability(features,bits),bits)
     if split == "validation":
         for name,changed in q.suite(device): one_case(name,changed)
     else:
         for name in CORRUPTIONS: one_case(name,load_test(output,name,frozen,device))
     cases=[f"availability-{b}" for b in range(1,7)]+list(CORRUPTIONS)
-    values={name:[] for name in ("candidate","rgb","ir","lidar","fusion","fusion-360")}
+    values={name:[] for _,name in reports}
     for (seed,name),items in reports.items():
-        value={"seed":seed,"clean_map":items["availability-7"]["map_3d"],"degradation_macro":float(np.mean([items[c]["map_3d"] for c in cases])),"cases":items,"split":split,"dataset_sha256":frozen["dataset_sha256"]}
+        value={"seed":seed,"clean_map":items["availability-7"]["map_3d"],"degradation_macro":float(np.mean([items[c]["map_3d"] for c in cases])),"cases":items,"split":split,"dataset_sha256":q.digest(q.config().dataset / "manifest.json") if split == "validation" else frozen["dataset_sha256"]}
         values[name].append(value); q.pilot.write(output / split / f"{name}-seed-{seed}.json",value)
     for name in values: values[name].sort(key=lambda r:r["seed"])
     result=summarize(values); result.update(split=split,dataset_sha256=frozen["dataset_sha256"],macro_cases=cases)
@@ -132,9 +150,18 @@ def evaluate_split(output, split, frozen):
 
 
 def main():
+    global PROTOCOL,DATASET,VARIANT,SEEDS
     p=argparse.ArgumentParser(); p.add_argument("stage",choices=("freeze","prepare","evaluate")); p.add_argument("--split",choices=("validation","test"),default="test")
     p.add_argument("--output",type=Path,default=ROOT / "artifacts/sf-quality/acceptance")
+    p.add_argument("--protocol",type=Path,default=PROTOCOL)
+    p.add_argument("--dataset",type=Path,default=DATASET)
+    p.add_argument("--variant",choices=("initial","swa"),default="initial")
+    p.add_argument("--seeds",nargs="+",type=int,default=[11,12,13])
     a=p.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
+    PROTOCOL=a.protocol.resolve(); DATASET=a.dataset.resolve(); VARIANT=a.variant
+    SEEDS=tuple(a.seeds)
+    declared=json.loads(PROTOCOL.read_text()).get("all_seeds",[11,12,13])
+    if list(SEEDS) != declared: raise ValueError("Seed cohort does not match frozen protocol")
     path=a.output / "freeze.json"
     if a.stage == "freeze":
         if path.exists(): raise ValueError("Freeze exists; use a separate acceptance directory")

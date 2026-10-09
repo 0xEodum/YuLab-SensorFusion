@@ -5,6 +5,13 @@ immediate training. This checkpoint implements exploration, independent-expert
 consensus, observation-only live inference, and immutable holdout acceptance.
 The goal remains open until paired holdout and three-seed acceptance complete.
 
+Initial held-out acceptance **failed stability**, despite high quality: clean
+.755 +/- .046, degradation macro .656 +/- .023. Every mean quality/baseline gate
+passed, but clean seed SD exceeded .03. See `sf-quality/initial-test-summary.json`,
+the validation summary, and frozen source/checkpoint identities. This test is now
+historical evidence and cannot select a revised candidate. A new independent
+holdout will be generated before evaluating revised training-time weight averages.
+
 The first failing test command was
 `PYTHONPATH=backend python -m pytest backend/tests/test_robust_query.py -q`:
 exit 1, missing `learning.robust_query`. The implemented loss passes equal

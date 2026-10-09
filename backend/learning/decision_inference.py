@@ -32,7 +32,7 @@ def observation_features(obs, arrays):
 class DecisionFusionPredictor:
     def __init__(self, checkpoints, device="cpu", expected_hashes=None):
         if len(checkpoints) != 3: raise ValueError("Need RGB, IR and LiDAR checkpoints")
-        self.device=torch.device(device); self.models=[]; identities=[]; seeds=set(); datasets=set()
+        self.device=torch.device(device); self.models=[]; identities=[]; seeds=set(); datasets=set(); average_counts=set()
         for i,(m,path) in enumerate(zip(("rgb","ir","lidar"),checkpoints)):
             sha=digest(Path(path))
             if expected_hashes is not None and sha != expected_hashes[i]: raise ValueError("Checkpoint hash mismatch")
@@ -43,8 +43,12 @@ class DecisionFusionPredictor:
             if cfg["width"] != 64 or cfg["queries"] != 16: raise ValueError("Unsupported expert architecture")
             model=Detector(m).to(self.device).eval(); model.load_state_dict(saved["model"])
             self.models.append(model); identities.append({"modality":m,"sha256":sha}); seeds.add(saved["seed"]); datasets.add(saved["dataset_sha256"])
+            average_counts.add(saved.get("averaged_epochs",0))
         if len(seeds) != 1 or len(datasets) != 1: raise ValueError("Experts must have matched seed and dataset")
-        self.seed=next(iter(seeds)); self.identity={"profile":"independent-experts-consensus.v1","experts":identities,"iou":.1,"weights":[1]*9,"preprocessing":PROFILE}
+        if len(average_counts) != 1: raise ValueError("Experts must have matched averaging policy")
+        self.seed=next(iter(seeds)); averaged_epochs=next(iter(average_counts))
+        self.identity={"profile":"independent-experts-consensus-swa.v1" if averaged_epochs else "independent-experts-consensus.v1",
+                       "averaged_epochs":averaged_epochs,"experts":identities,"iou":.1,"weights":[1]*9,"preprocessing":PROFILE}
         self.sha256=hashlib.sha256(json.dumps(self.identity,sort_keys=True,separators=(",",":")).encode()).hexdigest()
 
     @torch.no_grad()

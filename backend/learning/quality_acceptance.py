@@ -23,7 +23,7 @@ def freeze(root, protocol_path, checkpoint_paths, source_paths):
         if not path.is_file(): raise ValueError(f"Checkpoint missing: {path}")
         entries.append({"path":path.resolve().relative_to(root.resolve()).as_posix(),"sha256":sha256(path)})
     return {"version":"quality-freeze.v1","protocol":protocol,
-            "protocol_sha256":sha256(protocol_path),"dataset_sha256":protocol["dataset_sha256"],
+            "protocol_sha256":sha256(protocol_path),"dataset_sha256":protocol.get("evaluation_dataset_sha256",protocol["dataset_sha256"]),
             "checkpoints":entries,"source_hash_normalization":"CRLF to LF",
             "sources":{str(p):source_sha256(root/p) for p in source_paths}}
 

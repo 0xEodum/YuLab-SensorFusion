@@ -1,0 +1,53 @@
+{
+  "version": "decision-fusion-quality.v2-swa",
+  "frozen_date": "2026-10-09",
+  "exploratory_seed": 11,
+  "confirmatory_seeds": [12, 13],
+  "all_seeds": [11, 12, 13, 14, 15],
+  "cohort_extension_before_holdout": "Three-seed validation clean SD was 0.0317, just above the gate. Added seeds 14 and 15 with identical averaging recipe before any fresh-holdout model evaluation; all five retained and counted, no subset selection.",
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "evaluation_dataset_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc",
+  "selection_split": "original validation",
+  "hypothesis": "End-of-training weight averages reduce checkpoint oscillation without adding inference networks or selecting an epoch maximum.",
+  "candidate": {
+    "profile": "independent-experts-consensus-swa.v1",
+    "expert_architecture": "baseline-v1",
+    "experts": ["rgb", "ir", "lidar"],
+    "epochs_per_expert": 120,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "schedule": "constant",
+    "queries": 16,
+    "width": 64,
+    "batch_size": 32,
+    "averaging": "uniform end-of-epoch model parameters, epochs 61 through 120 inclusive",
+    "averaged_epochs": 60,
+    "checkpoint_selection": "final average only; no validation maximum selection",
+    "consensus_iou": 0.1,
+    "weights_sensor_by_class": [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+    "output_capacity": 16,
+    "all_missing": "zero detections"
+  },
+  "controls": ["raw unimodal experts at 120 epochs", "averaged unimodal experts at 120 epochs", "raw feature fusion at 120 and 360 epochs", "averaged feature fusion at 120 epochs"],
+  "fresh_holdout": {
+    "captures": 600,
+    "independent_layout_groups": 12,
+    "seed_offset": 1000000,
+    "resolution_hw": [384, 640],
+    "lidar_beams": [32, 256],
+    "group_overlap_original": 0,
+    "policy": "Generated and published independently; no model evaluation before all candidate and control checkpoint hashes freeze. Previous 450-frame test cannot select this revision."
+  },
+  "metrics": {
+    "minimum_clean_map": 0.45,
+    "stretch_clean_map": 0.50,
+    "minimum_degradation_macro_map": 0.30,
+    "stretch_degradation_macro_map": 0.35,
+    "maximum_sample_sd_clean_and_macro": 0.03,
+    "sample_sd_ddof": 1,
+    "seeds_required": 3,
+    "require_outperform_strongest_control": true,
+    "macro_cases": ["availability-1", "availability-2", "availability-3", "availability-4", "availability-5", "availability-6", "rgb-known", "rgb-ood", "ir-known", "ir-ood", "lidar-known", "lidar-ood"]
+  },
+  "scope": "static synthetic three-class oriented 3D detection; same evaluator and corruption family as SF-12"
+}

@@ -70,3 +70,14 @@ Pass three expert checkpoints in RGB, IR, LiDAR order. It validates matching see
 dataset and preprocessing, skips unavailable experts, and identifies the complete
 ensemble with a composite checkpoint hash. Model load time is separate from
 observation read/preprocessing, inference, and consensus latency.
+
+The initial 450-frame holdout failed clean seed stability: .755 +/- .046 clean
+and .656 +/- .023 macro. It is preserved in the initial acceptance summaries.
+The revised [averaging protocol](evidence/sf-quality/swa-selection-protocol.json)
+selects the final uniform average over epochs 61-120. Its first three-seed
+validation result is .591 +/- .032 clean and .542 +/- .023 macro. The fixed
+recipe is expanded to five seeds 11-15 before fresh-holdout model evaluation;
+all seeds count, without choosing a subset. A 600-frame/12-layout holdout with
+zero original group overlap has been generated using the same capture resolution
+and LiDAR beams. Its publication was independently validated. Any result from
+that new holdout is confirmatory and cannot select the revised configuration.
