@@ -40,3 +40,12 @@ def fuse(experts, available, iou_threshold=.1, weights=None):
     order=np.argsort(-np.asarray(scores),kind="stable")[:16]
     return {"boxes":np.asarray(boxes,dtype=np.float32).reshape(-1,7)[order],
             "classes":np.asarray(classes,dtype=np.int64)[order],"scores":np.asarray(scores,dtype=np.float32)[order]}
+
+
+def fuse_snapshots(snapshots, available, iou_threshold=.1):
+    """Two fixed training snapshots per sensor, followed by sensor consensus."""
+    if len(snapshots) != 3 or any(len(values) != 2 for values in snapshots):
+        raise ValueError("Expected two snapshots for each of three sensors")
+    empty={"boxes":np.empty((0,7),dtype=np.float32),"classes":np.empty(0,dtype=np.int64),"scores":np.empty(0,dtype=np.float32)}
+    experts=[fuse([*values,empty],[True,True,False],iou_threshold) if available[m] else empty for m,values in enumerate(snapshots)]
+    return fuse(experts,available,iou_threshold)

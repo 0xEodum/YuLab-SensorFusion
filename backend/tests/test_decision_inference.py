@@ -39,3 +39,16 @@ def test_live_inference_never_reads_annotations_truth_or_missing_sensor_arrays(t
     assert available == [False]*3
     assert not features["point_valid"].any()
     assert not features["rgb"].any() and not features["ir"].any()
+
+
+def test_two_snapshot_inference_has_distinct_identity_and_rejects_wrong_order():
+    source,raw=fixtures()
+    root=Path(__file__).resolve().parents[2]
+    averages=[root / f"artifacts/sf-quality/swa-seed-11/{m}/best.pt" for m in ("rgb","ir","lidar")]
+    if not all(p.exists() for p in averages): pytest.skip("Averaged fixtures absent")
+    model=DecisionFusionPredictor(raw+averages)
+    assert model.identity["profile"] == "independent-experts-snapshot-consensus.v1"
+    assert len(model.identity["experts"]) == 6
+    result=model.infer_capture(source.parent,{"capture_id":source.name})
+    assert result["checkpoint_sha256"] == model.sha256
+    with pytest.raises(ValueError): DecisionFusionPredictor(averages+raw)

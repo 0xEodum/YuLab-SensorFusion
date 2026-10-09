@@ -81,3 +81,15 @@ all seeds count, without choosing a subset. A 600-frame/12-layout holdout with
 zero original group overlap has been generated using the same capture resolution
 and LiDAR beams. Its publication was independently validated. Any result from
 that new holdout is confirmatory and cannot select the revised configuration.
+
+Weight-average-only fusion ultimately fails clean validation SD across all five
+seeds (.587 +/- .035 clean; .532 +/- .022 macro). A third frozen hypothesis uses
+two snapshots per sensor: the validation-selected raw checkpoint and final
+weight average, with uniform prediction consensus before sensor consensus. It
+does not add training updates, but doubles inference networks to six. Three
+exploratory seeds give .621 +/- .025 clean and .570 +/- .025 macro. The
+[snapshot protocol](evidence/sf-quality/snapshot-selection-protocol.json) names
+unused seeds 16/17/18 for confirmation. The fresh holdout has still not been
+evaluated by any model at this selection point. Raw/averaged unimodal controls,
+raw 120/360-epoch fusion, averaged fusion, and two-snapshot feature-fusion controls
+are evaluated on the same observations. Negative findings remain visible.

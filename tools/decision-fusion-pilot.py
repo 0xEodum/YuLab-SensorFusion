@@ -11,7 +11,7 @@ spec=importlib.util.spec_from_file_location("quality",ROOT / "tools/quality-pilo
 q=importlib.util.module_from_spec(spec); spec.loader.exec_module(q)
 import numpy as np
 import torch
-from learning.decision_fusion import fuse
+from learning.decision_fusion import fuse, fuse_snapshots
 from learning.runtime import GraphInference
 from learning.model import Detector
 from learning.robust_query import RobustQuery
@@ -26,11 +26,14 @@ def main():
     p.add_argument("--output",type=Path,required=True)
     p.add_argument("--iou",type=float,default=.1)
     p.add_argument("--weights",nargs=9,type=float,default=[1]*9)
+    p.add_argument("--snapshots",nargs=3,type=Path,help="Second snapshot directory for RGB, IR, LiDAR")
     a=p.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
     q.pilot.seed_all(11,fill=False); device=torch.device("cuda")
     features,targets,rows=q.load("validation",device)
     sha=digest(q.config().dataset / "manifest.json"); models=[]; checkpoints=[]
-    for modality,folder in zip(("rgb","ir","lidar"),a.roots):
+    folders=list(zip(("rgb","ir","lidar"),a.roots))
+    if a.snapshots: folders += list(zip(("rgb","ir","lidar"),a.snapshots))
+    for modality,folder in folders:
         path=folder / "best.pt"; saved=torch.load(path,weights_only=True,map_location="cpu")
         if saved["dataset_sha256"] != sha or saved["preprocessing"] != PROFILE: raise ValueError("Checkpoint provenance mismatch")
         cfg=saved["config"]
@@ -53,7 +56,8 @@ def main():
         if name == "availability-7":
             selected=[(f"availability-{bits}",[bool(bits & 1<<m) for m in range(3)],predictions) for bits in range(8)]
         for case,available,items in selected:
-            merged=[fuse([items[m][i] for m in range(3)],available,a.iou,np.array(a.weights).reshape(3,3)) for i in range(len(rows))]
+            merged=[fuse_snapshots([[items[m][i],items[m+3][i]] for m in range(3)],available,a.iou) if a.snapshots else
+                    fuse([items[m][i] for m in range(3)],available,a.iou,np.array(a.weights).reshape(3,3)) for i in range(len(rows))]
             overlaps=q.frame_overlaps(merged,actual,device)
             reports[case]=q.evaluate(merged,actual,q.match_frames(merged,actual,overlaps))
             reports[case]["detections"]=sum(len(x["boxes"]) for x in merged)

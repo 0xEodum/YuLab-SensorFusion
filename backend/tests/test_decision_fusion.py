@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from learning.decision_fusion import fuse
+from learning.decision_fusion import fuse, fuse_snapshots
 
 
 def prediction(yaw=0, cls=0, x=0):
@@ -27,3 +27,10 @@ def test_empty_available_sensor_reduces_consensus_score_without_creating_boxes()
     out=fuse([prediction(),empty,empty],[True,True,True])
     assert len(out["boxes"]) == 1
     assert out["scores"][0] == pytest.approx(.3)
+
+
+def test_snapshot_consensus_respects_sensor_availability_and_does_not_double_count():
+    out=fuse_snapshots([[prediction(),prediction()]]*3,[True,True,True])
+    assert len(out["boxes"]) == 1 and out["scores"][0] == pytest.approx(.9)
+    poison={"boxes":None,"classes":None,"scores":None}
+    assert len(fuse_snapshots([[poison,poison]]*3,[False]*3)["boxes"]) == 0

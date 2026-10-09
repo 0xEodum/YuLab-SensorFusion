@@ -38,8 +38,8 @@ def paths():
     result={}
     for seed in SEEDS:
         for m in ("rgb","ir","lidar","fusion"):
-            result[(seed,m)]=(ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/best.pt") if VARIANT == "swa" and m != "fusion" else (ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/raw-best.pt" if seed >= 14 else seed_root(seed)/"runs"/m/"best.pt")
-        if VARIANT == "swa":
+            result[(seed,m)]=(ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/best.pt") if VARIANT in ("swa","snapshots") and m != "fusion" else (ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/raw-best.pt" if seed >= 14 else seed_root(seed)/"runs"/m/"best.pt")
+        if VARIANT in ("swa","snapshots"):
             for m in ("rgb","ir","lidar"): result[(seed,f"{m}-raw")]=(ROOT / f"artifacts/sf-quality/swa-seed-{seed}/{m}/raw-best.pt") if seed >= 14 else seed_root(seed)/"runs"/m/"best.pt"
             result[(seed,"fusion-swa")]=ROOT / f"artifacts/sf-quality/swa-seed-{seed}/fusion/best.pt"
         result[(seed,"fusion-360")]=ROOT / f"artifacts/sf-quality/fusion-360-seed-{seed}/best.pt"
@@ -116,7 +116,7 @@ def evaluate_split(output, split, frozen):
         if state["config"]["epochs"] != budget or state["config"]["lr"] != .001 or state["config"]["batch_size"] != 32:
             raise ValueError("Training budget mismatch")
         modality=name.split("-")[0]
-        if VARIANT == "swa" and name in ("rgb","ir","lidar","fusion-swa") and (state.get("averaged_epochs") != 60 or state["config"].get("swa_start") != 61 or not state["config"].get("swa_final")):
+        if VARIANT in ("swa","snapshots") and name in ("rgb","ir","lidar","fusion-swa") and (state.get("averaged_epochs") != 60 or state["config"].get("swa_start") != 61 or not state["config"].get("swa_final")):
             raise ValueError("Averaging policy mismatch")
         if state.get("modality",state["config"].get("modality")) != modality: raise ValueError("Model sensor mismatch")
         model=Detector(modality).to(device).eval(); model.load_state_dict(state["model"]); model.graph_inference=GraphInference(model)
@@ -128,7 +128,13 @@ def evaluate_split(output, split, frozen):
         for seed in SEEDS:
             predicted={m:q.pilot.infer(model,changed,32) for (s,m),model in models.items() if s == seed}
             for m,values in predicted.items(): reports[(seed,m)][name]=report(values,targets,records,device)
-            fused=[fuse([predicted[m][i] for m in ("rgb","ir","lidar")],available) for i in range(len(records))]
+            if VARIANT == "snapshots":
+                from learning.decision_fusion import fuse_snapshots
+                fused=[fuse_snapshots([[predicted[m+"-raw"][i],predicted[m][i]] for m in ("rgb","ir","lidar")],available) for i in range(len(records))]
+                null={"boxes":np.empty((0,7),dtype=np.float32),"classes":np.empty(0,dtype=np.int64),"scores":np.empty(0,dtype=np.float32)}
+                joint=[fuse([predicted["fusion"][i],predicted["fusion-swa"][i],null],[True,True,False]) if bits else null for i in range(len(records))]
+                reports.setdefault((seed,"fusion-snapshots"),{})[name]=report(joint,targets,records,device)
+            else: fused=[fuse([predicted[m][i] for m in ("rgb","ir","lidar")],available) for i in range(len(records))]
             reports[(seed,"candidate")][name]=report(fused,targets,records,device)
             if name == "availability-7":
                 q.pilot.write(output / split / f"seed-{seed}-predictions.json",[{"capture_id":r["capture_id"],**{k:v.tolist() for k,v in p.items()}} for r,p in zip(records,fused)])
@@ -155,7 +161,7 @@ def main():
     p.add_argument("--output",type=Path,default=ROOT / "artifacts/sf-quality/acceptance")
     p.add_argument("--protocol",type=Path,default=PROTOCOL)
     p.add_argument("--dataset",type=Path,default=DATASET)
-    p.add_argument("--variant",choices=("initial","swa"),default="initial")
+    p.add_argument("--variant",choices=("initial","swa","snapshots"),default="initial")
     p.add_argument("--seeds",nargs="+",type=int,default=[11,12,13])
     a=p.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
     PROTOCOL=a.protocol.resolve(); DATASET=a.dataset.resolve(); VARIANT=a.variant
