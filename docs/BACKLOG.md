@@ -4,7 +4,9 @@ Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
-with robustness failures retained. SF-13 is READY.
+with robustness failures retained. The 2026-10-09 quality request authorizes
+alternate architectures and data expansion before temporal work. SF-Q is IN
+PROGRESS; SF-13 is deferred until the quality investigation is complete.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -50,7 +52,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
-| SF-13 | Temporal capture and uncertain calibration | SF-12 | READY |
+| SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | IN PROGRESS |
+| SF-13 | Temporal capture and uncertain calibration | SF-Q | PLANNED |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |

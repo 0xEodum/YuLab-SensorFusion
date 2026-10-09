@@ -12,3 +12,4 @@ docs/evidence/sf06/*.png binary
 docs/evidence/sf12/* -text whitespace=cr-at-eol
 # Matplotlib retains significant path formatting in its generated SVG artifact.
 docs/evidence/sf12/*.svg -whitespace
+docs/evidence/sf-quality/* -text whitespace=cr-at-eol

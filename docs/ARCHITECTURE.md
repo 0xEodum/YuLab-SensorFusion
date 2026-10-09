@@ -41,6 +41,12 @@ will choose supported toolchain versions and lock an isolated backend environmen
 
 ## 2. Decisions and authority
 
+2026-10-09: the current user quality request permits static architecture and
+dataset changes before temporal work. [SF-Q](QUALITY_EXPERIMENTS.md) evaluates
+independent RGB/IR/LiDAR experts with detection consensus after query-loss and
+dropout controls failed to meet both quality goals. All inference still uses
+ObservationBundle only; the common 3D evaluator and original evidence remain.
+
 | ID | Decision | Reason / revisit condition |
 | --- | --- | --- |
 | A01 | React/Three.js frontend; Python API, dataset jobs, PyTorch training and inference | Reuse editor while putting ML and durable jobs in the backend |

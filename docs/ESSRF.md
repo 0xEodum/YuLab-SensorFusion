@@ -2,6 +2,11 @@
 
 ## 0. Lab implementation status and decision record
 
+2026-10-09: the user authorizes replacing ESSRF and expanding data to meet clean,
+degradation, and stability targets. The active [quality investigation](QUALITY_EXPERIMENTS.md)
+tests a size-balanced query detector and explicit sensor availability. ESSRF is
+retained as historical evidence; it is not the required final architecture.
+
 **Status (2026-10-06): SF-12 static comparison complete; general robustness advantage not demonstrated.**
 The observation-only `baseline-v1` detectors and independent 3D evaluator passed
 SF-11 acceptance. IR-only is the strongest baseline; simple fusion does not beat
