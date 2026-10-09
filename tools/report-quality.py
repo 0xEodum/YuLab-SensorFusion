@@ -29,8 +29,9 @@ def main():
     p.add_argument("--output",type=Path,default=ROOT / "docs/evidence/sf-quality")
     a=p.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
     frozen=read(a.acceptance/"freeze.json")
-    snapshot_mode=frozen["protocol"]["candidate"]["profile"] == "independent-experts-snapshot-consensus.v1"
-    prefix="snapshot" if snapshot_mode else "swa"
+    ensemble_mode=frozen["protocol"]["candidate"]["profile"] == "independent-experts-initialization-consensus.v1"
+    snapshot_mode=ensemble_mode or frozen["protocol"]["candidate"]["profile"] == "independent-experts-snapshot-consensus.v1"
+    prefix="ensemble" if ensemble_mode else ("snapshot" if snapshot_mode else "swa")
     validate_freeze(ROOT,frozen,a.protocol,a.dataset/"manifest.json")
     summaries={s:read(a.acceptance/s/"summary.json") for s in ("validation","test")}
     for split,summary in summaries.items():
@@ -51,9 +52,9 @@ def main():
         colors=["#117864" if n == "candidate" else "#7f8c8d" for n in methods]
         ax.barh(methods,means,xerr=sd,color=colors,capsize=3); ax.invert_yaxis()
         ax.axvline(limit,color="#a93226",linestyle="--",label="quality target")
-        ax.set(xlim=(0,1),xlabel="Mean mAP; error bars = sample SD across all seeds",title=title)
+        ax.set(xlim=(0,1),xlabel="Mean mAP; error bars = sample SD across disjoint ensembles" if ensemble_mode else "Mean mAP; error bars = sample SD across all seeds",title=title)
         ax.grid(axis="x",alpha=.2); ax.legend(loc="lower right")
-    fig.suptitle(f"Fresh 600-frame holdout; {len(summaries['test']['seeds'])} complete paired seeds")
+    fig.suptitle(f"Fresh 600-frame holdout; {len(summaries['test']['seeds'])} complete paired {'ensembles' if ensemble_mode else 'seeds'}")
     fig.savefig(a.output/"fresh-holdout.png",dpi=180); plt.close(fig)
     names=summaries["test"]["macro_cases"]
     fig,ax=plt.subplots(figsize=(12,5),layout="constrained")
@@ -68,18 +69,22 @@ def main():
                              "concurrent_unrelated_training":True},"datasets":{"training_sha256":frozen["protocol"]["dataset_sha256"],"evaluation_sha256":frozen["dataset_sha256"]},
               "checks":{"validation_accepted":summaries["validation"]["accepted"],"fresh_test_accepted":summaries["test"]["accepted"],
                         "all_missing_zero_detections":all(read(a.acceptance/"test"/f"candidate-seed-{s}.json")["cases"]["availability-0"]["detections"] == 0 for s in summaries["test"]["seeds"])},
-              "scope_limits":["static synthetic three-class scene family","known/exposed corruption probes, not unseen real sensor faults","seed SD measures optimization variability, not dataset sampling confidence",f"{6 if snapshot_mode else 3} inference networks, not single-network compute parity"]}
+              "scope_limits":["static synthetic three-class scene family","known/exposed corruption probes, not unseen real sensor faults","ensemble SD measures optimization variability across three disjoint three-initialization ensembles, not single-initialization stability or dataset sampling confidence" if ensemble_mode else "seed SD measures optimization variability, not dataset sampling confidence",f"{18 if ensemble_mode else (6 if snapshot_mode else 3)} inference networks, not single-network compute parity"]}
     write(a.output/"acceptance-checks.json",evidence)
     default_seed=min(frozen["protocol"].get("all_seeds",[11,12,13]))
     experts=[]
-    for filename in (("raw-best.pt","best.pt") if snapshot_mode else ("best.pt",)):
-        for m in ("rgb","ir","lidar"):
-            path=f"artifacts/sf-quality/swa-seed-{default_seed}/{m}/{filename}"
-            record=next(x for x in frozen["checkpoints"] if x["path"] == path)
-            experts.append({"modality":m,"snapshot":filename,**record})
+    members=frozen["protocol"]["initialization_groups"][0] if ensemble_mode else [default_seed]
+    for seed in members:
+        for filename in (("raw-best.pt","best.pt") if snapshot_mode else ("best.pt",)):
+            for m in ("rgb","ir","lidar"):
+                if filename == "raw-best.pt" and seed < 14:
+                    path=f"artifacts/sf-quality/{'baseline-120' if seed == 11 else f'baseline-120-seed-{seed}'}/runs/{m}/best.pt"
+                else: path=f"artifacts/sf-quality/swa-seed-{seed}/{m}/{filename}"
+                record=next(x for x in frozen["checkpoints"] if x["path"] == path)
+                experts.append({"modality":m,"snapshot":filename,"seed":seed,**record})
     write(a.output/"model-bundle.json",{"profile":frozen["protocol"]["candidate"]["profile"],"default_seed":default_seed,
                                          "training_sha256":frozen["protocol"]["dataset_sha256"],"averaged_epochs":60,"consensus_iou":.1,
-                                         "weights":[1]*9,"experts":experts,"inference_cli":"tools/infer-decision-fusion.py"})
+                                         "weights":[1]*9,"member_seeds":members,"experts":experts,"inference_cli":"tools/infer-decision-fusion.py"})
     artifacts=[]
     for path in sorted(a.output.iterdir()):
         if path.name == "artifact-manifest.json" or not path.is_file(): continue

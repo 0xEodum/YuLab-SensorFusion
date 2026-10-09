@@ -12,7 +12,7 @@ from learning.decision_inference import DecisionFusionPredictor
 p=argparse.ArgumentParser()
 p.add_argument("--observations",type=Path,required=True)
 p.add_argument("--capture-id",required=True)
-p.add_argument("--checkpoints",nargs="+",type=Path,required=True,help="Three experts, or raw RGB/IR/LiDAR followed by their three averaged snapshots")
+p.add_argument("--checkpoints",nargs="+",type=Path,required=True,help="Three experts, six raw/averaged snapshots, or three six-snapshot initialization groups")
 p.add_argument("--output",type=Path,required=True)
 p.add_argument("--device",default="cpu")
 p.add_argument("--repeat",type=int,default=1,help="Include 10 warmup calls when benchmarking more than one repetition")

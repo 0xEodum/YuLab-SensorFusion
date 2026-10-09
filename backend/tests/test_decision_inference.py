@@ -52,3 +52,20 @@ def test_two_snapshot_inference_has_distinct_identity_and_rejects_wrong_order():
     result=model.infer_capture(source.parent,{"capture_id":source.name})
     assert result["checkpoint_sha256"] == model.sha256
     with pytest.raises(ValueError): DecisionFusionPredictor(averages+raw)
+
+
+def test_initialization_ensemble_validates_disjoint_seed_groups_and_reloads():
+    source,_=fixtures(); root=Path(__file__).resolve().parents[2]; paths=[]
+    for seed in (11,12,13):
+        raw_root=root/("artifacts/sf-quality/baseline-120" if seed == 11 else f"artifacts/sf-quality/baseline-120-seed-{seed}")
+        paths.extend(raw_root/f"runs/{m}/best.pt" for m in ("rgb","ir","lidar"))
+        paths.extend(root/f"artifacts/sf-quality/swa-seed-{seed}/{m}/best.pt" for m in ("rgb","ir","lidar"))
+    if not all(p.exists() for p in paths): pytest.skip("Initialization fixtures absent")
+    model=DecisionFusionPredictor(paths)
+    assert model.identity["profile"] == "independent-experts-initialization-consensus.v1"
+    assert model.identity["member_seeds"] == [11,12,13]
+    result=model.infer_capture(source.parent,{"capture_id":source.name})
+    assert result["checkpoint_sha256"] == DecisionFusionPredictor(paths).sha256
+    with pytest.raises(ValueError): DecisionFusionPredictor(paths[:6]*3)
+    paths[0],paths[6]=paths[6],paths[0]
+    with pytest.raises(ValueError): DecisionFusionPredictor(paths)

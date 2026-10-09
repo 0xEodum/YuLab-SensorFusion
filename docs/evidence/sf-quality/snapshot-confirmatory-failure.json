@@ -1,0 +1,30 @@
+{
+  "seeds": [
+    16,
+    17,
+    18
+  ],
+  "split": "validation",
+  "promoted": false,
+  "reason": "new initialization seeds still exceed clean SD gate",
+  "metrics": {
+    "clean_map": {
+      "mean": 0.6635117986805329,
+      "sample_sd": 0.04817533233374338,
+      "by_seed": [
+        0.6987194066711986,
+        0.608609457178371,
+        0.683206532192029
+      ]
+    },
+    "degradation_macro": {
+      "mean": 0.5861796154368398,
+      "sample_sd": 0.01660365201335147,
+      "by_seed": [
+        0.5989008428602641,
+        0.56739688275083,
+        0.5922411206994257
+      ]
+    }
+  }
+}

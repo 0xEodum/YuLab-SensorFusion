@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from learning.decision_fusion import fuse, fuse_snapshots
+from learning.decision_fusion import fuse, fuse_snapshots, fuse_initializations
 
 
 def prediction(yaw=0, cls=0, x=0):
@@ -34,3 +34,14 @@ def test_snapshot_consensus_respects_sensor_availability_and_does_not_double_cou
     assert len(out["boxes"]) == 1 and out["scores"][0] == pytest.approx(.9)
     poison={"boxes":None,"classes":None,"scores":None}
     assert len(fuse_snapshots([[poison,poison]]*3,[False]*3)["boxes"]) == 0
+
+
+def test_independent_initializations_average_errors_and_skip_missing_observations():
+    runs=[[[prediction(x=x),prediction(x=x)]]*3 for x in (-.5,0,.5)]
+    result=fuse_initializations(runs,[True]*3)
+    assert len(result["boxes"]) == 1
+    assert abs(result["boxes"][0,0]) < 1e-6
+    assert result["scores"][0] == pytest.approx(.9)
+    poison={"boxes":None,"classes":None,"scores":None}
+    assert len(fuse_initializations([[[poison,poison]]*3]*3,[False]*3)["boxes"]) == 0
+    with pytest.raises(ValueError): fuse_initializations(runs[:2],[True]*3)

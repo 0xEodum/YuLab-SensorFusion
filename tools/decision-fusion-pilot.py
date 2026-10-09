@@ -27,14 +27,15 @@ def main():
     p.add_argument("--iou",type=float,default=.1)
     p.add_argument("--weights",nargs=9,type=float,default=[1]*9)
     p.add_argument("--snapshots",nargs=3,type=Path,help="Second snapshot directory for RGB, IR, LiDAR")
+    p.add_argument("--primary-file",choices=("best.pt","raw-best.pt"),default="best.pt")
     a=p.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
     q.pilot.seed_all(11,fill=False); device=torch.device("cuda")
     features,targets,rows=q.load("validation",device)
     sha=digest(q.config().dataset / "manifest.json"); models=[]; checkpoints=[]
     folders=list(zip(("rgb","ir","lidar"),a.roots))
     if a.snapshots: folders += list(zip(("rgb","ir","lidar"),a.snapshots))
-    for modality,folder in folders:
-        path=folder / "best.pt"; saved=torch.load(path,weights_only=True,map_location="cpu")
+    for index,(modality,folder) in enumerate(folders):
+        path=folder / (a.primary_file if index < 3 else "best.pt"); saved=torch.load(path,weights_only=True,map_location="cpu")
         if saved["dataset_sha256"] != sha or saved["preprocessing"] != PROFILE: raise ValueError("Checkpoint provenance mismatch")
         cfg=saved["config"]
         if saved.get("profile") == "baseline-v1" or cfg.get("model") == "baseline":

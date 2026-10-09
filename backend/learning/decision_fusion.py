@@ -42,10 +42,25 @@ def fuse(experts, available, iou_threshold=.1, weights=None):
             "classes":np.asarray(classes,dtype=np.int64)[order],"scores":np.asarray(scores,dtype=np.float32)[order]}
 
 
-def fuse_snapshots(snapshots, available, iou_threshold=.1):
-    """Two fixed training snapshots per sensor, followed by sensor consensus."""
+def snapshot_experts(snapshots, available, iou_threshold=.1):
+    """Two fixed training snapshots per sensor."""
     if len(snapshots) != 3 or any(len(values) != 2 for values in snapshots):
         raise ValueError("Expected two snapshots for each of three sensors")
     empty={"boxes":np.empty((0,7),dtype=np.float32),"classes":np.empty(0,dtype=np.int64),"scores":np.empty(0,dtype=np.float32)}
     experts=[fuse([*values,empty],[True,True,False],iou_threshold) if available[m] else empty for m,values in enumerate(snapshots)]
-    return fuse(experts,available,iou_threshold)
+    return experts
+
+
+def fuse_snapshots(snapshots, available, iou_threshold=.1):
+    return fuse(snapshot_experts(snapshots,available,iou_threshold),available,iou_threshold)
+
+
+def initialization_experts(runs, available, iou_threshold=.1):
+    """Exactly three independent initialization trajectories per sensor."""
+    if len(runs) != 3: raise ValueError("Require three independent initializations")
+    members=[snapshot_experts(r,available,iou_threshold) for r in runs]
+    return [fuse([members[k][m] for k in range(3)],[True]*3,iou_threshold) for m in range(3)]
+
+
+def fuse_initializations(runs, available, iou_threshold=.1):
+    return fuse(initialization_experts(runs,available,iou_threshold),available,iou_threshold)

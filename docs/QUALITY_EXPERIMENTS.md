@@ -93,3 +93,22 @@ unused seeds 16/17/18 for confirmation. The fresh holdout has still not been
 evaluated by any model at this selection point. Raw/averaged unimodal controls,
 raw 120/360-epoch fusion, averaged fusion, and two-snapshot feature-fusion controls
 are evaluated on the same observations. Negative findings remain visible.
+
+
+The two-snapshot hypothesis also fails on the declared confirmatory seeds:
+clean .664 +/- .048 and macro .586 +/- .017. Its failure is retained in
+`snapshot-confirmatory-failure.json`; the fresh holdout was not scored for it.
+The next fixed architecture averages three independent initializations per
+sensor in addition to the two snapshots. The three deployed-model replicates
+use disjoint groups (11,12,13), (14,15,16), and (17,18,19), retaining every seed.
+Sample SD now describes variability across these three complete ensembles,
+not a claim that a single initialization has become stable. Each ensemble has
+18 inference networks and nine 120-epoch training trajectories. Three-member
+feature-fusion controls include 360 epochs per member, matching its total
+training-update budget. All raw, averaged, and two-snapshot unimodal committees
+also count as controls. The fixed recipe is in the
+[ensemble protocol](evidence/sf-quality/ensemble-selection-protocol.json).
+`tools/ensemble-quality.py` freezes all 81 candidate/control checkpoints before
+paired validation and fresh holdout scoring. Persistent inference accepts 18
+checkpoints, ordered raw RGB/IR/LiDAR then averaged RGB/IR/LiDAR for each of the
+three initialization groups. No labels or truth are inference inputs.
