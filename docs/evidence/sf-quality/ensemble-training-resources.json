@@ -1,0 +1,227 @@
+{
+  "groups": [
+    {
+      "member_seeds": [
+        11,
+        12,
+        13
+      ],
+      "trajectories": [
+        {
+          "seed": 11,
+          "modality": "rgb",
+          "training_wall_s": 23.42793630000051,
+          "cli_wall_s": 31.211083199999848,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 11,
+          "modality": "ir",
+          "training_wall_s": 21.01639449999857,
+          "cli_wall_s": 27.590725800000655,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 11,
+          "modality": "lidar",
+          "training_wall_s": 19.31263929999841,
+          "cli_wall_s": 25.273836200000005,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 12,
+          "modality": "rgb",
+          "training_wall_s": 19.55635650000113,
+          "cli_wall_s": 22.571940000001632,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 12,
+          "modality": "ir",
+          "training_wall_s": 19.320360300000175,
+          "cli_wall_s": 22.24985110000125,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 12,
+          "modality": "lidar",
+          "training_wall_s": 16.34371259999898,
+          "cli_wall_s": 19.09468409999863,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 13,
+          "modality": "rgb",
+          "training_wall_s": 19.30340079999951,
+          "cli_wall_s": 22.239661499999784,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 13,
+          "modality": "ir",
+          "training_wall_s": 18.804390899998907,
+          "cli_wall_s": 21.751658600000155,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 13,
+          "modality": "lidar",
+          "training_wall_s": 16.455049100000906,
+          "cli_wall_s": 19.140395599999465,
+          "peak_allocated_bytes": 810480640
+        }
+      ],
+      "training_wall_s_sum": 173.5402402999971,
+      "cli_wall_s_sum": 211.12383610000143
+    },
+    {
+      "member_seeds": [
+        14,
+        15,
+        16
+      ],
+      "trajectories": [
+        {
+          "seed": 14,
+          "modality": "rgb",
+          "training_wall_s": 27.944163300000582,
+          "cli_wall_s": 30.781307299999753,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 14,
+          "modality": "ir",
+          "training_wall_s": 28.731273800000054,
+          "cli_wall_s": 31.59121310000046,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 14,
+          "modality": "lidar",
+          "training_wall_s": 27.64558549999856,
+          "cli_wall_s": 30.513968199999,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 15,
+          "modality": "rgb",
+          "training_wall_s": 29.274371699999392,
+          "cli_wall_s": 32.283729400000084,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 15,
+          "modality": "ir",
+          "training_wall_s": 28.606124800000543,
+          "cli_wall_s": 31.635631099999955,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 15,
+          "modality": "lidar",
+          "training_wall_s": 27.15716649999922,
+          "cli_wall_s": 30.048589300000458,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 16,
+          "modality": "rgb",
+          "training_wall_s": 28.71178520000103,
+          "cli_wall_s": 31.595581600000514,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 16,
+          "modality": "ir",
+          "training_wall_s": 28.543424499999674,
+          "cli_wall_s": 31.361578299998655,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 16,
+          "modality": "lidar",
+          "training_wall_s": 27.93691359999866,
+          "cli_wall_s": 30.92660440000145,
+          "peak_allocated_bytes": 810480640
+        }
+      ],
+      "training_wall_s_sum": 254.55080889999772,
+      "cli_wall_s_sum": 280.73820270000033
+    },
+    {
+      "member_seeds": [
+        17,
+        18,
+        19
+      ],
+      "trajectories": [
+        {
+          "seed": 17,
+          "modality": "rgb",
+          "training_wall_s": 28.918926800000918,
+          "cli_wall_s": 31.884696499999336,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 17,
+          "modality": "ir",
+          "training_wall_s": 26.775109400001384,
+          "cli_wall_s": 29.57415939999919,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 17,
+          "modality": "lidar",
+          "training_wall_s": 28.085709699998915,
+          "cli_wall_s": 30.98601139999846,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 18,
+          "modality": "rgb",
+          "training_wall_s": 28.90803700000106,
+          "cli_wall_s": 31.99547110000094,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 18,
+          "modality": "ir",
+          "training_wall_s": 28.601077900000746,
+          "cli_wall_s": 31.594839599998522,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 18,
+          "modality": "lidar",
+          "training_wall_s": 26.823156100001142,
+          "cli_wall_s": 29.639208799999324,
+          "peak_allocated_bytes": 810480640
+        },
+        {
+          "seed": 19,
+          "modality": "rgb",
+          "training_wall_s": 29.931185699999332,
+          "cli_wall_s": 33.207922400000825,
+          "peak_allocated_bytes": 813129216
+        },
+        {
+          "seed": 19,
+          "modality": "ir",
+          "training_wall_s": 28.933614800000214,
+          "cli_wall_s": 31.9034823999973,
+          "peak_allocated_bytes": 813104640
+        },
+        {
+          "seed": 19,
+          "modality": "lidar",
+          "training_wall_s": 26.619682799999282,
+          "cli_wall_s": 29.483905199998844,
+          "peak_allocated_bytes": 810480640
+        }
+      ],
+      "training_wall_s_sum": 253.596500200003,
+      "cli_wall_s_sum": 280.26969679999274
+    }
+  ],
+  "note": "Sequential trajectory times summed. Shared RTX3090; counts exclude exploratory rejected runs. Early seeds11-13 used separate deterministic raw snapshot runs and fewer average validations; last two groups save both snapshots in one trajectory. Not an isolated speed comparison."
+}

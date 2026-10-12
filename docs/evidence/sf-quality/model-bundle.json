@@ -1,0 +1,153 @@
+{
+  "profile": "independent-experts-initialization-consensus.v1",
+  "default_seed": 11,
+  "checkpoint_sha256": "fbe84065cbc1fb832ff963f8fb9d4e29911e9b704c7cfadb8dff0947daf17b56",
+  "training_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "averaged_epochs": 60,
+  "consensus_iou": 0.1,
+  "weights": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "member_seeds": [
+    11,
+    12,
+    13
+  ],
+  "experts": [
+    {
+      "modality": "rgb",
+      "snapshot": "raw-best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/baseline-120/runs/rgb/best.pt",
+      "sha256": "44c01fec675f6b9e3d81ae9c373fdbaeec9a1404390de3f6259edcf5f14c18e4"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "raw-best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/baseline-120/runs/ir/best.pt",
+      "sha256": "b9d916aaad3aca96a0f3d2d83b22d83916da56201aedd23b0b168ded195a5454"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "raw-best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/baseline-120/runs/lidar/best.pt",
+      "sha256": "b19bbbc3d7f8b5311c3182374241a572d0e036f5fe28d9f81b9fd129bac62a9b"
+    },
+    {
+      "modality": "rgb",
+      "snapshot": "best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/swa-seed-11/rgb/best.pt",
+      "sha256": "cdab1bc5f89890dacff0002c5845eac0f1becefe1d33bf3e30bfc89517f4a6b0"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/swa-seed-11/ir/best.pt",
+      "sha256": "b3d174f74abffb08becbc290b8c74a7480e9a34cbae15aeb2f4373235b244b4f"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "best.pt",
+      "seed": 11,
+      "path": "artifacts/sf-quality/swa-seed-11/lidar/best.pt",
+      "sha256": "831f7dca53c77b6d93121443885f067e3deb19bff548f3ea5e93b0abaf6ddc9f"
+    },
+    {
+      "modality": "rgb",
+      "snapshot": "raw-best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/rgb/best.pt",
+      "sha256": "aa8b1c379fd0ca3d512da7cb190b8b894a36b95eefb7d96b2746405336957556"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "raw-best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/ir/best.pt",
+      "sha256": "12b1d66e181068d2e00189bc748e07dd4f3b413805fc65f681d8ce5b243c779a"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "raw-best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/baseline-120-seed-12/runs/lidar/best.pt",
+      "sha256": "c997b58250b1fb21bd124b043b8b156809d457155a124dbb2fdf61cb526dac5e"
+    },
+    {
+      "modality": "rgb",
+      "snapshot": "best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/swa-seed-12/rgb/best.pt",
+      "sha256": "d28496a800f784167be699ddd1f4e6117dbb3a4621d90a0789f29765fbc20f04"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/swa-seed-12/ir/best.pt",
+      "sha256": "dd8737ca6ccb4086a8f166d790c20d96e08d44578734a6bf7294926ab2e1fb91"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "best.pt",
+      "seed": 12,
+      "path": "artifacts/sf-quality/swa-seed-12/lidar/best.pt",
+      "sha256": "b91429569fde633f7e47bfbcf6e0e840e3cc909262296a4ede3df03452513be1"
+    },
+    {
+      "modality": "rgb",
+      "snapshot": "raw-best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/rgb/best.pt",
+      "sha256": "1dbf824f40b2fc8cd4888c9fdba396249c270492f9c78ba80c1fda4fdf585f71"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "raw-best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/ir/best.pt",
+      "sha256": "b1da2a2d7e53c44ef365ec996ab77c44c1d918e447c39a4e2ea38b17bcfe4158"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "raw-best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/baseline-120-seed-13/runs/lidar/best.pt",
+      "sha256": "b023217b2b58a23be2aa07dc4aaab44b718f004dcdcd4ea12ae5b6fa4916e6c4"
+    },
+    {
+      "modality": "rgb",
+      "snapshot": "best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/swa-seed-13/rgb/best.pt",
+      "sha256": "caf52385db90522764a57e4481346468becd4d1a8bc1e98b11a1a9060d1255fa"
+    },
+    {
+      "modality": "ir",
+      "snapshot": "best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/swa-seed-13/ir/best.pt",
+      "sha256": "1d3e30d883332352822665ff036460239bbdcae84625e0928c3eacd461c4276b"
+    },
+    {
+      "modality": "lidar",
+      "snapshot": "best.pt",
+      "seed": 13,
+      "path": "artifacts/sf-quality/swa-seed-13/lidar/best.pt",
+      "sha256": "d2a3c70a025d361a1f6d7683c3034bc9ee708623d94832dc01be5064de237109"
+    }
+  ],
+  "inference_cli": "tools/infer-decision-fusion.py"
+}

@@ -1,0 +1,23 @@
+{
+  "environment": {
+    "python": "3.13.10",
+    "torch": "2.13.0+cu130",
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "concurrent_unrelated_training": true
+  },
+  "datasets": {
+    "training_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+    "evaluation_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc"
+  },
+  "checks": {
+    "validation_accepted": true,
+    "fresh_test_accepted": true,
+    "all_missing_zero_detections": true
+  },
+  "scope_limits": [
+    "static synthetic three-class scene family",
+    "known/exposed corruption probes, not unseen real sensor faults",
+    "ensemble SD measures optimization variability across three disjoint three-initialization ensembles, not single-initialization stability or dataset sampling confidence",
+    "18 inference networks, not single-network compute parity"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "version": "decision-fusion-quality.v3-snapshots",
+  "frozen_date": "2026-10-09",
+  "exploratory_seeds": [11, 12, 13, 14, 15],
+  "all_seeds": [16, 17, 18],
+  "confirmatory_seeds": [16, 17, 18],
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "evaluation_dataset_sha256": "9d11f1cbcdb0bb245321cc5f0248c185c75a2c98a13393a5da278cfa2fb814fc",
+  "hypothesis": "Prediction consensus between an early selected snapshot and a final weight average reduces both training-time oscillation and the effects of a single snapshot's localization errors.",
+  "candidate": {
+    "profile": "independent-experts-snapshot-consensus.v1",
+    "expert_architecture": "baseline-v1",
+    "experts": ["rgb", "ir", "lidar"],
+    "epochs_per_expert": 120,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "schedule": "constant",
+    "queries": 16,
+    "width": 64,
+    "batch_size": 32,
+    "snapshots_per_sensor": 2,
+    "raw_snapshot_selection": "highest clean validation mAP across every epoch, ties choose latest",
+    "average_snapshot": "uniform end-of-epoch parameters for epochs 61 through 120, final average only",
+    "averaged_epochs": 60,
+    "snapshot_consensus_iou": 0.1,
+    "sensor_consensus_iou": 0.1,
+    "weights": "uniform at both consensus levels",
+    "output_capacity": 16,
+    "all_missing": "zero detections",
+    "inference_networks": 6,
+    "training_budget_note": "Two saved states from the same training trajectory; three expert trajectories, no second training run for snapshots"
+  },
+  "controls": ["raw and averaged RGB/IR/LiDAR", "raw feature fusion at 120 and 360 epochs", "averaged feature fusion at 120 epochs", "two-snapshot feature fusion with the identical snapshot rule"],
+  "fresh_holdout": {
+    "captures": 600,
+    "independent_layout_groups": 12,
+    "group_overlap_original": 0,
+    "model_evaluation_before_this_protocol": false,
+    "policy": "All three newly declared confirmatory seeds count. No model evaluation on fresh holdout before all candidate/control hashes freeze; no later tuning against it."
+  },
+  "metrics": {
+    "stretch_clean_map": 0.50,
+    "stretch_degradation_macro_map": 0.35,
+    "maximum_sample_sd_clean_and_macro": 0.03,
+    "sample_sd_ddof": 1,
+    "seeds_required": 3,
+    "require_outperform_strongest_control": true,
+    "macro_cases": ["availability-1", "availability-2", "availability-3", "availability-4", "availability-5", "availability-6", "rgb-known", "rgb-ood", "ir-known", "ir-ood", "lidar-known", "lidar-ood"]
+  },
+  "retained_failures": "Initial raw consensus clean holdout SD .0456; weight-average-only validation clean SD .0347 over all five exploratory seeds. Neither met the complete goal.",
+  "scope": "static synthetic three-class oriented 3D detection; known/exposed corruption family"
+}

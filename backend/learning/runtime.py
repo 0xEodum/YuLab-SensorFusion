@@ -80,11 +80,12 @@ class AdamWGraphPrefix:
 
 
 class GraphTrainer:
-    def __init__(self, model, features, targets, optimizer=None):
+    def __init__(self, model, features, targets, optimizer=None, loss_function=detection_loss):
         if not features["calibration"].is_cuda:
             raise ValueError("CUDA graphs require CUDA-resident observations")
         load()  # DLL loading is outside graph capture.
         self.model, self.features, self.targets = model, features, targets
+        self.loss_function = loss_function
         self.graphs = {}
         self.stream = torch.cuda.Stream(device=features["calibration"].device)
         self.optimizer_prefix = AdamWGraphPrefix(optimizer) if optimizer is not None else None
@@ -104,7 +105,7 @@ class GraphTrainer:
             targets = {k: self.targets[k][ids] for k in ("boxes", "classes", "counts_device")}
             targets["counts"] = counts
             targets["weights"] = self.targets["weights"]
-            loss = detection_loss(self.model(features), targets, native=True)
+            loss = self.loss_function(self.model(features), targets, native=True)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
             self.finite.logical_and_(torch.isfinite(loss))

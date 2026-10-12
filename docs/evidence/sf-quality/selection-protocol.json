@@ -1,0 +1,44 @@
+{
+  "version": "decision-fusion-quality.v1",
+  "frozen_date": "2026-10-09",
+  "exploratory_seed": 11,
+  "confirmatory_seeds": [12, 13],
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "selection_split": "validation",
+  "candidate": {
+    "profile": "independent-experts-consensus.v1",
+    "experts": ["rgb", "ir", "lidar"],
+    "expert_architecture": "baseline-v1",
+    "epochs_per_expert": 120,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "schedule": "constant",
+    "queries": 16,
+    "width": 64,
+    "batch_size": 32,
+    "expert_checkpoint_selection": "highest clean validation mAP over every epoch, ties choose latest; independent per sensor",
+    "consensus_iou": 0.1,
+    "weights_sensor_by_class": [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+    "score": "sum of supporting sensor confidences / number of available sensors",
+    "box": "confidence weighted metric centers/extents and pi periodic yaw",
+    "output_capacity": 16,
+    "all_missing": "zero detections"
+  },
+  "controls": [
+    "matched seed and 120 epochs: RGB, IR, LiDAR and feature-fusion baseline-v1",
+    "compute sensitivity: feature-fusion baseline-v1 with 360 epochs and same checkpoint policy"
+  ],
+  "metrics": {
+    "minimum_clean_map": 0.45,
+    "stretch_clean_map": 0.50,
+    "minimum_degradation_macro_map": 0.30,
+    "stretch_degradation_macro_map": 0.35,
+    "maximum_sample_sd_clean_and_macro": 0.03,
+    "sample_sd_ddof": 1,
+    "seeds_required": 3,
+    "macro_cases": ["availability-1", "availability-2", "availability-3", "availability-4", "availability-5", "availability-6", "rgb-known", "rgb-ood", "ir-known", "ir-ood", "lidar-known", "lidar-ood"],
+    "require_outperform_strongest_control": true
+  },
+  "holdout_policy": "Freeze all checkpoint hashes before reading test observations or annotations; no tuning against that test. Historical SF-11 test has already been used for reporting, so independent fresh generated holdout remains desirable for broader generalization.",
+  "scope": "static synthetic three-class oriented 3D detection; no real-world or unseen-corruption claim"
+}

@@ -8,7 +8,11 @@ free flight, browser-persisted rig poses, display LOD and independent sensor
 geometry readiness. SF-04 adds the initial metre-scale model catalog/aerodrome;
 SF-05 through SF-07 add backend-owned synchronized RGB, reference, raw thermal
 IR and sparse first-return LiDAR capture. See [streaming controls and limits](docs/STREAMING.md).
-Datasets, training and inference are later stages; no trained model is supplied yet.
+Local datasets, training and checkpoint inference are implemented. The accepted
+static sensor ensemble achieves fresh-holdout clean mAP .797 and degradation
+macro .771; see [quality results and inference](docs/evidence/SF-Q-quality.md).
+Checkpoints and datasets remain local artifacts outside Git. Training/inference
+service and UI integration remain later stages.
 
 ## Setup
 

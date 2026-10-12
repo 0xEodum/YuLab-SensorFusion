@@ -21,6 +21,8 @@ const argument = (name: string, fallback: number) => {
   return index < 0 ? fallback : Number(process.argv[index + 1]);
 };
 const learning = process.argv.includes("--learning");
+const holdoutOnly = process.argv.includes("--holdout-only");
+const seedOffset = argument("--seed-offset", 0), layoutCount = argument("--layouts", 60);
 const count = argument("--count", learning ? 3000 : 300), width = argument("--width", learning ? 640 : 320),
   height = argument("--height", learning ? 384 : 192), rows = argument("--rows", 32),
   columns = argument("--columns", 256);
@@ -28,7 +30,10 @@ const outputIndex = process.argv.indexOf("--output");
 const output = outputIndex < 0 ? undefined : process.argv[outputIndex + 1];
 const prefixIndex = process.argv.indexOf("--id-prefix");
 const idPrefix = prefixIndex < 0 ? (learning ? "sf11" : "sf10") : process.argv[prefixIndex + 1];
-if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 || count > (learning ? 3000 : 300) ||
+if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 || count > (learning ? layoutCount * 50 : 300) ||
+    !Number.isInteger(layoutCount) || layoutCount < 1 || layoutCount > 120 ||
+    !Number.isInteger(seedOffset) || seedOffset < 0 || seedOffset > 2_000_000_000 ||
+    (holdoutOnly && (!learning || seedOffset === 0 || count % 50 !== 0)) ||
     ![width, height, rows, columns].every((n) => Number.isInteger(n) && n > 0) ||
     !/^[a-z][a-z0-9_-]{1,30}$/.test(idPrefix))
   throw new Error("Use --output FILE [--count 1..300] [--width N --height N --rows N --columns N]");
@@ -39,9 +44,9 @@ const presets: [WeatherPreset, number, number][] = [
   ["snow", 0.8, 10], ["hot-background", 0.9, 15],
   ["clear-day", 0, 17], ["night", 1, 21],
 ];
-const layouts: {site: string; seed: number; split: string}[] = learning ? Array.from({length: 60}, (_, i) => ({
-  site: i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + i * 7919,
-  split: i < 42 ? "train" : i < 51 ? "validation" : "test",
+const layouts: {site: string; seed: number; split: string}[] = learning ? Array.from({length: layoutCount}, (_, i) => ({
+  site: i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + seedOffset + i * 7919,
+  split: holdoutOnly ? "test" : i < 42 ? "train" : i < 51 ? "validation" : "test",
 })) : [
   { site: "airfield", seed: 0, split: "train" },
   { site: "airfield", seed: 48291, split: "train" },
