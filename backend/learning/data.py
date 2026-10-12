@@ -17,6 +17,11 @@ PROFILE = {"version": "baseline-preprocess.v1", "image_hw": [96, 160],
 
 def preprocess(root: Path, capture_id: str) -> tuple[dict[str, torch.Tensor], np.ndarray]:
     obs, arrays = load_observation_only(root, {"capture_id": capture_id})
+    return preprocess_arrays(obs, arrays)
+
+
+def preprocess_arrays(obs: dict, arrays: dict) -> tuple[dict[str, torch.Tensor], np.ndarray]:
+    """The same fixed profile, usable after shared observation-level degradation."""
     transform = np.array(obs["rig"]["T_world_from_rig"]).reshape(4, 4)
     origin = transform[:3, 3].copy()
     sensors = {s["modality"]: s for s in obs["rig"]["sensors"]}

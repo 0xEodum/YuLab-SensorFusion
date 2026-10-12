@@ -2,13 +2,20 @@
 
 ## 0. Lab implementation status and decision record
 
-**Status (2026-10-02): SF-11 baselines accepted; ESSRF remains design only.**
+**Status (2026-10-06): SF-12 static comparison complete; general robustness advantage not demonstrated.**
 The observation-only `baseline-v1` detectors and independent 3D evaluator passed
 SF-11 acceptance. IR-only is the strongest baseline; simple fusion does not beat
 it ([results](evidence/SF-11-learning-pilot.md)). See
-[baseline profile](LEARNING_BASELINES.md). There is no ESSRF implementation or
-ESSRF checkpoint/convergence/latency result in this repository. Sections
-1–7 describe the research target; this section defines how it will be implemented
+[baseline profile](LEARNING_BASELINES.md). `backend/learning/essrf_*.py` implements
+the static model and validation-only pilot. Initial clean controls show a query
+budget/convergence problem, and full training at 40 epochs loses clean accuracy.
+The deterministic Q32 curriculum's final three-seed clean mAP is .249 ± .109;
+degradation macro is .136 ± .064 versus fusion .165 ± .030 and IR .275 ± .030.
+IR-stripe gains coexist with weak surviving experts, calibration failures,
+seed sensitivity and late-training deterioration. See the
+[complete measured report](evidence/SF-12-ESSRF.md). These observations do not
+settle the architecture's eventual merit. Sections
+1–7 describe the research target; this section defines how it is implemented
 and tested in the sensor-fusion lab. The [architecture](ARCHITECTURE.md),
 [data contracts](DATA_CONTRACTS.md), and [backlog](BACKLOG.md) specify the system
 around the model. No theoretical routing identity guarantees detection accuracy.
@@ -26,10 +33,16 @@ uncertainty. It cannot claim those properties merely by using the ESSRF name.
 The final target includes the temporal profile; a different final architecture
 requires measured justification and an explicit document/backlog revision.
 
-Proposed initial static configuration: Q=128 learned discovery queries, C=128,
+Measured working static configuration: Q=32 learned discovery queries, C=128,
 s=16 local samples per query/modality, lightweight image encoders, and a bounded
-sparse point encoder (at most 32,768 observed points). Use the 640x384 pilot
-images. These values are starting choices, not validated optima. Query reference
+sparse point encoder (at most 8,192 observed points). Use the 640x384 pilot
+images. The original Q=128 was a starting choice, not a validated optimum; it
+reached only 0.048 validation mAP in the 40-epoch clean control, versus 0.288
+with Q=16. The additional clean Q32 control reached .400 (non-deterministic CUDA
+sampling). After repairing sampling, the matched curriculum pilots gave clean /
+degradation macro mAP .118 / .062 at Q16 and .314 / .177 at Q32. Q32 was selected
+before confirmatory seeds 12/13; it is the model/CLI default. Q16 remains an
+explicit ablation, not a universal optimum. Query reference
 positions are learned or initialized from declared rig range/frustum geometry,
 never from simulator object centers. Empty/off-image neighborhoods have validity
 masks and finite outputs. The subset experts are small adapters, not eight copies
@@ -79,11 +92,14 @@ prior may summarize past observations; this is explicitly conditional on history
 not a current-frame surviving-sensor-only claim.
 
 1. Validate labels and overfit a tiny scene set with baseline detectors.
-2. Train each non-empty subset path with sampled subset supervision; confirm
-   every availability pattern is exercised before evaluating the mixture.
-3. Warm up local reliability supervision and jointly optimize detection,
-   subset, calibration and vacuity terms. Monitor routing collapse toward the
-   null expert and unsupported high-confidence evidence.
+2. Train the mixture on clean full-sensor frames for eight epochs, with no
+   subset or reliability auxiliary loss. The mixture is optimized from epoch one.
+3. Over the next sixteen epochs linearly introduce modality dropout, local known
+   corruption (final probability .25 per modality), unlabelled OOD exposure (.10),
+   subset loss (final weight 1) and evidential loss (final weight 1). Final dropout
+   samples exactly 70% full-sensor frames; the other 30% are uniform over patterns
+   0–6. Hardware-unavailable sensors stay unavailable. Monitor routing collapse,
+   per-epoch pattern/expert/corruption counts and unsupported confident evidence.
 4. Introduce temporal and calibration objectives only after the static profile
   has a measured baseline. Select hyperparameters on grouped validation data.
 
@@ -94,8 +110,45 @@ Keep fully dropped-out examples in failure/abstention evaluation, with the loss
 mask and scoring policy stated explicitly. This distinguishes unavailable sensors
 from difficult but available observations, which retain detection supervision.
 
+The 40-epoch FP32 budget, AdamW lr .0005, weight decay .0001, batch 32 and
+gradient clip 1 remain fixed for the static controls/curriculum. Baselines retain
+their accepted lr .001 and profile; equal budget means equal train rows, epochs,
+batch size and optimizer-update count, not equal architecture or wall time.
+Curriculum checkpoint selection uses clean grouped-validation mAP only after the
+final training regime is reached (epochs 24–40). The early clean checkpoint
+cannot masquerade as a robustness-trained candidate. `--clean` preserves the
+clean control and `--schedule legacy` preserves the old ten-epoch warm-up and
+56.25% effective full-sensor distribution. `last.pt` also preserves the final epoch.
+
+The detection objective uses focal gamma 2, no-object weight .15, centre L1 8,
+log-extent L1 .5 and yaw cosine .2. Gaussian localization NLL has weight .1;
+its mean is detached so it trains variance while L1 trains box means. Evidential
+psi NLL and predictive-mean calibration each have weight .1, vacuity .05.
+Negative total losses can arise from Gaussian log variance and are not a
+convergence guarantee. Reliability targets follow `reliability-targets.v1`.
+
+Matched validation evaluates all eight availability patterns and six fixed local
+corruption probes before either profile's preprocessing. The camera rectangle
+covers the central quarter of image area; the LiDAR wedge is [-.2,.2] rad in
+nominal rig coordinates. Noise is seeded by capture ID and scenario, independent
+of batching/model/seed. Targets remain unchanged. Baselines receive zero/masked
+missing observations with their original calibration and no added null gate.
+OOD probes reuse the unlabelled training exposure family; they do not demonstrate
+generalization to a held-out corruption family. Reports retain per-class,
+per-condition, false-positive, calibration, localization and routing results.
+
 Start with FP32 reference checks; enable mixed precision only after checking
 digamma/evidence/NLL stability, finite gradients and validation equivalence.
+New static training uses deterministic PyTorch algorithms and `bilinear-v1`
+image sampling: zero-padded align-corners interpolation through deterministic
+gather gradients. Both features and sample coordinates remain differentiable.
+CPU float64/float32 values and gradients are checked against `grid_sample`, and
+complete CUDA backward repeats exactly. The old CUDA grid sampler had identical
+forwards but differing gradients (max 1.502e-5 in a fixed-input probe), so one
+seed did not specify an exactly repeatable training trajectory. Legacy checkpoints
+retain `grid-sample` on reload; `--legacy-sampling` allows explicit old training.
+Repaired pilots use fresh artifact roots. Checkpoints freeze the source revision
+at training start and record sampler/numerical settings.
 Train within the measured GPU budget in ARCHITECTURE. Gradient accumulation,
 point limits, resolution and query-count changes are recorded configuration
 changes. Raw local point neighborhoods must never be replaced with truth object
@@ -118,7 +171,7 @@ Two qualifications are incorporated directly into the equations below:
 
 ### 0.5 Evidence and change policy
 
-No experiment has been run as part of this planning change. SF-11 establishes
+SF-11 establishes
 baseline quality targets; SF-12/SF-14 compare profiles; SF-15 selects and tests
 the trained candidate. Report visible 2D and observable-object 3D detection,
 per-class/condition/subset results, calibration, abstention, track/outage metrics,
@@ -136,6 +189,11 @@ selection must not use the sealed test set.
 | --- | --- | --- |
 | 2026-09-21 | Baselines, compact static profile, then full temporal profile | Planning decision; no measured result |
 | 2026-09-21 | Qualify surviving-subset limit; gate GRU measurement update | Algebraic correction, implementation tests pending |
+| 2026-10-06 | Initially Q=16; mixture-first 8+16 curriculum, exact 70% full sensors; paired raw degradation | Controls: clean Q128 .048, clean Q16 .288, legacy Q16 .134, seed 11 / 40 epochs; Q32 later selected below |
+| 2026-10-06 | Correct rank ties in vacuity AUROC | Equal scores previously returned 0.0; regression requires 0.5. Training is unchanged |
+| 2026-10-06 | Deterministic bilinear image sampler; rerun query pilots | CUDA backward nondeterminism measured; equivalent interpolation and coordinate/feature gradients pass reference tests, full CUDA gradients repeat exactly |
+| 2026-10-06 | Select Q32 using predeclared paired degradation mean; freeze remaining seeds | Q16 .062 versus Q32 .177 (seed 11); Q32 clean .314. Final epoch deteriorates to clean .057 / degradation .040, so extra epochs are not presumed beneficial. See `evidence/sf12/selected-configuration.json` |
+| 2026-10-06 | Complete three-seed static comparison without quality promotion | Clean .249 ± .109; degradation .136 ± .064 versus fusion .165 ± .030. IR stripes .247 versus fusion .140 / IR .039, but seed 13 loses to fusion. Single-sensor/calibration failures retained; 7.902 GiB training allocation, 52.8/63.8 ms end-to-end p50/p95. See `evidence/SF-12-ESSRF.md` |
 
 ---
 

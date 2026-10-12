@@ -1,0 +1,15 @@
+{
+  "model_exact": true,
+  "optimizer_exact": true,
+  "history_exact": true,
+  "source_revision": "f0b47be98c32f064ee704f1d962845e25bcd3294",
+  "numerics": {
+    "deterministic_algorithms": true,
+    "cudnn_benchmark": false
+  },
+  "image_sampler": "bilinear-v1",
+  "epochs": 2,
+  "train_frames": 2100,
+  "validation_frames": 450,
+  "sampling": "epoch one clean, epoch two final degradation/auxiliary regime"
+}

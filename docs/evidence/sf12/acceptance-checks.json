@@ -1,0 +1,40 @@
+{
+  "split": "validation",
+  "dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "models": 15,
+  "scenarios_per_model": 14,
+  "paired_capture_count": 450,
+  "tiny_best_map": 1.0,
+  "essrf": [
+    {
+      "seed": 11,
+      "checkpoint_epoch": 24,
+      "checkpoint_sha256": "c1e9c232dd7e136de9ec0b21f351126c27db3e0d6efe1c3482c5423ae1858ee8",
+      "training_source_revision": "0add0156d3cc55229008f8ca3a974e975b7be558",
+      "optimizer_updates": 2640,
+      "all_patterns_and_subsets_sampled": true,
+      "all_missing_detections": 0,
+      "gpu_peak_allocated_bytes": 8484997120
+    },
+    {
+      "seed": 12,
+      "checkpoint_epoch": 25,
+      "checkpoint_sha256": "63f2712fed01301568ea2cd54bfbb5a409dc5507ffba785dcb7d4a85189fc094",
+      "training_source_revision": "51e77c5f5ff562ece097c33a11e8efa80b5dd147",
+      "optimizer_updates": 2640,
+      "all_patterns_and_subsets_sampled": true,
+      "all_missing_detections": 0,
+      "gpu_peak_allocated_bytes": 8484997120
+    },
+    {
+      "seed": 13,
+      "checkpoint_epoch": 37,
+      "checkpoint_sha256": "bce57a2476a448b924843540a67f24f394212b8c2d65eadb9660c6fe0a3df711",
+      "training_source_revision": "51e77c5f5ff562ece097c33a11e8efa80b5dd147",
+      "optimizer_updates": 2640,
+      "all_patterns_and_subsets_sampled": true,
+      "all_missing_detections": 0,
+      "gpu_peak_allocated_bytes": 8484997120
+    }
+  ]
+}

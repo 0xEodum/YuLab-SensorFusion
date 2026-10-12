@@ -3,7 +3,8 @@
 Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
-and baselines passed local acceptance; SF-12 compact ESSRF is READY.
+and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
+with robustness failures retained. SF-13 is READY.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -48,8 +49,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-10 | Visibility labels and immutable dataset generation | SF-09 | DONE |
 | SF-10P | Collection throughput with unchanged data quality | SF-10 | DONE |
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
-| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | READY |
-| SF-13 | Temporal capture and uncertain calibration | SF-12 | PLANNED |
+| SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
+| SF-13 | Temporal capture and uncertain calibration | SF-12 | READY |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
@@ -450,6 +451,18 @@ Acceptance:
 - Compare to SF-11 on the same validation groups/budget, report failures as well
   as gains, and satisfy memory limits. Do not call this the full temporal ESSRF.
 - Update ESSRF with measured choices, losses, query/sample counts and all changes.
+
+SF-12 passed its static comparison gate on 2026-10-06: deterministic Q32,
+mixture-first 8+16 curriculum, paired fourteen-case validation for all four
+baselines and ESSRF across seeds 11/12/13, 201 backend tests, local verification,
+1.000 tiny overfit mAP and 7.902 GiB peak allocated training memory.
+The curriculum is not an overall robustness winner: clean mAP .249 ± .109,
+degradation macro .136 ± .064 versus fusion .165 ± .030; IR-stripe gains coexist
+with weak surviving experts, seed variation and late-training deterioration.
+These failures satisfy the explicit honest-comparison requirement, not a quality
+promotion. The sealed test remains closed. See the
+[SF-12 acceptance report](evidence/SF-12-ESSRF.md) and
+[curriculum TDD record](evidence/SF-12-curriculum-tdd.md). SF-13 is READY.
 
 ## SF-13 — Temporal and calibration dataset extension
 
