@@ -2,10 +2,16 @@
 
 ## 0. Lab implementation status and decision record
 
-2026-10-19: SF-13 iteration 1 adds [scan-time platform motion and sensor drift](TEMPORAL_CAPTURE.md)
-to capture, with truth-only actual calibration. Objects remain static and full
-sequence/replay/split acceptance is open. No temporal detector is implemented
-or promoted by this capture change; the accepted SF-Q ensemble is unchanged.
+2026-10-19: SF-13 iteration 1 added [scan-time platform motion and sensor drift](TEMPORAL_CAPTURE.md)
+to capture, with truth-only actual calibration. That iteration was limited to
+static objects. No temporal detector was implemented or promoted by that capture
+change; the accepted SF-Q ensemble is unchanged.
+
+SF-13 sequence extension now implements [moving-object capture and durable replay](TEMPORAL_SEQUENCES.md),
+with frame ordering, thermal continuation, outages and split isolation. Temporal
+detector training/evaluation remains SF-14; no learned temporal robustness is
+claimed by the dataset/capture acceptance. Full results are in
+[SF-13 acceptance](evidence/SF-13-sequences.md).
 
 2026-10-09: the user authorizes replacing ESSRF and expanding data to meet clean,
 degradation, and stability targets. The active [quality investigation](QUALITY_EXPERIMENTS.md)

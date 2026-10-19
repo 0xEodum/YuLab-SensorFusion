@@ -1,0 +1,28 @@
+{
+  "final_implementation_revision": "924ff8728533c21315839a405a605d3db6a0fd3f",
+  "collection_revision": "0d05a13abf940945b8a4affa9386ec89592245ff",
+  "hash_convention": "exact Git blob bytes",
+  "sources": {
+    "backend/app/dataset.py": "66f4ce66bec431805e068d461afbbec72f1b04868dedaac511545c1fc37f4091",
+    "backend/app/generated.py": "6fa7fbdf83e28b863ab1d09d66794a4cc69cc8fdc9388e4e39802074516e18d3",
+    "backend/app/main.py": "9080b650d5748f587efaca5eebaa12ff5ab835f6be7754db94776d3c4dc36898",
+    "backend/app/sequence_job.py": "1db2c107ec2863d052008fdcddd8ecd816843e6a0b1d78f4b1228c3df019bc6a",
+    "backend/app/sequences.py": "8ef02302e6452033b8c7124820bf597485a27ed962f336db564cf94cd2aee36d",
+    "backend/app/temporal_capture.py": "375fb2196da1cad7b304aa0485290ad770bec6887b91cb2d41c063b8a928b07b",
+    "backend/tests/test_sequences.py": "03395cd051a00815f104798dcea172f96c2aeff8b2c792efc63d2484cb92b6fb",
+    "backend/tests/test_temporal_capture.py": "f8e4fbdbb898867d9fbdb1431da30f29ffd1591ca037d44d2f7eab8780128db9",
+    "contracts/fixtures/SequenceSpec.json": "18b23c3099f8542b604782f0267f29714c5aa6f6666ffccd6be11181ede85055",
+    "contracts/fixtures/cases.json": "50d42eba4cd478852fbbf7f5701feec83447f3fb6effece2bf4c603c510e24cf",
+    "contracts/lab.schema.json": "dac3df5553b52b7263d10dd95da903e05ee67500e90869d0eee8d50b15924321",
+    "contracts/openapi.bundle.json": "872c12f94cb1c6708af13bd2a5d23467f6f5b8d0f558f4f980e583a7da15922c",
+    "packages/contracts/src/generated.ts": "4f6d2109bb2fd706d882b6cb1c3fde086e8b5e302ad21bc2d29d3abf9257e4a9",
+    "packages/contracts/src/index.ts": "cc229f8e965c7a78e1fd200e2ae922d0c2528da052303dbc07911bc0f5cc3e65",
+    "packages/sensors/src/lidar.ts": "fd62476234e9f55625dd173899c646678920eb254362d3d25639ce1129561df8",
+    "packages/sensors/src/objectMotion.ts": "b7eb34fe6c3a8e16fc03f8eb59e3652612167fd5ddce6b961ae3c722ca001421",
+    "tests/sensors/object-motion.test.ts": "acea8c698259a6e81a9c2f91e636e2e5b953805c966a281ca210ce336d932df4",
+    "tools/generate-sequences.py": "35c970a00d124f71415cf7c1d9386d617a77ba4df5bec1aea37d2575f2f61bd8",
+    "tools/sequence-job.py": "0910493ea4bf6427ad232670add4eef6d8c298ed1c7530224aed9952a180ae89",
+    "tools/validate-sequences.py": "073609b9b94c55f446355d2d4c4b8279725cc98656f14442e137d3eb54055f9d",
+    "workers/capture/browser.ts": "2e8140490d92d6d637c73b27d369770774ae68b387c5262846b2b1c2205ba173"
+  }
+}

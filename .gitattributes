@@ -16,3 +16,5 @@ docs/evidence/sf-quality/* -text whitespace=cr-at-eol
 docs/evidence/sf13-rig/* -text whitespace=cr-at-eol
 # Diagnostic table/log spacing is retained as part of the hashed evidence.
 docs/evidence/sf13-rig/*.log -whitespace
+docs/evidence/sf13-sequences/* -text whitespace=cr-at-eol
+docs/evidence/sf13-sequences/*.log -whitespace

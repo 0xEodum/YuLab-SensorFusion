@@ -1,0 +1,108 @@
+{
+  "profile": "temporal-sequence.v1",
+  "specifications_sha256": "12dab8fd52aa44ac4ebffd7b45d4838fa8b01a56914a5bb5e797dd53d33cdf2c",
+  "manifest_sha256": "e6a46b45bb24cfc87d8ff776c96c6fb28b63b8deaf1c02ac66a2c2aa983b034b",
+  "captures": 192,
+  "counts": {
+    "test": 64,
+    "train": 64,
+    "validation": 64
+  },
+  "sequences": [
+    {
+      "sequence_id": "sf13-l0-clean",
+      "family_id": "sf13-family-0",
+      "variant": "clean",
+      "split": "train",
+      "frames": 32,
+      "duration_s": 6.2
+    },
+    {
+      "sequence_id": "sf13-l0-drift-outages",
+      "family_id": "sf13-family-0",
+      "variant": "drift-outages",
+      "split": "train",
+      "frames": 32,
+      "duration_s": 6.2
+    },
+    {
+      "sequence_id": "sf13-l1-clean",
+      "family_id": "sf13-family-1",
+      "variant": "clean",
+      "split": "validation",
+      "frames": 32,
+      "duration_s": 6.2
+    },
+    {
+      "sequence_id": "sf13-l1-drift-outages",
+      "family_id": "sf13-family-1",
+      "variant": "drift-outages",
+      "split": "validation",
+      "frames": 32,
+      "duration_s": 6.2
+    },
+    {
+      "sequence_id": "sf13-l2-clean",
+      "family_id": "sf13-family-2",
+      "variant": "clean",
+      "split": "test",
+      "frames": 32,
+      "duration_s": 6.2
+    },
+    {
+      "sequence_id": "sf13-l2-drift-outages",
+      "family_id": "sf13-family-2",
+      "variant": "drift-outages",
+      "split": "test",
+      "frames": 32,
+      "duration_s": 6.2
+    }
+  ],
+  "checks": {
+    "cold_cache_resume": true,
+    "published_prefix_unchanged_files": 336,
+    "uninterrupted_replay_equal_files": 1312,
+    "completed_resume_keeps_manifest": true,
+    "frozen_anchor_camera_artifacts_equal": 8,
+    "frozen_anchor_boxes_match": true,
+    "all_missing_frames": 18,
+    "maximum_object_transform_error": 0.0,
+    "maximum_drift_translation_error_m": 2.7755575615628914e-17,
+    "maximum_thermal_change_k": 1.2383015252840437,
+    "observation_only_capture_ids": [
+      "sf13-l0-clean-000000",
+      "sf13-l0-drift-outages-000022"
+    ]
+  },
+  "stages": {
+    "stopped": {
+      "exit_code": 0,
+      "start_unix_s": 1792405507.1735334,
+      "end_unix_s": 1792405528.1383977
+    },
+    "cold-resume": {
+      "exit_code": 0,
+      "start_unix_s": 1792405528.3687851,
+      "end_unix_s": 1792405959.5975616
+    },
+    "completed-resume": {
+      "exit_code": 0,
+      "start_unix_s": 1792406012.2858107,
+      "end_unix_s": 1792406064.4975977
+    },
+    "uninterrupted-replay": {
+      "exit_code": 0,
+      "start_unix_s": 1792406064.500765,
+      "end_unix_s": 1792406135.3779428
+    },
+    "frozen-control": {
+      "exit_code": 0,
+      "start_unix_s": 1792406135.8037467,
+      "end_unix_s": 1792406141.4185534
+    }
+  },
+  "limits": [
+    "synthetic constant linear/yaw motion with global shutter, single-first-return LiDAR",
+    "no temporal detector training or quality promotion; SF-14 follows separately"
+  ]
+}

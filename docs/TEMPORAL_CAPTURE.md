@@ -24,7 +24,9 @@ The sampler snapshots inputs and rejects non-finite/negative absolute sample
 times, duplicate drift modalities and non-rigid calibration. Python independently
 recomputes transforms at packaging, rejecting missing or inconsistent provenance.
 
-RGB/IR are global-shutter samples at each sensor timestamp offset. LiDAR evaluates
+RGB/IR are global-shutter samples at each sensor timestamp offset. Temporal IR
+requires a nonnegative offset because saved thermal continuation is anchored
+at the capture tick. LiDAR evaluates
 actual sensor pose for every row-major beam, including timestamp offset exactly
 once and spanning its scan duration. Returned XYZ uses the instantaneous sensor
 frame. First-opaque-hit, weather and dropout semantics remain unchanged. The
@@ -72,10 +74,10 @@ unchanged hash-checked ensemble: load time, warm end-to-end p50/p95, host cProfi
 and CUDA forward stream spans. Device-wide power/utilization includes other
 processes. Event spans include launch gaps and are not active-kernel time.
 
-## Remaining SF-13 work
+## Sequence extension and limits
 
-Objects remain static during capture. This profile has constant velocity/yaw,
-without pitch/roll trajectories, acceleration, exposure integration, camera
-rolling shutter or timestamp-offset drift. Full sequence ordering/gaps/recovery,
-trajectory/thermal replay snapshots and clip/variant split isolation remain
-future work. SF-13 stays in progress.
+SF-13 now adds optional object trajectories, sequence ordering/recovery,
+thermal/object/sensor snapshots and clip/variant split isolation. See
+[temporal sequences](TEMPORAL_SEQUENCES.md). Omitting `object_motion` retains
+static objects. Motion remains constant velocity/yaw, without pitch/roll,
+acceleration, exposure integration, rolling shutter or timestamp-offset drift.

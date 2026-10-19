@@ -1,0 +1,7 @@
+Name                              Stmts   Miss  Cover
+-----------------------------------------------------
+backend\app\sequence_job.py         172     27    84%
+backend\app\sequences.py            104     10    90%
+backend\app\temporal_capture.py      83      9    89%
+-----------------------------------------------------
+TOTAL                               359     46    87%

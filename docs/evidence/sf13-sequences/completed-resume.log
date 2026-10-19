@@ -1,0 +1,1 @@
+{"state": "succeeded", "new_captures": 0, "reused_captures": 192, "captures": 192, "counts": {"test": 64, "train": 64, "validation": 64}}
