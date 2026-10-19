@@ -57,6 +57,14 @@ def test_splits_reject_sequence_family_group_and_scene_leakage():
     with pytest.raises(ValueError): validate_sequences([first,bad])
 
 
+def test_renaming_a_world_cannot_bypass_physical_scene_split_isolation():
+    first=sequence(); other=copy.deepcopy(first)
+    other.update(sequence_id='renamed',family_id='another-family',group_id='another-group',split='test')
+    other['base_capture']['world']['world_id']='renamed-world'
+    with pytest.raises(ValueError,match='scene.*splits'):
+        validate_sequences([first,other])
+
+
 def test_gaps_duplicates_disorder_and_time_drift_are_explicit_errors():
     spec=sequence()
     frames=[{'frame_index':i,'capture_time_s':i*.2} for i in range(5)]
