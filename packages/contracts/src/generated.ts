@@ -4,6 +4,7 @@
  * Canonical lab.v1 wire shapes. SF-05 adds backend-owned RGB/reference capture jobs.
  */
 export type LabPayload =
+  | SequenceSpec
   | TemporalCapture
   | AssetRecord
   | WorldSpec
@@ -20,14 +21,14 @@ export type LabPayload =
   | Health
   | Capabilities
   | ApiError;
+export type Id = string;
 /**
  * @minItems 3
  * @maxItems 3
  */
 export type Vec3 = [number, number, number];
-export type Id = string;
-export type Hash = string;
 export type Version = string;
+export type Hash = string;
 /**
  * Row-major T_A_from_B acting on column vectors; translation in metres. Rigid rotation validated by the geometry stage.
  *
@@ -52,11 +53,6 @@ export type Transform = [
   0,
   1
 ];
-/**
- * @minItems 4
- * @maxItems 4
- */
-export type Quaternion = [number, number, number, number];
 export type SensorRig = {
   sensor_id: Id;
   modality: "rgb" | "ir" | "lidar";
@@ -97,6 +93,11 @@ export type SensorRig = {
   lidar: Lidar | null;
   sensor_model_version: Version;
 };
+/**
+ * @minItems 4
+ * @maxItems 4
+ */
+export type Quaternion = [number, number, number, number];
 export type RgbObservation =
   | Unavailable
   | {
@@ -132,109 +133,51 @@ export type Capability = {
   reason: ("not_implemented" | "no_checkpoint" | "device_unavailable") | null;
 };
 
-export interface TemporalCapture {
+export interface SequenceSpec {
   schema_version: "lab.v1";
-  kind: "TemporalCapture";
-  profile: "rig-motion-drift.v1";
-  reference_time_s: number;
-  velocity_world_m_per_s: Vec3;
-  yaw_rate_rad_per_s: number;
+  kind: "SequenceSpec";
+  profile: "temporal-sequence.v1";
+  sequence_id: Id;
+  family_id: Id;
+  variant_id: Id;
+  group_id: Id;
+  split: "train" | "validation" | "test";
+  frame_count: number;
+  frame_interval_s: number;
+  start_time_s: number;
+  base_capture: CaptureRequest;
   /**
-   * @maxItems 3
-   */
-  sensor_drift: [] | [SensorDrift] | [SensorDrift, SensorDrift] | [SensorDrift, SensorDrift, SensorDrift];
-}
-export interface SensorDrift {
-  modality: "rgb" | "ir" | "lidar";
-  translation_rig_m: Vec3;
-  translation_rate_rig_m_per_s: Vec3;
-  yaw_rad: number;
-  yaw_rate_rad_per_s: number;
-}
-export interface AssetRecord {
-  schema_version: "lab.v1";
-  kind: "AssetRecord";
-  asset_id: Id;
-  content_sha256: Hash;
-  mesh: Artifact;
-  metadata: Artifact;
-  source: {
-    project: string;
-    revision: string;
-    sha256: Hash;
-    adapter_version: Version;
-    use_permission: string;
-  };
-  units: Units;
-  scale_m_per_source_unit: number;
-  T_world_from_asset: Transform;
-  contact_point_m: Vec3;
-  class_name: "aircraft" | "ground_vehicle" | "ship" | "background";
-  bounds: Box3;
-  /**
-   * @minItems 1
    * @maxItems 10000
    */
-  parts: [Part, ...Part[]];
+  outages: {
+    start_frame: number;
+    stop_frame: number;
+    /**
+     * @minItems 1
+     * @maxItems 3
+     */
+    modalities:
+      | ["rgb" | "ir" | "lidar"]
+      | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"]
+      | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"];
+  }[];
   /**
-   * @minItems 1
-   * @maxItems 1000
+   * @maxItems 100000
    */
-  materials: [Material, ...Material[]];
-  /**
-   * @minItems 0
-   * @maxItems 1000
-   */
-  heat_sources: HeatSource[];
-  thermal_model_version: Version;
+  operating_events: {
+    frame_index: number;
+    instance_id: Id;
+    operating_state: "off" | "idle" | "running";
+  }[];
 }
-export interface Artifact {
-  id: Id;
-  sha256: Hash;
-  byte_length: number;
-  media_type: "model/gltf-binary" | "application/json" | "application/x-npy" | "image/png";
-}
-export interface Units {
-  length: "m";
-  temperature: "K";
-  angle: "rad";
-  time: "s";
-  world_frame: "east-up-south";
-  matrix_layout: "row-major";
-}
-export interface Box3 {
-  frame: "east-up-south";
-  center_m: Vec3;
-  /**
-   * @minItems 3
-   * @maxItems 3
-   */
-  extent_m: [number, number, number];
-  quaternion_xyzw: Quaternion;
-}
-export interface Part {
-  id: Id;
-  mesh_node: string;
-  material_id: Id;
-  semantic: string;
-}
-export interface Material {
-  id: Id;
-  emissivity: number;
-  solar_absorption: number;
-  thermal_capacity_j_per_k: number;
-  area_m2: number;
-  convection_w_per_m2_k: number;
-  response_time_s: number;
-  opaque_rgb: boolean;
-  opaque_ir: boolean;
-  opaque_lidar: boolean;
-}
-export interface HeatSource {
-  part_id: Id;
-  power_w: number;
-  coupling_fraction: number;
-  operating_state: "off" | "idle" | "running";
+export interface CaptureRequest {
+  schema_version: "lab.v1";
+  kind: "CaptureRequest";
+  world: WorldSpec;
+  rig: RigSpec;
+  environment: EnvironmentSpec;
+  plan: CapturePlan;
+  temporal?: TemporalCapture;
 }
 export interface WorldSpec {
   schema_version: "lab.v1";
@@ -261,6 +204,14 @@ export interface WorldSpec {
    * @maxItems 100000
    */
   instances: Instance[];
+}
+export interface Units {
+  length: "m";
+  temperature: "K";
+  angle: "rad";
+  time: "s";
+  world_frame: "east-up-south";
+  matrix_layout: "row-major";
 }
 export interface Feature {
   id: Id;
@@ -329,6 +280,12 @@ export interface EnvironmentSpec {
   thermal_history: "equilibrated" | "continued";
   thermal_state: Artifact | null;
 }
+export interface Artifact {
+  id: Id;
+  sha256: Hash;
+  byte_length: number;
+  media_type: "model/gltf-binary" | "application/json" | "application/x-npy" | "image/png";
+}
 export interface CapturePlan {
   schema_version: "lab.v1";
   kind: "CapturePlan";
@@ -356,14 +313,104 @@ export interface CapturePlan {
     | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"]
     | ["rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar", "rgb" | "ir" | "lidar"];
 }
-export interface CaptureRequest {
+export interface TemporalCapture {
   schema_version: "lab.v1";
-  kind: "CaptureRequest";
-  world: WorldSpec;
-  rig: RigSpec;
-  environment: EnvironmentSpec;
-  plan: CapturePlan;
-  temporal?: TemporalCapture;
+  kind: "TemporalCapture";
+  profile: "rig-motion-drift.v1";
+  reference_time_s: number;
+  /**
+   * @maxItems 10000
+   */
+  object_motion?: ObjectMotion[];
+  velocity_world_m_per_s: Vec3;
+  yaw_rate_rad_per_s: number;
+  /**
+   * @maxItems 3
+   */
+  sensor_drift: [] | [SensorDrift] | [SensorDrift, SensorDrift] | [SensorDrift, SensorDrift, SensorDrift];
+}
+export interface ObjectMotion {
+  instance_id: Id;
+  velocity_world_m_per_s: Vec3;
+  yaw_rate_rad_per_s: number;
+}
+export interface SensorDrift {
+  modality: "rgb" | "ir" | "lidar";
+  translation_rig_m: Vec3;
+  translation_rate_rig_m_per_s: Vec3;
+  yaw_rad: number;
+  yaw_rate_rad_per_s: number;
+}
+export interface AssetRecord {
+  schema_version: "lab.v1";
+  kind: "AssetRecord";
+  asset_id: Id;
+  content_sha256: Hash;
+  mesh: Artifact;
+  metadata: Artifact;
+  source: {
+    project: string;
+    revision: string;
+    sha256: Hash;
+    adapter_version: Version;
+    use_permission: string;
+  };
+  units: Units;
+  scale_m_per_source_unit: number;
+  T_world_from_asset: Transform;
+  contact_point_m: Vec3;
+  class_name: "aircraft" | "ground_vehicle" | "ship" | "background";
+  bounds: Box3;
+  /**
+   * @minItems 1
+   * @maxItems 10000
+   */
+  parts: [Part, ...Part[]];
+  /**
+   * @minItems 1
+   * @maxItems 1000
+   */
+  materials: [Material, ...Material[]];
+  /**
+   * @minItems 0
+   * @maxItems 1000
+   */
+  heat_sources: HeatSource[];
+  thermal_model_version: Version;
+}
+export interface Box3 {
+  frame: "east-up-south";
+  center_m: Vec3;
+  /**
+   * @minItems 3
+   * @maxItems 3
+   */
+  extent_m: [number, number, number];
+  quaternion_xyzw: Quaternion;
+}
+export interface Part {
+  id: Id;
+  mesh_node: string;
+  material_id: Id;
+  semantic: string;
+}
+export interface Material {
+  id: Id;
+  emissivity: number;
+  solar_absorption: number;
+  thermal_capacity_j_per_k: number;
+  area_m2: number;
+  convection_w_per_m2_k: number;
+  response_time_s: number;
+  opaque_rgb: boolean;
+  opaque_ir: boolean;
+  opaque_lidar: boolean;
+}
+export interface HeatSource {
+  part_id: Id;
+  power_w: number;
+  coupling_fraction: number;
+  operating_state: "off" | "idle" | "running";
 }
 export interface CaptureJob {
   schema_version: "lab.v1";
@@ -569,6 +616,8 @@ export interface CaptureJobError {
   message: string;
 }
 export interface ObservationBundle {
+  frame_index?: number;
+  capture_time_s?: number;
   schema_version: "lab.v1";
   kind: "ObservationBundle";
   capture_id: Id;
@@ -798,6 +847,11 @@ export interface ObjectTruth {
   }[];
 }
 export interface DatasetManifest {
+  /**
+   * @minItems 1
+   * @maxItems 100000
+   */
+  temporal_sequences?: [SequenceSpec, ...SequenceSpec[]];
   schema_version: "lab.v1";
   kind: "DatasetManifest";
   dataset_id: Id;

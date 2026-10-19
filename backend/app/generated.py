@@ -278,6 +278,24 @@ class SensorDrift(TypedDict):
     yaw_rate_rad_per_s: float
 
 
+class ObjectMotion(TypedDict):
+    instance_id: Id
+    velocity_world_m_per_s: Vec3
+    yaw_rate_rad_per_s: float
+
+
+class Outage(TypedDict):
+    start_frame: int
+    stop_frame: int
+    modalities: list[Literal['rgb', 'ir', 'lidar']]
+
+
+class OperatingEvent(TypedDict):
+    frame_index: int
+    instance_id: Id
+    operating_state: Literal['off', 'idle', 'running']
+
+
 class SensorDrift1(TypedDict):
     pass
 
@@ -287,6 +305,7 @@ class TemporalCapture(TypedDict):
     kind: Literal['TemporalCapture']
     profile: Literal['rig-motion-drift.v1']
     reference_time_s: float
+    object_motion: NotRequired[list[ObjectMotion]]
     velocity_world_m_per_s: Vec3
     yaw_rate_rad_per_s: float
     sensor_drift: list[SensorDrift] | SensorDrift1
@@ -643,6 +662,8 @@ type LidarObservation = Unavailable | LidarObservation1
 
 
 class ObservationBundle(TypedDict):
+    frame_index: NotRequired[int]
+    capture_time_s: NotRequired[float]
     schema_version: Literal['lab.v1']
     kind: Literal['ObservationBundle']
     capture_id: Id
@@ -743,19 +764,6 @@ class Counts(TypedDict):
     test: int
 
 
-class DatasetManifest(TypedDict):
-    schema_version: Literal['lab.v1']
-    kind: Literal['DatasetManifest']
-    dataset_id: Id
-    created_utc: str
-    provenance: Provenance
-    class_map: list[ClassMapItem]
-    class_map_version: Version
-    captures: list[CaptureEntry]
-    files: list[ArrayArtifact]
-    counts: Counts
-
-
 type PositionVarianceM2Item = float
 
 
@@ -839,4 +847,35 @@ class ApiError(TypedDict):
     details: list[Detail]
 
 
-type LabPayload = TemporalCapture | AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | CaptureRequest | CaptureJob | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError
+class SequenceSpec(TypedDict):
+    schema_version: Literal['lab.v1']
+    kind: Literal['SequenceSpec']
+    profile: Literal['temporal-sequence.v1']
+    sequence_id: Id
+    family_id: Id
+    variant_id: Id
+    group_id: Id
+    split: Literal['train', 'validation', 'test']
+    frame_count: int
+    frame_interval_s: float
+    start_time_s: float
+    base_capture: CaptureRequest
+    outages: list[Outage]
+    operating_events: list[OperatingEvent]
+
+
+class DatasetManifest(TypedDict):
+    temporal_sequences: NotRequired[list[SequenceSpec]]
+    schema_version: Literal['lab.v1']
+    kind: Literal['DatasetManifest']
+    dataset_id: Id
+    created_utc: str
+    provenance: Provenance
+    class_map: list[ClassMapItem]
+    class_map_version: Version
+    captures: list[CaptureEntry]
+    files: list[ArrayArtifact]
+    counts: Counts
+
+
+type LabPayload = SequenceSpec | TemporalCapture | AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | CaptureRequest | CaptureJob | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError

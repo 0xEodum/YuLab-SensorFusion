@@ -7,6 +7,7 @@ import numpy as np
 import pytest
 
 from app.sequences import sequence_request, validate_sequences, validate_frame_order, outage_modalities
+from app.sequence_job import run_sequence_job
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -78,3 +79,33 @@ def test_outages_have_exact_boundaries_and_recovery():
     bad=copy.deepcopy(spec); bad['frame_interval_s']=.001
     bad['base_capture']['rig']['sensors'][2]['scan_duration_s']=.1
     with pytest.raises(ValueError): validate_sequences([bad])
+
+
+def test_published_gap_is_rejected_before_capture_or_state_rewrite(tmp_path):
+    spec=sequence()
+    (tmp_path/'dataset'/'seq-a-000001').mkdir(parents=True)
+    with pytest.raises(ValueError,match='frame gap'):
+        run_sequence_job([spec],tmp_path)
+    assert not (tmp_path/'dataset'/'seq-a-000000').exists()
+
+
+def test_os_managed_writer_lock_prevents_second_coordinator(tmp_path):
+    import sqlite3
+    owner=sqlite3.connect(tmp_path/'sequence-lock.sqlite3')
+    owner.execute('BEGIN IMMEDIATE')
+    try:
+        with pytest.raises(ValueError,match='another writer'):
+            run_sequence_job([sequence()],tmp_path)
+    finally:
+        owner.rollback(); owner.close()
+
+
+def test_resume_rejects_changed_configuration_without_overwriting_its_identity(tmp_path):
+    from app.sequences import canonical_hash
+    spec=sequence()
+    state={'version':'temporal-sequence-job.v1','state':'cancelled','request_sha256':canonical_hash([spec]),'completed':{},'error':None}
+    path=tmp_path/'sequence-job.json'; path.write_text(json.dumps(state))
+    changed=copy.deepcopy(spec); changed['frame_count']+=1
+    with pytest.raises(ValueError,match='specification changed'):
+        run_sequence_job([changed],tmp_path,resume=True)
+    assert json.loads(path.read_text())==state

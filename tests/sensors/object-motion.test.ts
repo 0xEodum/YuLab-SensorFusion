@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
 import { readFileSync } from "node:fs";
-import { cameraPoseToRig } from "../../packages/sensors/src/index.ts";
+import { cameraPoseToRig, projectWorldPoint } from "../../packages/sensors/src/index.ts";
+import { temporalSampler } from "../../packages/sensors/src/temporal.ts";
 import { buildLidarScene, scanLidar } from "../../packages/sensors/src/lidar.ts";
 import { objectMotionSampler, buildMovingLidarScene } from "../../packages/sensors/src/objectMotion.ts";
 import type { WorldSpec, TemporalCapture } from "../../packages/contracts/src/generated.ts";
@@ -15,6 +16,7 @@ function fixture(velocity: [number, number, number] = [0, 0, -2], yaw = 0) {
     object_motion: [{instance_id: "aircraft-1", velocity_world_m_per_s: velocity, yaw_rate_rad_per_s: yaw}]};
   const scene = new THREE.Scene(), group = new THREE.Group();
   group.name = "aircraft-1"; group.position.z = -10;
+  group.userData.instance_id = "aircraft-1";
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(100, 100, .1), new THREE.MeshBasicMaterial());
   group.add(mesh); scene.add(group); scene.updateMatrixWorld(true);
   const rig = cameraPoseToRig({rigId: "object-motion", position: [0, 0, 0], quaternion: [0, 0, 0, 1], width: 64, height: 48, verticalFovRadians: .7});
@@ -72,4 +74,15 @@ test("unknown/duplicate trajectories fail; foreground static occluder still wins
   const geometry=buildMovingLidarScene(scene,[],null,objectMotionSampler(world,state,0));
   assert.ok(scanLidar(geometry,rig,0).ideal_hits.every(h=>h?.object_name==="opaque-static"));
   geometry.dispose();
+});
+
+test("known camera displacement produces the analytical nominal/actual registration error", () => {
+  const {rig,state}=fixture();
+  state.velocity_world_m_per_s=[.5,0,0];
+  state.sensor_drift=[{modality:"rgb",translation_rig_m:[.2,0,0],translation_rate_rig_m_per_s:[0,0,0],yaw_rad:0,yaw_rate_rad_per_s:0}];
+  const actual=temporalSampler(rig,state,0).rigAt(1);
+  const point:[number,number,number]=[2,0,-10];
+  const nominalPixel=projectWorldPoint(rig,"rgb",point), actualPixel=projectWorldPoint(actual,"rgb",point);
+  const fx=rig.sensors[0].camera!.fx_px;
+  assert.ok(Math.abs((nominalPixel.u-actualPixel.u)-fx*.7/10)<1e-9);
 });

@@ -9,6 +9,35 @@ import numpy as np
 from .contracts import validate_payload
 
 
+def world_at(request: dict, offset_s: float) -> dict:
+    """Materialize actual object states from the frozen reference-world poses."""
+    tick=request["plan"]["simulation_time_s"]+offset_s
+    if not math.isfinite(tick) or tick < 0:
+        raise ValueError("Invalid object sample time")
+    world=copy.deepcopy(request["world"])
+    state=request.get("temporal")
+    if state is None:
+        return world
+    validate_payload("TemporalCapture",state)
+    motions=state.get("object_motion",[])
+    if len({m["instance_id"] for m in motions})!=len(motions):
+        raise ValueError("Duplicate object trajectory")
+    instances={i["instance_id"]:i for i in world["instances"]}
+    dt=tick-state["reference_time_s"]
+    for motion in motions:
+        if motion["instance_id"] not in instances:
+            raise ValueError("Unknown moving instance")
+        instance=instances[motion["instance_id"]]
+        m=np.array(instance["T_world_from_asset"],dtype=np.float64).reshape(4,4)
+        if not np.allclose(m[:3,:3].T@m[:3,:3],np.eye(3),atol=1e-6,rtol=0) or abs(np.linalg.det(m[:3,:3])-1)>1e-6:
+            raise ValueError("Moving objects require rigid transforms")
+        a=motion["yaw_rate_rad_per_s"]*dt; c,s=math.cos(a),math.sin(a)
+        m[:3,:3]=np.array([[c,0,s],[0,1,0],[-s,0,c]])@m[:3,:3]
+        m[:3,3]+=np.array(motion["velocity_world_m_per_s"])*dt
+        instance["T_world_from_asset"]=m.ravel().tolist()
+    return world
+
+
 def actual_rig_at(request: dict, offset_s: float) -> dict:
     if not math.isfinite(offset_s) or request["plan"]["simulation_time_s"] + offset_s < 0:
         raise ValueError("Invalid sample time")
