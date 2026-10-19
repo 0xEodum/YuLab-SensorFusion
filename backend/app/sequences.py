@@ -61,7 +61,9 @@ def validate_sequences(specs: list[dict]) -> None:
             raise ValueError("Sequence family changes scene/trajectory or leaks across splits")
         if groups.setdefault(spec["group_id"],spec["split"])!=spec["split"]:
             raise ValueError("Sequence group leaks across splits")
-        scene=canonical_hash(base["world"])
+        # world_id is a label, not geometry: renaming it must not turn a copied
+        # scene into a nominally independent validation/test layout.
+        scene=canonical_hash({key:value for key,value in base["world"].items() if key!="world_id"})
         if scenes.setdefault(scene,spec["split"])!=spec["split"]:
             raise ValueError("Same reference scene leaks across splits")
 
