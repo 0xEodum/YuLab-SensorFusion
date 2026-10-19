@@ -1,5 +1,10 @@
 # SF-05 through SF-07 synchronized capture
 
+2026-10-19: optional [scan-time rig motion and calibration drift](TEMPORAL_CAPTURE.md)
+is implemented for static objects. RGB/IR sample their own timestamps; LiDAR
+uses a pose per beam. Nominal observation calibration and actual truth calibration
+are separate. Full temporal sequence jobs remain SF-13 work.
+
 SF-05 adds a backend-owned, single-host capture queue and a Node-managed
 headless Chromium worker. The browser preview and worker both use
 `@yulab/sensors` for rigid calibration, optical/Three.js frame conversion,

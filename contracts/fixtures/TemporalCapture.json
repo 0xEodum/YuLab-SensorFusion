@@ -1,0 +1,6 @@
+{
+  "schema_version": "lab.v1", "kind": "TemporalCapture", "profile": "rig-motion-drift.v1",
+  "reference_time_s": 0, "velocity_world_m_per_s": [0, 0, -2], "yaw_rate_rad_per_s": 0,
+  "sensor_drift": [{"modality": "lidar", "translation_rig_m": [0.1, 0, 0],
+    "translation_rate_rig_m_per_s": [0.01, 0, 0], "yaw_rad": 0.01, "yaw_rate_rad_per_s": 0.001}]
+}

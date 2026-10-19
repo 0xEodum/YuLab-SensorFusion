@@ -1,12 +1,14 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-10-02. SF-10 visibility labels and dataset jobs passed local
+Updated: 2026-10-19. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
 with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
-fresh holdout acceptance; SF-13 is READY as the next separate roadmap item.
+fresh holdout acceptance; SF-13 is IN PROGRESS. Its first iteration implements
+scan-time rig motion and nominal/actual calibration separation; sequence jobs
+and moving objects remain open.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -15,6 +17,16 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 
 - `READY` is the next executable item; keep only one READY or IN PROGRESS item.
   `PLANNED` is dependency-blocked, `DONE` requires its acceptance evidence.
+- Each coherent iteration starts from `main` on a descriptive branch, for example
+  `feature/temporal-capture-calibration-drift` or `fix/sequence-replay-timestamps`.
+  Milestone IDs alone are insufficient branch names. After local acceptance,
+  commit/push the iteration, merge into `main` preserving its checkpoint history,
+  and verify the pushed merge and clean worktree.
+- Profile GPU work with throughput/latency, utilization, power, temperature,
+  memory and phase timing. Separate startup, CPU/I/O work and GPU compute.
+  The user's RTX 3090 working reference is >300 W and about 70 C; diagnose low
+  utilization from measurements rather than treating idle-like power as healthy
+  saturation or raising consumption without useful throughput.
 - Work in order below. Split a task if it cannot be reviewed as a coherent
   change; preserve its acceptance requirements in named child tasks.
 - Write meaningful deterministic tests for new world/sensor/model contracts.
@@ -53,7 +65,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
 | SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | DONE |
-| SF-13 | Temporal capture and uncertain calibration | SF-Q | READY |
+| SF-13 | Temporal capture and uncertain calibration | SF-Q | IN PROGRESS |
 | SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
@@ -464,8 +476,8 @@ degradation macro .136 ± .064 versus fusion .165 ± .030; IR-stripe gains coexi
 with weak surviving experts, seed variation and late-training deterioration.
 These failures satisfy the explicit honest-comparison requirement, not a quality
 promotion. The sealed test remains closed. See the
-[SF-12 acceptance report](evidence/SF-12-ESSRF.md) and
-[curriculum TDD record](evidence/SF-12-curriculum-tdd.md). SF-13 is READY.
+  [SF-12 acceptance report](evidence/SF-12-ESSRF.md) and
+[curriculum TDD record](evidence/SF-12-curriculum-tdd.md). SF-13 follows SF-Q.
 
 ## SF-Q — Static quality recovery (DONE)
 
@@ -480,6 +492,17 @@ controls, data/checkpoint hashes, inference instructions and synthetic scope.
 Temporal and service/UI integration remain separate future items.
 
 ## SF-13 — Temporal and calibration dataset extension
+
+Iteration 1: `feature/temporal-capture-calibration-drift` implements the optional
+`rig-motion-drift.v1` capture profile: constant platform velocity/yaw, per-beam
+LiDAR poses, camera sample-time poses, controlled sensor-extrinsic drift and
+truth-only actual calibration. See [profile](TEMPORAL_CAPTURE.md) and
+[iteration evidence](evidence/SF-13-rig-motion.md).
+
+Remaining: object trajectories and their scan-time intersections; sequence
+coordinator/recovery; thermal/object/sensor replay snapshots; explicit gap/order
+handling; clip/variant split isolation; sufficiently long outage fixtures.
+The full SF-13 acceptance below remains open.
 
 Deliver: sequence/trajectory state, per-beam timing, recorded motion and thermal
 history, nominal versus actual sensor calibration and controlled drift.

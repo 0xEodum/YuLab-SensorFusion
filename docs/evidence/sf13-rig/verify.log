@@ -1,0 +1,288 @@
+
+> yulab-sensor-fusion@0.1.0 verify
+> npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:world && npm run test:sensors && npm run test:assets && npm run test:backend && npm run build
+
+
+> yulab-sensor-fusion@0.1.0 contracts:check
+> node tools/generate-contracts.mjs --check
+
+node.exe : K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\datamodel_code_g
+enerator\format.py:542: FutureWarning: Black/isort will become optional. Declare the corresponding extras; see --help.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (K:\PycharmProje...as; see --help.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warn_deprecated("dependency.external-formatters-optional", stacklevel=2)
+Contract generation verified (16 payload types).
+
+> yulab-sensor-fusion@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json && tsc --noEmit -p tsconfig.capture.json
+
+
+> @yulab/frontend@0.0.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/assets@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/contracts@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/sensors@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/world@0.1.0 typecheck
+> tsc --noEmit
+
+
+> yulab-sensor-fusion@0.1.0 test:contracts
+> node --experimental-strip-types --test tests/contracts/*.test.ts
+
+✔ WorldSpec valid (106.2352ms)
+✔ RigSpec valid (6.5667ms)
+✔ EnvironmentSpec valid (3.5132ms)
+✔ ObservationBundle valid (4.4858ms)
+✔ AssetRecord valid (6.158ms)
+✔ CapturePlan valid (3.768ms)
+✔ CaptureRequest valid (3.0129ms)
+✔ CaptureJob valid (4.1711ms)
+✔ AnnotationBundle valid (2.0436ms)
+✔ TruthBundle valid (2.0706ms)
+✔ DatasetManifest valid (3.079ms)
+✔ PredictionBundle valid (2.129ms)
+✔ Health valid (0.8404ms)
+✔ Capabilities valid (7.2977ms)
+✔ ApiError valid (2.1817ms)
+✔ unknown version (0.4186ms)
+✔ wrong units (0.203ms)
+✔ wrong world frame (0.174ms)
+✔ negative seed (0.1831ms)
+✔ boolean seed (0.2152ms)
+✔ string seed (0.1971ms)
+✔ fractional seed (0.1757ms)
+✔ seed upper boundary (0.1338ms)
+✔ seed overflow (0.1458ms)
+✔ missing world id (0.1736ms)
+✔ path as id (0.178ms)
+✔ oversized extent (0.1551ms)
+✔ wrong camera frame (0.2344ms)
+✔ short transform (0.2411ms)
+✔ bad homogeneous transform (0.1991ms)
+✔ duplicate rig modality (0.1938ms)
+✔ wrong sensor intrinsics (0.2053ms)
+✔ cold temperature invalid (0.1514ms)
+✔ wetness overflow (0.4996ms)
+✔ duplicate modalities (0.188ms)
+✔ unknown camera modality (0.1588ms)
+✔ unknown property (0.3321ms)
+✔ truth boxes forbidden (0.3039ms)
+✔ nested truth forbidden (0.3224ms)
+✔ available image missing (0.3577ms)
+✔ wrong RGB dtype (0.3192ms)
+✔ wrong RGB channels (0.2986ms)
+✔ wrong IR units (0.2968ms)
+✔ wrong LiDAR frame (0.3101ms)
+✔ valid unavailable IR (0.2463ms)
+✔ unavailable with data (0.2399ms)
+✔ invalid hash (0.2426ms)
+✔ negative thermal capacity (0.181ms)
+✔ visibility overflow (0.1642ms)
+✔ zero box extent (0.1729ms)
+✔ truth id in prediction (0.1326ms)
+✔ confidence overflow (0.1354ms)
+✔ bad timestamp (0.1939ms)
+✔ bad split (0.1578ms)
+✔ empty dataset (0.1209ms)
+✔ capability reason required (0.1379ms)
+✔ error job nullable (0.1115ms)
+✔ unknown error code (0.1101ms)
+✔ baseline explicitly lacks position variance and routing (0.1211ms)
+✔ non-finite JSON NaN (0.0474ms)
+✔ non-finite JSON Infinity (0.0278ms)
+✔ non-finite JSON -Infinity (0.0279ms)
+✔ non-finite JSON 1e999 (0.0291ms)
+✔ temporal capture motion and drift (2.3808ms)
+✔ temporal profile rejects unknown version (0.21ms)
+✔ temporal rejects truth in motion (0.1479ms)
+✔ temporal requires complete drift (0.1264ms)
+✔ temporal capture request (0.5505ms)
+✔ temporal rejects duplicate sensor modality (0.1979ms)
+✔ observable timed lidar sampling convention (0.2495ms)
+✔ in-memory non-finite numbers cannot bypass JSON parsing (0.6712ms)
+✔ the SF-07 capture stored before semantic labels remains readable (2.8731ms)
+✔ every public family has a positive fixture (1.0299ms)
+ℹ tests 73
+ℹ suites 0
+ℹ pass 73
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 361.3532
+
+> yulab-sensor-fusion@0.1.0 test:world
+> node --experimental-strip-types --test tests/world/*.test.ts
+
+✔ capture cache reuses exact snapshots and invalidates changed world contents (162.4681ms)
+✔ capture cache respects LRU count and byte budgets without rejecting large captures (1.1444ms)
+✔ harbor is a seeded coast with a dry quay and ships afloat (156.3102ms)
+✔ column density is bit-equal to point density on every generator profile (212.9802ms)
+✔ optimized meshing reproduces pre-optimization chunk bytes (692.7251ms)
+✔ bounded LRU keeps active leases pinned through 110 boundary transitions and releases all data (9.5493ms)
+✔ cancellation discards late generation, preserves displayed lease, and allows retry (1.2194ms)
+✔ capacity, failed generation and wrong identity never expose a partial capture (1.2505ms)
+✔ range union includes off-frustum and cross-boundary occluders, negative chunks and protruding placements (0.8313ms)
+✔ capture waits for final occluder and pins geometry through asynchronous readback (4.6988ms)
+✔ real sensor triangles block a ray across the display boundary behind a west-facing display (1318.9191ms)
+✔ bookmark validation isolates the pose and rejects mismatched world, units and corrupt values (0.6582ms)
+✔ consumer failure and cancellation during readback release leases without successful publication (0.4334ms)
+✔ legacy extraction preserves every preset geometry, colors and placement counts (584.2717ms)
+✔ finite world addresses all 256 chunks using floor, including zero and negative boundaries (118.7244ms)
+✔ runtime rejects unsupported or undersampled worlds and isolates mutable caller state (2.9617ms)
+✔ request order and feature order do not change geometry, normals, colors or placement identities (863.2968ms)
+✔ default worlds distribute a rich seeded formation layout across the full map (0.3705ms)
+✔ base terrain has regional elevation and local relief instead of a nearly flat plane (2.4075ms)
+✔ formation seeds produce irregular geometry for every procedural feature family (614.3431ms)
+✔ world-space decoration includes deterministic trees and rocks on suitable terrain (11.9027ms)
+✔ both seam axes match exactly at vertices, gradient normals and biome colors, including a four-chunk arch (122.9153ms)
+✔ actual triangles retain arch and tunnel passages, an underside and an occluded cavity (2371.2684ms)
+✔ continuous base is solid below and has a ray-visible surface throughout negative and positive chunks (4233.8361ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9279.8159
+
+> yulab-sensor-fusion@0.1.0 test:sensors
+> node --experimental-strip-types --test tests/sensors/*.test.ts
+
+✔ known pinhole fixtures project within half a pixel and preserve parallax (7.0734ms)
+✔ a saved Three.js camera becomes an exact calibrated rig view (1.6205ms)
+✔ capture dimensions and pose come only from the saved rig (0.6095ms)
+✔ non-rigid, reflected, duplicate and malformed rigs fail explicitly (1.6938ms)
+✔ separate camera extrinsics change physical occlusion, not only pixel coordinates (8.6307ms)
+✔ camera and ray boundaries reject invalid inputs and mark out-of-frame points (0.7613ms)
+✔ cached LiDAR BVHs give identical returns and never index rendered geometry (222.5708ms)
+✔ first opaque wall wins; receiver dropout never exposes a hidden object (9.706ms)
+✔ reference classes follow first hits and sparse returns through occlusion and dropout (3.508ms)
+✔ partial occlusion, opening, range limits and empty scans preserve beam identities (16.0766ms)
+✔ accelerated first intersection matches independent brute force and rig projection (4.0562ms)
+✔ thin faces are two-sided; inside solids return the exit face (2.1281ms)
+✔ coplanar ties choose the first scene mesh consistently (0.7894ms)
+✔ arch opening admits a central beam while its lintel occludes elevated beams (1.0696ms)
+✔ grazing thin face stays visible with a weak synthetic response (0.7862ms)
+✔ catalog LiDAR opacity excludes declared non-opaque asset surfaces (0.7466ms)
+✔ 24-bit instance IDs round trip exactly and reserve zero for background (2.3849ms)
+✔ GPU bottom-left rows are converted to the top-left image contract (0.3514ms)
+✔ editor helpers, grids and decorative floors never enter sensor passes (0.2396ms)
+✔ zero motion/drift preserves the exact static scan; nominal rig stays immutable (142.4904ms)
+✔ moving platform uses each beam time and returns instantaneous sensor coordinates (1.5584ms)
+✔ drift is evaluated at absolute sample time; rigid yaw preserves sensor origin (1.4985ms)
+✔ sensor timestamp offset advances motion once; invalid transforms/times fail (2.3724ms)
+✔ catalog surfaces carry implemented thermal metadata and powered exterior regions (5.4124ms)
+✔ every imported asset has an operating-state thermal fixture (26.4026ms)
+✔ simple surface equilibrium and fixed steps have the correct energy direction (2.822ms)
+✔ off, idle and running equipment produce ordered engine and exhaust temperatures (0.6647ms)
+✔ engine-off cooldown is identical across a thermal-state save and reload (3.1747ms)
+✔ 8..14 um radiance is monotonic, emissivity-aware and loses contrast at crossover (0.6203ms)
+✔ seeded detector noise is repeatable and display palette cannot alter raw radiance (0.6773ms)
+✔ presets share one frozen clock and severity with distinct spectral response (1.4406ms)
+✔ RGB sensor seed changes only read noise; weather seed changes only particles (6.3519ms)
+✔ LWIR path attenuation includes path emission and thermal crossover is local (0.3878ms)
+✔ 30 fixed seeds show RGB contrast and SNR losses with confidence intervals (40.6452ms)
+ℹ {"seeds":30,"fog_contrast_loss_dn":{"mean":33.396809895833336,"lower":33.38732740244398,"upper":33.40629238922269},"night_snr_loss":{"mean":20.548313962288084,"lower":20.386885923518022,"upper":20.709742001058146}}
+✔ 30 fixed seeds show LiDAR surface loss and precipitation particles (89.2063ms)
+ℹ {"seeds":30,"fog_surface_return_loss":{"mean":78.36666666666666,"lower":75.70951618648502,"upper":81.0238171468483},"rain_particles":245,"snow_particles":301}
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 620.0749
+
+> yulab-sensor-fusion@0.1.0 test:assets
+> node --experimental-strip-types --test tests/assets/*.test.ts
+
+✔ invalid catalog identities and non-rigid instance transforms fail explicitly (14.6854ms)
+✔ graded site is deterministic, metre-scaled and free of ground / building / placement intersections (17.3032ms)
+✔ graded chunk geometry agrees at boundaries in both display pitches and reverse request order (947.5748ms)
+✔ seeded mixed apron uses grounded aircraft and vehicles without overlaps (20.3264ms)
+✔ self-contained catalog preserves provenance, physical scale and semantic mesh references (637.5746ms)
+✔ each catalog GLB has a real first-return and a nearer occluder wins (59.4466ms)
+✔ cached templates are keyed by content hash and handed out as independent copies (5.9728ms)
+✔ copies keep shared materials shared and clone them in creation order (0.7212ms)
+✔ catalog vehicle engine states vary by seed and drive distinct thermal signatures (36.772ms)
+✔ authored anti-aircraft turrets rotate independently with stable instance poses (422.6268ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1454.1449
+
+> yulab-sensor-fusion@0.1.0 test:backend
+> node tools/uv.mjs run --project backend --locked pytest backend/tests
+
+============================= test session starts =============================
+platform win32 -- Python 3.13.10, pytest-9.0.2, pluggy-1.6.0
+rootdir: K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend
+configfile: pyproject.toml
+plugins: anyio-4.15.1, typeguard-4.6.0
+collected 147 items / 8 skipped
+
+backend\tests\test_api.py .........                                      [  6%]
+backend\tests\test_capture_jobs.py .....                                 [  9%]
+backend\tests\test_capture_lanes.py .......                              [ 14%]
+backend\tests\test_capture_session.py ..........                         [ 21%]
+backend\tests\test_contracts.py ........................................ [ 48%]
+...................................                                      [ 72%]
+backend\tests\test_dataset.py ............................               [ 91%]
+backend\tests\test_decision_fusion.py .....                              [ 94%]
+backend\tests\test_quality_acceptance.py ....                            [ 97%]
+backend\tests\test_quality_requests.py .                                 [ 97%]
+backend\tests\test_temporal_capture.py ...                               [100%]
+
+============================== warnings summary ===============================
+backend\.venv\Lib\site-packages\fastapi\testclient.py:1
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+backend\.venv\Lib\site-packages\starlette\testclient.py:53
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 147 passed, 8 skipped, 2 warnings in 3.47s ==================
+
+> yulab-sensor-fusion@0.1.0 build
+> npm run build --workspace @yulab/frontend
+
+
+> @yulab/frontend@0.0.0 build
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 2083 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-DEsx5zpN.js
+[plugin vite:singlefile] Inlining: style-DSkYyuPu.css
+computing gzip size...
+dist/chunk.worker-iSEbILTs.js    202.47 kB
+dist/index.html                1,257.43 kB │ gzip: 347.23 kB
+✓ built in 18.38s

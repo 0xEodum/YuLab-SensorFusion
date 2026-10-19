@@ -268,6 +268,7 @@ async function run() {
           binary("lidar_topdown_preview_png_base64"), "image/png");
       }
       const result = {
+        ...(request.temporal ? {temporal: capture.temporal, actual_rig: capture.actual_rig} : {}),
         protocol: "capture-worker.v1",
         capture_id: request.plan.capture_id,
         sequence_id: request.plan.sequence_id,

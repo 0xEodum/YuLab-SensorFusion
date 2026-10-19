@@ -1,0 +1,36 @@
+{
+  "samples": 143,
+  "duration_s": 15.664067268371582,
+  "telemetry": {
+    "gpu_util_percent": {
+      "mean": 27.132867132867133,
+      "min": 10.0,
+      "max": 43.0
+    },
+    "memory_util_percent": {
+      "mean": 2.300699300699301,
+      "min": 0.0,
+      "max": 6.0
+    },
+    "power_w": {
+      "mean": 71.84629370629371,
+      "min": 43.25,
+      "max": 123.5
+    },
+    "temperature_c": {
+      "mean": 48.80419580419581,
+      "min": 48.0,
+      "max": 51.0
+    },
+    "memory_mib": {
+      "mean": 2208.5664335664337,
+      "min": 2205.0,
+      "max": 2211.0
+    },
+    "sm_clock_mhz": {
+      "mean": 963.7762237762238,
+      "min": 510.0,
+      "max": 1755.0
+    }
+  }
+}

@@ -13,3 +13,6 @@ docs/evidence/sf12/* -text whitespace=cr-at-eol
 # Matplotlib retains significant path formatting in its generated SVG artifact.
 docs/evidence/sf12/*.svg -whitespace
 docs/evidence/sf-quality/* -text whitespace=cr-at-eol
+docs/evidence/sf13-rig/* -text whitespace=cr-at-eol
+# Diagnostic table/log spacing is retained as part of the hashed evidence.
+docs/evidence/sf13-rig/*.log -whitespace

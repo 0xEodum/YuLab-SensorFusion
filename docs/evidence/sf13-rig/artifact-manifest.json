@@ -1,0 +1,74 @@
+{
+  "implementation_revision": "0e1a20e922c46ef4caeabb6a9ff3ca1fa3ed2097",
+  "artifact_hash_convention": "exact published file bytes; PowerShell UTF16 logs transcribed to UTF8",
+  "files": {
+    "backend-full.log": {
+      "sha256": "bb2e40300ea82ab9489259802aee9f8d015442946cdbb533979cc6d81a5c7550",
+      "byte_length": 341
+    },
+    "browser.log": {
+      "sha256": "4f4ac6358d75e68a8d16a41369ae940eeb7a409bd0fcd068d2b6429779b372c5",
+      "byte_length": 1847
+    },
+    "capture-acceptance.json": {
+      "sha256": "356e7139bb4aa7a7e1c648e31d79f0813c0a0e3984e4e630868530eea1ab1af4",
+      "byte_length": 5412
+    },
+    "capture-gpu.csv": {
+      "sha256": "14ac927841f2f48296b9db62f279bbc378511adebff00f3c56ded7b5f0f751a3",
+      "byte_length": 6737
+    },
+    "capture-telemetry.json": {
+      "sha256": "23fef9097d1c272116028b3040435d01bc8a526b5679ed64654c663f92e3cd1f",
+      "byte_length": 1793
+    },
+    "capture.log": {
+      "sha256": "2a0325782ad5bc9ce9f6228559b742a098013c7beb092846c4ca693e15efaa07",
+      "byte_length": 4171
+    },
+    "ensemble-gpu.csv": {
+      "sha256": "03cd76276abe2d11fe11ccaf2f0e0e194d50b4dd82ba801fef429023788aa37a",
+      "byte_length": 9638
+    },
+    "ensemble-profile.json": {
+      "sha256": "0dd52f9dbec660b315bc5129c3439ffed7bcd31523393a6ffae199e3307fd62c",
+      "byte_length": 7622
+    },
+    "ensemble-steady-window.json": {
+      "sha256": "dbd6deab9d11c274f63204b122acd502a94cb18c28ec783d6b53cc37f67dc405",
+      "byte_length": 775
+    },
+    "ensemble-telemetry.json": {
+      "sha256": "4a68cb92b36e3f534c950ff2ecb2321d494a68b6561eb87721424ee74f0a206d",
+      "byte_length": 1814
+    },
+    "first-zero-duration-failure.log": {
+      "sha256": "50cd6d2c2067dd7879525a4f9a1f9a555a1e9d4d00c3e84d3c846d71a5aa2d14",
+      "byte_length": 4664
+    },
+    "prior-ensemble-profile.json": {
+      "sha256": "0373798265d1daa925e853a48e9e6a9757bdcc09ba54129c2876bb7de7903a76",
+      "byte_length": 7609
+    },
+    "prior-ensemble-window.json": {
+      "sha256": "f207a14bdfe85351ed6375ece06662c9242964fc4ee19246f16140dab80353b6",
+      "byte_length": 722
+    },
+    "sensors.log": {
+      "sha256": "e95c20f7dc819f6249f1b0a5cf7c0abaf3d5d399f2753c02f1cef533e1166402",
+      "byte_length": 3694
+    },
+    "source-manifest.json": {
+      "sha256": "aab8eeaa3b304b1600148c6f197eb87695d3a7adb76590629d433677297aee4f",
+      "byte_length": 2995
+    },
+    "temporal-coverage.log": {
+      "sha256": "02f48b77d2d6bc872f5b6c55f7d12b592acd8db06bd0dba655b257030fec840e",
+      "byte_length": 2472
+    },
+    "verify.log": {
+      "sha256": "dd0c589cd5f7f5c92e749048cb62874ed70176c3406e6be39818c8cead6da2ae",
+      "byte_length": 14707
+    }
+  }
+}

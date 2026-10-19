@@ -1,0 +1,55 @@
+{
+  "command": [
+    "python",
+    "tools/profile-ensemble.py",
+    "--observations",
+    "artifacts/sf11/pilot-3000",
+    "--capture-id",
+    "sf11-0000",
+    "--repeat",
+    "200",
+    "--output",
+    "artifacts/sf13-rig/final-ensemble-profile"
+  ],
+  "source_revision": "0e1a20e922c46ef4caeabb6a9ff3ca1fa3ed2097",
+  "source_dirty": false,
+  "exit_code": 0,
+  "wall_s": 19.42767260002438,
+  "gpu_identity": "name, uuid, driver_version, power.limit [W]\nNVIDIA GeForce RTX 3090, GPU-cef0e73f-fb92-7b1a-c298-c518ad53e05c, 591.86, 370.00 W",
+  "compute_processes_before": "pid, used_gpu_memory [MiB]\n1832, [N/A]\n7060, [N/A]\n7200, [N/A]\n12124, [N/A]\n12148, [N/A]\n13796, [N/A]\n14576, [N/A]\n12884, [N/A]\n17428, [N/A]\n18096, [N/A]\n17348, [N/A]\n19928, [N/A]\n19464, [N/A]\n7216, [N/A]\n4072, [N/A]\n8764, [N/A]\n13880, [N/A]\n27220, [N/A]\n29916, [N/A]\n22512, [N/A]\n28236, [N/A]\n29808, [N/A]\n26856, [N/A]\n26040, [N/A]\n28492, [N/A]\n14952, [N/A]\n6980, [N/A]\n12952, [N/A]\n20596, [N/A]\n6392, [N/A]\n31008, [N/A]",
+  "attribution": "device-wide, includes unrelated processes",
+  "sample_period_ms": 100,
+  "samples": 177,
+  "telemetry": {
+    "gpu_util_percent": {
+      "mean": 21.62146892655367,
+      "max": 43.0,
+      "min": 1.0
+    },
+    "memory_util_percent": {
+      "mean": 2.062146892655367,
+      "max": 5.0,
+      "min": 0.0
+    },
+    "power_w": {
+      "mean": 69.5016384180791,
+      "max": 124.4,
+      "min": 35.7
+    },
+    "temperature_c": {
+      "mean": 50.43502824858757,
+      "max": 53.0,
+      "min": 49.0
+    },
+    "memory_mib": {
+      "mean": 1971.225988700565,
+      "max": 2020.0,
+      "min": 1678.0
+    },
+    "sm_clock_mhz": {
+      "mean": 930.2542372881356,
+      "max": 1755.0,
+      "min": 210.0
+    }
+  }
+}

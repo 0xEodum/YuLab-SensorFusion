@@ -4,6 +4,7 @@
   "title": "LabPayload",
   "description": "Canonical lab.v1 wire shapes. SF-05 adds backend-owned RGB/reference capture jobs.",
   "oneOf": [
+    { "$ref": "#/$defs/TemporalCapture" },
     {
       "$ref": "#/$defs/AssetRecord"
     },
@@ -1205,6 +1206,36 @@
         "modalities"
       ]
     },
+    "SensorDrift": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "modality": { "enum": ["rgb", "ir", "lidar"] },
+        "translation_rig_m": { "$ref": "#/$defs/Vec3" },
+        "translation_rate_rig_m_per_s": { "$ref": "#/$defs/Vec3" },
+        "yaw_rad": { "type": "number", "minimum": -3.141593, "maximum": 3.141593 },
+        "yaw_rate_rad_per_s": { "type": "number", "minimum": -10, "maximum": 10 }
+      },
+      "required": ["modality", "translation_rig_m", "translation_rate_rig_m_per_s", "yaw_rad", "yaw_rate_rad_per_s"]
+    },
+    "TemporalCapture": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": { "const": "lab.v1" }, "kind": { "const": "TemporalCapture" },
+        "profile": { "const": "rig-motion-drift.v1" },
+        "reference_time_s": { "type": "number", "minimum": 0, "maximum": 1000000000 },
+        "velocity_world_m_per_s": { "$ref": "#/$defs/Vec3" },
+        "yaw_rate_rad_per_s": { "type": "number", "minimum": -10, "maximum": 10 },
+        "sensor_drift": {
+          "type": "array", "items": { "$ref": "#/$defs/SensorDrift" }, "maxItems": 3,
+          "allOf": [
+            { "contains": { "properties": { "modality": { "const": "rgb" } } }, "minContains": 0, "maxContains": 1 },
+            { "contains": { "properties": { "modality": { "const": "ir" } } }, "minContains": 0, "maxContains": 1 },
+            { "contains": { "properties": { "modality": { "const": "lidar" } } }, "minContains": 0, "maxContains": 1 }
+          ]
+        }
+      },
+      "required": ["schema_version", "kind", "profile", "reference_time_s", "velocity_world_m_per_s", "yaw_rate_rad_per_s", "sensor_drift"]
+    },
     "CaptureRequest": {
       "type": "object",
       "additionalProperties": false,
@@ -1214,7 +1245,8 @@
         "world": { "$ref": "#/$defs/WorldSpec" },
         "rig": { "$ref": "#/$defs/RigSpec" },
         "environment": { "$ref": "#/$defs/EnvironmentSpec" },
-        "plan": { "$ref": "#/$defs/CapturePlan" }
+        "plan": { "$ref": "#/$defs/CapturePlan" },
+        "temporal": { "$ref": "#/$defs/TemporalCapture" }
       },
       "required": ["schema_version", "kind", "world", "rig", "environment", "plan"]
     },
@@ -1391,8 +1423,11 @@
     "CaptureResult": {
       "type": "object",
       "additionalProperties": false,
+      "dependentRequired": { "temporal": ["actual_rig"], "actual_rig": ["temporal"] },
       "properties": {
         "protocol": { "const": "capture-worker.v1" },
+        "temporal": { "$ref": "#/$defs/TemporalCapture" },
+        "actual_rig": { "$ref": "#/$defs/RigSpec" },
         "capture_id": { "$ref": "#/$defs/Id" },
         "sequence_id": { "$ref": "#/$defs/Id" },
         "tick_s": { "type": "number", "minimum": 0, "maximum": 1000000000.0 },
@@ -1750,6 +1785,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "sampling_profile": { "enum": ["static-capture.v1", "timed-sensor.v1"] },
         "xyz": {
           "allOf": [
             {
@@ -2349,6 +2385,7 @@
         "actual_rig": {
           "$ref": "#/$defs/RigSpec"
         },
+        "temporal": { "$ref": "#/$defs/TemporalCapture" },
         "environment": {
           "$ref": "#/$defs/EnvironmentSpec"
         },

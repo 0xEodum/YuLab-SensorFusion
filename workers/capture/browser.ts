@@ -3,7 +3,8 @@ import * as THREE from "three";
 import { AssetLibrary, AssetTemplateCache, buildAerodromeScene, loadCatalog, type Catalog } from "@yulab/assets";
 import { HARBOR_GENERATOR, AERODROME_GENERATOR } from "@yulab/world";
 import { validatePayload } from "@yulab/contracts";
-import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec } from "@yulab/contracts";
+import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec, TemporalCapture } from "@yulab/contracts";
+import { temporalSampler } from "../../packages/sensors/src/temporal.ts";
 import {
   sensorChunks,
   type ChunkData,
@@ -28,6 +29,7 @@ type Request = {
   rig: RigSpec;
   environment: EnvironmentSpec;
   plan: CapturePlan;
+  temporal?: TemporalCapture;
   _thermal_state_json?: string;
 };
 
@@ -47,6 +49,7 @@ function dataUrlBase64(value: string) {
 
 function lidarPreviews(
   scan: ReturnType<typeof scanLidar>, rig: RigSpec, maxRange: number,
+  poseAt?: (offset: number) => THREE.Matrix4,
 ) {
   const range = document.createElement("canvas");
   range.width = scan.columns;
@@ -74,7 +77,7 @@ function lidarPreviews(
     toMatrix(rig.sensors.find((sensor) => sensor.modality === "lidar")!.T_rig_from_sensor),
   );
   const cameraFromWorld = toMatrix(rgb.T_world_from_sensor).invert();
-  const lidarToCamera = cameraFromWorld.multiply(worldFromLidar);
+  const lidarToCamera = cameraFromWorld.clone().multiply(worldFromLidar);
   const cloud = document.createElement("canvas");
   cloud.width = rgb.camera.width_px;
   cloud.height = rgb.camera.height_px;
@@ -118,7 +121,9 @@ function lidarPreviews(
   const lateral = maxRange * Math.tan(0.7);
   for (const point of scan.points) {
     const color = rgbBytes[point.class_id] ?? rgbBytes[0];
-    projected.set(...point.xyz_sensor).applyMatrix4(lidarToCamera);
+    const samplePose = poseAt?.(point.time_offset_s);
+    projected.set(...point.xyz_sensor).applyMatrix4(samplePose
+      ? cameraFromWorld.clone().multiply(samplePose) : lidarToCamera);
     if (projected.z >= rgb.min_range_m && projected.z <= rgb.max_range_m) {
       const u = rgb.camera.fx_px * projected.x / projected.z + rgb.camera.cx_px;
       const v = rgb.camera.fy_px * projected.y / projected.z + rgb.camera.cy_px;
@@ -128,7 +133,7 @@ function lidarPreviews(
     const [forward, left] = point.xyz_sensor;
     const x = Math.floor(overhead.width * (0.5 - left / (2 * lateral)));
     const y = Math.floor(overhead.height * (1 - forward / maxRange));
-    worldPoint.set(...point.xyz_sensor).applyMatrix4(worldFromLidar);
+    worldPoint.set(...point.xyz_sensor).applyMatrix4(samplePose ?? worldFromLidar);
     paint(overheadPixels, overheadHeight, x, y, worldPoint.y, color, false);
   }
   cloudContext.putImageData(cameraPixels, 0, 0);
@@ -188,12 +193,19 @@ async function capture(request: Request) {
     throw new Error("Capture plan and environment ticks differ");
   if (!request.plan.modalities.includes("rgb"))
     throw new Error("Capture requires the synchronized RGB/reference passes");
+  const sampler = request.temporal
+    ? temporalSampler(request.rig, request.temporal, request.plan.simulation_time_s) : null;
+  if (sampler) request = {...request, rig: sampler.rigAt(0)};
+  const rgbOffset = request.rig.sensors.find(s => s.modality === "rgb")!.timestamp_offset_s;
+  const irOffset = request.rig.sensors.find(s => s.modality === "ir")!.timestamp_offset_s;
+  const rgbRig = sampler?.rigAt(rgbOffset) ?? request.rig;
+  const irRig = sampler?.rigAt(irOffset) ?? request.rig;
   const jobStarted = performance.now();
   const timings: Record<string, number> = {};
   let phase = jobStarted;
   const mark = (name: string) => { const now = performance.now(); timings[name] = now - phase; phase = now; };
   const world = geometryCache.useWorld(request.world);
-  const rgb = captureCamera(request.rig, "rgb");
+  const rgb = captureCamera(rgbRig, "rgb");
   const position = [
     rgb.T_world_from_sensor[3],
     rgb.T_world_from_sensor[7],
@@ -204,9 +216,26 @@ async function capture(request: Request) {
   if (lidarRequested && !lidarRig?.available)
     throw new Error("Requested LiDAR sensor is unavailable");
   const lidarOrigin = lidarRequested ? beamFor(request.rig, 0, 0).origin : null;
+  const temporalOrigins: {position: [number, number, number]; range: number}[] = [];
+  if (sampler) {
+    if (request.plan.modalities.includes("ir")) {
+      const ir = captureCamera(irRig, "ir");
+      temporalOrigins.push({position: [ir.T_world_from_sensor[3], ir.T_world_from_sensor[7], ir.T_world_from_sensor[11]], range: ir.max_range_m});
+    }
+    if (lidarRequested) for (const offset of [lidarRig!.timestamp_offset_s, lidarRig!.timestamp_offset_s + lidarRig!.scan_duration_s]) {
+      const sample = sampler.rigAt(offset).sensors.find(s => s.modality === "lidar")!;
+      // Bound any rotation of the sensor offset, including intermediate poses.
+      const nominal = request.rig.T_world_from_rig;
+      const extrinsic = sample.T_rig_from_sensor;
+      const radius = Math.hypot(...request.temporal!.velocity_world_m_per_s) * Math.abs(offset) +
+        Math.hypot(extrinsic[3], extrinsic[7], extrinsic[11]);
+      temporalOrigins.push({position: [nominal[3], nominal[7], nominal[11]], range: lidarRig!.max_range_m + radius});
+    }
+  }
   const coords = sensorChunks(world, [
     { position, range: rgb.max_range_m },
     ...(lidarOrigin && lidarRig ? [{ position: lidarOrigin, range: lidarRig.max_range_m }] : []),
+    ...temporalOrigins,
   ]);
   const chunks = coords.map((coord) => geometryCache.chunk(coord));
   mark("world_mesh_ms");
@@ -269,7 +298,7 @@ async function capture(request: Request) {
     const capture = renderReferencePasses(
       renderer,
       scene,
-      request.rig,
+      rgbRig,
       request.world.instances.map((item) => item.instance_id).sort(),
       request.environment,
       request.plan.seed_channels.rgb,
@@ -277,12 +306,12 @@ async function capture(request: Request) {
     );
     mark("rgb_reference_ms");
     const orderedIds = request.world.instances.map((item) => item.instance_id).sort();
-    const rgbLabels = renderVisibilityPass(renderer, scene, request.rig, "rgb", orderedIds);
+    const rgbLabels = renderVisibilityPass(renderer, scene, rgbRig, "rgb", orderedIds);
     if (rgbLabels.visible.length !== capture.instance.length ||
         rgbLabels.visible.some((id, index) => id !== capture.instance[index]))
       throw new Error("RGB visibility pass disagrees with frozen reference IDs");
     const irLabels = request.plan.modalities.includes("ir")
-      ? renderVisibilityPass(renderer, scene, request.rig, "ir", orderedIds) : null;
+      ? renderVisibilityPass(renderer, scene, irRig, "ir", orderedIds) : null;
     mark("visibility_ms");
     let thermal: ReturnType<typeof renderThermalPass> | null = null;
     let thermalStateJson: string | null = null;
@@ -300,7 +329,7 @@ async function capture(request: Request) {
       thermal = renderThermalPass(
         renderer,
         scene,
-        request.rig,
+        irRig,
         records,
         thermalState,
         request.environment,
@@ -320,9 +349,11 @@ async function capture(request: Request) {
         lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar, {
           environment: request.environment,
           weather_seed: request.plan.seed_channels.weather,
+          ...(sampler ? {pose_at: (offset: number) => sampler.sensorTransform("lidar", offset)} : {}),
         });
         mark("lidar_scan_ms");
-        lidarPreview = lidarPreviews(lidar, request.rig, lidarRig!.max_range_m);
+        lidarPreview = lidarPreviews(lidar, rgbRig, lidarRig!.max_range_m,
+          sampler ? (offset: number) => sampler.sensorTransform("lidar", offset) : undefined);
       }
     } finally {
       lidarGeometry?.dispose();
@@ -340,7 +371,9 @@ async function capture(request: Request) {
       xyz.set(point.xyz_sensor, i * 3);
       intensity[i] = point.intensity;
       beamIds[i] = point.beam_id;
-      timeOffsets[i] = point.time_offset_s;
+      // Temporal arrays use offsets from the observed sensor timestamp. Legacy
+      // static files retain their original capture-relative representation.
+      timeOffsets[i] = point.time_offset_s - (sampler ? lidarRig!.timestamp_offset_s : 0);
       validity[i] = 1;
       classRef[i] = point.class_id;
     }
@@ -355,6 +388,7 @@ async function capture(request: Request) {
       idealClass[i] = hit.class_id;
     }
     return {
+      ...(sampler ? {actual_rig: request.rig, temporal: request.temporal!} : {}),
       width: capture.width,
       height: capture.height,
       tick_s: request.plan.simulation_time_s,

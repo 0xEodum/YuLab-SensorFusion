@@ -4,6 +4,7 @@
  * Canonical lab.v1 wire shapes. SF-05 adds backend-owned RGB/reference capture jobs.
  */
 export type LabPayload =
+  | TemporalCapture
   | AssetRecord
   | WorldSpec
   | RigSpec
@@ -19,6 +20,11 @@ export type LabPayload =
   | Health
   | Capabilities
   | ApiError;
+/**
+ * @minItems 3
+ * @maxItems 3
+ */
+export type Vec3 = [number, number, number];
 export type Id = string;
 export type Hash = string;
 export type Version = string;
@@ -46,11 +52,6 @@ export type Transform = [
   0,
   1
 ];
-/**
- * @minItems 3
- * @maxItems 3
- */
-export type Vec3 = [number, number, number];
 /**
  * @minItems 4
  * @maxItems 4
@@ -131,6 +132,25 @@ export type Capability = {
   reason: ("not_implemented" | "no_checkpoint" | "device_unavailable") | null;
 };
 
+export interface TemporalCapture {
+  schema_version: "lab.v1";
+  kind: "TemporalCapture";
+  profile: "rig-motion-drift.v1";
+  reference_time_s: number;
+  velocity_world_m_per_s: Vec3;
+  yaw_rate_rad_per_s: number;
+  /**
+   * @maxItems 3
+   */
+  sensor_drift: [] | [SensorDrift] | [SensorDrift, SensorDrift] | [SensorDrift, SensorDrift, SensorDrift];
+}
+export interface SensorDrift {
+  modality: "rgb" | "ir" | "lidar";
+  translation_rig_m: Vec3;
+  translation_rate_rig_m_per_s: Vec3;
+  yaw_rad: number;
+  yaw_rate_rad_per_s: number;
+}
 export interface AssetRecord {
   schema_version: "lab.v1";
   kind: "AssetRecord";
@@ -343,6 +363,7 @@ export interface CaptureRequest {
   rig: RigSpec;
   environment: EnvironmentSpec;
   plan: CapturePlan;
+  temporal?: TemporalCapture;
 }
 export interface CaptureJob {
   schema_version: "lab.v1";
@@ -358,6 +379,8 @@ export interface CaptureJob {
 }
 export interface CaptureResult {
   protocol: "capture-worker.v1";
+  temporal?: TemporalCapture;
+  actual_rig?: RigSpec;
   capture_id: Id;
   sequence_id: Id;
   tick_s: number;
@@ -639,6 +662,7 @@ export interface IrData {
   response_version: Version;
 }
 export interface LidarData {
+  sampling_profile?: "static-capture.v1" | "timed-sensor.v1";
   xyz: ArrayArtifact & {
     dtype?: "float32";
     units?: "m";
@@ -743,6 +767,7 @@ export interface TruthBundle {
   capture_id: Id;
   world: WorldSpec;
   actual_rig: RigSpec;
+  temporal?: TemporalCapture;
   environment: EnvironmentSpec;
   /**
    * @minItems 0

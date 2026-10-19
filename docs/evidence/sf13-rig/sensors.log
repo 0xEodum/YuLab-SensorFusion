@@ -1,0 +1,49 @@
+
+> yulab-sensor-fusion@0.1.0 test:sensors
+> node --experimental-strip-types --test tests/sensors/*.test.ts
+
+✔ known pinhole fixtures project within half a pixel and preserve parallax (2.9312ms)
+✔ a saved Three.js camera becomes an exact calibrated rig view (1.0867ms)
+✔ capture dimensions and pose come only from the saved rig (0.5612ms)
+✔ non-rigid, reflected, duplicate and malformed rigs fail explicitly (0.9087ms)
+✔ separate camera extrinsics change physical occlusion, not only pixel coordinates (7.9791ms)
+✔ camera and ray boundaries reject invalid inputs and mark out-of-frame points (0.6657ms)
+✔ cached LiDAR BVHs give identical returns and never index rendered geometry (210.4592ms)
+✔ first opaque wall wins; receiver dropout never exposes a hidden object (10.1591ms)
+✔ reference classes follow first hits and sparse returns through occlusion and dropout (3.5921ms)
+✔ partial occlusion, opening, range limits and empty scans preserve beam identities (12.1229ms)
+✔ accelerated first intersection matches independent brute force and rig projection (3.3475ms)
+✔ thin faces are two-sided; inside solids return the exit face (0.9814ms)
+✔ coplanar ties choose the first scene mesh consistently (0.6679ms)
+✔ arch opening admits a central beam while its lintel occludes elevated beams (0.6775ms)
+✔ grazing thin face stays visible with a weak synthetic response (0.7304ms)
+✔ catalog LiDAR opacity excludes declared non-opaque asset surfaces (0.7108ms)
+✔ 24-bit instance IDs round trip exactly and reserve zero for background (2.7382ms)
+✔ GPU bottom-left rows are converted to the top-left image contract (0.3745ms)
+✔ editor helpers, grids and decorative floors never enter sensor passes (0.2737ms)
+✔ zero motion/drift preserves the exact static scan; nominal rig stays immutable (130.7588ms)
+✔ moving platform uses each beam time and returns instantaneous sensor coordinates (1.1327ms)
+✔ drift is evaluated at absolute sample time; rigid yaw preserves sensor origin (0.8709ms)
+✔ sensor timestamp offset advances motion once; invalid transforms/times fail (1.5692ms)
+✔ catalog surfaces carry implemented thermal metadata and powered exterior regions (5.6754ms)
+✔ every imported asset has an operating-state thermal fixture (19.8905ms)
+✔ simple surface equilibrium and fixed steps have the correct energy direction (2.4653ms)
+✔ off, idle and running equipment produce ordered engine and exhaust temperatures (0.5348ms)
+✔ engine-off cooldown is identical across a thermal-state save and reload (3.4767ms)
+✔ 8..14 um radiance is monotonic, emissivity-aware and loses contrast at crossover (0.7419ms)
+✔ seeded detector noise is repeatable and display palette cannot alter raw radiance (0.7152ms)
+✔ presets share one frozen clock and severity with distinct spectral response (0.9315ms)
+✔ RGB sensor seed changes only read noise; weather seed changes only particles (4.5747ms)
+✔ LWIR path attenuation includes path emission and thermal crossover is local (0.4247ms)
+✔ 30 fixed seeds show RGB contrast and SNR losses with confidence intervals (38.2348ms)
+ℹ {"seeds":30,"fog_contrast_loss_dn":{"mean":33.396809895833336,"lower":33.38732740244398,"upper":33.40629238922269},"night_snr_loss":{"mean":20.548313962288084,"lower":20.386885923518022,"upper":20.709742001058146}}
+✔ 30 fixed seeds show LiDAR surface loss and precipitation particles (82.255ms)
+ℹ {"seeds":30,"fog_surface_return_loss":{"mean":78.36666666666666,"lower":75.70951618648502,"upper":81.0238171468483},"rain_particles":245,"snow_particles":301}
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 555.9498

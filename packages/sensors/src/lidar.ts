@@ -247,7 +247,8 @@ function gaussian(seed: number, beam: number, stream: number) {
 export function scanLidar(
   scene: ReturnType<typeof buildLidarScene>, rig: RigSpec, seed: number,
   options: { dropout_probability?: number; range_sigma_m?: number; intensity_sigma?: number;
-    environment?: EnvironmentSpec; weather_seed?: number } = {},
+    environment?: EnvironmentSpec; weather_seed?: number;
+    pose_at?: (capture_offset_s: number) => THREE.Matrix4 } = {},
 ) {
   const sensor = lidarSensor(rig), pattern = sensor.lidar!;
   const dropout = options.dropout_probability ?? 0;
@@ -263,7 +264,21 @@ export function scanLidar(
   const points: { xyz_sensor: Vec3; intensity: number; beam_id: number; time_offset_s: number; range_m: number; class_id: number }[] = [];
   const sensorFromWorld = worldFromSensor.clone().invert();
   for (let row = 0; row < pattern.rows; row++) for (let column = 0; column < pattern.columns; column++) {
-    const beam = beamAt(sensor, worldFromSensor, row, column);
+    let transform = worldFromSensor;
+    if (options.pose_at) {
+      const id = row * pattern.columns + column;
+      const time = sensor.timestamp_offset_s + (total === 1 ? 0 : sensor.scan_duration_s * id / (total - 1));
+      transform = options.pose_at(time);
+      // A scaled or reflected pose would silently change ranges and point frames.
+      const e = transform.elements;
+      const axes = [new THREE.Vector3(e[0], e[1], e[2]), new THREE.Vector3(e[4], e[5], e[6]), new THREE.Vector3(e[8], e[9], e[10])];
+      if (!e.every(Number.isFinite) || Math.abs(transform.determinant() - 1) > 1e-6 ||
+          axes.some(v => Math.abs(v.lengthSq() - 1) > 1e-6) ||
+          Math.abs(axes[0].dot(axes[1])) > 1e-6 || Math.abs(axes[0].dot(axes[2])) > 1e-6 ||
+          Math.abs(axes[1].dot(axes[2])) > 1e-6 || e[3] !== 0 || e[7] !== 0 || e[11] !== 0 || e[15] !== 1)
+        throw new Error("Scan-time sensor pose must be a finite rigid transform");
+    }
+    const beam = beamAt(sensor, transform, row, column);
     const hit = scene.first(beam.origin, beam.direction, sensor.min_range_m, sensor.max_range_m);
     idealHits[beam.beam_id] = hit;
     const pathLength = hit?.range_m ?? sensor.max_range_m;
@@ -301,7 +316,7 @@ export function scanLidar(
     const sensorPoint = new THREE.Vector3(...beam.direction_sensor).multiplyScalar(range);
     // The sensor coordinate is formed from the emitted beam, not a mesh vertex.
     const worldPoint = new THREE.Vector3(...beam.origin).addScaledVector(new THREE.Vector3(...beam.direction), range);
-    sensorPoint.copy(worldPoint.applyMatrix4(sensorFromWorld));
+    sensorPoint.copy(worldPoint.applyMatrix4(options.pose_at ? transform.clone().invert() : sensorFromWorld));
     points.push({
       xyz_sensor: sensorPoint.toArray() as Vec3,
       intensity: Math.max(0, Math.min(1, idealIntensity * transmission + intensitySigma * gaussian(seed, beam.beam_id, 3))),
