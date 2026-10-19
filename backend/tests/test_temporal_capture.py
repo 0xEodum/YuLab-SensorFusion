@@ -65,3 +65,13 @@ def test_static_packaging_and_invalid_motion_inputs():
     request = fixture()
     with pytest.raises(ValueError):
         actual_rig_at(request, float("nan"))
+
+
+def test_temporal_ir_cannot_silently_render_before_its_saved_thermal_anchor():
+    request=fixture()
+    request["plan"]["modalities"]=["rgb","ir","lidar"]
+    request["plan"]["simulation_time_s"]=1
+    request["environment"]["simulation_time_s"]=1
+    next(s for s in request["rig"]["sensors"] if s["modality"]=="ir")["timestamp_offset_s"]=-.1
+    with pytest.raises(ValueError,match="IR.*nonnegative"):
+        actual_rig_at(request,0)
