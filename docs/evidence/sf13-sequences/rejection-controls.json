@@ -1,0 +1,7 @@
+{
+  "rejected": {
+    "snapshot_corruption": "Corrupt inventoried file: sequence_state_json",
+    "manifest_frame_disorder": "Temporal frame disorder or split mismatch"
+  },
+  "original_snapshot_unchanged": true
+}

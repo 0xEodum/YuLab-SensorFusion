@@ -5,6 +5,7 @@ import { HARBOR_GENERATOR, AERODROME_GENERATOR } from "@yulab/world";
 import { validatePayload } from "@yulab/contracts";
 import type { CapturePlan, EnvironmentSpec, RigSpec, WorldSpec, TemporalCapture } from "@yulab/contracts";
 import { temporalSampler } from "../../packages/sensors/src/temporal.ts";
+import { objectMotionSampler, buildMovingLidarScene } from "../../packages/sensors/src/objectMotion.ts";
 import {
   sensorChunks,
   type ChunkData,
@@ -195,9 +196,13 @@ async function capture(request: Request) {
     throw new Error("Capture requires the synchronized RGB/reference passes");
   const sampler = request.temporal
     ? temporalSampler(request.rig, request.temporal, request.plan.simulation_time_s) : null;
+  const objects = request.temporal?.object_motion?.length
+    ? objectMotionSampler(request.world, request.temporal, request.plan.simulation_time_s) : null;
   if (sampler) request = {...request, rig: sampler.rigAt(0)};
   const rgbOffset = request.rig.sensors.find(s => s.modality === "rgb")!.timestamp_offset_s;
   const irOffset = request.rig.sensors.find(s => s.modality === "ir")!.timestamp_offset_s;
+  if (sampler && request.plan.modalities.includes("ir") && irOffset < 0)
+    throw new Error("Temporal IR timestamp offset must be nonnegative for saved-anchor thermal history");
   const rgbRig = sampler?.rigAt(rgbOffset) ?? request.rig;
   const irRig = sampler?.rigAt(irOffset) ?? request.rig;
   const jobStarted = performance.now();
@@ -267,6 +272,12 @@ async function capture(request: Request) {
     site = buildAerodromeScene(request.world, assets, coords);
     scene.add(site.root);
   }
+  // Moving instances can enter sensor range after their reference pose. Do not
+  // discard them using reference-time site culling.
+  if (objects && assets) for (const id of objects.activeIds) {
+    if (!scene.getObjectByName(id)) scene.add(assets.instantiate(request.world.instances.find(i=>i.instance_id===id)!));
+  }
+  objects?.apply(scene, 0);
   mark("scene_assets_ms");
   const renderer = new THREE.WebGLRenderer({
     antialias: false,
@@ -295,6 +306,7 @@ async function capture(request: Request) {
         quaternion_xyzw: [0, 0, 0, 1] };
     }
     mark("posed_boxes_ms");
+    objects?.apply(scene, rgbOffset);
     const capture = renderReferencePasses(
       renderer,
       scene,
@@ -310,6 +322,7 @@ async function capture(request: Request) {
     if (rgbLabels.visible.length !== capture.instance.length ||
         rgbLabels.visible.some((id, index) => id !== capture.instance[index]))
       throw new Error("RGB visibility pass disagrees with frozen reference IDs");
+    objects?.apply(scene, irOffset);
     const irLabels = request.plan.modalities.includes("ir")
       ? renderVisibilityPass(renderer, scene, irRig, "ir", orderedIds) : null;
     mark("visibility_ms");
@@ -326,13 +339,18 @@ async function capture(request: Request) {
           )
         : initializeThermalState(request.world, records, request.environment);
       thermalStateJson = encodeThermalState(thermalState);
+      const irEnvironment = objects || sampler
+        ? {...request.environment, simulation_time_s: request.plan.simulation_time_s + irOffset}
+        : request.environment;
+      const sampledThermalState = irOffset > 0 && (objects || sampler)
+        ? advanceThermalState(thermalState, request.world, records, irEnvironment) : thermalState;
       thermal = renderThermalPass(
         renderer,
         scene,
         irRig,
         records,
-        thermalState,
-        request.environment,
+        sampledThermalState,
+        irEnvironment,
         request.plan.seed_channels.ir,
       );
       if (thermal.width !== capture.width || thermal.height !== capture.height)
@@ -344,7 +362,9 @@ async function capture(request: Request) {
     let lidarGeometry: ReturnType<typeof buildLidarScene> | null = null;
     try {
       if (lidarRequested) {
-        lidarGeometry = buildLidarScene(scene, catalog?.assets ?? [], lidarCache);
+        objects?.apply(scene, 0);
+        lidarGeometry = objects ? buildMovingLidarScene(scene, catalog?.assets ?? [], lidarCache, objects)
+          : buildLidarScene(scene, catalog?.assets ?? [], lidarCache);
         mark("lidar_build_ms");
         lidar = scanLidar(lidarGeometry, request.rig, request.plan.seed_channels.lidar, {
           environment: request.environment,

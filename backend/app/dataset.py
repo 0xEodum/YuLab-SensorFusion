@@ -178,6 +178,9 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
             "part_id": node["region_id"], "temperature_k": node["temperature_k"]})
     annotations = []
     truth_objects = []
+    from .temporal_capture import world_at
+    actual_instances={i["instance_id"]:i for i in world_at(request,0)["instances"]}
+    velocities={m["instance_id"]:m["velocity_world_m_per_s"] for m in request.get("temporal",{}).get("object_motion",[])}
     for instance in request["world"]["instances"]:
         name = instance["instance_id"]
         numeric = result["instance_ids"][name]
@@ -197,7 +200,7 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
             "box_3d": result["posed_boxes"][name], "rgb": rgb_label, "ir": ir_label,
             "lidar_ideal_hits": ideal_hits, "lidar_surface_hits": surface_hits,
             "eligible": eligible, "ignore_reason": reason})
-        truth_objects.append({"instance": instance, "velocity_m_per_s": [0, 0, 0],
+        truth_objects.append({"instance": actual_instances[name], "velocity_m_per_s": velocities.get(name,[0,0,0]),
                               "surface_temperatures_k": temperatures.get(name, [])})
     ann = {"schema_version": "lab.v1", "kind": "AnnotationBundle", "capture_id": capture_id,
            "class_map_version": "lidar-semantic.v1", "visibility_policy_version": VISIBILITY_POLICY,
@@ -261,9 +264,10 @@ def validate_capture_files(directory: Path, entry: dict) -> None:
         walk(payload)
 
 
-def validate_manifest(root: Path, executor: Executor | None = None) -> dict:
+def validate_manifest(root: Path, executor: Executor | None = None, *, manifest: dict | None = None) -> dict:
     """Validate a published dataset; per-capture file checks may run on an executor."""
-    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest is None:
+        manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     validate_payload("DatasetManifest", manifest)
     captures = manifest["captures"]
     if len({x["capture_id"] for x in captures}) != len(captures):
@@ -279,14 +283,21 @@ def validate_manifest(root: Path, executor: Executor | None = None) -> dict:
     # map() re-raises the first failing capture's error while iterating.
     for _ in (executor.map if executor else map)(validate_capture_files, directories, captures):
         pass
-    fingerprints = set()
+    sequence_families={s["sequence_id"]:s["family_id"] for s in manifest.get("temporal_sequences",[])}
+    if sequence_families:
+        from .sequences import validate_temporal_manifest
+        validate_temporal_manifest(root,manifest)
+    fingerprints = {}
     for entry in captures:
         observation = json.loads((root / entry["capture_id"] / "observation.json").read_text(encoding="utf-8"))
-        fingerprint = tuple(observation[name]["data"][field]["artifact"]["sha256"]
+        fingerprint = tuple(observation[name]["data"][field]["artifact"]["sha256"] if observation[name]["status"]=="available" else None
             for name, field in (("rgb", "image"), ("ir", "radiance"), ("lidar", "xyz")))
-        if fingerprint in fingerprints:
+        family=sequence_families.get(entry["sequence_id"])
+        if family is not None and all(v is None for v in fingerprint):
+            continue
+        if fingerprint in fingerprints and (family is None or fingerprints[fingerprint]!=family):
             raise ValueError("Duplicate tri-modal observation")
-        fingerprints.add(fingerprint)
+        fingerprints[fingerprint]=family
     for split in ("train", "validation", "test"):
         if manifest["counts"][split] != sum(x["split"] == split for x in captures):
             raise ValueError("Manifest split count mismatch")
@@ -295,7 +306,7 @@ def validate_manifest(root: Path, executor: Executor | None = None) -> dict:
 
 def publish_manifest(root: Path, dataset_id: str, entries: list[dict],
                      requests: list[dict], records: dict[str, dict],
-                     executor: Executor | None = None) -> dict:
+                     executor: Executor | None = None, *, sequence_specs: list[dict] | None = None) -> dict:
     if not entries or len(entries) != len(requests):
         raise ValueError("Manifest requires one completed entry per request")
     if len({x["capture_id"] for x in entries}) != len(entries):
@@ -318,7 +329,14 @@ def publish_manifest(root: Path, dataset_id: str, entries: list[dict],
         "class_map": [{"id": id_, "name": name} for name, id_ in CLASS_IDS.items()],
         "class_map_version": "lidar-semantic.v1", "captures": entries, "files": [],
         "counts": splits}
+    if sequence_specs is not None:
+        manifest["temporal_sequences"]=sequence_specs
+        manifest["provenance"]["generator_version"]="temporal-sequence.v1"
     validate_payload("DatasetManifest", manifest)
+    if sequence_specs is not None:
+        # Publish last: a temporal manifest must not become visible before its
+        # complete replay chain, ordering, inventories and split checks pass.
+        validate_manifest(root,executor,manifest=manifest)
     staging = root / "manifest.json.partial"
     json_file(staging, manifest)
     from .capture_session import _retry_sharing

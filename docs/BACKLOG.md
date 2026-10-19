@@ -6,9 +6,9 @@ follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
 with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
-fresh holdout acceptance; SF-13 is IN PROGRESS. Its first iteration implements
-scan-time rig motion and nominal/actual calibration separation; sequence jobs
-and moving objects remain open.
+fresh holdout acceptance; SF-13 is DONE after full-resolution temporal capture,
+cold replay, outage and split-isolation acceptance. SF-14 is READY for a separate
+temporal-detector iteration, retaining the accepted static ensemble as a control.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -65,8 +65,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-11 | Pilot dataset and unimodal/simple-fusion baselines | SF-10 | DONE |
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
 | SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | DONE |
-| SF-13 | Temporal capture and uncertain calibration | SF-Q | IN PROGRESS |
-| SF-14 | Temporal/calibration-aware ESSRF | SF-13 | PLANNED |
+| SF-13 | Temporal capture and uncertain calibration | SF-Q | DONE |
+| SF-14 | Temporal/calibration-aware detector | SF-13 | READY |
 | SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
 | SF-17 | Reproducible delivery and full regression | SF-16 | PLANNED |
@@ -499,10 +499,14 @@ LiDAR poses, camera sample-time poses, controlled sensor-extrinsic drift and
 truth-only actual calibration. See [profile](TEMPORAL_CAPTURE.md) and
 [iteration evidence](evidence/SF-13-rig-motion.md).
 
-Remaining: object trajectories and their scan-time intersections; sequence
-coordinator/recovery; thermal/object/sensor replay snapshots; explicit gap/order
-handling; clip/variant split isolation; sufficiently long outage fixtures.
-The full SF-13 acceptance below remains open.
+Iteration 2: `feature/temporal-object-trajectories-sequence-replay` completes
+moving-object intersections, timestamped RGB/IR labels, durable sequence/replay
+state, cold thermal restoration, explicit gaps/disorder errors and paired
+clip/family/group split isolation. Accepted on 192 full-resolution captures in
+six 32-frame clips, with 1,312 byte-identical replay files, 18 all-missing frames
+and recovery, plus an orphan-publication recovery control. See
+[sequence profile](TEMPORAL_SEQUENCES.md) and [SF-13 acceptance](evidence/SF-13-sequences.md).
+The static ensemble/weights remain unchanged; learned temporal robustness is SF-14.
 
 Deliver: sequence/trajectory state, per-beam timing, recorded motion and thermal
 history, nominal versus actual sensor calibration and controlled drift.
@@ -516,10 +520,13 @@ Acceptance:
 - Drift/corruption truth is isolated from model input. Temporal clips and their
   variants stay entirely within one split, with enough length for outage tests.
 
-## SF-14 — Full temporal/calibration ESSRF profile
+## SF-14 — Temporal/calibration-aware detector
 
-Deliver: `essrf-temporal-v1`, query bank, motion propagation, uncertainty-aware
-local sampling, gated measurement update and null-expert tracking behavior.
+Deliver: a measured temporal candidate, motion/state propagation, calibration
+uncertainty handling, gated measurement update and outage tracking behavior.
+`essrf-temporal-v1` is a proposal, not a required final architecture; the user's
+architecture flexibility and the retained negative ESSRF/static-ensemble evidence
+remain authoritative. Compare against the accepted static model on matched clips.
 
 Acceptance:
 

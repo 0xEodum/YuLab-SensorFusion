@@ -1,0 +1,5 @@
+{"sequence": "seq-smoke-l0-clean", "frame": 0, "new": 0, "reused": 1}
+{"sequence": "seq-smoke-l0-clean", "frame": 1, "new": 0, "reused": 2}
+{"sequence": "seq-smoke-l0-clean", "frame": 2, "new": 1, "reused": 2}
+{"sequence": "seq-smoke-l0-clean", "frame": 3, "new": 2, "reused": 2}
+{"state": "succeeded", "new_captures": 2, "reused_captures": 2, "captures": 4, "elapsed_s": 9.776898800046183, "counts": {"train": 4, "validation": 0, "test": 0}}

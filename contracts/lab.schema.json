@@ -4,6 +4,7 @@
   "title": "LabPayload",
   "description": "Canonical lab.v1 wire shapes. SF-05 adds backend-owned RGB/reference capture jobs.",
   "oneOf": [
+    { "$ref": "#/$defs/SequenceSpec" },
     { "$ref": "#/$defs/TemporalCapture" },
     {
       "$ref": "#/$defs/AssetRecord"
@@ -1217,12 +1218,59 @@
       },
       "required": ["modality", "translation_rig_m", "translation_rate_rig_m_per_s", "yaw_rad", "yaw_rate_rad_per_s"]
     },
+    "ObjectMotion": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "instance_id": { "$ref": "#/$defs/Id" },
+        "velocity_world_m_per_s": { "$ref": "#/$defs/Vec3" },
+        "yaw_rate_rad_per_s": { "type": "number", "minimum": -10, "maximum": 10 }
+      },
+      "required": ["instance_id", "velocity_world_m_per_s", "yaw_rate_rad_per_s"]
+    },
+    "SequenceSpec": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": { "const": "lab.v1" }, "kind": { "const": "SequenceSpec" },
+        "profile": { "const": "temporal-sequence.v1" },
+        "sequence_id": { "$ref": "#/$defs/Id" }, "family_id": { "$ref": "#/$defs/Id" },
+        "variant_id": { "$ref": "#/$defs/Id" }, "group_id": { "$ref": "#/$defs/Id" },
+        "split": { "enum": ["train", "validation", "test"] },
+        "frame_count": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "frame_interval_s": { "type": "number", "exclusiveMinimum": 0, "maximum": 3600 },
+        "start_time_s": { "type": "number", "minimum": 0, "maximum": 1000000000 },
+        "base_capture": { "$ref": "#/$defs/CaptureRequest" },
+        "outages": {
+          "type": "array", "maxItems": 10000,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "start_frame": { "type": "integer", "minimum": 0 },
+              "stop_frame": { "type": "integer", "minimum": 1 },
+              "modalities": { "type": "array", "items": { "enum": ["rgb", "ir", "lidar"] }, "minItems": 1, "maxItems": 3, "uniqueItems": true }
+            }, "required": ["start_frame", "stop_frame", "modalities"]
+          }
+        },
+        "operating_events": {
+          "type": "array", "maxItems": 100000,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "frame_index": { "type": "integer", "minimum": 0 },
+              "instance_id": { "$ref": "#/$defs/Id" },
+              "operating_state": { "enum": ["off", "idle", "running"] }
+            }, "required": ["frame_index", "instance_id", "operating_state"]
+          }
+        }
+      },
+      "required": ["schema_version", "kind", "profile", "sequence_id", "family_id", "variant_id", "group_id", "split", "frame_count", "frame_interval_s", "start_time_s", "base_capture", "outages", "operating_events"]
+    },
     "TemporalCapture": {
       "type": "object", "additionalProperties": false,
       "properties": {
         "schema_version": { "const": "lab.v1" }, "kind": { "const": "TemporalCapture" },
         "profile": { "const": "rig-motion-drift.v1" },
         "reference_time_s": { "type": "number", "minimum": 0, "maximum": 1000000000 },
+        "object_motion": { "type": "array", "items": { "$ref": "#/$defs/ObjectMotion" }, "maxItems": 10000, "uniqueItems": true },
         "velocity_world_m_per_s": { "$ref": "#/$defs/Vec3" },
         "yaw_rate_rad_per_s": { "type": "number", "minimum": -10, "maximum": 10 },
         "sensor_drift": {
@@ -2133,6 +2181,8 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "frame_index": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "capture_time_s": { "type": "number", "minimum": 0, "maximum": 1000000000 },
         "schema_version": {
           "const": "lab.v1"
         },
@@ -2531,6 +2581,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "temporal_sequences": { "type": "array", "items": { "$ref": "#/$defs/SequenceSpec" }, "minItems": 1, "maxItems": 100000 },
         "schema_version": {
           "const": "lab.v1"
         },

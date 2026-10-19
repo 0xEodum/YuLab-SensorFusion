@@ -1,0 +1,12 @@
+{
+  "clean": {
+    "detections": 3,
+    "checkpoint_sha256": "fbe84065cbc1fb832ff963f8fb9d4e29911e9b704c7cfadb8dff0947daf17b56",
+    "capture_id": "sf13-l0-clean-000000"
+  },
+  "missing": {
+    "detections": 0,
+    "checkpoint_sha256": "fbe84065cbc1fb832ff963f8fb9d4e29911e9b704c7cfadb8dff0947daf17b56",
+    "capture_id": "sf13-l0-drift-outages-000022"
+  }
+}

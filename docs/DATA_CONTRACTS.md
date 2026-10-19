@@ -98,6 +98,13 @@ modality is explicit (`unavailable`, reason), not silently synthesized or replac
 
 ## 3. Sensor observations
 
+`SequenceSpec` is the canonical frozen temporal collection plan. DatasetManifest
+optionally embeds `temporal_sequences`; replay snapshots and sequence-family
+metadata remain outside ObservationBundle. Observable `frame_index` and
+`capture_time_s` keep frame order/time explicit during all-sensor outages.
+Object reference poses live in WorldSpec; actual anchor poses/velocities live
+in TruthBundle.objects. See [sequence semantics](TEMPORAL_SEQUENCES.md).
+
 The optional [TemporalCapture profile](TEMPORAL_CAPTURE.md) extends capture and
 truth payloads, without adding motion/drift truth to ObservationBundle. In this
 profile XYZ is expressed in each beam's instantaneous sensor frame; packaged

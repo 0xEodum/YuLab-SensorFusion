@@ -1,0 +1,212 @@
+{
+  "attribution": "device-wide shared desktop; capture includes validation/publication",
+  "phases": {
+    "stopped": {
+      "wall_s": 20.964864253997803,
+      "samples": 191,
+      "telemetry": {
+        "gpu_util_percent": {
+          "mean": 7.717277486910994,
+          "max": 100.0
+        },
+        "memory_util_percent": {
+          "mean": 1.4136125654450262,
+          "max": 6.0
+        },
+        "power_w": {
+          "mean": 79.24586387434555,
+          "max": 118.29
+        },
+        "temperature_c": {
+          "mean": 46.69109947643979,
+          "max": 49.0
+        },
+        "memory_mib": {
+          "mean": 1687.0471204188482,
+          "max": 1762.0
+        },
+        "sm_clock_mhz": {
+          "mean": 1150.0523560209424,
+          "max": 1755.0
+        }
+      }
+    },
+    "cold-resume": {
+      "wall_s": 431.22877645492554,
+      "samples": 3942,
+      "telemetry": {
+        "gpu_util_percent": {
+          "mean": 11.996194824961949,
+          "max": 100.0
+        },
+        "memory_util_percent": {
+          "mean": 3.3767123287671232,
+          "max": 28.0
+        },
+        "power_w": {
+          "mean": 51.475928462709284,
+          "max": 143.04
+        },
+        "temperature_c": {
+          "mean": 49.419837645865044,
+          "max": 53.0
+        },
+        "memory_mib": {
+          "mean": 1691.5674784373414,
+          "max": 1867.0
+        },
+        "sm_clock_mhz": {
+          "mean": 624.7526636225266,
+          "max": 1950.0
+        }
+      }
+    },
+    "completed-resume": {
+      "wall_s": 52.21178698539734,
+      "samples": 477,
+      "telemetry": {
+        "gpu_util_percent": {
+          "mean": 3.660377358490566,
+          "max": 17.0
+        },
+        "memory_util_percent": {
+          "mean": 3.853249475890985,
+          "max": 6.0
+        },
+        "power_w": {
+          "mean": 36.57620545073375,
+          "max": 38.76
+        },
+        "temperature_c": {
+          "mean": 49.54926624737946,
+          "max": 50.0
+        },
+        "memory_mib": {
+          "mean": 1614.3375262054508,
+          "max": 1678.0
+        },
+        "sm_clock_mhz": {
+          "mean": 210.0,
+          "max": 210.0
+        }
+      }
+    },
+    "uninterrupted-replay": {
+      "wall_s": 70.87717771530151,
+      "samples": 649,
+      "telemetry": {
+        "gpu_util_percent": {
+          "mean": 7.679506933744221,
+          "max": 100.0
+        },
+        "memory_util_percent": {
+          "mean": 1.5223420647149462,
+          "max": 6.0
+        },
+        "power_w": {
+          "mean": 75.83864406779661,
+          "max": 139.19
+        },
+        "temperature_c": {
+          "mean": 49.66255778120185,
+          "max": 53.0
+        },
+        "memory_mib": {
+          "mean": 1700.673343605547,
+          "max": 1789.0
+        },
+        "sm_clock_mhz": {
+          "mean": 1029.5454545454545,
+          "max": 1920.0
+        }
+      }
+    },
+    "frozen-control": {
+      "wall_s": 5.614806652069092,
+      "samples": 52,
+      "telemetry": {
+        "gpu_util_percent": {
+          "mean": 4.903846153846154,
+          "max": 17.0
+        },
+        "memory_util_percent": {
+          "mean": 1.3076923076923077,
+          "max": 6.0
+        },
+        "power_w": {
+          "mean": 73.96326923076923,
+          "max": 118.43
+        },
+        "temperature_c": {
+          "mean": 47.78846153846154,
+          "max": 49.0
+        },
+        "memory_mib": {
+          "mean": 1676.1538461538462,
+          "max": 1814.0
+        },
+        "sm_clock_mhz": {
+          "mean": 1152.4038461538462,
+          "max": 1755.0
+        }
+      }
+    }
+  },
+  "frame_count": 192,
+  "browser_phase_ms": {
+    "world_mesh_ms": {
+      "mean": 204.188541669709,
+      "median": 0.20000004768371582,
+      "max": 3309.199999988079
+    },
+    "scene_assets_ms": {
+      "mean": 18.89322916418314,
+      "median": 13.450000017881393,
+      "max": 228.80000001192093
+    },
+    "renderer_setup_ms": {
+      "mean": 5.648437498758237,
+      "median": 5.400000035762787,
+      "max": 10.399999976158142
+    },
+    "posed_boxes_ms": {
+      "mean": 3.7807291684051356,
+      "median": 3.700000047683716,
+      "max": 8.900000035762787
+    },
+    "rgb_reference_ms": {
+      "mean": 308.6218750004967,
+      "median": 284.30000001192093,
+      "max": 667.1000000238419
+    },
+    "visibility_ms": {
+      "mean": 132.8359374978269,
+      "median": 119.2999999821186,
+      "max": 222
+    },
+    "thermal_ms": {
+      "mean": 46.42135416840514,
+      "median": 47.0,
+      "max": 68.80000001192093
+    },
+    "lidar_build_ms": {
+      "mean": 22.002604169150192,
+      "median": 11.5,
+      "max": 213.30000001192093
+    },
+    "lidar_scan_ms": {
+      "mean": 45.266666664121054,
+      "median": 44.14999997615814,
+      "max": 84.69999998807907
+    },
+    "lidar_preview_ms": {
+      "mean": 18.15052083072563,
+      "median": 17.250000029802322,
+      "max": 33.10000002384186
+    }
+  },
+  "node_elapsed_ms": {
+    "mean": 1071.4879036458335,
+    "median": 856.0200499999992
+  }
+}

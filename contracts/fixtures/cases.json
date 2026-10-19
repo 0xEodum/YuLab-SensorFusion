@@ -1039,5 +1039,103 @@
       "value": "timed-sensor.v1"
     }
   ]
-}
+},
+  {
+    "name": "temporal sequence specification",
+    "schema": "SequenceSpec",
+    "valid": true,
+    "base": "SequenceSpec.json"
+  },
+  {
+    "name": "sequence rejects zero frame interval",
+    "schema": "SequenceSpec",
+    "valid": false,
+    "base": "SequenceSpec.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "frame_interval_s"
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "sequence rejects unknown profile",
+    "schema": "SequenceSpec",
+    "valid": false,
+    "base": "SequenceSpec.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "profile"
+        ],
+        "value": "future.v9"
+      }
+    ]
+  },
+  {
+    "name": "sequence rejects zero frames",
+    "schema": "SequenceSpec",
+    "valid": false,
+    "base": "SequenceSpec.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "frame_count"
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "sequence observations expose time without motion truth",
+    "schema": "ObservationBundle",
+    "valid": true,
+    "base": "ObservationBundle.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "frame_index"
+        ],
+        "value": 0
+      },
+      {
+        "op": "set",
+        "path": [
+          "capture_time_s"
+        ],
+        "value": 0
+      }
+    ]
+  },
+  {
+    "name": "object motion truth descriptor",
+    "schema": "TemporalCapture",
+    "valid": true,
+    "base": "TemporalCapture.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "object_motion"
+        ],
+        "value": [
+          {
+            "instance_id": "aircraft-1",
+            "velocity_world_m_per_s": [
+              0,
+              0,
+              -2
+            ],
+            "yaw_rate_rad_per_s": 0.1
+          }
+        ]
+      }
+    ]
+  }
 ]

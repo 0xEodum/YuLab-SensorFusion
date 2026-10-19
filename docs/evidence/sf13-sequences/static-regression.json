@@ -1,0 +1,133 @@
+{
+  "profile": "rig-motion-drift.v1",
+  "checks": {
+    "static_repeat_exact": true,
+    "zero_motion_exact": true,
+    "motion_repeat_exact": true,
+    "motion_changes_lidar": true,
+    "drift_changes_rgb": true,
+    "nominal_actual_isolation": true,
+    "observation_only_arrays": 11
+  },
+  "captures": {
+    "static": {
+      "wall_s": 5.331050199980382,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 2324.800000011921,
+        "scene_assets_ms": 212.0999999642372,
+        "renderer_setup_ms": 10.5,
+        "posed_boxes_ms": 3.199999988079071,
+        "rgb_reference_ms": 531.1000000238419,
+        "visibility_ms": 153.5,
+        "thermal_ms": 66.60000002384186,
+        "lidar_build_ms": 199.89999997615814,
+        "lidar_scan_ms": 57.10000002384186,
+        "lidar_preview_ms": 17.19999998807907
+      },
+      "point_count": 5303,
+      "observation_sha256": "53e672e05009cd3a20428354a784d184aa3910857d3fcf091be12934b7ab0f64",
+      "array_count": 11
+    },
+    "static-repeat": {
+      "wall_s": 1.295123899995815,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 0.20000004768371582,
+        "scene_assets_ms": 12.899999976158142,
+        "renderer_setup_ms": 6.199999988079071,
+        "posed_boxes_ms": 6.699999988079071,
+        "rgb_reference_ms": 287.80000001192093,
+        "visibility_ms": 125.90000003576279,
+        "thermal_ms": 40.39999997615814,
+        "lidar_build_ms": 13.5,
+        "lidar_scan_ms": 36.19999998807907,
+        "lidar_preview_ms": 18.400000035762787
+      },
+      "point_count": 5303,
+      "observation_sha256": "85519309ccc80372526b7354c5ae5088461a3ccbbf5099b93470b9f89b12b9d8",
+      "array_count": 11
+    },
+    "zero": {
+      "wall_s": 1.5202193000004627,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 0.40000003576278687,
+        "scene_assets_ms": 8.599999964237213,
+        "renderer_setup_ms": 5.200000047683716,
+        "posed_boxes_ms": 3.5,
+        "rgb_reference_ms": 390.0999999642372,
+        "visibility_ms": 122.90000003576279,
+        "thermal_ms": 31,
+        "lidar_build_ms": 14.899999976158142,
+        "lidar_scan_ms": 53.30000001192093,
+        "lidar_preview_ms": 15.399999976158142
+      },
+      "point_count": 5303,
+      "observation_sha256": "7cc63f2f74241dd5630e8739774e5388d86b343f8e23e094ed6ad5c0f37f9f36",
+      "array_count": 11
+    },
+    "motion": {
+      "wall_s": 1.2862661000108346,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 1.0999999642372131,
+        "scene_assets_ms": 19.200000047683716,
+        "renderer_setup_ms": 5.399999976158142,
+        "posed_boxes_ms": 3.5,
+        "rgb_reference_ms": 266.19999998807907,
+        "visibility_ms": 124.90000003576279,
+        "thermal_ms": 31.799999952316284,
+        "lidar_build_ms": 11.400000035762787,
+        "lidar_scan_ms": 41,
+        "lidar_preview_ms": 18.899999976158142
+      },
+      "point_count": 5299,
+      "observation_sha256": "88d5e4182df377e5e17a5db9ea62a99f06b42838b938f1f8688c87b4c6f49043",
+      "array_count": 11
+    },
+    "motion-repeat": {
+      "wall_s": 1.3882829999784008,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 0.3999999761581421,
+        "scene_assets_ms": 11.200000047683716,
+        "renderer_setup_ms": 5.899999976158142,
+        "posed_boxes_ms": 4.399999976158142,
+        "rgb_reference_ms": 386,
+        "visibility_ms": 109.10000002384186,
+        "thermal_ms": 33.80000001192093,
+        "lidar_build_ms": 9.5,
+        "lidar_scan_ms": 54.89999997615814,
+        "lidar_preview_ms": 31.69999998807907
+      },
+      "point_count": 5299,
+      "observation_sha256": "061d1caea1a0e81c3358bf0973c80e4db2bf0868bbb7df8ac127fb5a86d7ab85",
+      "array_count": 11
+    },
+    "drift": {
+      "wall_s": 1.3280208999640308,
+      "renderer": "Chromium 155.0.4283.62 / ANGLE (NVIDIA, NVIDIA GeForce RTX 3090 (0x00002204) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "timings_ms": {
+        "world_mesh_ms": 0.3999999761581421,
+        "scene_assets_ms": 9.199999988079071,
+        "renderer_setup_ms": 5.300000011920929,
+        "posed_boxes_ms": 3.600000023841858,
+        "rgb_reference_ms": 263.30000001192093,
+        "visibility_ms": 112,
+        "thermal_ms": 49.19999998807907,
+        "lidar_build_ms": 12,
+        "lidar_scan_ms": 55.09999996423721,
+        "lidar_preview_ms": 24.30000001192093
+      },
+      "point_count": 5280,
+      "observation_sha256": "7dcb58a8d9aae5c180d4768d343fda24b18a062ea9b1ab361e8649ec714f5af9",
+      "array_count": 11
+    }
+  },
+  "limits": [
+    "static objects; constant linear velocity and world/rig +Y yaw",
+    "global-shutter image sampled at timestamp; finite exposure integration not modeled",
+    "sequence coordinator, moving objects and temporal split policies remain SF-13 work"
+  ]
+}

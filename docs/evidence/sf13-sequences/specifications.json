@@ -1,0 +1,3716 @@
+{
+  "version": "temporal-sequences.v1",
+  "sequences": [
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l0-clean",
+      "family_id": "sf13-family-0",
+      "variant_id": "clean",
+      "group_id": "airfield-810000",
+      "split": "train",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "aerodrome-810000",
+          "seed": 810000,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "aerodrome-world.v1",
+          "field_version": "aerodrome-field.v1",
+          "features": [
+            {
+              "id": "aerodrome",
+              "type": "aerodrome",
+              "center_m": [
+                64,
+                24,
+                0
+              ],
+              "extent_m": [
+                448,
+                8,
+                1280
+              ],
+              "seed": 810000
+            },
+            {
+              "id": "region-0-0",
+              "type": "coast",
+              "center_m": [
+                -679.8257391748078,
+                45.57455466179225,
+                -671.4557616683784
+              ],
+              "extent_m": [
+                197.2535968323363,
+                67.47353887638857,
+                207.09206011125167
+              ],
+              "seed": 3707909440
+            },
+            {
+              "id": "region-0-1",
+              "type": "canyon",
+              "center_m": [
+                -258.9437907058615,
+                35.020108295473435,
+                -836.4847891525097
+              ],
+              "extent_m": [
+                146.2146591530681,
+                77.10915367424235,
+                127.77792203793719
+              ],
+              "seed": 4292036990
+            },
+            {
+              "id": "region-0-3",
+              "type": "islands",
+              "center_m": [
+                791.3362737061308,
+                37.119745741271934,
+                -788.8620248911581
+              ],
+              "extent_m": [
+                142.65691676518344,
+                65.42070836606918,
+                131.39399428558397
+              ],
+              "seed": 4240797977
+            },
+            {
+              "id": "region-1-0",
+              "type": "coast",
+              "center_m": [
+                -845.3427551245184,
+                40.8776448101957,
+                -342.78998348111986
+              ],
+              "extent_m": [
+                186.84893973796835,
+                68.96149160828476,
+                190.32047848923142
+              ],
+              "seed": 1058684717
+            },
+            {
+              "id": "region-1-3",
+              "type": "islands",
+              "center_m": [
+                772.030995582936,
+                35.594364761616674,
+                -167.116564508089
+              ],
+              "extent_m": [
+                132.99620659579435,
+                78.66439157693283,
+                134.2818797673755
+              ],
+              "seed": 589742911
+            },
+            {
+              "id": "region-2-0",
+              "type": "coast",
+              "center_m": [
+                -793.8113608161946,
+                37.914619191203464,
+                298.21618950767817
+              ],
+              "extent_m": [
+                195.28455314116658,
+                75.51263497292824,
+                201.69274308944418
+              ],
+              "seed": 8240281
+            },
+            {
+              "id": "region-2-3",
+              "type": "islands",
+              "center_m": [
+                687.5992215873206,
+                19.866755900742184,
+                319.8677655274206
+              ],
+              "extent_m": [
+                162.15477523816628,
+                69.17203838871141,
+                159.4827458671021
+              ],
+              "seed": 942712426
+            },
+            {
+              "id": "region-3-0",
+              "type": "coast",
+              "center_m": [
+                -721.0209365761888,
+                43.914035033667254,
+                800.9165602004892
+              ],
+              "extent_m": [
+                191.1637672593733,
+                67.75674134952871,
+                213.3515002255681
+              ],
+              "seed": 1863005106
+            },
+            {
+              "id": "region-3-1",
+              "type": "canyon",
+              "center_m": [
+                -202.06311382052095,
+                45.98725912564178,
+                855.5770796445611
+              ],
+              "extent_m": [
+                125.67709559706904,
+                73.60432583876054,
+                115.78041325038774
+              ],
+              "seed": 2069846731
+            },
+            {
+              "id": "region-3-2",
+              "type": "alpine",
+              "center_m": [
+                341.7267755038866,
+                41.37511980193088,
+                828.2871825721318
+              ],
+              "extent_m": [
+                220.94526142928407,
+                93.24976039613824,
+                196.79838961847088
+              ],
+              "seed": 2845193049
+            },
+            {
+              "id": "region-3-3",
+              "type": "islands",
+              "center_m": [
+                711.014071168847,
+                30.56945568304709,
+                869.4174176045734
+              ],
+              "extent_m": [
+                162.25591089070213,
+                69.57673595230484,
+                138.8784561927613
+              ],
+              "seed": 2115164708
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "aerodrome-810000-clear",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                0.9965078927082592,
+                0,
+                -0.0834986213667294,
+                38.34953957292008,
+                0,
+                1,
+                0,
+                24.04,
+                0.0834986213667294,
+                0,
+                0.9965078927082592,
+                72.09265013926026,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-810000-wide",
+              "asset_id": "rq4",
+              "asset_sha256": "18b0ef3b83d3fb27d4e1aee6146b416e9d556d76bb1b071d4ff3a921d6cb9dbe",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                59.12886668814553,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                -2.563352927231079,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "idle"
+            },
+            {
+              "instance_id": "aerodrome-810000-partial",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                180,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                50,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "idle"
+            },
+            {
+              "instance_id": "aerodrome-810000-hidden",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                210,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                -40,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-810000-service",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                6.123233995736766e-17,
+                0,
+                1,
+                112.79251484544774,
+                0,
+                1,
+                0,
+                24.04,
+                -1,
+                0,
+                6.123233995736766e-17,
+                102.21046941755583,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-0",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            0.9963562462263135,
+            -0.012200630598262614,
+            0.08441193765584655,
+            42.956882411335656,
+            0,
+            0.989715420835611,
+            0.1430502910174929,
+            31.51093685552632,
+            -0.08528910015828393,
+            -0.14252905097977092,
+            0.9861091415360655,
+            104.54261159308122,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0000",
+          "sequence_id": "seq-airfield-810000-0",
+          "world_sha256": "b05d70379a4e20ea4fff58146e810af2aca1d8af30500f847f7ee360ff86ea5d",
+          "rig_sha256": "577669f2cf5156613b2431c2dea54225c5adc0dd4aa42f6741f14b66fb58dfe8",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 810000,
+            "rgb": 1,
+            "ir": 2,
+            "lidar": 3,
+            "weather": 4
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [],
+          "object_motion": [
+            {
+              "instance_id": "aerodrome-810000-clear",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "aerodrome-810000-clear",
+          "operating_state": "running"
+        }
+      ]
+    },
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l0-drift-outages",
+      "family_id": "sf13-family-0",
+      "variant_id": "drift-outages",
+      "group_id": "airfield-810000",
+      "split": "train",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "aerodrome-810000",
+          "seed": 810000,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "aerodrome-world.v1",
+          "field_version": "aerodrome-field.v1",
+          "features": [
+            {
+              "id": "aerodrome",
+              "type": "aerodrome",
+              "center_m": [
+                64,
+                24,
+                0
+              ],
+              "extent_m": [
+                448,
+                8,
+                1280
+              ],
+              "seed": 810000
+            },
+            {
+              "id": "region-0-0",
+              "type": "coast",
+              "center_m": [
+                -679.8257391748078,
+                45.57455466179225,
+                -671.4557616683784
+              ],
+              "extent_m": [
+                197.2535968323363,
+                67.47353887638857,
+                207.09206011125167
+              ],
+              "seed": 3707909440
+            },
+            {
+              "id": "region-0-1",
+              "type": "canyon",
+              "center_m": [
+                -258.9437907058615,
+                35.020108295473435,
+                -836.4847891525097
+              ],
+              "extent_m": [
+                146.2146591530681,
+                77.10915367424235,
+                127.77792203793719
+              ],
+              "seed": 4292036990
+            },
+            {
+              "id": "region-0-3",
+              "type": "islands",
+              "center_m": [
+                791.3362737061308,
+                37.119745741271934,
+                -788.8620248911581
+              ],
+              "extent_m": [
+                142.65691676518344,
+                65.42070836606918,
+                131.39399428558397
+              ],
+              "seed": 4240797977
+            },
+            {
+              "id": "region-1-0",
+              "type": "coast",
+              "center_m": [
+                -845.3427551245184,
+                40.8776448101957,
+                -342.78998348111986
+              ],
+              "extent_m": [
+                186.84893973796835,
+                68.96149160828476,
+                190.32047848923142
+              ],
+              "seed": 1058684717
+            },
+            {
+              "id": "region-1-3",
+              "type": "islands",
+              "center_m": [
+                772.030995582936,
+                35.594364761616674,
+                -167.116564508089
+              ],
+              "extent_m": [
+                132.99620659579435,
+                78.66439157693283,
+                134.2818797673755
+              ],
+              "seed": 589742911
+            },
+            {
+              "id": "region-2-0",
+              "type": "coast",
+              "center_m": [
+                -793.8113608161946,
+                37.914619191203464,
+                298.21618950767817
+              ],
+              "extent_m": [
+                195.28455314116658,
+                75.51263497292824,
+                201.69274308944418
+              ],
+              "seed": 8240281
+            },
+            {
+              "id": "region-2-3",
+              "type": "islands",
+              "center_m": [
+                687.5992215873206,
+                19.866755900742184,
+                319.8677655274206
+              ],
+              "extent_m": [
+                162.15477523816628,
+                69.17203838871141,
+                159.4827458671021
+              ],
+              "seed": 942712426
+            },
+            {
+              "id": "region-3-0",
+              "type": "coast",
+              "center_m": [
+                -721.0209365761888,
+                43.914035033667254,
+                800.9165602004892
+              ],
+              "extent_m": [
+                191.1637672593733,
+                67.75674134952871,
+                213.3515002255681
+              ],
+              "seed": 1863005106
+            },
+            {
+              "id": "region-3-1",
+              "type": "canyon",
+              "center_m": [
+                -202.06311382052095,
+                45.98725912564178,
+                855.5770796445611
+              ],
+              "extent_m": [
+                125.67709559706904,
+                73.60432583876054,
+                115.78041325038774
+              ],
+              "seed": 2069846731
+            },
+            {
+              "id": "region-3-2",
+              "type": "alpine",
+              "center_m": [
+                341.7267755038866,
+                41.37511980193088,
+                828.2871825721318
+              ],
+              "extent_m": [
+                220.94526142928407,
+                93.24976039613824,
+                196.79838961847088
+              ],
+              "seed": 2845193049
+            },
+            {
+              "id": "region-3-3",
+              "type": "islands",
+              "center_m": [
+                711.014071168847,
+                30.56945568304709,
+                869.4174176045734
+              ],
+              "extent_m": [
+                162.25591089070213,
+                69.57673595230484,
+                138.8784561927613
+              ],
+              "seed": 2115164708
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "aerodrome-810000-clear",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                0.9965078927082592,
+                0,
+                -0.0834986213667294,
+                38.34953957292008,
+                0,
+                1,
+                0,
+                24.04,
+                0.0834986213667294,
+                0,
+                0.9965078927082592,
+                72.09265013926026,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-810000-wide",
+              "asset_id": "rq4",
+              "asset_sha256": "18b0ef3b83d3fb27d4e1aee6146b416e9d556d76bb1b071d4ff3a921d6cb9dbe",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                59.12886668814553,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                -2.563352927231079,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "idle"
+            },
+            {
+              "instance_id": "aerodrome-810000-partial",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                180,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                50,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "idle"
+            },
+            {
+              "instance_id": "aerodrome-810000-hidden",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                1,
+                0,
+                0,
+                210,
+                0,
+                1,
+                0,
+                24.04,
+                0,
+                0,
+                1,
+                -40,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-810000-service",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                6.123233995736766e-17,
+                0,
+                1,
+                112.79251484544774,
+                0,
+                1,
+                0,
+                24.04,
+                -1,
+                0,
+                6.123233995736766e-17,
+                102.21046941755583,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-0",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            0.9963562462263135,
+            -0.012200630598262614,
+            0.08441193765584655,
+            42.956882411335656,
+            0,
+            0.989715420835611,
+            0.1430502910174929,
+            31.51093685552632,
+            -0.08528910015828393,
+            -0.14252905097977092,
+            0.9861091415360655,
+            104.54261159308122,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0000",
+          "sequence_id": "seq-airfield-810000-0",
+          "world_sha256": "b05d70379a4e20ea4fff58146e810af2aca1d8af30500f847f7ee360ff86ea5d",
+          "rig_sha256": "577669f2cf5156613b2431c2dea54225c5adc0dd4aa42f6741f14b66fb58dfe8",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 810000,
+            "rgb": 1,
+            "ir": 2,
+            "lidar": 3,
+            "weather": 4
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [
+            {
+              "modality": "rgb",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "ir",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "lidar",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            }
+          ],
+          "object_motion": [
+            {
+              "instance_id": "aerodrome-810000-clear",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [
+        {
+          "start_frame": 4,
+          "stop_frame": 8,
+          "modalities": [
+            "rgb"
+          ]
+        },
+        {
+          "start_frame": 10,
+          "stop_frame": 14,
+          "modalities": [
+            "ir"
+          ]
+        },
+        {
+          "start_frame": 16,
+          "stop_frame": 20,
+          "modalities": [
+            "lidar"
+          ]
+        },
+        {
+          "start_frame": 22,
+          "stop_frame": 28,
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        }
+      ],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "aerodrome-810000-clear",
+          "operating_state": "running"
+        }
+      ]
+    },
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l1-clean",
+      "family_id": "sf13-family-1",
+      "variant_id": "clean",
+      "group_id": "harbor-817919",
+      "split": "validation",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "harbor-mixed-817919",
+          "seed": 817919,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "harbor-world.v1",
+          "field_version": "harbor-field.v1",
+          "features": [
+            {
+              "id": "harbor",
+              "type": "harbor",
+              "center_m": [
+                64,
+                14,
+                0
+              ],
+              "extent_m": [
+                512,
+                8,
+                768
+              ],
+              "seed": 817919
+            },
+            {
+              "id": "region-0-0",
+              "type": "canyon",
+              "center_m": [
+                -742.1286259584894,
+                39.14282622783687,
+                -846.5806072767779
+              ],
+              "extent_m": [
+                160.51209672738614,
+                74.16371308690023,
+                122.36951248961722
+              ],
+              "seed": 3619642763
+            },
+            {
+              "id": "region-0-1",
+              "type": "alpine",
+              "center_m": [
+                -310.81226672181214,
+                41.557138893184515,
+                -864.170098993734
+              ],
+              "extent_m": [
+                224.6196302735758,
+                92.88572221363097,
+                174.62700219979206
+              ],
+              "seed": 404685382
+            },
+            {
+              "id": "region-0-2",
+              "type": "islands",
+              "center_m": [
+                336.92847908519406,
+                24.23645268518301,
+                -826.0307233107814
+              ],
+              "extent_m": [
+                126.97841488732453,
+                68.75489656737886,
+                146.73911334451734
+              ],
+              "seed": 965324428
+            },
+            {
+              "id": "region-0-3",
+              "type": "coast",
+              "center_m": [
+                723.3399829637119,
+                27.76563650403744,
+                -686.9247136129823
+              ],
+              "extent_m": [
+                176.18800096963253,
+                67.39548950721405,
+                162.53554408497538
+              ],
+              "seed": 292950744
+            },
+            {
+              "id": "region-1-0",
+              "type": "canyon",
+              "center_m": [
+                -711.6156187203284,
+                28.648584502732078,
+                -217.30442525406937
+              ],
+              "extent_m": [
+                166.75779234961556,
+                79.35338169880058,
+                123.71669438195337
+              ],
+              "seed": 1410245449
+            },
+            {
+              "id": "region-1-3",
+              "type": "coast",
+              "center_m": [
+                856.2841464232849,
+                25.985697764575775,
+                -184.08563551937362
+              ],
+              "extent_m": [
+                201.52832336200595,
+                66.09799555365416,
+                171.83973923601204
+              ],
+              "seed": 1850181834
+            },
+            {
+              "id": "region-2-0",
+              "type": "canyon",
+              "center_m": [
+                -709.7744971501581,
+                34.34450042603798,
+                296.62734234510623
+              ],
+              "extent_m": [
+                124.89212788382828,
+                85.84981011549239,
+                148.64015447456393
+              ],
+              "seed": 1296021517
+            },
+            {
+              "id": "region-2-3",
+              "type": "coast",
+              "center_m": [
+                743.7619041788303,
+                37.53540953112491,
+                153.59452052009163
+              ],
+              "extent_m": [
+                199.57057500061825,
+                75.23328221105814,
+                212.00930812116928
+              ],
+              "seed": 3148305199
+            },
+            {
+              "id": "region-3-0",
+              "type": "canyon",
+              "center_m": [
+                -722.3868322040389,
+                39.527668154952195,
+                848.930290917384
+              ],
+              "extent_m": [
+                140.19224511557078,
+                76.03613440786398,
+                139.13744234925542
+              ],
+              "seed": 898814143
+            },
+            {
+              "id": "region-3-1",
+              "type": "alpine",
+              "center_m": [
+                -225.17797770681278,
+                34.19154239879856,
+                841.5553295906994
+              ],
+              "extent_m": [
+                235.2084045399,
+                88.57002635313431,
+                214.41054232195265
+              ],
+              "seed": 299612829
+            },
+            {
+              "id": "region-3-2",
+              "type": "islands",
+              "center_m": [
+                239.5697203615144,
+                25.012632305598668,
+                682.8677288531018
+              ],
+              "extent_m": [
+                153.44549037177245,
+                78.49660779500766,
+                141.9671011301612
+              ],
+              "seed": 691668293
+            },
+            {
+              "id": "region-3-3",
+              "type": "coast",
+              "center_m": [
+                783.365573144603,
+                21.91677819940539,
+                833.6494463283218
+              ],
+              "extent_m": [
+                217.9780958504365,
+                73.85585418200489,
+                165.9868488791368
+              ],
+              "seed": 4005987522
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "harbor-mixed-817919-cruiser-1",
+              "asset_id": "cruiser",
+              "asset_sha256": "b821dfa1be06eaf201e9d7f24a15ef90819ed0edf94ce1f370725c16bdf2ebf1",
+              "T_world_from_asset": [
+                -0.018356886256173294,
+                0,
+                0.9998314981670551,
+                -142.8501677824767,
+                0,
+                1,
+                0,
+                6,
+                -0.9998314981670551,
+                0,
+                -0.018356886256173294,
+                -61.74792261671925,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-destroyer-2",
+              "asset_id": "destroyer",
+              "asset_sha256": "fcc9a608c62b702f9ba1696a60f93f0f84cb0bac3d46f6df778048034851781b",
+              "T_world_from_asset": [
+                -0.00970435723299014,
+                0,
+                0.9999529116166893,
+                -144.08728072212247,
+                0,
+                1,
+                0,
+                6,
+                -0.9999529116166893,
+                0,
+                -0.00970435723299014,
+                65.16652070408838,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-quay-truck-3",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                0.999463807655956,
+                0,
+                -0.03274289519664096,
+                189.05915408233628,
+                0,
+                1,
+                0,
+                14.08,
+                0.03274289519664096,
+                0,
+                0.999463807655956,
+                -207.6045993023097,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-quay-truck-4",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                0.9999935741436183,
+                0,
+                0.0035849227985816517,
+                190.08845115054595,
+                0,
+                1,
+                0,
+                14.08,
+                -0.0035849227985816517,
+                0,
+                0.9999935741436183,
+                123.64872771307098,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-50",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            -0.07181249844485205,
+            -0.1994437451505874,
+            0.9772743512378782,
+            32.759678056611904,
+            -2.7755575615628914e-17,
+            0.9798040587804069,
+            0.19996001199600144,
+            42.780610618776144,
+            -0.9974181495577009,
+            0.014359628050495413,
+            -0.07036217744742768,
+            -77.94240696002169,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0050",
+          "sequence_id": "seq-harbor-817919-0",
+          "world_sha256": "b7806228875d6b1abba8daad61a99c59a3d9104d08273ba0fd2257a9145550e0",
+          "rig_sha256": "5275a4632122543306de39731e0a54adf8136cee1c8a99772e777d9c2131bd0c",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 817919,
+            "rgb": 51,
+            "ir": 52,
+            "lidar": 53,
+            "weather": 54
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [],
+          "object_motion": [
+            {
+              "instance_id": "harbor-mixed-817919-cruiser-1",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "harbor-mixed-817919-cruiser-1",
+          "operating_state": "running"
+        }
+      ]
+    },
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l1-drift-outages",
+      "family_id": "sf13-family-1",
+      "variant_id": "drift-outages",
+      "group_id": "harbor-817919",
+      "split": "validation",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "harbor-mixed-817919",
+          "seed": 817919,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "harbor-world.v1",
+          "field_version": "harbor-field.v1",
+          "features": [
+            {
+              "id": "harbor",
+              "type": "harbor",
+              "center_m": [
+                64,
+                14,
+                0
+              ],
+              "extent_m": [
+                512,
+                8,
+                768
+              ],
+              "seed": 817919
+            },
+            {
+              "id": "region-0-0",
+              "type": "canyon",
+              "center_m": [
+                -742.1286259584894,
+                39.14282622783687,
+                -846.5806072767779
+              ],
+              "extent_m": [
+                160.51209672738614,
+                74.16371308690023,
+                122.36951248961722
+              ],
+              "seed": 3619642763
+            },
+            {
+              "id": "region-0-1",
+              "type": "alpine",
+              "center_m": [
+                -310.81226672181214,
+                41.557138893184515,
+                -864.170098993734
+              ],
+              "extent_m": [
+                224.6196302735758,
+                92.88572221363097,
+                174.62700219979206
+              ],
+              "seed": 404685382
+            },
+            {
+              "id": "region-0-2",
+              "type": "islands",
+              "center_m": [
+                336.92847908519406,
+                24.23645268518301,
+                -826.0307233107814
+              ],
+              "extent_m": [
+                126.97841488732453,
+                68.75489656737886,
+                146.73911334451734
+              ],
+              "seed": 965324428
+            },
+            {
+              "id": "region-0-3",
+              "type": "coast",
+              "center_m": [
+                723.3399829637119,
+                27.76563650403744,
+                -686.9247136129823
+              ],
+              "extent_m": [
+                176.18800096963253,
+                67.39548950721405,
+                162.53554408497538
+              ],
+              "seed": 292950744
+            },
+            {
+              "id": "region-1-0",
+              "type": "canyon",
+              "center_m": [
+                -711.6156187203284,
+                28.648584502732078,
+                -217.30442525406937
+              ],
+              "extent_m": [
+                166.75779234961556,
+                79.35338169880058,
+                123.71669438195337
+              ],
+              "seed": 1410245449
+            },
+            {
+              "id": "region-1-3",
+              "type": "coast",
+              "center_m": [
+                856.2841464232849,
+                25.985697764575775,
+                -184.08563551937362
+              ],
+              "extent_m": [
+                201.52832336200595,
+                66.09799555365416,
+                171.83973923601204
+              ],
+              "seed": 1850181834
+            },
+            {
+              "id": "region-2-0",
+              "type": "canyon",
+              "center_m": [
+                -709.7744971501581,
+                34.34450042603798,
+                296.62734234510623
+              ],
+              "extent_m": [
+                124.89212788382828,
+                85.84981011549239,
+                148.64015447456393
+              ],
+              "seed": 1296021517
+            },
+            {
+              "id": "region-2-3",
+              "type": "coast",
+              "center_m": [
+                743.7619041788303,
+                37.53540953112491,
+                153.59452052009163
+              ],
+              "extent_m": [
+                199.57057500061825,
+                75.23328221105814,
+                212.00930812116928
+              ],
+              "seed": 3148305199
+            },
+            {
+              "id": "region-3-0",
+              "type": "canyon",
+              "center_m": [
+                -722.3868322040389,
+                39.527668154952195,
+                848.930290917384
+              ],
+              "extent_m": [
+                140.19224511557078,
+                76.03613440786398,
+                139.13744234925542
+              ],
+              "seed": 898814143
+            },
+            {
+              "id": "region-3-1",
+              "type": "alpine",
+              "center_m": [
+                -225.17797770681278,
+                34.19154239879856,
+                841.5553295906994
+              ],
+              "extent_m": [
+                235.2084045399,
+                88.57002635313431,
+                214.41054232195265
+              ],
+              "seed": 299612829
+            },
+            {
+              "id": "region-3-2",
+              "type": "islands",
+              "center_m": [
+                239.5697203615144,
+                25.012632305598668,
+                682.8677288531018
+              ],
+              "extent_m": [
+                153.44549037177245,
+                78.49660779500766,
+                141.9671011301612
+              ],
+              "seed": 691668293
+            },
+            {
+              "id": "region-3-3",
+              "type": "coast",
+              "center_m": [
+                783.365573144603,
+                21.91677819940539,
+                833.6494463283218
+              ],
+              "extent_m": [
+                217.9780958504365,
+                73.85585418200489,
+                165.9868488791368
+              ],
+              "seed": 4005987522
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "harbor-mixed-817919-cruiser-1",
+              "asset_id": "cruiser",
+              "asset_sha256": "b821dfa1be06eaf201e9d7f24a15ef90819ed0edf94ce1f370725c16bdf2ebf1",
+              "T_world_from_asset": [
+                -0.018356886256173294,
+                0,
+                0.9998314981670551,
+                -142.8501677824767,
+                0,
+                1,
+                0,
+                6,
+                -0.9998314981670551,
+                0,
+                -0.018356886256173294,
+                -61.74792261671925,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-destroyer-2",
+              "asset_id": "destroyer",
+              "asset_sha256": "fcc9a608c62b702f9ba1696a60f93f0f84cb0bac3d46f6df778048034851781b",
+              "T_world_from_asset": [
+                -0.00970435723299014,
+                0,
+                0.9999529116166893,
+                -144.08728072212247,
+                0,
+                1,
+                0,
+                6,
+                -0.9999529116166893,
+                0,
+                -0.00970435723299014,
+                65.16652070408838,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-quay-truck-3",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                0.999463807655956,
+                0,
+                -0.03274289519664096,
+                189.05915408233628,
+                0,
+                1,
+                0,
+                14.08,
+                0.03274289519664096,
+                0,
+                0.999463807655956,
+                -207.6045993023097,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "harbor-mixed-817919-quay-truck-4",
+              "asset_id": "ground-vehicle",
+              "asset_sha256": "06da1cd9f046b78d16c384fcbf67da0fc12f8c33bcd927beef3641d3d650a4ca",
+              "T_world_from_asset": [
+                0.9999935741436183,
+                0,
+                0.0035849227985816517,
+                190.08845115054595,
+                0,
+                1,
+                0,
+                14.08,
+                -0.0035849227985816517,
+                0,
+                0.9999935741436183,
+                123.64872771307098,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-50",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            -0.07181249844485205,
+            -0.1994437451505874,
+            0.9772743512378782,
+            32.759678056611904,
+            -2.7755575615628914e-17,
+            0.9798040587804069,
+            0.19996001199600144,
+            42.780610618776144,
+            -0.9974181495577009,
+            0.014359628050495413,
+            -0.07036217744742768,
+            -77.94240696002169,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0050",
+          "sequence_id": "seq-harbor-817919-0",
+          "world_sha256": "b7806228875d6b1abba8daad61a99c59a3d9104d08273ba0fd2257a9145550e0",
+          "rig_sha256": "5275a4632122543306de39731e0a54adf8136cee1c8a99772e777d9c2131bd0c",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 817919,
+            "rgb": 51,
+            "ir": 52,
+            "lidar": 53,
+            "weather": 54
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [
+            {
+              "modality": "rgb",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "ir",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "lidar",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            }
+          ],
+          "object_motion": [
+            {
+              "instance_id": "harbor-mixed-817919-cruiser-1",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [
+        {
+          "start_frame": 4,
+          "stop_frame": 8,
+          "modalities": [
+            "rgb"
+          ]
+        },
+        {
+          "start_frame": 10,
+          "stop_frame": 14,
+          "modalities": [
+            "ir"
+          ]
+        },
+        {
+          "start_frame": 16,
+          "stop_frame": 20,
+          "modalities": [
+            "lidar"
+          ]
+        },
+        {
+          "start_frame": 22,
+          "stop_frame": 28,
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        }
+      ],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "harbor-mixed-817919-cruiser-1",
+          "operating_state": "running"
+        }
+      ]
+    },
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l2-clean",
+      "family_id": "sf13-family-2",
+      "variant_id": "clean",
+      "group_id": "airfield-825838",
+      "split": "test",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "aerodrome-catalog-825838",
+          "seed": 825838,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "aerodrome-world.v1",
+          "field_version": "aerodrome-field.v1",
+          "features": [
+            {
+              "id": "aerodrome",
+              "type": "aerodrome",
+              "center_m": [
+                64,
+                24,
+                0
+              ],
+              "extent_m": [
+                448,
+                8,
+                1280
+              ],
+              "seed": 825838
+            },
+            {
+              "id": "region-0-0",
+              "type": "canyon",
+              "center_m": [
+                -847.4550736887509,
+                42.91190031934204,
+                -839.9634316109501
+              ],
+              "extent_m": [
+                141.77915339306443,
+                73.85151259644225,
+                115.77291551692711
+              ],
+              "seed": 2529806243
+            },
+            {
+              "id": "region-0-1",
+              "type": "alpine",
+              "center_m": [
+                -241.30146600918414,
+                41.185966638192994,
+                -841.7311954420832
+              ],
+              "extent_m": [
+                185.331543000725,
+                93.62806672361401,
+                195.39814273905898
+              ],
+              "seed": 863604784
+            },
+            {
+              "id": "region-0-2",
+              "type": "islands",
+              "center_m": [
+                210.96151099213435,
+                47.695760308625275,
+                -806.8849710565723
+              ],
+              "extent_m": [
+                155.77061976207668,
+                64.1326812096249,
+                155.7791123175479
+              ],
+              "seed": 2173735204
+            },
+            {
+              "id": "region-0-3",
+              "type": "coast",
+              "center_m": [
+                872.8923451127234,
+                50.20787285505829,
+                -841.7251147345465
+              ],
+              "extent_m": [
+                215.81368707302346,
+                75.1957116600116,
+                206.63509579716134
+              ],
+              "seed": 107840797
+            },
+            {
+              "id": "region-1-0",
+              "type": "canyon",
+              "center_m": [
+                -795.8692025697951,
+                43.17813121316771,
+                -154.3407929594025
+              ],
+              "extent_m": [
+                142.15745141500548,
+                81.73953898850353,
+                134.64995964398838
+              ],
+              "seed": 1916180577
+            },
+            {
+              "id": "region-1-3",
+              "type": "coast",
+              "center_m": [
+                690.9105147737802,
+                34.05870984123656,
+                -332.2386176644914
+              ],
+              "extent_m": [
+                178.12761640225713,
+                74.42213755716153,
+                175.37904965863075
+              ],
+              "seed": 1344250722
+            },
+            {
+              "id": "region-2-0",
+              "type": "canyon",
+              "center_m": [
+                -767.2673560288425,
+                42.102633573863514,
+                248.3008385713447
+              ],
+              "extent_m": [
+                139.67521645959354,
+                76.9513566989804,
+                114.4370063474488
+              ],
+              "seed": 3454605481
+            },
+            {
+              "id": "region-2-3",
+              "type": "coast",
+              "center_m": [
+                732.0361842394425,
+                19.69488991688668,
+                317.56558307506276
+              ],
+              "extent_m": [
+                193.0346681962336,
+                75.14555632955059,
+                168.99330079764903
+              ],
+              "seed": 1800266551
+            },
+            {
+              "id": "region-3-0",
+              "type": "canyon",
+              "center_m": [
+                -805.085604796206,
+                44.65582029967664,
+                841.1995536825153
+              ],
+              "extent_m": [
+                145.99472118774307,
+                78.95139105034792,
+                145.96670154900445
+              ],
+              "seed": 1592365748
+            },
+            {
+              "id": "region-3-2",
+              "type": "islands",
+              "center_m": [
+                220.83333969950522,
+                37.348950032031155,
+                868.1319226657813
+              ],
+              "extent_m": [
+                122.03151563602302,
+                78.58431563120901,
+                117.18929613874975
+              ],
+              "seed": 3267912519
+            },
+            {
+              "id": "region-3-3",
+              "type": "coast",
+              "center_m": [
+                760.9293221649549,
+                39.11972276999475,
+                789.0220785266771
+              ],
+              "extent_m": [
+                219.58872849018982,
+                75.7572650676028,
+                193.28682570561926
+              ],
+              "seed": 1317908315
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-0",
+              "asset_id": "a10",
+              "asset_sha256": "418eafa632fd9e4bae1ec262fd2f6159043e06696f588912abc2fa67d29c4bfe",
+              "T_world_from_asset": [
+                0.9985486806132032,
+                0,
+                0.053856591478027196,
+                21.729717906734376,
+                0,
+                1,
+                0,
+                24.04,
+                -0.053856591478027196,
+                0,
+                0.9985486806132032,
+                -86.20952249183541,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                0.9999915334828962,
+                0,
+                -0.004114968107512606,
+                80.9876719855209,
+                0,
+                1,
+                0,
+                24.04,
+                0.004114968107512606,
+                0,
+                0.9999915334828962,
+                -86.55231105781913,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-2",
+              "asset_id": "su35",
+              "asset_sha256": "13b1aac237b99b0cf2f18f72b58a355c053bf0f94a33bd442ed51bab2c20a588",
+              "T_world_from_asset": [
+                0.9998704246315766,
+                0,
+                0.016097637934514585,
+                135.73059837071472,
+                0,
+                1,
+                0,
+                24.04,
+                -0.016097637934514585,
+                0,
+                0.9998704246315766,
+                -85.4752591218509,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-3",
+              "asset_id": "mq9",
+              "asset_sha256": "e03ea5350e3b5afc28936870e2360941375c6096e14f8fc87bbd9a563e8ae4bb",
+              "T_world_from_asset": [
+                0.9989914303268592,
+                0,
+                0.04490124868526576,
+                192.15993424275888,
+                0,
+                1,
+                0,
+                24.04,
+                -0.04490124868526576,
+                0,
+                0.9989914303268592,
+                -90.45114871823489,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-ground-0",
+              "asset_id": "simulation-radar",
+              "asset_sha256": "7634fc3af801e8c74afdbd0c3344a1f01564a7fbf18226a3a9639610deef5f8c",
+              "T_world_from_asset": [
+                -0.06409928998385037,
+                0,
+                0.9979435259690632,
+                76.85998428260442,
+                0,
+                1,
+                0,
+                24.04,
+                -0.9979435259690632,
+                0,
+                -0.06409928998385037,
+                117.58126248456101,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-ground-1",
+              "asset_id": "spaa",
+              "asset_sha256": "891c3caebf0eb2a30e1690d4df2d4211bf75fa26192ceb00f4b59641d9cdb675",
+              "T_world_from_asset": [
+                0.06815087358064865,
+                0,
+                0.997675026464126,
+                186.24137330736065,
+                0,
+                1,
+                0,
+                24.04,
+                -0.997675026464126,
+                0,
+                0.06815087358064865,
+                123.58464583744869,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-100",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            0.9601345866777102,
+            0.026123215424537015,
+            -0.2783148452402527,
+            53.172967975741194,
+            1.734723475976807e-18,
+            0.9956238478266709,
+            0.09345134369720971,
+            35.015190597398835,
+            0.27953814670849947,
+            -0.08972586725519709,
+            0.9559328916195321,
+            17.447431241998018,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0100",
+          "sequence_id": "seq-airfield-825838-0",
+          "world_sha256": "5e048580426a979f2e83c525dd63bca068aa0d4f6d2f74ec5cd5beca1fcaf021",
+          "rig_sha256": "c5cfcf9448c4e0049801f6b584e756eea5f3aa79499debd8625669f2ef364e35",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 825838,
+            "rgb": 101,
+            "ir": 102,
+            "lidar": 103,
+            "weather": 104
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [],
+          "object_motion": [
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+          "operating_state": "running"
+        }
+      ]
+    },
+    {
+      "schema_version": "lab.v1",
+      "kind": "SequenceSpec",
+      "profile": "temporal-sequence.v1",
+      "sequence_id": "sf13-l2-drift-outages",
+      "family_id": "sf13-family-2",
+      "variant_id": "drift-outages",
+      "group_id": "airfield-825838",
+      "split": "test",
+      "frame_count": 32,
+      "frame_interval_s": 0.2,
+      "start_time_s": 0,
+      "base_capture": {
+        "schema_version": "lab.v1",
+        "kind": "CaptureRequest",
+        "world": {
+          "schema_version": "lab.v1",
+          "kind": "WorldSpec",
+          "world_id": "aerodrome-catalog-825838",
+          "seed": 825838,
+          "units": {
+            "length": "m",
+            "temperature": "K",
+            "angle": "rad",
+            "time": "s",
+            "world_frame": "east-up-south",
+            "matrix_layout": "row-major"
+          },
+          "origin_m": [
+            -1024,
+            -32,
+            -1024
+          ],
+          "extent_m": [
+            2048,
+            128,
+            2048
+          ],
+          "chunk_size_m": 128,
+          "generator_version": "aerodrome-world.v1",
+          "field_version": "aerodrome-field.v1",
+          "features": [
+            {
+              "id": "aerodrome",
+              "type": "aerodrome",
+              "center_m": [
+                64,
+                24,
+                0
+              ],
+              "extent_m": [
+                448,
+                8,
+                1280
+              ],
+              "seed": 825838
+            },
+            {
+              "id": "region-0-0",
+              "type": "canyon",
+              "center_m": [
+                -847.4550736887509,
+                42.91190031934204,
+                -839.9634316109501
+              ],
+              "extent_m": [
+                141.77915339306443,
+                73.85151259644225,
+                115.77291551692711
+              ],
+              "seed": 2529806243
+            },
+            {
+              "id": "region-0-1",
+              "type": "alpine",
+              "center_m": [
+                -241.30146600918414,
+                41.185966638192994,
+                -841.7311954420832
+              ],
+              "extent_m": [
+                185.331543000725,
+                93.62806672361401,
+                195.39814273905898
+              ],
+              "seed": 863604784
+            },
+            {
+              "id": "region-0-2",
+              "type": "islands",
+              "center_m": [
+                210.96151099213435,
+                47.695760308625275,
+                -806.8849710565723
+              ],
+              "extent_m": [
+                155.77061976207668,
+                64.1326812096249,
+                155.7791123175479
+              ],
+              "seed": 2173735204
+            },
+            {
+              "id": "region-0-3",
+              "type": "coast",
+              "center_m": [
+                872.8923451127234,
+                50.20787285505829,
+                -841.7251147345465
+              ],
+              "extent_m": [
+                215.81368707302346,
+                75.1957116600116,
+                206.63509579716134
+              ],
+              "seed": 107840797
+            },
+            {
+              "id": "region-1-0",
+              "type": "canyon",
+              "center_m": [
+                -795.8692025697951,
+                43.17813121316771,
+                -154.3407929594025
+              ],
+              "extent_m": [
+                142.15745141500548,
+                81.73953898850353,
+                134.64995964398838
+              ],
+              "seed": 1916180577
+            },
+            {
+              "id": "region-1-3",
+              "type": "coast",
+              "center_m": [
+                690.9105147737802,
+                34.05870984123656,
+                -332.2386176644914
+              ],
+              "extent_m": [
+                178.12761640225713,
+                74.42213755716153,
+                175.37904965863075
+              ],
+              "seed": 1344250722
+            },
+            {
+              "id": "region-2-0",
+              "type": "canyon",
+              "center_m": [
+                -767.2673560288425,
+                42.102633573863514,
+                248.3008385713447
+              ],
+              "extent_m": [
+                139.67521645959354,
+                76.9513566989804,
+                114.4370063474488
+              ],
+              "seed": 3454605481
+            },
+            {
+              "id": "region-2-3",
+              "type": "coast",
+              "center_m": [
+                732.0361842394425,
+                19.69488991688668,
+                317.56558307506276
+              ],
+              "extent_m": [
+                193.0346681962336,
+                75.14555632955059,
+                168.99330079764903
+              ],
+              "seed": 1800266551
+            },
+            {
+              "id": "region-3-0",
+              "type": "canyon",
+              "center_m": [
+                -805.085604796206,
+                44.65582029967664,
+                841.1995536825153
+              ],
+              "extent_m": [
+                145.99472118774307,
+                78.95139105034792,
+                145.96670154900445
+              ],
+              "seed": 1592365748
+            },
+            {
+              "id": "region-3-2",
+              "type": "islands",
+              "center_m": [
+                220.83333969950522,
+                37.348950032031155,
+                868.1319226657813
+              ],
+              "extent_m": [
+                122.03151563602302,
+                78.58431563120901,
+                117.18929613874975
+              ],
+              "seed": 3267912519
+            },
+            {
+              "id": "region-3-3",
+              "type": "coast",
+              "center_m": [
+                760.9293221649549,
+                39.11972276999475,
+                789.0220785266771
+              ],
+              "extent_m": [
+                219.58872849018982,
+                75.7572650676028,
+                193.28682570561926
+              ],
+              "seed": 1317908315
+            }
+          ],
+          "instances": [
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-0",
+              "asset_id": "a10",
+              "asset_sha256": "418eafa632fd9e4bae1ec262fd2f6159043e06696f588912abc2fa67d29c4bfe",
+              "T_world_from_asset": [
+                0.9985486806132032,
+                0,
+                0.053856591478027196,
+                21.729717906734376,
+                0,
+                1,
+                0,
+                24.04,
+                -0.053856591478027196,
+                0,
+                0.9985486806132032,
+                -86.20952249183541,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+              "asset_id": "f16",
+              "asset_sha256": "e55a0393ca5a0108360724a8c80aa79d378bcadf5456f424f2285422bdc919f4",
+              "T_world_from_asset": [
+                0.9999915334828962,
+                0,
+                -0.004114968107512606,
+                80.9876719855209,
+                0,
+                1,
+                0,
+                24.04,
+                0.004114968107512606,
+                0,
+                0.9999915334828962,
+                -86.55231105781913,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-2",
+              "asset_id": "su35",
+              "asset_sha256": "13b1aac237b99b0cf2f18f72b58a355c053bf0f94a33bd442ed51bab2c20a588",
+              "T_world_from_asset": [
+                0.9998704246315766,
+                0,
+                0.016097637934514585,
+                135.73059837071472,
+                0,
+                1,
+                0,
+                24.04,
+                -0.016097637934514585,
+                0,
+                0.9998704246315766,
+                -85.4752591218509,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-3",
+              "asset_id": "mq9",
+              "asset_sha256": "e03ea5350e3b5afc28936870e2360941375c6096e14f8fc87bbd9a563e8ae4bb",
+              "T_world_from_asset": [
+                0.9989914303268592,
+                0,
+                0.04490124868526576,
+                192.15993424275888,
+                0,
+                1,
+                0,
+                24.04,
+                -0.04490124868526576,
+                0,
+                0.9989914303268592,
+                -90.45114871823489,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "running"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-ground-0",
+              "asset_id": "simulation-radar",
+              "asset_sha256": "7634fc3af801e8c74afdbd0c3344a1f01564a7fbf18226a3a9639610deef5f8c",
+              "T_world_from_asset": [
+                -0.06409928998385037,
+                0,
+                0.9979435259690632,
+                76.85998428260442,
+                0,
+                1,
+                0,
+                24.04,
+                -0.9979435259690632,
+                0,
+                -0.06409928998385037,
+                117.58126248456101,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            },
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-ground-1",
+              "asset_id": "spaa",
+              "asset_sha256": "891c3caebf0eb2a30e1690d4df2d4211bf75fa26192ceb00f4b59641d9cdb675",
+              "T_world_from_asset": [
+                0.06815087358064865,
+                0,
+                0.997675026464126,
+                186.24137330736065,
+                0,
+                1,
+                0,
+                24.04,
+                -0.997675026464126,
+                0,
+                0.06815087358064865,
+                123.58464583744869,
+                0,
+                0,
+                0,
+                1
+              ],
+              "operating_state": "off"
+            }
+          ]
+        },
+        "rig": {
+          "schema_version": "lab.v1",
+          "kind": "RigSpec",
+          "rig_id": "rig-100",
+          "calibration_version": "cal.v1",
+          "T_world_from_rig": [
+            0.9601345866777102,
+            0.026123215424537015,
+            -0.2783148452402527,
+            53.172967975741194,
+            1.734723475976807e-18,
+            0.9956238478266709,
+            0.09345134369720971,
+            35.015190597398835,
+            0.27953814670849947,
+            -0.08972586725519709,
+            0.9559328916195321,
+            17.447431241998018,
+            0,
+            0,
+            0,
+            1
+          ],
+          "sensors": [
+            {
+              "sensor_id": "rgb-1",
+              "modality": "rgb",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "rgb.v1"
+            },
+            {
+              "sensor_id": "ir-1",
+              "modality": "ir",
+              "available": true,
+              "T_rig_from_sensor": [
+                1,
+                0,
+                0,
+                0.35,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0.01,
+              "scan_duration_s": 0,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": {
+                "frame": "optical-right-down-forward",
+                "width_px": 640,
+                "height_px": 384,
+                "fx_px": 463.5290039756343,
+                "fy_px": 463.5290039756343,
+                "cx_px": 320,
+                "cy_px": 192,
+                "distortion": "ideal-pinhole"
+              },
+              "lidar": null,
+              "sensor_model_version": "ir.v1"
+            },
+            {
+              "sensor_id": "lidar-1",
+              "modality": "lidar",
+              "available": true,
+              "T_rig_from_sensor": [
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "timestamp_offset_s": 0,
+              "exposure_s": 0,
+              "scan_duration_s": 0.1,
+              "min_range_m": 0.1,
+              "max_range_m": 250,
+              "camera": null,
+              "lidar": {
+                "frame": "lidar-forward-left-up",
+                "rows": 32,
+                "columns": 256,
+                "horizontal_fov_rad": 1.2,
+                "vertical_fov_rad": 0.6,
+                "return_policy": "single-first-opaque"
+              },
+              "sensor_model_version": "lidar.v1"
+            }
+          ],
+          "timing_profile": "timed-scan"
+        },
+        "environment": {
+          "schema_version": "lab.v1",
+          "kind": "EnvironmentSpec",
+          "environment_id": "clear-day",
+          "simulation_time_s": 0,
+          "solar_time_hour": 12,
+          "latitude_rad": 0.9,
+          "sun_direction_world": [
+            6.123233995736766e-17,
+            1,
+            0
+          ],
+          "ambient_temperature_k": 293.15,
+          "fog_extinction_per_m": 0,
+          "rain_mm_per_h": 0,
+          "snow_mm_per_h": 0,
+          "wind_m_per_s": [
+            0,
+            0,
+            0
+          ],
+          "wetness": 0,
+          "parameter_set_version": "weather-response.v1",
+          "thermal_history": "equilibrated",
+          "thermal_state": null
+        },
+        "plan": {
+          "schema_version": "lab.v1",
+          "kind": "CapturePlan",
+          "capture_id": "sf11-0100",
+          "sequence_id": "seq-airfield-825838-0",
+          "world_sha256": "5e048580426a979f2e83c525dd63bca068aa0d4f6d2f74ec5cd5beca1fcaf021",
+          "rig_sha256": "c5cfcf9448c4e0049801f6b584e756eea5f3aa79499debd8625669f2ef364e35",
+          "environment_sha256": "a569c907964979de437bf6c0d2089006712a146c39a080e4745d5a2a8960329c",
+          "simulation_time_s": 0,
+          "geometry_policy": "fixed-sensor-geometry",
+          "quality_version": "capture-quality.v1",
+          "seed_channels": {
+            "world": 825838,
+            "rgb": 101,
+            "ir": 102,
+            "lidar": 103,
+            "weather": 104
+          },
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        },
+        "temporal": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0.15,
+            0,
+            0
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [
+            {
+              "modality": "rgb",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "ir",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            },
+            {
+              "modality": "lidar",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.005,
+              "yaw_rate_rad_per_s": 0.001
+            }
+          ],
+          "object_motion": [
+            {
+              "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+              "velocity_world_m_per_s": [
+                0.5,
+                0,
+                0
+              ],
+              "yaw_rate_rad_per_s": 0.03
+            }
+          ]
+        }
+      },
+      "outages": [
+        {
+          "start_frame": 4,
+          "stop_frame": 8,
+          "modalities": [
+            "rgb"
+          ]
+        },
+        {
+          "start_frame": 10,
+          "stop_frame": 14,
+          "modalities": [
+            "ir"
+          ]
+        },
+        {
+          "start_frame": 16,
+          "stop_frame": 20,
+          "modalities": [
+            "lidar"
+          ]
+        },
+        {
+          "start_frame": 22,
+          "stop_frame": 28,
+          "modalities": [
+            "rgb",
+            "ir",
+            "lidar"
+          ]
+        }
+      ],
+      "operating_events": [
+        {
+          "frame_index": 1,
+          "instance_id": "aerodrome-catalog-825838-catalog-air-1",
+          "operating_state": "running"
+        }
+      ]
+    }
+  ]
+}

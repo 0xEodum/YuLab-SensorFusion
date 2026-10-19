@@ -141,6 +141,7 @@ export function buildLidarScene(
   root: THREE.Object3D,
   catalog: readonly AssetRecord[] = [],
   cache: LidarGeometryCache | null = null,
+  includeInstance?: (instance_id: string | null) => boolean,
 ) {
   root.updateMatrixWorld(true);
   const entries: Entry[] = [];
@@ -149,6 +150,7 @@ export function buildLidarScene(
   const prepared = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
   let triangles = 0;
   root.traverse((object) => {
+    if (includeInstance && !includeInstance(instanceOf(object).instance_id)) return;
     if (!(object instanceof THREE.Mesh) || !shouldCaptureObject(object) || !opaque(object, catalog)) return;
     const source = object.geometry as THREE.BufferGeometry;
     if (!source.getAttribute("position")) return;
@@ -183,7 +185,7 @@ export function buildLidarScene(
   return {
     mesh_count: entries.length,
     triangle_count: triangles,
-    first(origin: Vec3, direction: Vec3, near: number, far: number): LidarHit | null {
+    first(origin: Vec3, direction: Vec3, near: number, far: number, _offset_s = 0): LidarHit | null {
       raycaster.set(new THREE.Vector3(...origin), new THREE.Vector3(...direction));
       raycaster.near = near;
       raycaster.far = far;
@@ -279,7 +281,7 @@ export function scanLidar(
         throw new Error("Scan-time sensor pose must be a finite rigid transform");
     }
     const beam = beamAt(sensor, transform, row, column);
-    const hit = scene.first(beam.origin, beam.direction, sensor.min_range_m, sensor.max_range_m);
+    const hit = scene.first(beam.origin, beam.direction, sensor.min_range_m, sensor.max_range_m, beam.time_offset_s);
     idealHits[beam.beam_id] = hit;
     const pathLength = hit?.range_m ?? sensor.max_range_m;
     if (atmosphere && atmosphere.particle_rate_per_m > 0) {

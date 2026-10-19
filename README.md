@@ -14,7 +14,8 @@ macro .771; see [quality results and inference](docs/evidence/SF-Q-quality.md).
 Checkpoints and datasets remain local artifacts outside Git. Training/inference
 service and UI integration remain later stages.
 Optional [scan-time platform motion and calibration drift](docs/TEMPORAL_CAPTURE.md)
-is implemented for capture with static objects; full temporal sequence work is ongoing.
+and [moving-object temporal sequences with cold replay](docs/TEMPORAL_SEQUENCES.md)
+are implemented. Training a temporal detector remains the next model stage.
 
 ## Setup
 

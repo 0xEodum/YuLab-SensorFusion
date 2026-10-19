@@ -1,0 +1,51 @@
+{
+  "command": [
+    "backend/.venv/Scripts/python.exe",
+    "tools/validate-sequences.py",
+    "--specs",
+    "artifacts/sf13-sequences/acceptance-specs.json",
+    "--output",
+    "artifacts/sf13-sequences/acceptance-run"
+  ],
+  "source_revision": "0d05a13abf940945b8a4affa9386ec89592245ff",
+  "source_dirty": false,
+  "exit_code": 0,
+  "wall_s": 637.4570787000121,
+  "gpu_identity": "name, uuid, driver_version, power.limit [W]\nNVIDIA GeForce RTX 3090, GPU-cef0e73f-fb92-7b1a-c298-c518ad53e05c, 591.86, 370.00 W",
+  "compute_processes_before": "pid, used_gpu_memory [MiB]\n1832, [N/A]\n7060, [N/A]\n7200, [N/A]\n12124, [N/A]\n12148, [N/A]\n13796, [N/A]\n14576, [N/A]\n12884, [N/A]\n17428, [N/A]\n18096, [N/A]\n17348, [N/A]\n19928, [N/A]\n19464, [N/A]\n7216, [N/A]\n4072, [N/A]\n8764, [N/A]\n13880, [N/A]\n27220, [N/A]\n29916, [N/A]\n22512, [N/A]\n28236, [N/A]\n29808, [N/A]\n26856, [N/A]\n26040, [N/A]\n28492, [N/A]\n14952, [N/A]\n6980, [N/A]\n12952, [N/A]\n20596, [N/A]\n6392, [N/A]\n31008, [N/A]",
+  "attribution": "device-wide, includes unrelated processes",
+  "sample_period_ms": 100,
+  "samples": 5828,
+  "telemetry": {
+    "gpu_util_percent": {
+      "mean": 9.916266300617707,
+      "max": 100.0,
+      "min": 0.0
+    },
+    "memory_util_percent": {
+      "mean": 3.1453328757721346,
+      "max": 28.0,
+      "min": 0.0
+    },
+    "power_w": {
+      "mean": 52.9588829787234,
+      "max": 143.04,
+      "min": 34.9
+    },
+    "temperature_c": {
+      "mean": 49.40717227179135,
+      "max": 53.0,
+      "min": 44.0
+    },
+    "memory_mib": {
+      "mean": 1682.2458819492108,
+      "max": 1867.0,
+      "min": 1572.0
+    },
+    "sm_clock_mhz": {
+      "mean": 624.1086135895677,
+      "max": 1950.0,
+      "min": 210.0
+    }
+  }
+}

@@ -1,0 +1,301 @@
+
+> yulab-sensor-fusion@0.1.0 verify
+> npm run contracts:check && npm run typecheck && npm run test:contracts && npm run test:world && npm run test:sensors && npm run test:assets && npm run test:backend && npm run build
+
+
+> yulab-sensor-fusion@0.1.0 contracts:check
+> node tools/generate-contracts.mjs --check
+
+node.exe : K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\datamodel_code_g
+enerator\format.py:542: FutureWarning: Black/isort will become optional. Declare the corresponding extras; see --help.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (K:\PycharmProje...as; see --help.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warn_deprecated("dependency.external-formatters-optional", stacklevel=2)
+Contract generation verified (17 payload types).
+
+> yulab-sensor-fusion@0.1.0 typecheck
+> npm run typecheck --workspaces --if-present && tsc --noEmit -p tsconfig.tools.json && tsc --noEmit -p tsconfig.capture.json
+
+
+> @yulab/frontend@0.0.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/assets@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/contracts@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/sensors@0.1.0 typecheck
+> tsc --noEmit
+
+
+> @yulab/world@0.1.0 typecheck
+> tsc --noEmit
+
+
+> yulab-sensor-fusion@0.1.0 test:contracts
+> node --experimental-strip-types --test tests/contracts/*.test.ts
+
+✔ WorldSpec valid (110.9307ms)
+✔ RigSpec valid (5.4053ms)
+✔ EnvironmentSpec valid (3.4291ms)
+✔ ObservationBundle valid (5.1159ms)
+✔ AssetRecord valid (5.8757ms)
+✔ CapturePlan valid (3.0101ms)
+✔ CaptureRequest valid (3.1457ms)
+✔ CaptureJob valid (5.6891ms)
+✔ AnnotationBundle valid (1.9209ms)
+✔ TruthBundle valid (2.7021ms)
+✔ DatasetManifest valid (3.1919ms)
+✔ PredictionBundle valid (1.9218ms)
+✔ Health valid (0.8235ms)
+✔ Capabilities valid (7.7134ms)
+✔ ApiError valid (2.1237ms)
+✔ unknown version (0.3788ms)
+✔ wrong units (0.1946ms)
+✔ wrong world frame (0.1558ms)
+✔ negative seed (0.1853ms)
+✔ boolean seed (0.2216ms)
+✔ string seed (0.1743ms)
+✔ fractional seed (0.1298ms)
+✔ seed upper boundary (0.1373ms)
+✔ seed overflow (0.2188ms)
+✔ missing world id (0.1763ms)
+✔ path as id (0.174ms)
+✔ oversized extent (0.1367ms)
+✔ wrong camera frame (0.258ms)
+✔ short transform (0.2187ms)
+✔ bad homogeneous transform (0.1822ms)
+✔ duplicate rig modality (0.1811ms)
+✔ wrong sensor intrinsics (0.1872ms)
+✔ cold temperature invalid (0.164ms)
+✔ wetness overflow (0.1428ms)
+✔ duplicate modalities (0.1488ms)
+✔ unknown camera modality (0.1197ms)
+✔ unknown property (0.3093ms)
+✔ truth boxes forbidden (0.3097ms)
+✔ nested truth forbidden (0.3341ms)
+✔ available image missing (0.3834ms)
+✔ wrong RGB dtype (0.3386ms)
+✔ wrong RGB channels (0.5691ms)
+✔ wrong IR units (0.4483ms)
+✔ wrong LiDAR frame (0.3757ms)
+✔ valid unavailable IR (0.3279ms)
+✔ unavailable with data (0.4229ms)
+✔ invalid hash (0.2996ms)
+✔ negative thermal capacity (0.3056ms)
+✔ visibility overflow (0.2043ms)
+✔ zero box extent (0.1855ms)
+✔ truth id in prediction (0.1941ms)
+✔ confidence overflow (0.1936ms)
+✔ bad timestamp (0.2479ms)
+✔ bad split (0.1832ms)
+✔ empty dataset (0.1555ms)
+✔ capability reason required (0.187ms)
+✔ error job nullable (0.1407ms)
+✔ unknown error code (0.1402ms)
+✔ baseline explicitly lacks position variance and routing (0.1536ms)
+✔ non-finite JSON NaN (0.0449ms)
+✔ non-finite JSON Infinity (0.0262ms)
+✔ non-finite JSON -Infinity (0.0284ms)
+✔ non-finite JSON 1e999 (0.0291ms)
+✔ temporal capture motion and drift (2.8528ms)
+✔ temporal profile rejects unknown version (0.31ms)
+✔ temporal rejects truth in motion (0.2178ms)
+✔ temporal requires complete drift (0.1693ms)
+✔ temporal capture request (0.6906ms)
+✔ temporal rejects duplicate sensor modality (0.2311ms)
+✔ observable timed lidar sampling convention (0.3092ms)
+✔ temporal sequence specification (3.4916ms)
+✔ sequence rejects zero frame interval (0.3779ms)
+✔ sequence rejects unknown profile (0.363ms)
+✔ sequence rejects zero frames (0.3001ms)
+✔ sequence observations expose time without motion truth (0.4829ms)
+✔ object motion truth descriptor (0.3806ms)
+✔ in-memory non-finite numbers cannot bypass JSON parsing (0.6068ms)
+✔ the SF-07 capture stored before semantic labels remains readable (2.8837ms)
+✔ every public family has a positive fixture (1.6065ms)
+ℹ tests 79
+ℹ suites 0
+ℹ pass 79
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 375.386
+
+> yulab-sensor-fusion@0.1.0 test:world
+> node --experimental-strip-types --test tests/world/*.test.ts
+
+✔ capture cache reuses exact snapshots and invalidates changed world contents (165.9104ms)
+✔ capture cache respects LRU count and byte budgets without rejecting large captures (0.6976ms)
+✔ harbor is a seeded coast with a dry quay and ships afloat (178.1442ms)
+✔ column density is bit-equal to point density on every generator profile (221.1214ms)
+✔ optimized meshing reproduces pre-optimization chunk bytes (700.1636ms)
+✔ bounded LRU keeps active leases pinned through 110 boundary transitions and releases all data (9.4003ms)
+✔ cancellation discards late generation, preserves displayed lease, and allows retry (1.2564ms)
+✔ capacity, failed generation and wrong identity never expose a partial capture (0.9053ms)
+✔ range union includes off-frustum and cross-boundary occluders, negative chunks and protruding placements (0.7582ms)
+✔ capture waits for final occluder and pins geometry through asynchronous readback (3.4709ms)
+✔ real sensor triangles block a ray across the display boundary behind a west-facing display (1278.9567ms)
+✔ bookmark validation isolates the pose and rejects mismatched world, units and corrupt values (0.6278ms)
+✔ consumer failure and cancellation during readback release leases without successful publication (0.4016ms)
+✔ legacy extraction preserves every preset geometry, colors and placement counts (576.6049ms)
+✔ finite world addresses all 256 chunks using floor, including zero and negative boundaries (132.078ms)
+✔ runtime rejects unsupported or undersampled worlds and isolates mutable caller state (2.2777ms)
+✔ request order and feature order do not change geometry, normals, colors or placement identities (845.889ms)
+✔ default worlds distribute a rich seeded formation layout across the full map (0.3797ms)
+✔ base terrain has regional elevation and local relief instead of a nearly flat plane (2.4098ms)
+✔ formation seeds produce irregular geometry for every procedural feature family (609.6231ms)
+✔ world-space decoration includes deterministic trees and rocks on suitable terrain (14.5488ms)
+✔ both seam axes match exactly at vertices, gradient normals and biome colors, including a four-chunk arch (124.4934ms)
+✔ actual triangles retain arch and tunnel passages, an underside and an occluded cavity (2065.4761ms)
+✔ continuous base is solid below and has a ray-visible surface throughout negative and positive chunks (3756.2968ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8468.5745
+
+> yulab-sensor-fusion@0.1.0 test:sensors
+> node --experimental-strip-types --test tests/sensors/*.test.ts
+
+✔ known pinhole fixtures project within half a pixel and preserve parallax (2.7602ms)
+✔ a saved Three.js camera becomes an exact calibrated rig view (0.7783ms)
+✔ capture dimensions and pose come only from the saved rig (0.5947ms)
+✔ non-rigid, reflected, duplicate and malformed rigs fail explicitly (0.9151ms)
+✔ separate camera extrinsics change physical occlusion, not only pixel coordinates (9.7565ms)
+✔ camera and ray boundaries reject invalid inputs and mark out-of-frame points (0.692ms)
+✔ cached LiDAR BVHs give identical returns and never index rendered geometry (233.0848ms)
+✔ first opaque wall wins; receiver dropout never exposes a hidden object (9.7128ms)
+✔ reference classes follow first hits and sparse returns through occlusion and dropout (3.9235ms)
+✔ partial occlusion, opening, range limits and empty scans preserve beam identities (13.7158ms)
+✔ accelerated first intersection matches independent brute force and rig projection (4.4319ms)
+✔ thin faces are two-sided; inside solids return the exit face (1.381ms)
+✔ coplanar ties choose the first scene mesh consistently (0.6706ms)
+✔ arch opening admits a central beam while its lintel occludes elevated beams (0.7214ms)
+✔ grazing thin face stays visible with a weak synthetic response (0.7365ms)
+✔ catalog LiDAR opacity excludes declared non-opaque asset surfaces (0.7806ms)
+✔ moving wall is intersected at emission time, rather than frozen at scan start (154.3991ms)
+✔ rotation and translation match independent brute-force scene poses (3.5122ms)
+✔ zero object motion preserves exact static results; immutable reference and stable replay (3.3774ms)
+✔ unknown/duplicate trajectories fail; foreground static occluder still wins (2.7956ms)
+✔ known camera displacement produces the analytical nominal/actual registration error (2.2553ms)
+✔ moving foreground opens the line of sight at beam time without seeing through earlier occlusion (1.2055ms)
+✔ 24-bit instance IDs round trip exactly and reserve zero for background (2.244ms)
+✔ GPU bottom-left rows are converted to the top-left image contract (0.3247ms)
+✔ editor helpers, grids and decorative floors never enter sensor passes (0.2204ms)
+✔ zero motion/drift preserves the exact static scan; nominal rig stays immutable (136.7155ms)
+✔ moving platform uses each beam time and returns instantaneous sensor coordinates (1.0612ms)
+✔ drift is evaluated at absolute sample time; rigid yaw preserves sensor origin (0.7602ms)
+✔ sensor timestamp offset advances motion once; invalid transforms/times fail (1.3958ms)
+✔ catalog surfaces carry implemented thermal metadata and powered exterior regions (5.4006ms)
+✔ every imported asset has an operating-state thermal fixture (21.7798ms)
+✔ simple surface equilibrium and fixed steps have the correct energy direction (2.6972ms)
+✔ off, idle and running equipment produce ordered engine and exhaust temperatures (0.5303ms)
+✔ engine-off cooldown is identical across a thermal-state save and reload (3.7418ms)
+✔ 8..14 um radiance is monotonic, emissivity-aware and loses contrast at crossover (0.7719ms)
+✔ seeded detector noise is repeatable and display palette cannot alter raw radiance (0.7954ms)
+✔ presets share one frozen clock and severity with distinct spectral response (1.2988ms)
+✔ RGB sensor seed changes only read noise; weather seed changes only particles (3.8093ms)
+✔ LWIR path attenuation includes path emission and thermal crossover is local (0.3288ms)
+✔ 30 fixed seeds show RGB contrast and SNR losses with confidence intervals (35.7731ms)
+ℹ {"seeds":30,"fog_contrast_loss_dn":{"mean":33.396809895833336,"lower":33.38732740244398,"upper":33.40629238922269},"night_snr_loss":{"mean":20.548313962288084,"lower":20.386885923518022,"upper":20.709742001058146}}
+✔ 30 fixed seeds show LiDAR surface loss and precipitation particles (85.0294ms)
+ℹ {"seeds":30,"fog_surface_return_loss":{"mean":78.36666666666666,"lower":75.70951618648502,"upper":81.0238171468483},"rain_particles":245,"snow_particles":301}
+ℹ tests 41
+ℹ suites 0
+ℹ pass 41
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 611.5497
+
+> yulab-sensor-fusion@0.1.0 test:assets
+> node --experimental-strip-types --test tests/assets/*.test.ts
+
+✔ invalid catalog identities and non-rigid instance transforms fail explicitly (13.694ms)
+✔ graded site is deterministic, metre-scaled and free of ground / building / placement intersections (21.1289ms)
+✔ graded chunk geometry agrees at boundaries in both display pitches and reverse request order (810.0151ms)
+✔ seeded mixed apron uses grounded aircraft and vehicles without overlaps (15.4099ms)
+✔ self-contained catalog preserves provenance, physical scale and semantic mesh references (587.422ms)
+✔ each catalog GLB has a real first-return and a nearer occluder wins (52.827ms)
+✔ cached templates are keyed by content hash and handed out as independent copies (6.7004ms)
+✔ copies keep shared materials shared and clone them in creation order (0.9009ms)
+✔ catalog vehicle engine states vary by seed and drive distinct thermal signatures (28.4977ms)
+✔ authored anti-aircraft turrets rotate independently with stable instance poses (334.3754ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1293.3553
+
+> yulab-sensor-fusion@0.1.0 test:backend
+> node tools/uv.mjs run --project backend --locked pytest backend/tests
+
+============================= test session starts =============================
+platform win32 -- Python 3.13.10, pytest-9.0.2, pluggy-1.6.0
+rootdir: K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend
+configfile: pyproject.toml
+plugins: anyio-4.15.1, typeguard-4.6.0
+collected 162 items / 8 skipped
+
+backend\tests\test_api.py .........                                      [  5%]
+backend\tests\test_capture_jobs.py .....                                 [  8%]
+backend\tests\test_capture_lanes.py .......                              [ 12%]
+backend\tests\test_capture_session.py ..........                         [ 19%]
+backend\tests\test_contracts.py ........................................ [ 43%]
+.........................................                                [ 69%]
+backend\tests\test_dataset.py ............................               [ 86%]
+backend\tests\test_decision_fusion.py .....                              [ 89%]
+backend\tests\test_quality_acceptance.py ....                            [ 91%]
+backend\tests\test_quality_requests.py .                                 [ 92%]
+backend\tests\test_sequences.py ........                                 [ 97%]
+backend\tests\test_temporal_capture.py ....                              [100%]
+
+============================== warnings summary ===============================
+backend\.venv\Lib\site-packages\fastapi\testclient.py:1
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+backend\.venv\Lib\site-packages\starlette\testclient.py:53
+  K:\PycharmProjects\temp\low-poly-3d-terrain-generator-astra\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 162 passed, 8 skipped, 2 warnings in 3.33s ==================
+
+> yulab-sensor-fusion@0.1.0 build
+> npm run build --workspace @yulab/frontend
+
+
+> @yulab/frontend@0.0.0 build
+> vite build
+
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 2083 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-B1QsabWl.js
+[plugin vite:singlefile] Inlining: style-DSkYyuPu.css
+computing gzip size...
+dist/chunk.worker-BtMQ7uX1.js    204.65 kB
+dist/index.html                1,259.61 kB │ gzip: 347.51 kB
+✓ built in 16.99s

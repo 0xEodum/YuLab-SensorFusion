@@ -1,0 +1,35 @@
+✔ moving wall is intersected at emission time, rather than frozen at scan start (147.3551ms)
+✔ rotation and translation match independent brute-force scene poses (2.5718ms)
+✔ zero object motion preserves exact static results; immutable reference and stable replay (2.2772ms)
+✔ unknown/duplicate trajectories fail; foreground static occluder still wins (1.7387ms)
+✔ known camera displacement produces the analytical nominal/actual registration error (1.4245ms)
+✔ moving foreground opens the line of sight at beam time without seeing through earlier occlusion (1.2721ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 439.9402
+ℹ start of coverage report
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ file               | line % | branch % | funcs % | uncovered lines
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ packages           |        |          |         | 
+ℹ  contracts         |        |          |         | 
+ℹ   src              |        |          |         | 
+ℹ    validate.ts     |  88.24 |    84.62 |   66.67 | 19-22
+ℹ  sensors           |        |          |         | 
+ℹ   src              |        |          |         | 
+ℹ    index.ts        |  79.73 |    51.72 |   64.71 | 191-203 206-208 234-252 255-258 261-264 267-282
+ℹ    lidar.ts        |  80.94 |    54.44 |   65.38 | 64-66 72 89-91 93-98 119-121 123-136 205 218-220 271-282 288-300 306-308 313-315
+ℹ    lidarClass.ts   |  95.00 |    40.00 |  100.00 | 36 39
+ℹ    objectMotion.ts |  98.08 |    76.47 |   95.45 | 84-85
+ℹ    temporal.ts     |  93.22 |    81.25 |   90.00 | 53-56
+ℹ    thermal.ts      |  21.32 |   100.00 |    0.00 | 54-57 59-67 69-81 84-96 100-119 121-123 125-159 161-166 168-180 182-193 196-214 216-232 235-274 277-284 287-296 300-315 318-326 328-340 343-361 364-394
+ℹ    weather.ts      |  20.00 |   100.00 |    0.00 | 11-34 38-55 59-63 66-68 71-74 78-115
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ all files          |  60.96 |    63.59 |   57.55 | 
+ℹ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ℹ end of coverage report

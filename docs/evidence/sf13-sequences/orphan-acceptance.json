@@ -1,0 +1,7 @@
+{
+  "frames": 4,
+  "reused": 2,
+  "new": 2,
+  "simulated_state": "running; frame 1 published but absent from progress journal",
+  "equal_replay_files": 164
+}
