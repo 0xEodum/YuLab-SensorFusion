@@ -98,6 +98,13 @@ modality is explicit (`unavailable`, reason), not silently synthesized or replac
 
 ## 3. Sensor observations
 
+The optional [TemporalCapture profile](TEMPORAL_CAPTURE.md) extends capture and
+truth payloads, without adding motion/drift truth to ObservationBundle. In this
+profile XYZ is expressed in each beam's instantaneous sensor frame; packaged
+LiDAR offsets are relative to its observed timestamp, identified by observable
+`lidar.data.sampling_profile = "timed-sensor.v1"`. Static artifact bytes and
+their historical capture-relative offsets remain unchanged.
+
 | Modality | Raw data | Distinct preview/derived data |
 | --- | --- | --- |
 | RGB | HxWx3 uint8 sensor-output RGB, declared transfer function/exposure, valid-pixel mask; optional linear reference under truth | Display tone mapping and browser thumbnail |

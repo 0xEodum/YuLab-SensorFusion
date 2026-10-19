@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
+import type { TemporalCapture } from "../../packages/contracts/src/generated.ts";
 import { cameraPoseToRig, validateRigGeometry } from "../../packages/sensors/src/index.ts";
 import { buildLidarScene, scanLidar } from "../../packages/sensors/src/lidar.ts";
 import { temporalSampler } from "../../packages/sensors/src/temporal.ts";
@@ -9,7 +10,7 @@ const state = () => ({ schema_version: "lab.v1" as const, kind: "TemporalCapture
   profile: "rig-motion-drift.v1" as const, reference_time_s: 0,
   velocity_world_m_per_s: [0, 0, 0] as [number, number, number], yaw_rate_rad_per_s: 0,
   sensor_drift: [{ modality: "lidar" as const, translation_rig_m: [0, 0, 0] as [number, number, number],
-    translation_rate_rig_m_per_s: [0, 0, 0] as [number, number, number], yaw_rad: 0, yaw_rate_rad_per_s: 0 }] });
+    translation_rate_rig_m_per_s: [0, 0, 0] as [number, number, number], yaw_rad: 0, yaw_rate_rad_per_s: 0 }] } satisfies TemporalCapture);
 function fixture() {
   const rig = cameraPoseToRig({rigId: "temporal-rig", position: [0, 0, 0],
     quaternion: [0, 0, 0, 1], width: 64, height: 48, verticalFovRadians: .7});
@@ -73,7 +74,7 @@ test("sensor timestamp offset advances motion once; invalid transforms/times fai
     pose_at: (t: number) => sampler.sensorTransform("lidar", t)});
   assert.ok(Math.abs(scan.points[0].xyz_sensor[0] - 9.55) < 1e-5);
   assert.throws(() => sampler.rigAt(NaN));
-  assert.throws(() => temporalSampler(rig, {...motion, sensor_drift: [...motion.sensor_drift, ...motion.sensor_drift]}, 0));
+  assert.throws(() => temporalSampler(rig, {...motion, sensor_drift: [motion.sensor_drift[0], motion.sensor_drift[0]]}, 0));
   assert.throws(() => scanLidar(geometry, rig, 0, {pose_at: () => new THREE.Matrix4().makeScale(2, 1, 1)}));
   geometry.dispose();
 });

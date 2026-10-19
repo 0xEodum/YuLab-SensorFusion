@@ -1380,6 +1380,121 @@
           "modalities"
         ]
       },
+      "SensorDrift": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "modality": {
+            "enum": [
+              "rgb",
+              "ir",
+              "lidar"
+            ]
+          },
+          "translation_rig_m": {
+            "$ref": "#/components/schemas/Vec3"
+          },
+          "translation_rate_rig_m_per_s": {
+            "$ref": "#/components/schemas/Vec3"
+          },
+          "yaw_rad": {
+            "type": "number",
+            "minimum": -3.141593,
+            "maximum": 3.141593
+          },
+          "yaw_rate_rad_per_s": {
+            "type": "number",
+            "minimum": -10,
+            "maximum": 10
+          }
+        },
+        "required": [
+          "modality",
+          "translation_rig_m",
+          "translation_rate_rig_m_per_s",
+          "yaw_rad",
+          "yaw_rate_rad_per_s"
+        ]
+      },
+      "TemporalCapture": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "schema_version": {
+            "const": "lab.v1"
+          },
+          "kind": {
+            "const": "TemporalCapture"
+          },
+          "profile": {
+            "const": "rig-motion-drift.v1"
+          },
+          "reference_time_s": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "velocity_world_m_per_s": {
+            "$ref": "#/components/schemas/Vec3"
+          },
+          "yaw_rate_rad_per_s": {
+            "type": "number",
+            "minimum": -10,
+            "maximum": 10
+          },
+          "sensor_drift": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SensorDrift"
+            },
+            "maxItems": 3,
+            "allOf": [
+              {
+                "contains": {
+                  "properties": {
+                    "modality": {
+                      "const": "rgb"
+                    }
+                  }
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "modality": {
+                      "const": "ir"
+                    }
+                  }
+                },
+                "minContains": 0,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "properties": {
+                    "modality": {
+                      "const": "lidar"
+                    }
+                  }
+                },
+                "minContains": 0,
+                "maxContains": 1
+              }
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "kind",
+          "profile",
+          "reference_time_s",
+          "velocity_world_m_per_s",
+          "yaw_rate_rad_per_s",
+          "sensor_drift"
+        ]
+      },
       "CaptureRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -1401,6 +1516,9 @@
           },
           "plan": {
             "$ref": "#/components/schemas/CapturePlan"
+          },
+          "temporal": {
+            "$ref": "#/components/schemas/TemporalCapture"
           }
         },
         "required": [
@@ -1884,9 +2002,23 @@
       "CaptureResult": {
         "type": "object",
         "additionalProperties": false,
+        "dependentRequired": {
+          "temporal": [
+            "actual_rig"
+          ],
+          "actual_rig": [
+            "temporal"
+          ]
+        },
         "properties": {
           "protocol": {
             "const": "capture-worker.v1"
+          },
+          "temporal": {
+            "$ref": "#/components/schemas/TemporalCapture"
+          },
+          "actual_rig": {
+            "$ref": "#/components/schemas/RigSpec"
           },
           "capture_id": {
             "$ref": "#/components/schemas/Id"
@@ -2439,6 +2571,12 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "sampling_profile": {
+            "enum": [
+              "static-capture.v1",
+              "timed-sensor.v1"
+            ]
+          },
           "xyz": {
             "allOf": [
               {
@@ -3037,6 +3175,9 @@
           },
           "actual_rig": {
             "$ref": "#/components/schemas/RigSpec"
+          },
+          "temporal": {
+            "$ref": "#/components/schemas/TemporalCapture"
           },
           "environment": {
             "$ref": "#/components/schemas/EnvironmentSpec"

@@ -29,7 +29,7 @@ def test_actual_calibration_matches_independent_translation_and_rotation_oracle(
     assert actual["T_world_from_rig"][11] == nominal["T_world_from_rig"][11] - 2
     a = .1 * (tick + 1)
     rotation = np.array([[np.cos(a), 0, np.sin(a)], [0, 1, 0], [-np.sin(a), 0, np.cos(a)]])
-    original = np.array(nominal["sensors"][2]["T_rig_from_sensor"]).reshape(4, 4)
+    original = np.array(nominal["sensors"][2]["T_rig_from_sensor"], dtype=np.float64).reshape(4, 4)
     expected = original.copy()
     expected[:3, :3] = rotation @ original[:3, :3]
     expected[0, 3] += 1 + .5 * (tick + 1)

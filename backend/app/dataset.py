@@ -91,9 +91,11 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
         if not source.is_file() or source.stat().st_size != entry["byte_length"] or digest(source) != entry["sha256"]:
             raise ValueError(f"Capture artifact hash mismatch: {entry['id']}")
         os.link(source, output / entry["id"])
-    rgb_sensor = next(s for s in request["rig"]["sensors"] if s["modality"] == "rgb")
-    ir_sensor = next(s for s in request["rig"]["sensors"] if s["modality"] == "ir")
-    lidar_sensor = next(s for s in request["rig"]["sensors"] if s["modality"] == "lidar")
+    from .temporal_capture import capture_rigs
+    nominal_rig, actual_rig = capture_rigs(request, result)
+    rgb_sensor = next(s for s in actual_rig["sensors"] if s["modality"] == "rgb")
+    ir_sensor = next(s for s in actual_rig["sensors"] if s["modality"] == "ir")
+    lidar_sensor = next(s for s in actual_rig["sensors"] if s["modality"] == "lidar")
     height, width = result["height"], result["width"]
     if any(s["camera"]["width_px"] != width or s["camera"]["height_px"] != height
            for s in (rgb_sensor, ir_sensor)):
@@ -101,7 +103,7 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
     lidar_shape = (lidar_sensor["lidar"]["rows"], lidar_sensor["lidar"]["columns"])
     if result["lidar_calibration"]["rows"] != lidar_shape[0] or \
        result["lidar_calibration"]["columns"] != lidar_shape[1] or \
-       result["lidar_calibration"]["T_world_from_rig"] != request["rig"]["T_world_from_rig"] or \
+       result["lidar_calibration"]["T_world_from_rig"] != actual_rig["T_world_from_rig"] or \
        result["lidar_calibration"]["T_rig_from_sensor"] != lidar_sensor["T_rig_from_sensor"] or \
        result["ir_calibration"]["band_um"] != [8, 14]:
         raise ValueError("Sensor calibration metadata mismatch")
@@ -154,7 +156,7 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
     image = lambda key, unit="1": array_artifact(output / key, unit, "image-top-left")
     point = lambda key, unit="1": array_artifact(output / key, unit, "lidar-forward-left-up")
     obs = {"schema_version": "lab.v1", "kind": "ObservationBundle",
-           "capture_id": capture_id, "sequence_id": result["sequence_id"], "rig": request["rig"],
+           "capture_id": capture_id, "sequence_id": result["sequence_id"], "rig": nominal_rig,
            "rgb": available(sensors["rgb"], {"image": image("rgb_raw_npy"),
                 "validity_mask": image("rgb_valid_npy"), "transfer_function": "srgb",
                 "exposure_s": sensors["rgb"]["exposure_s"]}),
@@ -165,6 +167,8 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
                 "intensity": point("lidar_intensity_npy"), "beam_id": point("lidar_beam_id_npy"),
                 "time_offset": point("lidar_time_offset_npy", "s"),
                 "validity": point("lidar_validity_npy"), "beam_table": point("lidar_beam_flat_npy")})}
+    if "temporal" in request:
+        obs["lidar"]["data"]["sampling_profile"] = "timed-sensor.v1"
     validate_payload("ObservationBundle", obs)
     observation = json_file(output / "observation.json", obs)
     thermal = json.loads((output / "thermal_state_json").read_text(encoding="utf-8"))
@@ -201,10 +205,12 @@ def package_capture(request: dict, result: dict, capture_dir: Path, output: Path
     validate_payload("AnnotationBundle", ann)
     annotation = json_file(output / "annotations.json", ann)
     truth = {"schema_version": "lab.v1", "kind": "TruthBundle", "capture_id": capture_id,
-             "world": request["world"], "actual_rig": request["rig"], "environment": request["environment"],
+             "world": request["world"], "actual_rig": actual_rig, "environment": request["environment"],
              "objects": truth_objects, "clean_intermediates": [files[key] for key in
                  ("depth", "instance", "ir_instance", "lidar_ideal_range", "lidar_ideal_instance", "lidar_ideal_class")],
              "corruption_masks": [image("ir_validity_npy"), image("ir_saturation_npy")]}
+    if "temporal" in request:
+        truth["temporal"] = request["temporal"]
     validate_payload("TruthBundle", truth)
     truth_artifact = json_file(output / "truth.json", truth)
     return {"capture_id": capture_id, "sequence_id": result["sequence_id"],

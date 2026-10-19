@@ -881,5 +881,163 @@
     "schema": "Health",
     "valid": false,
     "raw": "{\"bad\":1e999}"
-  }
+  },
+  {
+    "name": "temporal capture motion and drift",
+    "schema": "TemporalCapture",
+    "valid": true,
+    "base": "TemporalCapture.json"
+  },
+  {
+    "name": "temporal profile rejects unknown version",
+    "schema": "TemporalCapture",
+    "valid": false,
+    "base": "TemporalCapture.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "profile"
+        ],
+        "value": "future.v9"
+      }
+    ]
+  },
+  {
+    "name": "temporal rejects truth in motion",
+    "schema": "TemporalCapture",
+    "valid": false,
+    "base": "TemporalCapture.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "truth"
+        ],
+        "value": {}
+      }
+    ]
+  },
+  {
+    "name": "temporal requires complete drift",
+    "schema": "TemporalCapture",
+    "valid": false,
+    "base": "TemporalCapture.json",
+    "patches": [
+      {
+        "op": "delete",
+        "path": [
+          "sensor_drift",
+          0,
+          "yaw_rad"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "temporal capture request",
+    "schema": "CaptureRequest",
+    "valid": true,
+    "base": "CaptureRequest.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "temporal"
+        ],
+        "value": {
+          "schema_version": "lab.v1",
+          "kind": "TemporalCapture",
+          "profile": "rig-motion-drift.v1",
+          "reference_time_s": 0,
+          "velocity_world_m_per_s": [
+            0,
+            0,
+            -2
+          ],
+          "yaw_rate_rad_per_s": 0,
+          "sensor_drift": [
+            {
+              "modality": "lidar",
+              "translation_rig_m": [
+                0.1,
+                0,
+                0
+              ],
+              "translation_rate_rig_m_per_s": [
+                0.01,
+                0,
+                0
+              ],
+              "yaw_rad": 0.01,
+              "yaw_rate_rad_per_s": 0.001
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "temporal rejects duplicate sensor modality",
+    "schema": "TemporalCapture",
+    "valid": false,
+    "base": "TemporalCapture.json",
+    "patches": [
+      {
+        "op": "set",
+        "path": [
+          "sensor_drift"
+        ],
+        "value": [
+          {
+            "modality": "lidar",
+            "translation_rig_m": [
+              0.1,
+              0,
+              0
+            ],
+            "translation_rate_rig_m_per_s": [
+              0.01,
+              0,
+              0
+            ],
+            "yaw_rad": 0.01,
+            "yaw_rate_rad_per_s": 0.001
+          },
+          {
+            "modality": "lidar",
+            "translation_rig_m": [
+              0.1,
+              0,
+              0
+            ],
+            "translation_rate_rig_m_per_s": [
+              0.01,
+              0,
+              0
+            ],
+            "yaw_rad": 0.01,
+            "yaw_rate_rad_per_s": 0.001
+          }
+        ]
+      }
+    ]
+  },
+{
+  "name": "observable timed lidar sampling convention",
+  "schema": "ObservationBundle",
+  "valid": true,
+  "base": "ObservationBundle.json",
+  "patches": [
+    {
+      "op": "set",
+      "path": [
+        "lidar",
+        "data",
+        "sampling_profile"
+      ],
+      "value": "timed-sensor.v1"
+    }
+  ]
+}
 ]

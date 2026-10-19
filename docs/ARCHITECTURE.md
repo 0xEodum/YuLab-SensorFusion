@@ -2,7 +2,10 @@
 
 Status: SF-10 and collection performance follow-up passed local acceptance;
 SF-11 baselines and SF-12 comparison passed; SF-Q independent-expert ensembles
-passed static synthetic quality acceptance. Updated 2026-10-09.
+passed static synthetic quality acceptance. Updated 2026-10-19.
+SF-13 iteration 1 implements optional scan-time rig motion and sensor-extrinsic
+drift with nominal/actual calibration isolation; full sequences and object motion
+remain open. See [capture profile](TEMPORAL_CAPTURE.md).
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation

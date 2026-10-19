@@ -13,6 +13,8 @@ static sensor ensemble achieves fresh-holdout clean mAP .797 and degradation
 macro .771; see [quality results and inference](docs/evidence/SF-Q-quality.md).
 Checkpoints and datasets remain local artifacts outside Git. Training/inference
 service and UI integration remain later stages.
+Optional [scan-time platform motion and calibration drift](docs/TEMPORAL_CAPTURE.md)
+is implemented for capture with static objects; full temporal sequence work is ongoing.
 
 ## Setup
 

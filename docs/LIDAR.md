@@ -90,6 +90,11 @@ fed into an inference input; SF-10 will package observation and truth bundles.
 
 ## Limits
 
+The optional [rig-motion-drift.v1 profile](TEMPORAL_CAPTURE.md) now evaluates
+platform/calibration transforms at each beam time, retaining instantaneous
+sensor-frame returns. The original static path and artifacts remain unchanged.
+Object motion and full temporal sequence orchestration remain future work.
+
 The v1 ray/triangle tests use discrete angular beams and a static scene.
 Return intensity is a simple incidence/range proxy, not a measured
 reflectance or laser-power calibration. The worker remains a

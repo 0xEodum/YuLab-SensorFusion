@@ -270,6 +270,28 @@ class CapturePlan(TypedDict):
     modalities: list[Literal['rgb', 'ir', 'lidar']]
 
 
+class SensorDrift(TypedDict):
+    modality: Literal['rgb', 'ir', 'lidar']
+    translation_rig_m: Vec3
+    translation_rate_rig_m_per_s: Vec3
+    yaw_rad: float
+    yaw_rate_rad_per_s: float
+
+
+class SensorDrift1(TypedDict):
+    pass
+
+
+class TemporalCapture(TypedDict):
+    schema_version: Literal['lab.v1']
+    kind: Literal['TemporalCapture']
+    profile: Literal['rig-motion-drift.v1']
+    reference_time_s: float
+    velocity_world_m_per_s: Vec3
+    yaw_rate_rad_per_s: float
+    sensor_drift: list[SensorDrift] | SensorDrift1
+
+
 class CaptureRequest(TypedDict):
     schema_version: Literal['lab.v1']
     kind: Literal['CaptureRequest']
@@ -277,6 +299,7 @@ class CaptureRequest(TypedDict):
     rig: RigSpec
     environment: EnvironmentSpec
     plan: CapturePlan
+    temporal: NotRequired[TemporalCapture]
 
 
 class CaptureJobError(TypedDict):
@@ -428,6 +451,8 @@ class Truncated(TypedDict):
 
 class CaptureResult(TypedDict):
     protocol: Literal['capture-worker.v1']
+    temporal: NotRequired[TemporalCapture]
+    actual_rig: NotRequired[RigSpec]
     capture_id: Id
     sequence_id: Id
     tick_s: float
@@ -572,6 +597,7 @@ class BeamTable(ArrayArtifact):
 
 
 class LidarData(TypedDict):
+    sampling_profile: NotRequired[Literal['static-capture.v1', 'timed-sensor.v1']]
     xyz: Xyz
     intensity: Intensity
     beam_id: BeamId
@@ -677,6 +703,7 @@ class TruthBundle(TypedDict):
     capture_id: Id
     world: WorldSpec
     actual_rig: RigSpec
+    temporal: NotRequired[TemporalCapture]
     environment: EnvironmentSpec
     objects: list[ObjectTruth]
     clean_intermediates: list[Artifact]
@@ -812,4 +839,4 @@ class ApiError(TypedDict):
     details: list[Detail]
 
 
-type LabPayload = AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | CaptureRequest | CaptureJob | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError
+type LabPayload = TemporalCapture | AssetRecord | WorldSpec | RigSpec | EnvironmentSpec | CapturePlan | CaptureRequest | CaptureJob | ObservationBundle | AnnotationBundle | TruthBundle | DatasetManifest | PredictionBundle | Health | Capabilities | ApiError

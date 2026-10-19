@@ -122,6 +122,9 @@ async def create_capture(request: Request):
                 raise ValueError(f"{field} does not match the submitted {key}")
         if plan["simulation_time_s"] != payload["environment"]["simulation_time_s"]:
             raise ValueError("capture and environment simulation ticks differ")
+        if "temporal" in payload:
+            from .temporal_capture import actual_rig_at
+            actual_rig_at(payload, 0)
         job = capture_coordinator.submit(payload)
         return JSONResponse(public_job(job), status_code=202)
     except (UnicodeDecodeError, ValueError) as exc:
