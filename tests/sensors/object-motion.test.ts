@@ -86,3 +86,18 @@ test("known camera displacement produces the analytical nominal/actual registrat
   const fx=rig.sensors[0].camera!.fx_px;
   assert.ok(Math.abs((nominalPixel.u-actualPixel.u)-fx*.7/10)<1e-9);
 });
+
+test("moving foreground opens the line of sight at beam time without seeing through earlier occlusion", () => {
+  const {world,state,scene,group,rig}=fixture([4,0,0]);
+  world.instances[0].T_world_from_asset[11]=-5; group.position.z=-5;
+  const front=group.children[0] as THREE.Mesh;
+  front.geometry.dispose(); front.geometry=new THREE.BoxGeometry(2,4,.1); front.name="moving-foreground";
+  const rear=new THREE.Mesh(new THREE.BoxGeometry(100,100,.1),new THREE.MeshBasicMaterial());
+  rear.name="rear-target"; rear.position.z=-10; scene.add(rear);
+  const geometry=buildMovingLidarScene(scene,[],null,objectMotionSampler(world,state,0));
+  const scan=scanLidar(geometry,rig,0,{range_sigma_m:0});
+  assert.equal(scan.ideal_hits[0]?.object_name,"moving-foreground");
+  assert.equal(scan.ideal_hits[1]?.object_name,"rear-target");
+  assert.equal(scan.ideal_hits[2]?.object_name,"rear-target");
+  geometry.dispose();
+});

@@ -201,6 +201,8 @@ async function capture(request: Request) {
   if (sampler) request = {...request, rig: sampler.rigAt(0)};
   const rgbOffset = request.rig.sensors.find(s => s.modality === "rgb")!.timestamp_offset_s;
   const irOffset = request.rig.sensors.find(s => s.modality === "ir")!.timestamp_offset_s;
+  if (sampler && request.plan.modalities.includes("ir") && irOffset < 0)
+    throw new Error("Temporal IR timestamp offset must be nonnegative for saved-anchor thermal history");
   const rgbRig = sampler?.rigAt(rgbOffset) ?? request.rig;
   const irRig = sampler?.rigAt(irOffset) ?? request.rig;
   const jobStarted = performance.now();

@@ -47,6 +47,8 @@ def actual_rig_at(request: dict, offset_s: float) -> dict:
         return actual
     validate_payload("TemporalCapture", state)
     validate_payload("RigSpec", actual)
+    if "ir" in request["plan"]["modalities"] and any(s["modality"]=="ir" and s["timestamp_offset_s"]<0 for s in actual["sensors"]):
+        raise ValueError("Temporal IR timestamp offset must be nonnegative for saved-anchor thermal history")
     for values in [actual["T_world_from_rig"], *(s["T_rig_from_sensor"] for s in actual["sensors"])]:
         m = np.array(values, dtype=np.float64).reshape(4, 4)
         if not np.allclose(m[:3, :3].T @ m[:3, :3], np.eye(3), atol=1e-6, rtol=0) or \
