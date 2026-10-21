@@ -118,6 +118,20 @@ def _scalar_update(value, variance, measurement, noise, kappa, periodic=False):
     return value + posterior * kappa * residual / noise, posterior
 
 
+def _box_points(track: Track) -> list[np.ndarray]:
+    """Box centre plus the eight corners in world axes (yaw about +Y)."""
+    y, w, h, l, yaw = track.attributes
+    c, s = np.cos(yaw), np.sin(yaw)
+    points = [np.array([track.state[0], y, track.state[1]])]
+    for dx in (-0.5, 0.5):
+        for dy in (-0.5, 0.5):
+            for dz in (-0.5, 0.5):
+                local = np.array([dx * w, dy * h, dz * l])
+                points.append(np.array([track.state[0] + c * local[0] + s * local[2], y + local[1],
+                                        track.state[1] - s * local[0] + c * local[2]]))
+    return points
+
+
 def _position_sigma(P):
     return float(np.sqrt(np.linalg.eigvalsh(P[:2, :2]).max()))
 
@@ -181,16 +195,19 @@ class Tracker:
         offset_sensor = pose[:3, :3].T @ (reference - pose[:3, 3])
         calibration_world = pose[:3, :3] @ world_calibration_covariance(offset_sensor, self._calibration()) @ pose[:3, :3].T
         noise = p.sensor_sigma_m[m] ** 2 * np.eye(2) + calibration_world[np.ix_([0, 2], [0, 2])]
+        extent_radius = 0.5 * float(np.hypot(track.attributes[1], track.attributes[3]))
         if m == 2:
-            radius = p.lidar_radius_m + 3 * _position_sigma(track.P)
+            # Hull returns lie up to half the footprint diagonal from the box centre.
+            radius = p.lidar_radius_m + 3 * _position_sigma(track.P) + extent_radius
             support = lidar_support(frame.lidar_points, reference, radius, p.lidar_neighbours, p.lidar_min_points).valid
         else:
             state_world = np.zeros((3, 3))
             state_world[np.ix_([0, 2], [0, 2])] = track.P[:2, :2]
             state_world[1, 1] = track.attribute_variance[0]
             state_camera = pose[:3, :3].T @ state_world @ pose[:3, :3]
-            support = camera_observable(geometry.camera, offset_sensor, state_camera, self._calibration(), p.pixel_sigma_px,
-                                        p.observability_margin_sigma)
+            # A large object is supportable when any part of its box (centre or corners) can reach the image.
+            support = any(camera_observable(geometry.camera, pose[:3, :3].T @ (point - pose[:3, 3]), state_camera, self._calibration(),
+                                            p.pixel_sigma_px, p.observability_margin_sigma) for point in _box_points(track))
         return support, noise
 
     def _measure(self, tracks: list[Track], frame: FrameInput, evidence: dict) -> list[Track]:

@@ -186,12 +186,12 @@ def test_estimated_velocity_converges_to_object_velocity():
 
 def test_camera_only_measurement_for_a_reference_outside_the_image_is_not_applied():
     tracker = Tracker(TrackerParams(confirm_hits=1, birth_min_score=0.3))
-    far_left = dets((box(-40.0, 40.0), 0, 0.9))
-    points = np.array([[-40.0, 0, 40.0]])
+    far_left = dets((box(-60.0, 40.0), 0, 0.9))
+    points = np.array([[-60.0, 0, 40.0]])
     tracker.step(frame(0, [far_left, far_left, far_left], points=points))     # birth from LiDAR/camera
     tracker.step(frame(1, [dets(), dets(), dets()], points=points))
     state_before = tracker.snapshot()[0]["state"].copy(); cov_before = tracker.snapshot()[0]["P"].copy()
-    shifted = dets((box(-39.0, 40.0), 0, 0.9))
+    shifted = dets((box(-59.0, 40.0), 0, 0.9))
     # LiDAR absent; both cameras report a shifted box, but the reference projects far outside the image.
     tracker.step(frame(2, [shifted, shifted, dets()], available=(True, True, False), points=np.empty((0, 3))))
     predicted = state_before.copy(); predicted[:2] += predicted[2:] * DT
