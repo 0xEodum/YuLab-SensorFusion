@@ -3,7 +3,7 @@
 SF-13 extends the existing `rig-motion-drift.v1` capture profile with optional
 `object_motion` and adds canonical `SequenceSpec`, profile `temporal-sequence.v1`.
 Commands remain local. The capture API accepts moving-object requests; sequence
-collection/recovery uses the CLI below. Temporal detector training is SF-14.
+collection/recovery uses the CLI below. Temporal tracking (SF-14) is documented in [the tracker profile](TEMPORAL_TRACKER.md).
 
 ## Object and sensor time
 

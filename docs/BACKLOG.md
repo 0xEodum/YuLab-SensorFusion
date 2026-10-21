@@ -7,8 +7,8 @@ and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
 with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
 fresh holdout acceptance; SF-13 is DONE after full-resolution temporal capture,
-cold replay, outage and split-isolation acceptance. SF-14 is READY for a separate
-temporal-detector iteration, retaining the accepted static ensemble as a control.
+cold replay, outage and split-isolation acceptance. SF-14 is DONE as a gated tracker over the
+frozen static ensemble (see its report); SF-15 is READY.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -66,8 +66,8 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-12 | Compact ESSRF and subset/reliability validation | SF-11 | DONE |
 | SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | DONE |
 | SF-13 | Temporal capture and uncertain calibration | SF-Q | DONE |
-| SF-14 | Temporal/calibration-aware detector | SF-13 | READY |
-| SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | PLANNED |
+| SF-14 | Temporal/calibration-aware detector | SF-13 | DONE |
+| SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | READY |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
 | SF-17 | Reproducible delivery and full regression | SF-16 | PLANNED |
 
@@ -520,7 +520,12 @@ Acceptance:
 - Drift/corruption truth is isolated from model input. Temporal clips and their
   variants stay entirely within one split, with enough length for outage tests.
 
-## SF-14 — Temporal/calibration-aware detector
+## SF-14 — Temporal/calibration-aware detector (DONE)
+
+Accepted 2026-10-21 as `ensemble-kalman-tracker.v1`, not a trained ESSRF-temporal model: see the
+[tracker profile](TEMPORAL_TRACKER.md) and [acceptance report](evidence/SF-14-temporal.md). Test result: small
+mAP gain, 2-3x fewer false positives, outage continuation, zero invented observations; thin data (three test
+layouts) and no learned temporal features or drift estimation are stated limits.
 
 Deliver: a measured temporal candidate, motion/state propagation, calibration
 uncertainty handling, gated measurement update and outage tracking behavior.

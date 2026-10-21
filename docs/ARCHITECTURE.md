@@ -6,7 +6,7 @@ passed static synthetic quality acceptance. Updated 2026-10-19.
 SF-13 implements scan-time rig/object motion, sensor-extrinsic drift,
 nominal/actual calibration isolation and durable paired temporal sequences with
 cold replay/outages. See [sequence profile](TEMPORAL_SEQUENCES.md).
-Temporal detector training remains SF-14.
+Temporal tracking over the static ensemble is SF-14 (done); no temporal detector is trained.
 
 Frontend/backend structure,
 health/capability API, shared wire contracts and deterministic world generation
