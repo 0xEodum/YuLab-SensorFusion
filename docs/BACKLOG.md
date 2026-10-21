@@ -527,6 +527,16 @@ Accepted 2026-10-21 as `ensemble-kalman-tracker.v1`, not a trained ESSRF-tempora
 essentially unchanged (+.005 clean, +.010 macro, not significant), no false-positive benefit at an equal score
 cutoff, outage continuation (recall about .85) with zero invented observations; thin data (three test layouts) and no learned temporal features or drift estimation are stated limits.
 
+**Conclusion recorded before SF-15 (2026-10-21).** The temporal layer was evaluated and did not improve
+observed-detection quality on this data; its demonstrated value is outage continuation with explicit
+prediction-only labelling and zero invented observations. Consequently SF-15 scales and evaluates the
+**static frozen-ensemble recipe** (plus the tracker as an optional, separately reported layer); temporal
+robustness is not a SF-15 quality claim. The final detector is the independent-expert ensemble, not ESSRF: static
+ESSRF reached clean mAP .249 against .797 for the ensemble (SF-12, SF-Q) and a temporal ESSRF was never trained.
+ESSRF stays documented as a research target. Whether to diagnose where it fails (for example unimodal ESSRF versus
+unimodal baselines, to separate encoder/sampler problems from fusion/routing and optimization) is an open
+decision, unscheduled until the user chooses.
+
 Deliver: a measured temporal candidate, motion/state propagation, calibration
 uncertainty handling, gated measurement update and outage tracking behavior.
 `essrf-temporal-v1` is a proposal, not a required final architecture; the user's
