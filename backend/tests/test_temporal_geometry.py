@@ -92,7 +92,7 @@ def test_lidar_support_uses_only_points_inside_the_radius_nearest_first():
     reference = np.array([10.0, 0.0, 0.0])
     points = np.array([[10.5, 0, 0], [10.1, 0, 0], [40.0, 0, 0], [10.0, 3.0, 0], [10.0, 6.0, 0]])
     support = lidar_support(points, reference, radius_m=5.0, neighbours=2)
-    assert support.count == 4  # radius count, before the neighbour cap
+    assert support.count == 3  # radius count before the neighbour cap; (10, 6, 0) is 6 m away
     assert support.valid
     np.testing.assert_allclose(support.mean_offset, np.mean([[0.1, 0, 0], [0.5, 0, 0]], axis=0))
 
