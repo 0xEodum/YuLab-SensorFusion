@@ -248,3 +248,24 @@ def test_outputs_are_finite_and_prediction_only_scores_decay():
         assert np.isfinite(out.box).all() and np.isfinite(out.position_covariance).all()
         scores.append(out.score)
     assert all(a > b for a, b in zip(scores, scores[1:]))
+
+
+# --- extended objects ----------------------------------------------------------------------------
+
+def test_large_object_with_off_image_centre_but_visible_hull_receives_camera_updates():
+    tracker = Tracker(TrackerParams(confirm_hits=1))
+    large = dets((box(-40.0, 30.0, size=(100.0, 10.0, 30.0)), 2, 0.9))   # centre at u ~ -297, right edge in view
+    for i in range(3):
+        tracker.step(frame(i, [large, large, dets()], available=(True, True, False), points=np.empty((0, 3))))
+    outputs = tracker.step(frame(3, [large, large, dets()], available=(True, True, False), points=np.empty((0, 3))))
+    assert len(tracker.snapshot()) == 1 and outputs[0].observed
+
+
+def test_large_object_receives_lidar_support_from_hull_points_far_from_its_centre():
+    tracker = Tracker(TrackerParams(confirm_hits=1))
+    large = dets((box(0.0, 50.0, size=(100.0, 10.0, 40.0)), 2, 0.9))
+    hull = np.array([[45.0, 0.0, 50.0], [46.0, 0.0, 51.0], [-45.0, 0.0, 49.0]])
+    for i in range(3):
+        outputs = tracker.step(frame(i, [dets(), dets(), large], available=(False, False, True), points=hull))
+    assert len(tracker.snapshot()) == 1 and outputs[0].observed
+
