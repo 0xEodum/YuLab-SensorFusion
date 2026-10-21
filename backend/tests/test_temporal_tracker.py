@@ -2,6 +2,8 @@
 import numpy as np
 import pytest
 
+pytest.importorskip("scipy")
+
 from learning.temporal_tracker import (FrameInput, SensorGeometry, Tracker, TrackerParams, information_update)
 
 DT = 0.2

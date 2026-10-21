@@ -1,6 +1,8 @@
 """Camera projection Jacobians, calibration covariance and LiDAR support for the temporal tracker."""
 import numpy as np
 import pytest
+
+pytest.importorskip("scipy")
 from scipy.spatial.transform import Rotation
 
 from learning.temporal_geometry import (camera_observable, lidar_support, pixel_covariance, pose_jacobian,

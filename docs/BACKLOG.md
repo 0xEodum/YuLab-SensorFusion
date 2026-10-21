@@ -523,9 +523,9 @@ Acceptance:
 ## SF-14 — Temporal/calibration-aware detector (DONE)
 
 Accepted 2026-10-21 as `ensemble-kalman-tracker.v1`, not a trained ESSRF-temporal model: see the
-[tracker profile](TEMPORAL_TRACKER.md) and [acceptance report](evidence/SF-14-temporal.md). Test result: small
-mAP gain, 2-3x fewer false positives, outage continuation, zero invented observations; thin data (three test
-layouts) and no learned temporal features or drift estimation are stated limits.
+[tracker profile](TEMPORAL_TRACKER.md) and [acceptance report](evidence/SF-14-temporal.md). Test result: observed-detection mAP
+essentially unchanged (+.005 clean, +.010 macro, not significant), no false-positive benefit at an equal score
+cutoff, outage continuation (recall about .85) with zero invented observations; thin data (three test layouts) and no learned temporal features or drift estimation are stated limits.
 
 Deliver: a measured temporal candidate, motion/state propagation, calibration
 uncertainty handling, gated measurement update and outage tracking behavior.

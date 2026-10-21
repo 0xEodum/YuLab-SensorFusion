@@ -21,13 +21,21 @@ observed-detection mAP with the unchanged SF-Q evaluator, matched frames, identi
 | Clean 3D mAP | 0.7402 | 0.7449 |
 | Degradation macro (6 subsets + 6 corruption probes) | 0.7288 | 0.7388 |
 | Combined (selection metric) | 0.7345 | 0.7419 |
-| Scenarios where tracker mAP > static | | 12 of 13 |
-| False positives, clean | 261 | 82 |
-| False positives, ir-ood | 1261 | 496 |
+| Scenarios where tracker mAP > static (same six clips) | | 12 of 13 |
+| False positives, clean (see withdrawn claim) | 261 (80 at the tracker's 0.3 cutoff) | 82 |
 
-The gain is small (+0.005 clean, +0.010 macro) and rests on three test layouts and six clips; it is not a
-confidence-interval claim. The sizeable, consistent effect is false-positive reduction (about 2-3x in most
-scenarios) with unchanged recall (available-frame recall 0.88-0.89 for both). Clean-frame recall did not improve.
+The mAP difference is small (+0.005 clean, +0.010 macro) and rests on three test layouts and six clips.
+The 13 scenarios reuse the same six clips, so "12 of 13 scenarios higher" is not 13 independent trials.
+By clip variant (post hoc, see below), the tracker is *lower* on clean clips (clean mAP 0.8123 vs 0.8193) and
+higher on drift/outage clips (0.6783 vs 0.6739); neither difference is distinguishable from noise here.
+
+**Withdrawn claim: false-positive reduction.** The raw FP counts above (261 vs 82) compare the static
+consensus at its 0.05 output cutoff with a tracker that only births tracks from detections scoring >= 0.3.
+A post-freeze control (`post-freeze-controls.json`, no tracker change, test report untouched) filters the
+unchanged static output to the same 0.3 cutoff: clean FP 80 (static@0.3) vs 82 (tracker); validation 46 vs 103.
+mAP is unaffected by the cutoff. So the cutoff, not temporal reasoning, explains the FP difference, and the
+tracker offers no demonstrated FP benefit. Available-frame recall is 0.891 (static) vs 0.887 (tracker,
+observed-only), i.e. unchanged. The 0.3 cutoff was not in the tuning grid.
 
 Outage behaviour (all sensors absent, 6-frame windows in drift/outage clips):
 
@@ -81,7 +89,7 @@ scored before the fix.
 | --- | --- |
 | Full outage: prior followed, zero correction, no covariance shrink, nothing invented | tests `full_outage_*`, `outage_state_equals_pure_prediction_bit_exactly`, `full_outage_never_births_tracks`, `zero_observation_mass_returns_prior_bit_exactly`; 0 invented observations on test |
 | Loss/recovery of each sensor, brief/all outages | single-sensor loss test for each sensor; availability scenarios 1-6; 4-frame sensor and 6-frame all-sensor windows in the drift clips |
-| Partial local corruption | six SF-12 corruption probes, observed mAP 0.731-0.778 versus static 0.726-0.762 |
+| Partial local corruption | six SF-12 corruption probes, observed mAP 0.731-0.778 versus static 0.726-0.762 (same clips, not independent) |
 | Calibration drift | drift/outage clip variants in every split; the tracker never reads actual drift. Drift is not estimated or corrected |
 | Sequence reset, expired hypotheses | tests `reset_clears_all_state...`, `gap_beyond_the_declared_limit...`, `prediction_only_track_expires...`, `track_expires_when_position_uncertainty...` |
 | Camera Jacobian / covariance fixtures | `test_temporal_geometry.py`: finite-difference checks of projection, SE(3) and composed Jacobians; pixel covariance composition |
@@ -89,13 +97,31 @@ scored before the fix.
 | Temporal/static ablation on identical splits; latency and memory | table above and `test-report.json` |
 | Model-document changes | ESSRF.md decision entry, BACKLOG, [tracker profile](../TEMPORAL_TRACKER.md) |
 
-Backend suite: 286 passed (244 before). 
+## Reproduction record
+
+- Implementation: `e1176ae` (extent-aware support) is the code the frozen protocol hashes; protocol `f4d7b2b`;
+  acceptance docs `c231baa` plus the follow-up controls commit. Source hashes are in `protocol.json`.
+- Environment: Windows 11, Python 3.13.10, PyTorch 2.13.0+cu130, RTX 3090.
+- Commands (all exit 0): `tools/generate-sequences.py --output artifacts/sf14/specs-sf14.json --layouts 6
+  --seed-offset 1700000 --prefix sf14 --object-speed 3`; `tools/sequence-job.py --specs ... --output
+  artifacts/sf14/job-sf14` (PLAYWRIGHT_CHANNEL=msedge, PLAYWRIGHT_GPU=1) and `--validate` (384 validated);
+  `tools/cache-sequence-experts.py --dataset <dataset> --output <cache>` for both datasets;
+  `tools/temporal-tracker.py tune --cache <sf13> <sf14> --protocol docs/evidence/sf14-temporal/protocol.json`;
+  `... score ... --output docs/evidence/sf14-temporal/test-report.json`; `tools/post-freeze-controls.py`.
+- Tests: `PYTHONPATH=backend python -m pytest backend/tests -q` 286 passed (244 before); `npm run verify`
+  exit 0 (162 backend passed, 11 skipped in the API environment, which lacks scipy/torch; production build ok).
+- `--object-speed` defaults to the SF-13 0.5 m/s: default `generate-sequences.py` output is byte-identical to
+  the previous script (checked with `cmp`).
+- GPU profile of the SF-13 cache pass (`tools/profile-workload.py`, 110 s wall, device-wide, 1004 samples):
+  utilization mean 33% (max 46%), power mean 48 W (max 126 W), temperature 45.5 C (max 52 C), memory 2.07 GiB.
+  This one-off pass is CPU/launch-bound (batch-1 inference of 18 networks, 13 scenarios per frame), not GPU
+  saturated; no optimization was attempted because the cache is paid once per dataset.
 
 ## Limits
 
 Synthetic constant-velocity targets (one moving object per layout; others static), three test layouts, a frozen
 detector that never saw sequences, no learned temporal features, no learned calibration, no estimate of drift. The
-tracker's calibration term is a declared tolerance. A temporal gain over the static ensemble on clean frames is
-within noise; the demonstrated value is false-positive suppression, outage continuation and explicit
-prediction-only labelling. Sensor-specific measurement noise includes ensemble bias because it is fitted from raw
+tracker's calibration term is a declared tolerance. No temporal gain over the static ensemble is demonstrated on observed detections; the demonstrated value is
+outage continuation with zero invented observations and explicit prediction-only labelling. Drift is not
+estimated: the declared calibration prior only inflates noise and widens support. Sensor-specific measurement noise includes ensemble bias because it is fitted from raw
 residuals. SF-15 scaling, held-out assets and real sensors are untested.

@@ -113,6 +113,9 @@ compares a complete clip against uninterrupted replay, checks a frozen-anchor
 camera control, and validates split/observation isolation. Its own `--resume`
 continues an interrupted acceptance run using saved stage records.
 
+`generate-sequences.py --object-speed M` (default 0.5 m/s, output unchanged) sets the moving target's speed along +X;
+SF-14 used `--layouts 6 --seed-offset 1700000 --prefix sf14 --object-speed 3`.
+
 ## Scope
 
 This is a synthetic constant-linear-velocity/yaw, global-shutter profile.

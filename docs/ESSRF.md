@@ -5,8 +5,9 @@
 2026-10-21: SF-14 delivers `ensemble-kalman-tracker.v1` ([profile](TEMPORAL_TRACKER.md),
 [acceptance](evidence/SF-14-temporal.md)) instead of training `essrf-temporal-v1`. A gated
 information-form tracker consumes the frozen SF-Q ensemble's per-sensor detections. On the test clips it
-cuts false positives about 2-3x and adds prediction-only outage continuation, with small mAP gains (clean
-.7449 vs .7402, macro .7388 vs .7288) that are within the noise of three layouts. ESSRF's zero-observation-mass
+adds prediction-only outage continuation (recall about .85, zero invented observations) while observed-detection
+mAP is essentially unchanged (clean .7449 vs .7402, macro .7388 vs .7288; within the noise of three layouts, and
+a post-freeze control shows the apparent false-positive reduction is only the 0.3 birth cutoff). ESSRF's zero-observation-mass
 identity, no-invented-detections rule and calibration-aware support are implemented as tests, not learned.
 
 2026-10-19: SF-13 iteration 1 added [scan-time platform motion and sensor drift](TEMPORAL_CAPTURE.md)
@@ -222,7 +223,7 @@ selection must not use the sealed test set.
 | 2026-10-06 | Deterministic bilinear image sampler; rerun query pilots | CUDA backward nondeterminism measured; equivalent interpolation and coordinate/feature gradients pass reference tests, full CUDA gradients repeat exactly |
 | 2026-10-06 | Select Q32 using predeclared paired degradation mean; freeze remaining seeds | Q16 .062 versus Q32 .177 (seed 11); Q32 clean .314. Final epoch deteriorates to clean .057 / degradation .040, so extra epochs are not presumed beneficial. See `evidence/sf12/selected-configuration.json` |
 | 2026-10-06 | Complete three-seed static comparison without quality promotion | Clean .249 ± .109; degradation .136 ± .064 versus fusion .165 ± .030. IR stripes .247 versus fusion .140 / IR .039, but seed 13 loses to fusion. Single-sensor/calibration failures retained; 7.902 GiB training allocation, 52.8/63.8 ms end-to-end p50/p95. See `evidence/SF-12-ESSRF.md` |
-| 2026-10-21 | SF-14 replaces learned `essrf-temporal-v1` with a tracker over the frozen SF-Q ensemble | Few sequence clips, ESSRF static failure, strong static control. Test (3 layouts): clean .7449 vs .7402, macro .7388 vs .7288, FP 261 to 82 (clean), outage continuation recall .85, 0 invented observations; first tuning with centre-only support failed (.659 vs .706) and is retained. See `evidence/SF-14-temporal.md` |
+| 2026-10-21 | SF-14 replaces learned `essrf-temporal-v1` with a tracker over the frozen SF-Q ensemble | Few sequence clips, ESSRF static failure, strong static control. Test (3 layouts): clean .7449 vs .7402, macro .7388 vs .7288 (not significant), no FP benefit at equal cutoff (80 vs 82), outage continuation recall .85, 0 invented observations; first tuning with centre-only support failed (.659 vs .706) and is retained. See `evidence/SF-14-temporal.md` |
 
 ---
 

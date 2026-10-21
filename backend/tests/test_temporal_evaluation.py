@@ -2,6 +2,9 @@
 import copy
 
 import numpy as np
+import pytest
+
+pytest.importorskip("scipy")
 
 from learning.temporal_evaluation import evaluate_scenario, frame_input, group_sequences, run_sequence
 from learning.temporal_tracker import TrackerParams
