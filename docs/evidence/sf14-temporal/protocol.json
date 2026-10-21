@@ -1,0 +1,281 @@
+{
+  "version": "sf14-tracker-protocol.v1",
+  "selection": "validation clean+macro observed mAP; train fits noise only",
+  "fitted_sensor_sigma_m": [
+    3.4898509884335316,
+    4.151298212292051,
+    4.0237409464745175
+  ],
+  "residual_counts": {
+    "0": 313,
+    "1": 313,
+    "2": 324
+  },
+  "parameters": {
+    "accel_sigma_m_per_s2": 0.5,
+    "confirm_hits": 1,
+    "gate_chi2": 13.82,
+    "score_smoothing": 0.8,
+    "kappa_exponent": 1.0,
+    "noise_scale": 1.0
+  },
+  "grid": {
+    "accel_sigma_m_per_s2": [
+      0.2,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "confirm_hits": [
+      1,
+      2
+    ],
+    "gate_chi2": [
+      9.21,
+      13.82
+    ],
+    "score_smoothing": [
+      0.0,
+      0.5,
+      0.8
+    ],
+    "kappa_exponent": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "noise_scale": [
+      0.75,
+      1.0,
+      1.5
+    ]
+  },
+  "validation_static_control": {
+    "objective": 0.7056072929388642,
+    "clean": 0.7148315897389848,
+    "macro": 0.6963829961387437
+  },
+  "validation_selected": 0.7222756358211484,
+  "trace": [
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 0.2
+      },
+      "objective": 0.6847649859530605,
+      "clean": 0.696288826013751,
+      "macro": 0.6732411458923698
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 1.0
+      },
+      "objective": 0.6847649859530605,
+      "clean": 0.696288826013751,
+      "macro": 0.6732411458923698
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 2.0
+      },
+      "objective": 0.6846201109426655,
+      "clean": 0.696288826013751,
+      "macro": 0.6729513958715799
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "confirm_hits": 1
+      },
+      "objective": 0.71620098759294,
+      "clean": 0.7278220873528336,
+      "macro": 0.7045798878330466
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "confirm_hits": 2
+      },
+      "objective": 0.6847649859530605,
+      "clean": 0.696288826013751,
+      "macro": 0.6732411458923698
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "gate_chi2": 13.82
+      },
+      "objective": 0.7167641266752927,
+      "clean": 0.7278220873528336,
+      "macro": 0.7057061659977516
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "score_smoothing": 0.0
+      },
+      "objective": 0.7072491778204377,
+      "clean": 0.7190671021910919,
+      "macro": 0.6954312534497834
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "score_smoothing": 0.8
+      },
+      "objective": 0.7222756358211484,
+      "clean": 0.7319328994790242,
+      "macro": 0.7126183721632726
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "kappa_exponent": 0.5
+      },
+      "objective": 0.7218354509472613,
+      "clean": 0.7319328994790242,
+      "macro": 0.7117380024154984
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "kappa_exponent": 2.0
+      },
+      "objective": 0.7220636528796489,
+      "clean": 0.7319328994790242,
+      "macro": 0.7121944062802736
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "noise_scale": 0.75
+      },
+      "objective": 0.7217986914866736,
+      "clean": 0.7319328994790242,
+      "macro": 0.7116644834943232
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "noise_scale": 1.5
+      },
+      "objective": 0.717734420325006,
+      "clean": 0.7319328994790242,
+      "macro": 0.7035359411709878
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 0.2
+      },
+      "objective": 0.7222756358211484,
+      "clean": 0.7319328994790242,
+      "macro": 0.7126183721632726
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 1.0
+      },
+      "objective": 0.7222756358211484,
+      "clean": 0.7319328994790242,
+      "macro": 0.7126183721632726
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 2.0
+      },
+      "objective": 0.7222040050223575,
+      "clean": 0.7319328994790242,
+      "macro": 0.7124751105656907
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "confirm_hits": 2
+      },
+      "objective": 0.6908625672729239,
+      "clean": 0.7005030868181291,
+      "macro": 0.6812220477277188
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "gate_chi2": 9.21
+      },
+      "objective": 0.72163354683411,
+      "clean": 0.7319328994790242,
+      "macro": 0.7113341941891956
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "score_smoothing": 0.0
+      },
+      "objective": 0.7072491778204377,
+      "clean": 0.7190671021910919,
+      "macro": 0.6954312534497834
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "score_smoothing": 0.5
+      },
+      "objective": 0.7167641266752927,
+      "clean": 0.7278220873528336,
+      "macro": 0.7057061659977516
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "kappa_exponent": 0.5
+      },
+      "objective": 0.7218354509472613,
+      "clean": 0.7319328994790242,
+      "macro": 0.7117380024154984
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "kappa_exponent": 2.0
+      },
+      "objective": 0.7220636528796489,
+      "clean": 0.7319328994790242,
+      "macro": 0.7121944062802736
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "noise_scale": 0.75
+      },
+      "objective": 0.7217986914866736,
+      "clean": 0.7319328994790242,
+      "macro": 0.7116644834943232
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "noise_scale": 1.5
+      },
+      "objective": 0.717734420325006,
+      "clean": 0.7319328994790242,
+      "macro": 0.7035359411709878
+    }
+  ],
+  "elapsed_s": 65.28174040000158,
+  "sources": {
+    "backend/learning/temporal_tracker.py": "b25f16d81c9e51ca2b35d590a4256a4f96fed46eae0dd796b6b0e3c79a03b5e6",
+    "backend/learning/temporal_geometry.py": "f2db795874c6bf2ea59677c1b5205f2d1adbd604c70b9f23e61356d7093ded4e",
+    "backend/learning/temporal_evaluation.py": "392896cd3f2d03c6c5ddc05928d197f253349cadc9357e07976f6b07ebcb10ad",
+    "backend/learning/decision_fusion.py": "9ece9084f770e1005adf5e334773b12d9b680e1e534bba39689b2e75091bab32",
+    "backend/learning/evaluate.py": "1f0d92598bfff63d8174065d2a433a6485fd62335acad75de1d16914c87fc69f",
+    "tools/temporal-tracker.py": "79e6e5138fd7354cbdc4a94704e2b1c6784a48a186a58b050843aa5e38775a0a"
+  },
+  "caches": {
+    "artifacts\\sf14\\cache-sf13.pkl": "174620e20f46b155a0d532b0ebb34bb6de12cecc6a1e710ced682ba4c4e9d3da",
+    "artifacts\\sf14\\cache-sf14.pkl": "a1b2c70a626e7b066cf8db911799339d1aad080048bc78e70c17e820e5d31a64"
+  }
+}

@@ -9,7 +9,7 @@ from app.contracts import validate_payload
 from app.dataset import digest
 from app.observation_input import load_observation_only
 from .data import PROFILE, preprocess_arrays
-from .decision_fusion import fuse, fuse_snapshots, fuse_initializations
+from .decision_fusion import fuse, fuse_snapshots, fuse_initializations, initialization_experts
 from .model import Detector, predictions
 
 
@@ -63,6 +63,23 @@ class DecisionFusionPredictor:
                        "averaged_epochs":averaged_epochs,"experts":identities,"iou":.1,"weights":[1]*9,"preprocessing":PROFILE}
         if self.initializations: self.identity["member_seeds"]=ordered_seeds[::6]
         self.sha256=hashlib.sha256(json.dumps(self.identity,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+
+    @torch.no_grad()
+    def sensor_experts(self, obs, arrays):
+        """Per-sensor consensus detections in rig-relative metres, for temporal measurement use.
+
+        Returns (experts, available, origin); unavailable sensors give empty detections.
+        """
+        if not self.initializations: raise ValueError("Per-sensor experts need the 18-checkpoint ensemble")
+        features,origin,available=observation_features(obs,arrays)
+        inputs={k:v[None].to(self.device) for k,v in features.items()}; experts=[]
+        for i,model in enumerate(self.models):
+            if available[i % 3]:
+                predicted=predictions(model(inputs))[0]; predicted["boxes"][:,:6] *= 200
+            else: predicted={"boxes":np.empty((0,7),dtype=np.float32),"classes":np.empty(0,dtype=np.int64),"scores":np.empty(0,dtype=np.float32)}
+            experts.append(predicted)
+        runs=[[[experts[k+m],experts[k+m+3]] for m in range(3)] for k in range(0,18,6)]
+        return initialization_experts(runs,available),available,origin
 
     @torch.no_grad()
     def infer_capture(self, root, request):

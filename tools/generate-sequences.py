@@ -22,11 +22,14 @@ def main():
     parser.add_argument("--layouts",type=int,default=3)
     parser.add_argument("--seed-offset",type=int,default=700000)
     parser.add_argument("--prefix",default="sf13")
+    parser.add_argument("--object-speed",type=float,default=.5,help="Moving target speed along world +X in m/s")
     parser.add_argument("--width",type=int,default=640)
     parser.add_argument("--height",type=int,default=384)
     parser.add_argument("--rows",type=int,default=32)
     parser.add_argument("--columns",type=int,default=256)
     args=parser.parse_args()
+    if not 0<=args.object_speed<=30:
+        parser.error("Object speed must be 0..30 m/s")
     if not 2<=args.frames<=100000 or not 1<=args.layouts<=6 or len(args.prefix)>40 or not args.prefix.isascii() or not args.prefix.replace('-','').replace('_','').isalnum():
         parser.error("Use 2..100000 frames, 1..6 layouts and a short ASCII ID prefix")
     args.output.parent.mkdir(parents=True,exist_ok=True)
@@ -58,7 +61,7 @@ def main():
         target["operating_state"]="off"
         base["temporal"]={"schema_version":"lab.v1","kind":"TemporalCapture","profile":"rig-motion-drift.v1",
             "reference_time_s":0,"velocity_world_m_per_s":[.15,0,0],"yaw_rate_rad_per_s":0,"sensor_drift":[],
-            "object_motion":[{"instance_id":target["instance_id"],"velocity_world_m_per_s":[.5,0,0],"yaw_rate_rad_per_s":.03}]}
+            "object_motion":[{"instance_id":target["instance_id"],"velocity_world_m_per_s":[args.object_speed,0,0],"yaw_rate_rad_per_s":.03}]}
         for variant in ("clean","drift-outages"):
             capture=copy.deepcopy(base)
             if variant!="clean":

@@ -1,0 +1,580 @@
+{
+  "label": "post-freeze control; tracker parameters and test report unchanged",
+  "birth_score_cutoff": 0.3,
+  "validation": {
+    "scenarios": {
+      "clean": {
+        "static": 0.7148315897389848,
+        "static_at_birth_score": 0.7148315897389848,
+        "tracker": 0.7319328994790242,
+        "fp_static": 128,
+        "fp_static_at_birth_score": 46,
+        "fp_tracker": 103,
+        "observed_only_recall_available_frames": 0.8891625615763546,
+        "static_recall_available_frames": 0.8866995073891626
+      },
+      "availability-1": {
+        "static": 0.6025265333394789,
+        "static_at_birth_score": 0.5404757293456608,
+        "tracker": 0.5594070735617579,
+        "fp_static": 105,
+        "fp_static_at_birth_score": 88,
+        "fp_tracker": 85,
+        "observed_only_recall_available_frames": 0.7751322751322751,
+        "static_recall_available_frames": 0.8677248677248677
+      },
+      "availability-2": {
+        "static": 0.6421517416325595,
+        "static_at_birth_score": 0.6421517416325595,
+        "tracker": 0.6603883794930441,
+        "fp_static": 73,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 49,
+        "observed_only_recall_available_frames": 0.8703703703703703,
+        "static_recall_available_frames": 0.8703703703703703
+      },
+      "availability-3": {
+        "static": 0.7061303332386084,
+        "static_at_birth_score": 0.6975863257479717,
+        "tracker": 0.7000268078731211,
+        "fp_static": 128,
+        "fp_static_at_birth_score": 53,
+        "fp_tracker": 103,
+        "observed_only_recall_available_frames": 0.8793103448275862,
+        "static_recall_available_frames": 0.8793103448275862
+      },
+      "availability-4": {
+        "static": 0.6648501800411523,
+        "static_at_birth_score": 0.6648501800411523,
+        "tracker": 0.6925453975267939,
+        "fp_static": 45,
+        "fp_static_at_birth_score": 42,
+        "fp_tracker": 42,
+        "observed_only_recall_available_frames": 0.8888888888888888,
+        "static_recall_available_frames": 0.8888888888888888
+      },
+      "availability-5": {
+        "static": 0.7160791859415296,
+        "static_at_birth_score": 0.7073010960538891,
+        "tracker": 0.7263755167912389,
+        "fp_static": 103,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 98,
+        "observed_only_recall_available_frames": 0.8916256157635468,
+        "static_recall_available_frames": 0.8891625615763546
+      },
+      "availability-6": {
+        "static": 0.7155799134937739,
+        "static_at_birth_score": 0.715579913493774,
+        "tracker": 0.743005005411644,
+        "fp_static": 73,
+        "fp_static_at_birth_score": 46,
+        "fp_tracker": 44,
+        "observed_only_recall_available_frames": 0.8916256157635468,
+        "static_recall_available_frames": 0.8866995073891626
+      },
+      "rgb-known": {
+        "static": 0.7516843406894722,
+        "static_at_birth_score": 0.7516843406894722,
+        "tracker": 0.7704894056216585,
+        "fp_static": 282,
+        "fp_static_at_birth_score": 50,
+        "fp_tracker": 261,
+        "observed_only_recall_available_frames": 0.8916256157635468,
+        "static_recall_available_frames": 0.8866995073891626
+      },
+      "rgb-ood": {
+        "static": 0.7192879933578079,
+        "static_at_birth_score": 0.719287993357808,
+        "tracker": 0.760077410265654,
+        "fp_static": 290,
+        "fp_static_at_birth_score": 47,
+        "fp_tracker": 170,
+        "observed_only_recall_available_frames": 0.8916256157635468,
+        "static_recall_available_frames": 0.8842364532019704
+      },
+      "ir-known": {
+        "static": 0.7435837106834557,
+        "static_at_birth_score": 0.7435837106834557,
+        "tracker": 0.7449700524694858,
+        "fp_static": 430,
+        "fp_static_at_birth_score": 43,
+        "fp_tracker": 298,
+        "observed_only_recall_available_frames": 0.8940886699507389,
+        "static_recall_available_frames": 0.8940886699507389
+      },
+      "ir-ood": {
+        "static": 0.6728180729334139,
+        "static_at_birth_score": 0.6682493594831216,
+        "tracker": 0.7367528846079157,
+        "fp_static": 726,
+        "fp_static_at_birth_score": 66,
+        "fp_tracker": 584,
+        "observed_only_recall_available_frames": 0.8916256157635468,
+        "static_recall_available_frames": 0.854679802955665
+      },
+      "lidar-known": {
+        "static": 0.7067955280172413,
+        "static_at_birth_score": 0.7067955280172413,
+        "tracker": 0.72589693981891,
+        "fp_static": 180,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 159,
+        "observed_only_recall_available_frames": 0.8842364532019704,
+        "static_recall_available_frames": 0.8817733990147784
+      },
+      "lidar-ood": {
+        "static": 0.7151084202964308,
+        "static_at_birth_score": 0.7151084202964307,
+        "tracker": 0.7314855925180455,
+        "fp_static": 130,
+        "fp_static_at_birth_score": 46,
+        "fp_tracker": 103,
+        "observed_only_recall_available_frames": 0.8891625615763546,
+        "static_recall_available_frames": 0.8866995073891626
+      }
+    },
+    "clean": {
+      "static": 0.7148315897389848,
+      "static_at_birth_score": 0.7148315897389848,
+      "tracker": 0.7319328994790242
+    },
+    "macro": {
+      "static": 0.6963829961387437,
+      "static_at_birth_score": 0.6893878615702115,
+      "tracker": 0.7126183721632726
+    }
+  },
+  "test": {
+    "scenarios": {
+      "clean": {
+        "static": 0.7401582343662085,
+        "static_at_birth_score": 0.7401582343662085,
+        "tracker": 0.7449105217861024,
+        "fp_static": 261,
+        "fp_static_at_birth_score": 80,
+        "fp_tracker": 82,
+        "observed_only_recall_available_frames": 0.8870967741935484,
+        "static_recall_available_frames": 0.8911290322580645
+      },
+      "availability-1": {
+        "static": 0.687092831478576,
+        "static_at_birth_score": 0.687092831478576,
+        "tracker": 0.6910346908601995,
+        "fp_static": 187,
+        "fp_static_at_birth_score": 79,
+        "fp_tracker": 79,
+        "observed_only_recall_available_frames": 0.8771551724137931,
+        "static_recall_available_frames": 0.8771551724137931
+      },
+      "availability-2": {
+        "static": 0.6727661002052676,
+        "static_at_birth_score": 0.6727661002052676,
+        "tracker": 0.690391286404032,
+        "fp_static": 151,
+        "fp_static_at_birth_score": 82,
+        "fp_tracker": 77,
+        "observed_only_recall_available_frames": 0.8814655172413793,
+        "static_recall_available_frames": 0.8706896551724138
+      },
+      "availability-3": {
+        "static": 0.7291775920926508,
+        "static_at_birth_score": 0.7291775920926507,
+        "tracker": 0.7306334251875828,
+        "fp_static": 245,
+        "fp_static_at_birth_score": 84,
+        "fp_tracker": 117,
+        "observed_only_recall_available_frames": 0.8810483870967742,
+        "static_recall_available_frames": 0.8830645161290323
+      },
+      "availability-4": {
+        "static": 0.7013063095554775,
+        "static_at_birth_score": 0.7013063095554773,
+        "tracker": 0.7129228852414311,
+        "fp_static": 142,
+        "fp_static_at_birth_score": 72,
+        "fp_tracker": 72,
+        "observed_only_recall_available_frames": 0.8922413793103449,
+        "static_recall_available_frames": 0.8922413793103449
+      },
+      "availability-5": {
+        "static": 0.7494952269247367,
+        "static_at_birth_score": 0.7494952269247368,
+        "tracker": 0.7520030683011762,
+        "fp_static": 210,
+        "fp_static_at_birth_score": 82,
+        "fp_tracker": 83,
+        "observed_only_recall_available_frames": 0.8850806451612904,
+        "static_recall_available_frames": 0.8870967741935484
+      },
+      "availability-6": {
+        "static": 0.739644139266085,
+        "static_at_birth_score": 0.739644139266085,
+        "tracker": 0.7495809243722319,
+        "fp_static": 219,
+        "fp_static_at_birth_score": 80,
+        "fp_tracker": 80,
+        "observed_only_recall_available_frames": 0.8911290322580645,
+        "static_recall_available_frames": 0.8911290322580645
+      },
+      "rgb-known": {
+        "static": 0.7445062169269482,
+        "static_at_birth_score": 0.7445062169269482,
+        "tracker": 0.7666807429522435,
+        "fp_static": 541,
+        "fp_static_at_birth_score": 89,
+        "fp_tracker": 444,
+        "observed_only_recall_available_frames": 0.8891129032258065,
+        "static_recall_available_frames": 0.8891129032258065
+      },
+      "rgb-ood": {
+        "static": 0.756065607623055,
+        "static_at_birth_score": 0.756065607623055,
+        "tracker": 0.7514469836328201,
+        "fp_static": 391,
+        "fp_static_at_birth_score": 79,
+        "fp_tracker": 206,
+        "observed_only_recall_available_frames": 0.8911290322580645,
+        "static_recall_available_frames": 0.8931451612903226
+      },
+      "ir-known": {
+        "static": 0.7615827493025729,
+        "static_at_birth_score": 0.7615827493025727,
+        "tracker": 0.7784754987190814,
+        "fp_static": 739,
+        "fp_static_at_birth_score": 94,
+        "fp_tracker": 346,
+        "observed_only_recall_available_frames": 0.8810483870967742,
+        "static_recall_available_frames": 0.8830645161290323
+      },
+      "ir-ood": {
+        "static": 0.7470620374376338,
+        "static_at_birth_score": 0.7470620374376337,
+        "tracker": 0.7667765703839278,
+        "fp_static": 1261,
+        "fp_static_at_birth_score": 107,
+        "fp_tracker": 496,
+        "observed_only_recall_available_frames": 0.8830645161290323,
+        "static_recall_available_frames": 0.8850806451612904
+      },
+      "lidar-known": {
+        "static": 0.7262290148024797,
+        "static_at_birth_score": 0.7262290148024795,
+        "tracker": 0.7314242479782616,
+        "fp_static": 249,
+        "fp_static_at_birth_score": 85,
+        "fp_tracker": 85,
+        "observed_only_recall_available_frames": 0.8810483870967742,
+        "static_recall_available_frames": 0.8810483870967742
+      },
+      "lidar-ood": {
+        "static": 0.7308704220112963,
+        "static_at_birth_score": 0.7308704220112962,
+        "tracker": 0.7443710302620665,
+        "fp_static": 264,
+        "fp_static_at_birth_score": 82,
+        "fp_tracker": 82,
+        "observed_only_recall_available_frames": 0.8870967741935484,
+        "static_recall_available_frames": 0.8870967741935484
+      }
+    },
+    "clean": {
+      "static": 0.7401582343662085,
+      "static_at_birth_score": 0.7401582343662085,
+      "tracker": 0.7449105217861024
+    },
+    "macro": {
+      "static": 0.728816520635565,
+      "static_at_birth_score": 0.728816520635565,
+      "tracker": 0.7388117795245878
+    }
+  },
+  "test_clean_variant": {
+    "scenarios": {
+      "clean": {
+        "static": 0.8192537268813774,
+        "static_at_birth_score": 0.8192537268813774,
+        "tracker": 0.8122658242984695,
+        "fp_static": 133,
+        "fp_static_at_birth_score": 31,
+        "fp_tracker": 32,
+        "observed_only_recall_available_frames": 0.8888888888888888,
+        "static_recall_available_frames": 0.8923611111111112
+      },
+      "availability-1": {
+        "static": 0.8134860275109208,
+        "static_at_birth_score": 0.8134860275109207,
+        "tracker": 0.8169926474195447,
+        "fp_static": 99,
+        "fp_static_at_birth_score": 35,
+        "fp_tracker": 35,
+        "observed_only_recall_available_frames": 0.8784722222222222,
+        "static_recall_available_frames": 0.8784722222222222
+      },
+      "availability-2": {
+        "static": 0.8024837717479434,
+        "static_at_birth_score": 0.8024837717479434,
+        "tracker": 0.8181592100155279,
+        "fp_static": 75,
+        "fp_static_at_birth_score": 39,
+        "fp_tracker": 34,
+        "observed_only_recall_available_frames": 0.8819444444444444,
+        "static_recall_available_frames": 0.8645833333333334
+      },
+      "availability-3": {
+        "static": 0.8098244180484694,
+        "static_at_birth_score": 0.8098244180484695,
+        "tracker": 0.809677734375,
+        "fp_static": 129,
+        "fp_static_at_birth_score": 33,
+        "fp_tracker": 66,
+        "observed_only_recall_available_frames": 0.8819444444444444,
+        "static_recall_available_frames": 0.8854166666666666
+      },
+      "availability-4": {
+        "static": 0.8407462427714665,
+        "static_at_birth_score": 0.8407462427714665,
+        "tracker": 0.8476558982968186,
+        "fp_static": 68,
+        "fp_static_at_birth_score": 30,
+        "fp_tracker": 30,
+        "observed_only_recall_available_frames": 0.8958333333333334,
+        "static_recall_available_frames": 0.8958333333333334
+      },
+      "availability-5": {
+        "static": 0.8304478896209253,
+        "static_at_birth_score": 0.8304478896209254,
+        "tracker": 0.8214111328125,
+        "fp_static": 102,
+        "fp_static_at_birth_score": 32,
+        "fp_tracker": 33,
+        "observed_only_recall_available_frames": 0.8854166666666666,
+        "static_recall_available_frames": 0.8888888888888888
+      },
+      "availability-6": {
+        "static": 0.8192537268813774,
+        "static_at_birth_score": 0.8192537268813774,
+        "tracker": 0.8162019690688774,
+        "fp_static": 105,
+        "fp_static_at_birth_score": 31,
+        "fp_tracker": 31,
+        "observed_only_recall_available_frames": 0.8923611111111112,
+        "static_recall_available_frames": 0.8923611111111112
+      },
+      "rgb-known": {
+        "static": 0.8224225725446429,
+        "static_at_birth_score": 0.8224225725446429,
+        "tracker": 0.8513063339384936,
+        "fp_static": 298,
+        "fp_static_at_birth_score": 32,
+        "fp_tracker": 243,
+        "observed_only_recall_available_frames": 0.8888888888888888,
+        "static_recall_available_frames": 0.8888888888888888
+      },
+      "rgb-ood": {
+        "static": 0.8425076423297684,
+        "static_at_birth_score": 0.8425076423297684,
+        "tracker": 0.8337791337723237,
+        "fp_static": 207,
+        "fp_static_at_birth_score": 30,
+        "fp_tracker": 95,
+        "observed_only_recall_available_frames": 0.8923611111111112,
+        "static_recall_available_frames": 0.8958333333333334
+      },
+      "ir-known": {
+        "static": 0.8457567627884212,
+        "static_at_birth_score": 0.8457567627884212,
+        "tracker": 0.8502311266128906,
+        "fp_static": 417,
+        "fp_static_at_birth_score": 34,
+        "fp_tracker": 200,
+        "observed_only_recall_available_frames": 0.8819444444444444,
+        "static_recall_available_frames": 0.8854166666666666
+      },
+      "ir-ood": {
+        "static": 0.8460165423189824,
+        "static_at_birth_score": 0.8460165423189824,
+        "tracker": 0.8482863433920149,
+        "fp_static": 727,
+        "fp_static_at_birth_score": 32,
+        "fp_tracker": 257,
+        "observed_only_recall_available_frames": 0.8854166666666666,
+        "static_recall_available_frames": 0.8888888888888888
+      },
+      "lidar-known": {
+        "static": 0.8008626302083333,
+        "static_at_birth_score": 0.8008626302083333,
+        "tracker": 0.794189453125,
+        "fp_static": 130,
+        "fp_static_at_birth_score": 34,
+        "fp_tracker": 34,
+        "observed_only_recall_available_frames": 0.8819444444444444,
+        "static_recall_available_frames": 0.8819444444444444
+      },
+      "lidar-ood": {
+        "static": 0.8032326211734694,
+        "static_at_birth_score": 0.8032326211734695,
+        "tracker": 0.8116554727359695,
+        "fp_static": 136,
+        "fp_static_at_birth_score": 33,
+        "fp_tracker": 32,
+        "observed_only_recall_available_frames": 0.8888888888888888,
+        "static_recall_available_frames": 0.8854166666666666
+      }
+    },
+    "clean": {
+      "static": 0.8192537268813774,
+      "static_at_birth_score": 0.8192537268813774,
+      "tracker": 0.8122658242984695
+    },
+    "macro": {
+      "static": 0.8230867373287268,
+      "static_at_birth_score": 0.8230867373287268,
+      "tracker": 0.8266288712970801
+    }
+  },
+  "test_drift_outages_variant": {
+    "scenarios": {
+      "clean": {
+        "static": 0.6739294776404152,
+        "static_at_birth_score": 0.673929477640415,
+        "tracker": 0.6783119843960458,
+        "fp_static": 128,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 50,
+        "observed_only_recall_available_frames": 0.8846153846153846,
+        "static_recall_available_frames": 0.8894230769230769
+      },
+      "availability-1": {
+        "static": 0.5831929572366201,
+        "static_at_birth_score": 0.5831929572366201,
+        "tracker": 0.5740541231440575,
+        "fp_static": 88,
+        "fp_static_at_birth_score": 44,
+        "fp_tracker": 44,
+        "observed_only_recall_available_frames": 0.875,
+        "static_recall_available_frames": 0.875
+      },
+      "availability-2": {
+        "static": 0.5568858701451131,
+        "static_at_birth_score": 0.5568858701451131,
+        "tracker": 0.5601700405324425,
+        "fp_static": 76,
+        "fp_static_at_birth_score": 43,
+        "fp_tracker": 43,
+        "observed_only_recall_available_frames": 0.8806818181818182,
+        "static_recall_available_frames": 0.8806818181818182
+      },
+      "availability-3": {
+        "static": 0.6737499203653057,
+        "static_at_birth_score": 0.6737499203653056,
+        "tracker": 0.679639100791499,
+        "fp_static": 116,
+        "fp_static_at_birth_score": 51,
+        "fp_tracker": 51,
+        "observed_only_recall_available_frames": 0.8798076923076923,
+        "static_recall_available_frames": 0.8798076923076923
+      },
+      "availability-4": {
+        "static": 0.561677817318878,
+        "static_at_birth_score": 0.561677817318878,
+        "tracker": 0.5709013087752914,
+        "fp_static": 74,
+        "fp_static_at_birth_score": 42,
+        "fp_tracker": 42,
+        "observed_only_recall_available_frames": 0.8863636363636364,
+        "static_recall_available_frames": 0.8863636363636364
+      },
+      "availability-5": {
+        "static": 0.6842084849995127,
+        "static_at_birth_score": 0.6842084849995127,
+        "tracker": 0.6876475670339934,
+        "fp_static": 108,
+        "fp_static_at_birth_score": 50,
+        "fp_tracker": 50,
+        "observed_only_recall_available_frames": 0.8846153846153846,
+        "static_recall_available_frames": 0.8846153846153846
+      },
+      "availability-6": {
+        "static": 0.6677248653763533,
+        "static_at_birth_score": 0.6677248653763532,
+        "tracker": 0.6831557163466838,
+        "fp_static": 114,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 49,
+        "observed_only_recall_available_frames": 0.8894230769230769,
+        "static_recall_available_frames": 0.8894230769230769
+      },
+      "rgb-known": {
+        "static": 0.6689937687792793,
+        "static_at_birth_score": 0.6689937687792793,
+        "tracker": 0.6787612606629293,
+        "fp_static": 243,
+        "fp_static_at_birth_score": 57,
+        "fp_tracker": 201,
+        "observed_only_recall_available_frames": 0.8894230769230769,
+        "static_recall_available_frames": 0.8894230769230769
+      },
+      "rgb-ood": {
+        "static": 0.6725838911982742,
+        "static_at_birth_score": 0.6725838911982741,
+        "tracker": 0.6656127031082364,
+        "fp_static": 184,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 111,
+        "observed_only_recall_available_frames": 0.8894230769230769,
+        "static_recall_available_frames": 0.8894230769230769
+      },
+      "ir-known": {
+        "static": 0.6754042708604644,
+        "static_at_birth_score": 0.6754042708604644,
+        "tracker": 0.7023517974768387,
+        "fp_static": 322,
+        "fp_static_at_birth_score": 60,
+        "fp_tracker": 146,
+        "observed_only_recall_available_frames": 0.8798076923076923,
+        "static_recall_available_frames": 0.8798076923076923
+      },
+      "ir-ood": {
+        "static": 0.6494370224333856,
+        "static_at_birth_score": 0.6494370224333854,
+        "tracker": 0.6801051711057523,
+        "fp_static": 534,
+        "fp_static_at_birth_score": 75,
+        "fp_tracker": 239,
+        "observed_only_recall_available_frames": 0.8798076923076923,
+        "static_recall_available_frames": 0.8798076923076923
+      },
+      "lidar-known": {
+        "static": 0.6610276442307693,
+        "static_at_birth_score": 0.6610276442307692,
+        "tracker": 0.6729711618513007,
+        "fp_static": 119,
+        "fp_static_at_birth_score": 51,
+        "fp_tracker": 51,
+        "observed_only_recall_available_frames": 0.8798076923076923,
+        "static_recall_available_frames": 0.8798076923076923
+      },
+      "lidar-ood": {
+        "static": 0.6728766025641026,
+        "static_at_birth_score": 0.6728766025641024,
+        "tracker": 0.6786276409617024,
+        "fp_static": 128,
+        "fp_static_at_birth_score": 49,
+        "fp_tracker": 50,
+        "observed_only_recall_available_frames": 0.8846153846153846,
+        "static_recall_available_frames": 0.8894230769230769
+      }
+    },
+    "clean": {
+      "static": 0.6739294776404152,
+      "static_at_birth_score": 0.673929477640415,
+      "tracker": 0.6783119843960458
+    },
+    "macro": {
+      "static": 0.6439802596256715,
+      "static_at_birth_score": 0.6439802596256714,
+      "tracker": 0.6528331326492273
+    }
+  }
+}

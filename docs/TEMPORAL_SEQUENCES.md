@@ -3,7 +3,7 @@
 SF-13 extends the existing `rig-motion-drift.v1` capture profile with optional
 `object_motion` and adds canonical `SequenceSpec`, profile `temporal-sequence.v1`.
 Commands remain local. The capture API accepts moving-object requests; sequence
-collection/recovery uses the CLI below. Temporal detector training is SF-14.
+collection/recovery uses the CLI below. Temporal tracking (SF-14) is documented in [the tracker profile](TEMPORAL_TRACKER.md).
 
 ## Object and sensor time
 
@@ -112,6 +112,9 @@ The acceptance harness deliberately stops/restarts collection with a cold cache,
 compares a complete clip against uninterrupted replay, checks a frozen-anchor
 camera control, and validates split/observation isolation. Its own `--resume`
 continues an interrupted acceptance run using saved stage records.
+
+`generate-sequences.py --object-speed M` (default 0.5 m/s, output unchanged) sets the moving target's speed along +X;
+SF-14 used `--layouts 6 --seed-offset 1700000 --prefix sf14 --object-speed 3`.
 
 ## Scope
 

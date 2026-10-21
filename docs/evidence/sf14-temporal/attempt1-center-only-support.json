@@ -1,0 +1,299 @@
+{
+  "version": "sf14-tracker-protocol.v1",
+  "selection": "validation clean+macro observed mAP; train fits noise only",
+  "fitted_sensor_sigma_m": [
+    3.4898509884335316,
+    4.151298212292051,
+    4.0237409464745175
+  ],
+  "residual_counts": {
+    "0": 313,
+    "1": 313,
+    "2": 324
+  },
+  "parameters": {
+    "accel_sigma_m_per_s2": 2.0,
+    "confirm_hits": 1,
+    "gate_chi2": 9.21,
+    "score_smoothing": 0.8,
+    "kappa_exponent": 2.0,
+    "noise_scale": 1.5
+  },
+  "grid": {
+    "accel_sigma_m_per_s2": [
+      0.2,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "confirm_hits": [
+      1,
+      2
+    ],
+    "gate_chi2": [
+      9.21,
+      13.82
+    ],
+    "score_smoothing": [
+      0.0,
+      0.5,
+      0.8
+    ],
+    "kappa_exponent": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "noise_scale": [
+      0.75,
+      1.0,
+      1.5
+    ]
+  },
+  "validation_static_control": {
+    "objective": 0.7056072929388642,
+    "clean": 0.7148315897389848,
+    "macro": 0.6963829961387437
+  },
+  "validation_selected": 0.6586743605501826,
+  "trace": [
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 0.2
+      },
+      "objective": 0.5950981709155232,
+      "clean": 0.60577417888809,
+      "macro": 0.5844221629429562
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 0.5
+      },
+      "objective": 0.595069616585908,
+      "clean": 0.60577417888809,
+      "macro": 0.5843650542837258
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 1.0
+      },
+      "objective": 0.5967102884459182,
+      "clean": 0.6082767598367973,
+      "macro": 0.5851438170550392
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "accel_sigma_m_per_s2": 2.0
+      },
+      "objective": 0.5971295857837341,
+      "clean": 0.6093120362444484,
+      "macro": 0.5849471353230198
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "confirm_hits": 1
+      },
+      "objective": 0.635732597784053,
+      "clean": 0.647708321546117,
+      "macro": 0.623756874021989
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "confirm_hits": 2
+      },
+      "objective": 0.5971295857837341,
+      "clean": 0.6093120362444484,
+      "macro": 0.5849471353230198
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "gate_chi2": 13.82
+      },
+      "objective": 0.6366296045820117,
+      "clean": 0.647708321546117,
+      "macro": 0.6255508876179064
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "score_smoothing": 0.0
+      },
+      "objective": 0.6264520244355234,
+      "clean": 0.6379927473098557,
+      "macro": 0.6149113015611912
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "score_smoothing": 0.8
+      },
+      "objective": 0.6403838942834194,
+      "clean": 0.650621217384242,
+      "macro": 0.6301465711825968
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "kappa_exponent": 0.5
+      },
+      "objective": 0.6397692608252141,
+      "clean": 0.650621217384242,
+      "macro": 0.6289173042661864
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "kappa_exponent": 2.0
+      },
+      "objective": 0.640806506295696,
+      "clean": 0.6506407101131577,
+      "macro": 0.6309723024782344
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "noise_scale": 0.75
+      },
+      "objective": 0.6343537143912765,
+      "clean": 0.6443542555439097,
+      "macro": 0.6243531732386433
+    },
+    {
+      "sweep": 0,
+      "change": {
+        "noise_scale": 1.5
+      },
+      "objective": 0.6564667010469949,
+      "clean": 0.6696231294601711,
+      "macro": 0.6433102726338188
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 0.2
+      },
+      "objective": 0.6536901732817222,
+      "clean": 0.6668576047634318,
+      "macro": 0.6405227418000127
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 0.5
+      },
+      "objective": 0.6539012687847005,
+      "clean": 0.6669711347979987,
+      "macro": 0.6408314027714022
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "accel_sigma_m_per_s2": 1.0
+      },
+      "objective": 0.6544290122247932,
+      "clean": 0.6675126494886756,
+      "macro": 0.6413453749609108
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "confirm_hits": 2
+      },
+      "objective": 0.6234490216654605,
+      "clean": 0.6383595992045871,
+      "macro": 0.608538444126334
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "gate_chi2": 9.21
+      },
+      "objective": 0.6586743605501826,
+      "clean": 0.6696231294601711,
+      "macro": 0.6477255916401939
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "gate_chi2": 13.82
+      },
+      "objective": 0.6564667010469949,
+      "clean": 0.6696231294601711,
+      "macro": 0.6433102726338188
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "score_smoothing": 0.0
+      },
+      "objective": 0.6404403672238832,
+      "clean": 0.6497612312705254,
+      "macro": 0.6311195031772411
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "score_smoothing": 0.5
+      },
+      "objective": 0.6548224472040041,
+      "clean": 0.6661295803900433,
+      "macro": 0.6435153140179649
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "kappa_exponent": 0.5
+      },
+      "objective": 0.645962589359989,
+      "clean": 0.6696231294601711,
+      "macro": 0.6223020492598069
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "kappa_exponent": 1.0
+      },
+      "objective": 0.6546437998385553,
+      "clean": 0.6696231294601711,
+      "macro": 0.6396644702169393
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "noise_scale": 0.75
+      },
+      "objective": 0.6338298279393946,
+      "clean": 0.6443542555439097,
+      "macro": 0.6233054003348795
+    },
+    {
+      "sweep": 1,
+      "change": {
+        "noise_scale": 1.0
+      },
+      "objective": 0.6399944303619756,
+      "clean": 0.6506407101131577,
+      "macro": 0.6293481506107935
+    }
+  ],
+  "elapsed_s": 60.68165790000057,
+  "sources": {
+    "backend/learning/temporal_tracker.py": "6cb6e5b0a981814122b6a4424d05f6b3dc3856e4d45942a4ae53a94be037cfcf",
+    "backend/learning/temporal_geometry.py": "f2db795874c6bf2ea59677c1b5205f2d1adbd604c70b9f23e61356d7093ded4e",
+    "backend/learning/temporal_evaluation.py": "392896cd3f2d03c6c5ddc05928d197f253349cadc9357e07976f6b07ebcb10ad",
+    "backend/learning/decision_fusion.py": "9ece9084f770e1005adf5e334773b12d9b680e1e534bba39689b2e75091bab32",
+    "backend/learning/evaluate.py": "1f0d92598bfff63d8174065d2a433a6485fd62335acad75de1d16914c87fc69f",
+    "tools/temporal-tracker.py": "79e6e5138fd7354cbdc4a94704e2b1c6784a48a186a58b050843aa5e38775a0a"
+  },
+  "caches": {
+    "artifacts\\sf14\\cache-sf13.pkl": "174620e20f46b155a0d532b0ebb34bb6de12cecc6a1e710ced682ba4c4e9d3da",
+    "artifacts\\sf14\\cache-sf14.pkl": "a1b2c70a626e7b066cf8db911799339d1aad080048bc78e70c17e820e5d31a64"
+  }
+}
