@@ -45,6 +45,15 @@ def test_select_preserves_order_and_source_hashes(tmp_path):
     assert provenance[0]["manifest_sha256"] == digest(Path(a["dataset"]) / "manifest.json")
 
 
+def test_source_manifest_cannot_escape_with_capture_identity(tmp_path):
+    a = source(tmp_path, "a", "train")
+    path = Path(a["dataset"]) / "manifest.json"
+    data = json.loads(path.read_text()); data["captures"][0]["capture_id"] = "../escape"
+    path.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="Unsafe"):
+        select_sources([a])
+
+
 def mirror(tmp_path):
     worker, dataset = tmp_path / "worker", tmp_path / "dataset"
     worker.mkdir(); dataset.mkdir()

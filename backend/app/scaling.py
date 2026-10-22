@@ -42,6 +42,10 @@ def select_sources(sources):
             if entry["split"] not in source["splits"]:
                 continue
             capture_id = entry["capture_id"]
+            if not isinstance(capture_id, str) or not capture_id or not capture_id.isascii() or any(
+                c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" for c in capture_id
+            ):
+                raise ValueError("Unsafe source capture identity")
             item = by_id[capture_id]
             if (item["split"], item["group_id"]) != (entry["split"], entry["group_id"]):
                 raise ValueError("Source split/group mismatch; relabelling is forbidden")
@@ -75,6 +79,8 @@ def _compose_capture(job):
     if destination.exists():
         return
     stage = output / (capture_id + ".partial")
+    if stage.resolve().parent != output or stage.is_symlink() or stage.is_junction():
+        raise ValueError("Unsafe composition staging path")
     if stage.exists():
         shutil.rmtree(stage)
     shutil.copytree(root / capture_id, stage, copy_function=link_or_copy)
