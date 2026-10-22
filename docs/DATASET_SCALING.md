@@ -79,3 +79,21 @@ Their exact removed hashes and regeneration commands are recorded in
 Weights, supervision and negative-result reports survive. Volume free-space
 changes include concurrent writes; do not add logical removed bytes to physical
 space savings.
+
+The old replay dataset directories under `artifacts/perf-speed` and
+`artifacts/perf-sf10` have been retired after comparing every data file with
+`artifacts/sf10/pilot-300-v4`. Their original manifests, metrics and logs remain;
+each root has `retired.json` pointing to the surviving canonical data. Exact
+per-capture runtime metadata is under `artifacts/retired-replay-metadata`.
+Historical commands naming those old replay data directories must use the
+canonical data instead. See [retirement inventory](evidence/sf15-scaling/replay-retirement.json).
+
+| Historical data | Decision |
+| --- | --- |
+| SF-11 `pilot-3000` | Retain unchanged manifest/data; reuse only its 2,100 train captures |
+| SF-11 raw worker mirrors | Remove proven duplicate raw files; retain request/result/metadata |
+| SF-Q weights, fresh holdout and reports | Retain for matched control and historical acceptance |
+| SF-13/SF-14 datasets and replay state | Retain for temporal regression and post-selection ablation |
+| SF-12 preprocessing/degradation tensor caches | Remove with hashes and regeneration commands; keep all model checkpoints and reports |
+| SF-10 performance replay copies | Retire 12 duplicate datasets, retaining canonical SF-10 and runtime provenance |
+| Small clean-checkout/browser fixtures | Retain reproducibility evidence; they are not the main storage cost |
