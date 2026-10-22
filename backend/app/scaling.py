@@ -11,6 +11,15 @@ from .dataset import digest, publish_manifest, validate_capture_files
 from .dataset_pipeline import catalog_records
 
 
+def link_or_copy(source, destination):
+    try:
+        os.link(source, destination)
+    except OSError as error:
+        if getattr(error, "winerror", None) != 1142:
+            raise
+        shutil.copyfile(source, destination)
+
+
 def read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -76,7 +85,7 @@ def compose(sources, output, dataset_id, executor=None):
             stage = output / (capture_id + ".partial")
             if stage.exists():
                 shutil.rmtree(stage)
-            shutil.copytree(root / capture_id, stage, copy_function=os.link)
+            shutil.copytree(root / capture_id, stage, copy_function=link_or_copy)
             validate_capture_files(stage, entry)
             os.replace(stage, destination)
         entries.append(entry); requests.append(item["request"])
@@ -98,6 +107,10 @@ def prune_worker_mirror(worker, survivor, *, apply=False):
     victims = []
     for record in result["artifacts"].values():
         name = record["id"]
+        # The result inventories metadata_json, which cannot inventory itself.
+        # Keep this small provenance file in the worker as well as result/request.
+        if name == "metadata_json":
+            continue
         a, b = worker / name, survivor / name
         if a.resolve().parent != worker or b.resolve().parent != survivor or a.is_symlink() or b.is_symlink():
             raise ValueError("Unsafe mirror artifact path")

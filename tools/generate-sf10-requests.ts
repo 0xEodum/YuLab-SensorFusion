@@ -32,6 +32,9 @@ const prefixIndex = process.argv.indexOf("--id-prefix");
 const idPrefix = prefixIndex < 0 ? (learning ? "sf11" : "sf10") : process.argv[prefixIndex + 1];
 const splitIndex = process.argv.indexOf("--split-layouts");
 const splitLayouts = splitIndex < 0 ? undefined : process.argv[splitIndex + 1]?.split(",").map(Number);
+const conditionIndex = process.argv.indexOf("--condition-profile");
+const conditionProfile = conditionIndex < 0 ? "standard" : process.argv[conditionIndex + 1];
+if (!["standard", "sf15-heldout"].includes(conditionProfile)) throw new Error("Unknown condition profile");
 if (splitIndex >= 0 && (!learning || holdoutOnly || !splitLayouts || splitLayouts.length !== 3 ||
     !splitLayouts.every(n => Number.isInteger(n) && n >= 0) ||
     splitLayouts.reduce((a, b) => a + b, 0) !== layoutCount || count !== layoutCount * 50))
@@ -44,7 +47,12 @@ if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 
     !/^[a-z][a-z0-9_-]{1,30}$/.test(idPrefix))
   throw new Error("Use --output FILE [--count 1..300] [--width N --height N --rows N --columns N]");
 const records = JSON.parse(readFileSync("frontend/public/catalog/catalog.json", "utf8")).assets as AssetRecord[];
-const presets: [WeatherPreset, number, number][] = [
+const presets: [WeatherPreset, number, number][] = conditionProfile === "sf15-heldout" ? [
+  ["clear-day", 0, 6], ["clear-day", 0, 19], ["night", 0.6, 3],
+  ["fog", 0.45, 6], ["fog", 0.9, 19], ["rain", 0.95, 6],
+  ["snow", 0.45, 19], ["hot-background", 0.5, 18],
+  ["rain", 0.4, 22], ["snow", 0.95, 3],
+] : [
   ["clear-day", 0, 12], ["clear-day", 0, 8], ["night", 1, 0],
   ["fog", 0.75, 12], ["fog", 1, 8], ["rain", 0.7, 13],
   ["snow", 0.8, 10], ["hot-background", 0.9, 15],

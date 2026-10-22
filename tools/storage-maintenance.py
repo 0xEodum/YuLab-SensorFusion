@@ -70,6 +70,11 @@ def main():
                     continue
                 if digest(path) != key[0] or path.stat().st_size != key[1]:
                     raise ValueError("Corrupt duplicate array")
+                # NTFS has a 1024-link ceiling. Leave ample room for later
+                # immutable dataset compositions; start another canonical copy.
+                if canonical.stat().st_nlink >= 128:
+                    known[key] = path
+                    continue
                 report["deduplicated_files"] += 1
                 report["deduplicated_logical_bytes"] += key[1]
                 if args.apply:
