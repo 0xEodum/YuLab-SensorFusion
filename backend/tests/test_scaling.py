@@ -1,6 +1,7 @@
 """Scale-up must retain split provenance and only prune proven worker mirrors."""
 import json
 from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -79,3 +80,23 @@ def test_prune_rejects_escaped_artifact(tmp_path):
     (worker / "result.json").write_text(json.dumps(value))
     with pytest.raises(ValueError):
         prune_worker_mirror(worker, dataset, apply=True)
+
+
+def test_request_generator_explicit_layout_splits(tmp_path):
+    root = Path(__file__).resolve().parents[2]
+    output = tmp_path / "requests.json"
+    result = subprocess.run(["node", "--experimental-strip-types", "tools/generate-sf10-requests.ts",
+        "--learning", "--layouts", "3", "--count", "150", "--split-layouts", "1,1,1",
+        "--seed-offset", "3700000", "--id-prefix", "sf15", "--output", str(output)],
+        cwd=root, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    rows = json.loads(output.read_text())["requests"]
+    assert [rows[i]["split"] for i in (0, 50, 100)] == ["train", "validation", "test"]
+
+
+def test_request_generator_rejects_partial_layout_declaration(tmp_path):
+    root = Path(__file__).resolve().parents[2]
+    result = subprocess.run(["node", "--experimental-strip-types", "tools/generate-sf10-requests.ts",
+        "--learning", "--layouts", "3", "--count", "150", "--split-layouts", "1,1,0",
+        "--output", str(tmp_path / "invalid.json")], cwd=root, capture_output=True, text=True)
+    assert result.returncode != 0
