@@ -172,3 +172,19 @@ def test_composition_dispatches_independent_captures_to_validation_pool(tmp_path
     assert result["counts"]["train"] == 1
     assert (out / "a/observation.json").read_bytes() == b"sealed source"
     assert (capture / "observation.json").read_bytes() == b"sealed source"
+
+
+def test_f22_holdout_is_test_only_and_replaces_aircraft(tmp_path):
+    root = Path(__file__).resolve().parents[2]
+    output = tmp_path / "f22.json"
+    command = ["node", "--experimental-strip-types", "tools/generate-sf10-requests.ts", "--learning",
+        "--layouts", "2", "--count", "100", "--heldout-asset", "f22", "--split-layouts", "0,0,2", "--output", str(output)]
+    result = subprocess.run(command, cwd=root, capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    rows = json.loads(output.read_text())["requests"]
+    ids = {x["asset_id"] for row in rows for x in row["request"]["world"]["instances"]}
+    assert "f22" in ids and not ids.intersection({"f16", "rq4", "a10", "f14", "f16xl", "f18", "mq9", "su35"})
+    assert all(row["split"] == "test" and row["group_id"].startswith("airfield-") for row in rows)
+    command[command.index("0,0,2")] = "2,0,0"
+    result = subprocess.run(command, cwd=root, capture_output=True, text=True)
+    assert result.returncode != 0
