@@ -100,18 +100,22 @@ def report(predicted, actual, rows, device):
     result["frames"] = len(rows)
     result["independent_groups"] = len({r["group_id"] for r in rows})
     result["conditions"] = {}
-    for condition in range(10):
-        ids = [i for i, r in enumerate(rows) if r["condition"] == condition]
+    def profile(row):
+        capture_id = row["capture_id"]
+        return "heldout-f22" if capture_id.startswith("sf15f-") else (
+            "heldout-environment" if capture_id.startswith("sf15h-") else "standard")
+    for domain, condition in sorted({(profile(r), r["condition"]) for r in rows}):
+        ids = [i for i, r in enumerate(rows) if profile(r) == domain and r["condition"] == condition]
         value = pilot.evaluate([predicted[i] for i in ids], [actual[i] for i in ids], [matches[i] for i in ids])
         value["frames"] = len(ids)
-        result["conditions"][str(condition)] = value
+        result["conditions"][f"{domain}/{condition}"] = value
     result["condition_profiles"] = {}
-    for profile, is_heldout in (("standard", False), ("heldout-environment", True)):
-        ids = [i for i, r in enumerate(rows) if r["capture_id"].startswith("sf15h-") == is_heldout]
+    for domain in sorted({profile(r) for r in rows}):
+        ids = [i for i, r in enumerate(rows) if profile(r) == domain]
         if ids:
             value = pilot.evaluate([predicted[i] for i in ids], [actual[i] for i in ids], [matches[i] for i in ids])
             value["frames"] = len(ids)
-            result["condition_profiles"][profile] = value
+            result["condition_profiles"][domain] = value
     return result
 
 
