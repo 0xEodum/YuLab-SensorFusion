@@ -30,8 +30,14 @@ const outputIndex = process.argv.indexOf("--output");
 const output = outputIndex < 0 ? undefined : process.argv[outputIndex + 1];
 const prefixIndex = process.argv.indexOf("--id-prefix");
 const idPrefix = prefixIndex < 0 ? (learning ? "sf11" : "sf10") : process.argv[prefixIndex + 1];
+const splitIndex = process.argv.indexOf("--split-layouts");
+const splitLayouts = splitIndex < 0 ? undefined : process.argv[splitIndex + 1]?.split(",").map(Number);
+if (splitIndex >= 0 && (!learning || holdoutOnly || !splitLayouts || splitLayouts.length !== 3 ||
+    !splitLayouts.every(n => Number.isInteger(n) && n >= 0) ||
+    splitLayouts.reduce((a, b) => a + b, 0) !== layoutCount || count !== layoutCount * 50))
+  throw new Error("--split-layouts requires TRAIN,VALIDATION,TEST counts summing to --layouts and complete 50-view layouts");
 if (!output || output.startsWith("--") || !Number.isInteger(count) || count < 1 || count > (learning ? layoutCount * 50 : 300) ||
-    !Number.isInteger(layoutCount) || layoutCount < 1 || layoutCount > 120 ||
+    !Number.isInteger(layoutCount) || layoutCount < 1 || layoutCount > (splitLayouts ? 1000 : 120) ||
     !Number.isInteger(seedOffset) || seedOffset < 0 || seedOffset > 2_000_000_000 ||
     (holdoutOnly && (!learning || seedOffset === 0 || count % 50 !== 0)) ||
     ![width, height, rows, columns].every((n) => Number.isInteger(n) && n > 0) ||
@@ -46,7 +52,8 @@ const presets: [WeatherPreset, number, number][] = [
 ];
 const layouts: {site: string; seed: number; split: string}[] = learning ? Array.from({length: layoutCount}, (_, i) => ({
   site: i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + seedOffset + i * 7919,
-  split: holdoutOnly ? "test" : i < 42 ? "train" : i < 51 ? "validation" : "test",
+  split: holdoutOnly ? "test" : i < (splitLayouts?.[0] ?? 42) ? "train" :
+    i < (splitLayouts ? splitLayouts[0] + splitLayouts[1] : 51) ? "validation" : "test",
 })) : [
   { site: "airfield", seed: 0, split: "train" },
   { site: "airfield", seed: 48291, split: "train" },

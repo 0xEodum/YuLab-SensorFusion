@@ -27,7 +27,7 @@ pilot = importlib.util.module_from_spec(spec); spec.loader.exec_module(pilot)
 
 
 def config():
-    return argparse.Namespace(dataset=ROOT / "artifacts/sf11/pilot-3000", output=ROOT / "artifacts/sf11/learning")
+    return globals().get("DATA_CONFIG", argparse.Namespace(dataset=ROOT / "artifacts/sf11/pilot-3000", output=ROOT / "artifacts/sf11/learning"))
 
 
 def load(split, device):
@@ -108,11 +108,17 @@ def main():
     p.add_argument("--swa-final", action="store_true", help="Select the final average only, independent of validation maxima")
     p.add_argument("--save-raw-best", action="store_true", help="Retain the paired unaveraged validation-selected control")
     p.add_argument("--tiny", action="store_true")
+    p.add_argument("--dataset", default=str(ROOT / "artifacts/sf11/pilot-3000"))
+    p.add_argument("--cache", default=str(ROOT / "artifacts/sf11/learning"))
     a = p.parse_args()
+    global DATA_CONFIG
+    DATA_CONFIG = argparse.Namespace(dataset=Path(a.dataset), output=Path(a.cache))
     if a.epochs < 1 or a.batch_size < 1 or a.eval_every < 1 or a.lr <= 0: p.error("Positive training budget required")
     if not 0 <= a.swa_start <= a.epochs or (a.swa_final and not a.swa_start): p.error("Invalid averaging interval")
     if a.stage == "profile": a.epochs = 5
     a.output.mkdir(parents=True, exist_ok=True)
+    if a.stage != "evaluate" and (a.output / "best.pt").exists():
+        raise ValueError("Training output already contains a checkpoint")
     started = time.perf_counter(); pilot.seed_all(a.seed, fill=False)
     device = torch.device("cuda")
     vf, vt, vr = load("validation", device)
@@ -191,7 +197,7 @@ def main():
                         "dataset_sha256":digest(config().dataset / "manifest.json"),"preprocessing":PROFILE,"source_revision":subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip()},a.output / "best.pt")
         pilot.write(a.output / "history.json",history); phases["writes_s"] += time.perf_counter()-before
     torch.cuda.synchronize()
-    pilot.write(a.output / "runtime.json",{"load_s":load_s,"graph_setup_s":setup_s,"training_wall_s":time.perf_counter()-training,"cli_wall_s":time.perf_counter()-started,"phases":phases,"peak_allocated_bytes":torch.cuda.max_memory_allocated(),"best_map":best,"device":torch.cuda.get_device_name(),"torch":torch.__version__,"config":vars(a)|{"output":str(a.output)},"checkpoint_sha256":digest(a.output / "best.pt")})
+    pilot.write(a.output / "runtime.json",{"load_s":load_s,"graph_setup_s":setup_s,"training_wall_s":time.perf_counter()-training,"cli_wall_s":time.perf_counter()-started,"phases":phases,"peak_allocated_bytes":torch.cuda.max_memory_allocated(),"peak_reserved_bytes":torch.cuda.max_memory_reserved(),"process_rss_bytes":pilot.psutil.Process().memory_info().rss,"training_samples":len(targets),"optimizer_steps":a.epochs*((len(targets)+a.batch_size-1)//a.batch_size),"optimizer_observed_exposures":a.epochs*len(targets),"best_map":best,"device":torch.cuda.get_device_name(),"torch":torch.__version__,"config":vars(a)|{"output":str(a.output)},"checkpoint_sha256":digest(a.output / "best.pt")})
 
 
 if __name__ == "__main__": main()
