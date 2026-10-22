@@ -1,6 +1,6 @@
 # Sensor-fusion lab implementation backlog
 
-Updated: 2026-10-19. SF-10 visibility labels and dataset jobs passed local
+Updated: 2026-10-22. SF-10 visibility labels and dataset jobs passed local
 acceptance with a validated 300-capture tri-modal pilot. Its collection performance
 follow-up passed exact data parity and sustained replay. SF-11 learning pilot
 and baselines passed local acceptance; SF-12 compact ESSRF comparison is DONE,
@@ -8,7 +8,7 @@ with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
 fresh holdout acceptance; SF-13 is DONE after full-resolution temporal capture,
 cold replay, outage and split-isolation acceptance. SF-14 is DONE as a gated tracker over the
-frozen static ensemble (see its report); SF-15 is READY.
+frozen static ensemble (see its report); SF-15 is IN PROGRESS under a 12-hour user limit.
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -67,7 +67,7 @@ the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
 | SF-Q | Static sensor-fusion quality recovery and matched robustness acceptance | SF-12 | DONE |
 | SF-13 | Temporal capture and uncertain calibration | SF-Q | DONE |
 | SF-14 | Temporal/calibration-aware detector | SF-13 | DONE |
-| SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | READY |
+| SF-15 | Scale dataset, train and evaluate final candidate | SF-14 | IN PROGRESS |
 | SF-16 | Interactive trained-model demonstration | SF-15 | PLANNED |
 | SF-17 | Reproducible delivery and full regression | SF-16 | PLANNED |
 
@@ -559,6 +559,13 @@ Acceptance:
 
 Deliver: validation-selected dataset volume, repeatable training, candidate
 checkpoint, sealed-test report, corruption/subset/temporal ablations and model card.
+
+Owner: Codex. Frozen [scale protocol](evidence/sf15-scaling/protocol.json): reuse
+2,100 historical train captures, add 900 new train, 600 validation and 900 sealed
+test captures (300 with new environmental combinations). Choose the 3k/10k/30k
+train ladder on validation only across three disjoint complete ensembles. Stop
+when benefit/stability gates or time/disk reserves fail; preserve a negative result.
+Storage and matched capture-throughput evidence live in `evidence/sf15-scaling/`.
 
 Acceptance:
 

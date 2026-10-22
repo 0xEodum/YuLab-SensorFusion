@@ -1,0 +1,74 @@
+{
+  "captures": 60,
+  "identical_files": 2340,
+  "parity": "byte-identical; runtime telemetry excluded",
+  "before_manifest_sha256": "9e1ebbd99e53d42e2b0d96604a8c431eb9180e5b728095a19a66e981692f5680",
+  "after_manifest_sha256": "434454fc954de604f0d31e41101fcd299db6e6945ad4b452fb2477032e431f0a",
+  "after_mean_phase_ms": {
+    "world_mesh_ms": 464.7283333336314,
+    "scene_assets_ms": 77.83833333253861,
+    "renderer_setup_ms": 9.40333333313465,
+    "posed_boxes_ms": 10.703333333631356,
+    "rgb_reference_ms": 502.7783333328863,
+    "visibility_ms": 209.89833333392937,
+    "thermal_ms": 88.43833333328367,
+    "lidar_build_ms": 68.71499999960264,
+    "lidar_scan_ms": 74.62333333293597,
+    "lidar_preview_ms": 35.1500000004967
+  },
+  "before_mean_phase_ms": {
+    "world_mesh_ms": 150.42999999995033,
+    "scene_assets_ms": 24.08833333378037,
+    "renderer_setup_ms": 6.175,
+    "posed_boxes_ms": 5.623333332935969,
+    "rgb_reference_ms": 329.7133333342771,
+    "visibility_ms": 132.3666666659216,
+    "thermal_ms": 50.1500000004967,
+    "lidar_build_ms": 24.283333334078392,
+    "lidar_scan_ms": 42.18333333233992,
+    "lidar_preview_ms": 14.896666667113701
+  },
+  "after_capture_browser_ms": {
+    "median": 1153.5,
+    "p95": 6738.9000000059605
+  },
+  "peak_cache_bytes": 84017056,
+  "peak_cache_chunks": 23,
+  "peak_browser_heap_bytes": 196088157,
+  "peak_node_rss_bytes": 192159744,
+  "before": {
+    "count": 60,
+    "reused_captures": 0,
+    "worker_mode": "persistent",
+    "workers": 1,
+    "elapsed_s": 73.11702410000726,
+    "captures_per_s": 0.82060232536179,
+    "new_captures_per_s": 0.82060232536179,
+    "bytes_total": 511812988,
+    "bytes_per_capture": 8530216.466666667,
+    "estimate_3000_bytes": 25590649400.0,
+    "splits": {
+      "train": 60,
+      "validation": 0,
+      "test": 0
+    }
+  },
+  "after": {
+    "count": 60,
+    "reused_captures": 0,
+    "worker_mode": "persistent",
+    "workers": 6,
+    "elapsed_s": 28.357621599992854,
+    "captures_per_s": 2.1158332968239875,
+    "new_captures_per_s": 2.1158332968239875,
+    "bytes_total": 511812774,
+    "bytes_per_capture": 8530212.9,
+    "estimate_3000_bytes": 25590638700.0,
+    "splits": {
+      "train": 60,
+      "validation": 0,
+      "test": 0
+    }
+  },
+  "speedup": 2.578390569257955
+}

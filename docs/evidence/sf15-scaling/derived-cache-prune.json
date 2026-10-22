@@ -1,0 +1,241 @@
+{
+  "profile": "sf15-derived-cache-prune.v1",
+  "surviving_dataset_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "files": [
+    {
+      "path": "artifacts/sf12/essrf/train-observations.pt",
+      "bytes": 3389501637,
+      "sha256": "5b7c27d9cfeaf9cb5af4581ce38c90aa721cf15af763da11992e2b16539ea1e3",
+      "preprocessing": {
+        "version": "essrf-preprocess.v1",
+        "image_hw": [
+          384,
+          640
+        ],
+        "max_points": 8192,
+        "coordinate_scale_m": 200.0,
+        "frame": "heading: x right, y up, z backward",
+        "rgb": "uint8 sRGB, invalid pixels zero",
+        "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+        "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+      }
+    },
+    {
+      "path": "artifacts/sf12/essrf/validation-observations.pt",
+      "bytes": 726325919,
+      "sha256": "bb25960e3113cd5da4e21ae016ab404619dc2fdacb345180c8be6abd1403f3d3",
+      "preprocessing": {
+        "version": "essrf-preprocess.v1",
+        "image_hw": [
+          384,
+          640
+        ],
+        "max_points": 8192,
+        "coordinate_scale_m": 200.0,
+        "frame": "heading: x right, y up, z backward",
+        "rgb": "uint8 sRGB, invalid pixels zero",
+        "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+        "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/rgb-known.pt",
+      "bytes": 838935907,
+      "sha256": "6ec0ee1e028b7250c4f41dc82e3a9d5955966e5bae7c909336ebc42edeb8e7d6",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/rgb-ood.pt",
+      "bytes": 838935861,
+      "sha256": "f6506031094ab9956284d68055b685643ea29dbe4981942840b435b41a00990a",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/ir-known.pt",
+      "bytes": 838935884,
+      "sha256": "c050f8002c24ae1f2cadbda120689e9601565368ae36fbd6f3d1876aa71c98ae",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/ir-ood.pt",
+      "bytes": 838935838,
+      "sha256": "71760ba481c29c24beac5f32a904c028a987e1f3b91f1bf045071c83253ab3c5",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/lidar-known.pt",
+      "bytes": 838935953,
+      "sha256": "54199b3ed68e0950549c61d4ba3a8fc17116e384c8a169e4df69982af6fd13d6",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    },
+    {
+      "path": "artifacts/sf12/comparison-cache/lidar-ood.pt",
+      "bytes": 838935907,
+      "sha256": "9123745e9756db184cb80496b629a11c352097097e061bd1f31e27811f16e6c0",
+      "preprocessing": {
+        "baseline": {
+          "version": "baseline-preprocess.v1",
+          "image_hw": [
+            96,
+            160
+          ],
+          "points": 256,
+          "coordinate_scale_m": 200.0,
+          "rgb": "sRGB / 255, area resize",
+          "ir": "radiance / 100, invalid=0, area resize",
+          "lidar": "valid observed points, beam-order uniform subsample, world-relative XYZ / 200; intensity unchanged"
+        },
+        "essrf": {
+          "version": "essrf-preprocess.v1",
+          "image_hw": [
+            384,
+            640
+          ],
+          "max_points": 8192,
+          "coordinate_scale_m": 200.0,
+          "frame": "heading: x right, y up, z backward",
+          "rgb": "uint8 sRGB, invalid pixels zero",
+          "ir": "radiance / 100 fp16, invalid zero; flags valid|saturated<<1",
+          "lidar": "all valid observed points in heading frame / 200, intensity unchanged"
+        }
+      }
+    }
+  ],
+  "recovery_commands": [
+    "python tools/essrf-pilot.py prepare",
+    "python tools/compare-sf12.py prepare"
+  ],
+  "policy": "Only deterministic preprocessing caches; checkpoints, source observations, targets and negative-result reports retained",
+  "removed_bytes": 9149442906,
+  "disk_free_delta_bytes": 9149165568
+}

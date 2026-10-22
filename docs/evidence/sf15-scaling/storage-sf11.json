@@ -1,0 +1,13 @@
+{
+  "dataset": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf11\\pilot-3000",
+  "manifest_sha256": "00f167a9d263410b783c45f5282a78df8643e28319308a03d891db4521179e3f",
+  "applied": true,
+  "mirror_files": 70700,
+  "mirror_logical_bytes": 17033029689,
+  "mirror_unshared_bytes": 0,
+  "deduplicated_files": 39646,
+  "deduplicated_logical_bytes": 15434495936,
+  "elapsed_s": 1516.102985000005,
+  "disk_free_delta_bytes": -6113284096,
+  "measurement": "Volume free-space delta includes unrelated concurrent writes; logical bytes are not physical savings"
+}
