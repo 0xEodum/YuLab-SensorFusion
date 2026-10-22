@@ -164,7 +164,6 @@ def evaluate(dataset, run, output, split, freeze=None, training_manifest=None):
         if corruption == "clean":
             for key in models:
                 method, seed, modality, snapshot = key
-                if method != "candidate": continue
                 saved = torch.load(all_paths[method][(seed, modality, snapshot)], weights_only=True, map_location="cpu")
                 reloaded = Detector(modality).to(device).eval(); reloaded.load_state_dict(saved["model"])
                 reloaded.graph_inference = GraphInference(reloaded)
@@ -203,7 +202,7 @@ def evaluate(dataset, run, output, split, freeze=None, training_manifest=None):
     value = {"profile": "sf15-matched-comparison.v1", "split": split, "methods": methods,
              "dataset_sha256": digest(dataset / "manifest.json"), "groups": GROUPS, "macro_cases": included,
              "frames": len(rows), "independent_layouts": len({r["group_id"] for r in rows}),
-             "checkpoint_reload_exact_prediction_parity": reload_checked == 54,
+             "checkpoint_reload_exact_prediction_parity": reload_checked == 108,
              "reload_checked_checkpoints": reload_checked,
              "cases": {f"{m}-group-{s}": c for (m,s), c in cases.items()}, "elapsed_s": time.perf_counter()-started}
     pilot.write(output, value)

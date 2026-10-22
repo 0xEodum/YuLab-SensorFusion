@@ -1,0 +1,127 @@
+{
+  "artifacts/sf11/requests.json": {
+    "train": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ],
+    "validation": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ],
+    "test": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ]
+  },
+  "artifacts/sf15/requests-initial.json": {
+    "train": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ],
+    "validation": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ],
+    "test": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f16xl",
+      "f18",
+      "ground-vehicle",
+      "mq9",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ]
+  },
+  "artifacts/sf15/requests-heldout.json": {
+    "test": [
+      "a10",
+      "complex-radar",
+      "cruiser",
+      "destroyer",
+      "f14",
+      "f16",
+      "f18",
+      "ground-vehicle",
+      "rq4",
+      "simulation-radar",
+      "spaa",
+      "su35"
+    ]
+  },
+  "artifacts/sf15/requests-asset-holdout.json": {
+    "test": [
+      "complex-radar",
+      "f22",
+      "ground-vehicle",
+      "simulation-radar",
+      "spaa"
+    ]
+  }
+}
