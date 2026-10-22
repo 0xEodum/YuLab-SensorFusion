@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import gc
 import importlib.util
 import json
 import os
@@ -144,10 +145,24 @@ def evaluate(dataset, run, output, split, freeze=None):
     cases = {(method, group[0]): {} for method in all_paths for group in GROUPS}
     predictions_saved = {}
     started = time.perf_counter()
+    reload_checked = 0
     for corruption in ("clean", *CORRUPTIONS):
         features = prepare_case(dataset, rows, corruption, dataset.parent / (dataset.name + "-eval-cache-" + split))
         features = {k: v.to(device) for k, v in features.items()}
         predicted = {key: pilot.infer(model, features, 32) for key, model in models.items()}
+        if corruption == "clean":
+            for key in models:
+                method, seed, modality, snapshot = key
+                if method != "candidate": continue
+                saved = torch.load(all_paths[method][(seed, modality, snapshot)], weights_only=True, map_location="cpu")
+                reloaded = Detector(modality).to(device).eval(); reloaded.load_state_dict(saved["model"])
+                reloaded.graph_inference = GraphInference(reloaded)
+                replay = pilot.infer(reloaded, features, 32)
+                if any(not np.array_equal(a[k], b[k]) for a,b in zip(predicted[key], replay) for k in a):
+                    raise ValueError("Checkpoint reload changed predictions")
+                reload_checked += 1
+                del replay, reloaded, saved
+                gc.collect()
         for method in all_paths:
             for group in GROUPS:
                 experts = []
@@ -177,6 +192,8 @@ def evaluate(dataset, run, output, split, freeze=None):
     value = {"profile": "sf15-matched-comparison.v1", "split": split, "methods": methods,
              "dataset_sha256": digest(dataset / "manifest.json"), "groups": GROUPS, "macro_cases": included,
              "frames": len(rows), "independent_layouts": len({r["group_id"] for r in rows}),
+             "checkpoint_reload_exact_prediction_parity": reload_checked == 54,
+             "reload_checked_checkpoints": reload_checked,
              "cases": {f"{m}-group-{s}": c for (m,s), c in cases.items()}, "elapsed_s": time.perf_counter()-started}
     pilot.write(output, value)
     for (method, seed), values in predictions_saved.items():

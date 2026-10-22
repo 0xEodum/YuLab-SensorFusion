@@ -66,6 +66,22 @@ def select_sources(sources):
     return selected, provenance
 
 
+def _compose_capture(job):
+    root, entry, output = job
+    capture_id = entry["capture_id"]
+    destination = output / capture_id
+    if destination.resolve().parent != output:
+        raise ValueError("Unsafe capture identity")
+    if destination.exists():
+        return
+    stage = output / (capture_id + ".partial")
+    if stage.exists():
+        shutil.rmtree(stage)
+    shutil.copytree(root / capture_id, stage, copy_function=link_or_copy)
+    validate_capture_files(stage, entry)
+    os.replace(stage, destination)
+
+
 def compose(sources, output, dataset_id, executor=None):
     """Use hardlinks to sealed files. Never rewrite source captures or their splits."""
     output = Path(output).resolve()
@@ -75,20 +91,12 @@ def compose(sources, output, dataset_id, executor=None):
     if origin.exists() and read(origin) != provenance:
         raise ValueError("Composition provenance changed")
     origin.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
-    entries, requests = [], []
-    for root, entry, item in selected:
-        capture_id = entry["capture_id"]
-        destination = output / capture_id
-        if destination.resolve().parent != output:
-            raise ValueError("Unsafe capture identity")
-        if not destination.exists():
-            stage = output / (capture_id + ".partial")
-            if stage.exists():
-                shutil.rmtree(stage)
-            shutil.copytree(root / capture_id, stage, copy_function=link_or_copy)
-            validate_capture_files(stage, entry)
-            os.replace(stage, destination)
-        entries.append(entry); requests.append(item["request"])
+    jobs = [(root, entry, output) for root, entry, item in selected]
+    for i, _ in enumerate((executor.map if executor else map)(_compose_capture, jobs)):
+        if i % 250 == 0:
+            print(f"compose {i}/{len(jobs)}", flush=True)
+    entries = [entry for root, entry, item in selected]
+    requests = [item["request"] for root, entry, item in selected]
     manifest = publish_manifest(output, dataset_id, entries, requests, catalog_records(), executor)
     (output / "requests.json").write_text(json.dumps({"version": "sf10-requests.v1", "requests": [s[2] for s in selected]}, indent=2) + "\n", encoding="utf-8")
     return manifest
