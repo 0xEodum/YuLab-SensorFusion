@@ -82,6 +82,16 @@ def test_prune_rejects_escaped_artifact(tmp_path):
         prune_worker_mirror(worker, dataset, apply=True)
 
 
+def test_prune_keeps_self_referenced_metadata(tmp_path):
+    worker, dataset = mirror(tmp_path)
+    (worker / "metadata_json").write_bytes(b"provenance")
+    result = json.loads((worker / "result.json").read_text())
+    result["artifacts"]["metadata"] = {"id": "metadata_json", "sha256": digest(worker / "metadata_json"), "byte_length": 10}
+    (worker / "result.json").write_text(json.dumps(result))
+    prune_worker_mirror(worker, dataset, apply=True)
+    assert (worker / "metadata_json").read_bytes() == b"provenance"
+
+
 def test_request_generator_explicit_layout_splits(tmp_path):
     root = Path(__file__).resolve().parents[2]
     output = tmp_path / "requests.json"
@@ -100,3 +110,18 @@ def test_request_generator_rejects_partial_layout_declaration(tmp_path):
         "--learning", "--layouts", "3", "--count", "150", "--split-layouts", "1,1,0",
         "--output", str(tmp_path / "invalid.json")], cwd=root, capture_output=True, text=True)
     assert result.returncode != 0
+
+
+def test_heldout_conditions_change_environment_not_geometry(tmp_path):
+    root = Path(__file__).resolve().parents[2]
+    captures = []
+    for profile in ("standard", "sf15-heldout"):
+        output = tmp_path / (profile + ".json")
+        result = subprocess.run(["node", "--experimental-strip-types", "tools/generate-sf10-requests.ts",
+            "--learning", "--layouts", "1", "--count", "50", "--split-layouts", "0,0,1",
+            "--condition-profile", profile, "--output", str(output)], cwd=root, capture_output=True, text=True)
+        assert result.returncode == 0, result.stderr
+        captures.append(json.loads(output.read_text())["requests"][0]["request"])
+    assert captures[0]["world"] == captures[1]["world"]
+    assert captures[0]["rig"] == captures[1]["rig"]
+    assert captures[0]["environment"] != captures[1]["environment"]
