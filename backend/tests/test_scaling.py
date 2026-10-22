@@ -2,6 +2,8 @@
 import json
 from pathlib import Path
 import subprocess
+import importlib.util
+import sys
 
 import pytest
 
@@ -125,3 +127,48 @@ def test_heldout_conditions_change_environment_not_geometry(tmp_path):
     assert captures[0]["world"] == captures[1]["world"]
     assert captures[0]["rig"] == captures[1]["rig"]
     assert captures[0]["environment"] != captures[1]["environment"]
+
+
+def test_array_dedup_preserves_bytes_and_leaves_ntfs_link_headroom(tmp_path, monkeypatch):
+    root = Path(__file__).resolve().parents[2]
+    spec = importlib.util.spec_from_file_location("storage_test", root / "tools/storage-maintenance.py")
+    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+    dataset = tmp_path / "artifacts/data"; dataset.mkdir(parents=True)
+    entries = []
+    data = b"x" * 65536
+    for i in range(140):
+        capture = dataset / f"c{i}"; capture.mkdir()
+        path = capture / "mask_npy"; path.write_bytes(data)
+        entries.append({"capture_id": capture.name, "files": [{"id": path.name, "byte_length": len(data), "sha256": digest(path)}]})
+    manifest = dataset / "manifest.json"
+    manifest.write_text(json.dumps({"captures": entries}))
+    before = digest(manifest)
+    report = tmp_path / "report.json"
+    monkeypatch.setattr(sys, "argv", ["storage", "--dataset", str(dataset), "--deduplicate", "--apply", "--report", str(report)])
+    module.main()
+    assert digest(manifest) == before
+    assert json.loads(report.read_text())["deduplicated_files"] == 138
+    assert all((dataset / e["capture_id"] / "mask_npy").read_bytes() == data for e in entries)
+    assert max((dataset / e["capture_id"] / "mask_npy").stat().st_nlink for e in entries) <= 128
+
+
+def test_composition_dispatches_independent_captures_to_validation_pool(tmp_path, monkeypatch):
+    from app import scaling
+    a = source(tmp_path, "a", "train")
+    capture = Path(a["dataset"]) / "a"; capture.mkdir()
+    (capture / "observation.json").write_bytes(b"sealed source")
+    monkeypatch.setattr(scaling, "validate_capture_files", lambda *_: None)
+    monkeypatch.setattr(scaling, "catalog_records", lambda: {})
+    monkeypatch.setattr(scaling, "publish_manifest", lambda *args: {"counts": {"train": 1}})
+    calls = []
+    class Pool:
+        def map(self, function, jobs):
+            jobs = list(jobs); calls.append(len(jobs))
+            return map(function, jobs)
+    out = tmp_path / "composed"
+    result = scaling.compose([a], out, "test", Pool())
+    assert calls == [1]
+    assert result["counts"]["train"] == 1
+    assert (out / "a/observation.json").read_bytes() == b"sealed source"
+    assert (capture / "observation.json").read_bytes() == b"sealed source"
