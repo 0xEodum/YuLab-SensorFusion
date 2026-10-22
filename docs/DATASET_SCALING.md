@@ -10,9 +10,12 @@ All nine training seeds count. More captures alone do not pass acceptance.
 The first rung has 3,000 train captures: the existing 2,100 SF-11 train captures
 plus 900 new captures. New independent scenes supply 600 validation captures,
 600 standard test captures and 300 test captures with new time/severity/weather
-combinations. The latter test domain is reported separately. The existing asset
-catalog was already exposed in historical training, so this does not establish
-generalization to unseen object meshes or real sensor faults.
+combinations. The latter test domain is reported separately. A later catalog audit
+before validation found F-22 absent from historical/new training (14/15 asset IDs
+exposed), so 300 additional test-only captures on six fresh airfield layouts are
+reserved for that unseen mesh. Their report is separate and cannot select a model.
+This remains one unseen aircraft mesh; it does not establish arbitrary unseen-mesh
+or real-sensor robustness.
 
 `generate-sf10-requests.ts --split-layouts TRAIN,VALIDATION,TEST` assigns entire
 50-capture layout families explicitly; the counts must sum to `--layouts`.

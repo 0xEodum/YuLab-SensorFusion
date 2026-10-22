@@ -11,7 +11,7 @@
   "sealed_test": {"standard_captures": 600, "standard_layouts": 12, "heldout_condition_captures": 300, "heldout_condition_layouts": 6},
   "splits": "Complete scene layouts and all views/weather variants stay in a single split. Historical validation/test never become train.",
   "condition_holdout": "New time/severity/weather combinations from existing sensor physics; no claim of an unseen physical sensor-fault family",
-  "heldout_assets": "Not feasible with the present 15-asset catalog: historical training already exposed the catalog. No held-out-mesh acceptance claim.",
+  "heldout_assets": "Catalog audit before model validation found f22 absent from historical and new training (14 of 15 asset IDs exposed). Reserve 300 additional test-only captures in six fresh airfield layouts, replacing aircraft with F-22. Score separately after selection; never tune on it. Other classes remain known; this is one unseen aircraft mesh, not arbitrary unseen-asset acceptance.",
   "initialization_groups": [[11,12,13],[14,15,16],[17,18,19]],
   "training": {"architecture":"baseline-v1", "modalities":["rgb","ir","lidar"], "epochs":120, "batch_size":32, "lr":0.001, "constant_lr":true, "loss":"baseline", "width":64, "queries":16, "raw_selection":"highest clean validation mAP every epoch, latest tie", "swa":"final uniform average epochs 61..120", "preprocessing":"baseline-preprocess.v1", "capture_resolution":[640,384], "lidar_beams":[32,256]},
   "controls": ["Frozen SF-Q ensemble on exactly the same new validation/test observations", "Three snapshot+initialization unimodal committees", "All eight sensor availability masks", "Six fixed observation-level corruption probes"],

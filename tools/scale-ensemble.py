@@ -115,11 +115,14 @@ def report(predicted, actual, rows, device):
     return result
 
 
-def evaluate(dataset, run, output, split, freeze=None):
+def evaluate(dataset, run, output, split, freeze=None, training_manifest=None):
     if output.exists(): raise ValueError("Evaluation report already exists")
     if split == "test":
         if freeze is None: raise ValueError("Sealed test requires freeze")
         assert_frozen(freeze)
+        for path in (dataset / "manifest.json", training_manifest or (dataset / "manifest.json")):
+            if str(path.resolve()) not in freeze["files"]:
+                raise ValueError("Test dataset/training identity was not frozen")
     pilot.seed_all(11, fill=False); device = torch.device("cuda")
     rows = records(dataset, split)
     actual = pilot.meters([supervision(dataset, r, np.array(r["origin"])) for r in rows])
@@ -127,9 +130,11 @@ def evaluate(dataset, run, output, split, freeze=None):
     historical_freeze = read(ROOT / "docs/evidence/sf-quality/ensemble-freeze.json")
     historical_hashes = {r["path"]: r["sha256"] for r in historical_freeze["checkpoints"]}
     models = {}
-    expected_train_sha = digest(dataset / "manifest.json")
+    expected_train_sha = digest(training_manifest or (dataset / "manifest.json"))
     for method, mapping in all_paths.items():
         for key, path in mapping.items():
+            if split == "test" and str(path.resolve()) not in freeze["files"]:
+                raise ValueError("Test checkpoint was not frozen")
             if method == "baseline" and digest(path) != historical_hashes[path.relative_to(ROOT).as_posix()]:
                 raise ValueError("Historical SF-Q checkpoint changed")
             saved = torch.load(path, weights_only=True, map_location="cpu")
@@ -218,6 +223,7 @@ def main():
     parser.add_argument("--split", choices=("validation", "test"), default="validation")
     parser.add_argument("--freeze", type=Path)
     parser.add_argument("--decision", type=Path)
+    parser.add_argument("--training-manifest", type=Path, help="Separate frozen training identity for additional test-only datasets")
     args = parser.parse_args()
     if args.stage == "compose":
         from concurrent.futures import ProcessPoolExecutor
@@ -225,7 +231,7 @@ def main():
             manifest = compose(read(args.sources), args.dataset, "sf15-scale", pool)
         print(json.dumps(manifest["counts"]), flush=True)
     elif args.stage == "evaluate":
-        evaluate(args.dataset, args.run, args.output, args.split, read(args.freeze) if args.freeze else None)
+        evaluate(args.dataset, args.run, args.output, args.split, read(args.freeze) if args.freeze else None, args.training_manifest)
     else:
         if args.output.exists(): raise ValueError("Freeze already exists")
         inputs = [args.dataset / "manifest.json", args.dataset / "sources.json", args.decision,
@@ -233,6 +239,8 @@ def main():
                   ROOT / "docs/evidence/sf-quality/ensemble-freeze.json"]
         for historical in (True, False): inputs.extend(paths(args.run, historical).values())
         inputs.extend(ROOT / s for s in SOURCES)
+        asset_requests = ROOT / "artifacts/sf15/requests-asset-holdout.json"
+        if asset_requests.exists(): inputs.append(asset_requests)
         pilot.write(args.output, make_freeze(inputs, read(args.decision)))
 
 

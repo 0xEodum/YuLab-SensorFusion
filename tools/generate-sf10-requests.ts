@@ -35,6 +35,10 @@ const splitLayouts = splitIndex < 0 ? undefined : process.argv[splitIndex + 1]?.
 const conditionIndex = process.argv.indexOf("--condition-profile");
 const conditionProfile = conditionIndex < 0 ? "standard" : process.argv[conditionIndex + 1];
 if (!["standard", "sf15-heldout"].includes(conditionProfile)) throw new Error("Unknown condition profile");
+const assetIndex = process.argv.indexOf("--heldout-asset");
+const heldoutAsset = assetIndex < 0 ? undefined : process.argv[assetIndex + 1];
+if (assetIndex >= 0 && (heldoutAsset !== "f22" || !splitLayouts || splitLayouts[0] !== 0 || splitLayouts[1] !== 0))
+  throw new Error("--heldout-asset f22 requires explicit test-only layout splits");
 if (splitIndex >= 0 && (!learning || holdoutOnly || !splitLayouts || splitLayouts.length !== 3 ||
     !splitLayouts.every(n => Number.isInteger(n) && n >= 0) ||
     splitLayouts.reduce((a, b) => a + b, 0) !== layoutCount || count !== layoutCount * 50))
@@ -59,7 +63,7 @@ const presets: [WeatherPreset, number, number][] = conditionProfile === "sf15-he
   ["clear-day", 0, 17], ["night", 1, 21],
 ];
 const layouts: {site: string; seed: number; split: string}[] = learning ? Array.from({length: layoutCount}, (_, i) => ({
-  site: i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + seedOffset + i * 7919,
+  site: heldoutAsset || i % 2 === 0 ? "airfield" : "harbor", seed: 110000 + seedOffset + i * 7919,
   split: holdoutOnly ? "test" : i < (splitLayouts?.[0] ?? 42) ? "train" :
     i < (splitLayouts ? splitLayouts[0] + splitLayouts[1] : 51) ? "validation" : "test",
 })) : [
@@ -76,6 +80,14 @@ for (const [layoutIndex, layout] of layouts.entries()) {
     ? aerodromeWorldSpec(layout.seed, records, learning && layoutIndex % 6 === 0 ? "fixtures" : "catalog")
     : harborWorldSpec(layout.seed, records);
   if (learning && layoutIndex % 10 === 9) world.instances = [];
+  if (heldoutAsset) {
+    const record = records.find(r => r.asset_id === heldoutAsset)!;
+    const aircraftIds = new Set(records.filter(r => r.class_name === "aircraft").map(r => r.asset_id));
+    for (const instance of world.instances) if (aircraftIds.has(instance.asset_id)) {
+      instance.asset_id = record.asset_id;
+      instance.asset_sha256 = record.content_sha256;
+    }
+  }
   for (let view = 0; view < 5; view++) for (let condition = 0; condition < 10; condition++) {
     const n = layoutIndex * 50 + view * 10 + condition;
     if (n >= count) continue;
