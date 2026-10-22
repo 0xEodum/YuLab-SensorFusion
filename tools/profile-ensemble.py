@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 import numpy as np
 import torch
+import psutil
 from learning.decision_inference import DecisionFusionPredictor
 
 
@@ -29,6 +30,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(2)
     bundle = json.loads(args.bundle.read_text(encoding="utf-8"))
+    torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter()
     model = DecisionFusionPredictor([ROOT / v["path"] for v in bundle["experts"]], "cuda",
         [v["sha256"] for v in bundle["experts"]])
@@ -74,6 +76,9 @@ def main():
     spans = [a.elapsed_time(b) for a, b in events]
     summary = {"torch": torch.__version__, "gpu": torch.cuda.get_device_name(),
         "model_load_s": load_s, "checkpoint_sha256": model.sha256, "heads": len(model.models),
+        "peak_allocated_bytes": torch.cuda.max_memory_allocated(),
+        "peak_reserved_bytes": torch.cuda.max_memory_reserved(),
+        "process_peak_rss_bytes": getattr(psutil.Process().memory_info(), "peak_wset", psutil.Process().memory_info().rss),
         "warmup": 10, "repetitions": args.repeat,
         "benchmark_start_unix_s": benchmark_start, "benchmark_end_unix_s": benchmark_end,
         "end_to_end_ms": {"p50": float(np.percentile(latencies, 50)), "p95": float(np.percentile(latencies, 95))},

@@ -1,0 +1,54 @@
+{
+  "command": [
+    "backend\\.venv\\Scripts\\python.exe",
+    "tools\\dataset-job.py",
+    "--requests",
+    "artifacts\\sf15\\benchmark-requests.json",
+    "--output",
+    "artifacts\\sf15\\benchmark-w1\\dataset",
+    "--dataset-id",
+    "sf15-benchmark",
+    "--workers",
+    "1"
+  ],
+  "source_revision": "98d59ddfd32e664ed79729249c78b6a2d8c2a20f",
+  "source_dirty": true,
+  "exit_code": 0,
+  "wall_s": 73.81664089999686,
+  "gpu_identity": "name, uuid, driver_version, power.limit [W]\nNVIDIA GeForce RTX 3090, GPU-cef0e73f-fb92-7b1a-c298-c518ad53e05c, 591.86, 370.00 W",
+  "attribution": "device-wide, includes unrelated processes",
+  "sample_period_ms": 100,
+  "samples": 685,
+  "telemetry": {
+    "gpu_util_percent": {
+      "mean": 13.423357664233576,
+      "max": 100.0,
+      "min": 1.0
+    },
+    "memory_util_percent": {
+      "mean": 2.3766423357664235,
+      "max": 22.0,
+      "min": 0.0
+    },
+    "power_w": {
+      "mean": 72.34227737226277,
+      "max": 145.76,
+      "min": 35.78
+    },
+    "temperature_c": {
+      "mean": 49.166423357664236,
+      "max": 54.0,
+      "min": 45.0
+    },
+    "memory_mib": {
+      "mean": 1422.2467153284672,
+      "max": 1498.0,
+      "min": 1291.0
+    },
+    "sm_clock_mhz": {
+      "mean": 1055.4744525547446,
+      "max": 1980.0,
+      "min": 210.0
+    }
+  }
+}

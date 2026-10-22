@@ -124,16 +124,22 @@ def evaluate(dataset, run, output, split, freeze=None):
     rows = records(dataset, split)
     actual = pilot.meters([supervision(dataset, r, np.array(r["origin"])) for r in rows])
     all_paths = {"baseline": paths(run, True), "candidate": paths(run)}
+    historical_freeze = read(ROOT / "docs/evidence/sf-quality/ensemble-freeze.json")
+    historical_hashes = {r["path"]: r["sha256"] for r in historical_freeze["checkpoints"]}
     models = {}
     expected_train_sha = digest(dataset / "manifest.json")
     for method, mapping in all_paths.items():
         for key, path in mapping.items():
+            if method == "baseline" and digest(path) != historical_hashes[path.relative_to(ROOT).as_posix()]:
+                raise ValueError("Historical SF-Q checkpoint changed")
             saved = torch.load(path, weights_only=True, map_location="cpu")
             seed, modality, snapshot = key
             if saved["seed"] != seed or saved["preprocessing"] != PROFILE or saved["modality"] != modality:
                 raise ValueError("Checkpoint identity mismatch")
             if method == "candidate" and saved["dataset_sha256"] != expected_train_sha:
                 raise ValueError("Candidate training manifest changed")
+            if method == "baseline" and saved["dataset_sha256"] != historical_freeze["protocol"]["dataset_sha256"]:
+                raise ValueError("Historical training provenance changed")
             if saved.get("averaged_epochs", 0) != (60 if snapshot == "swa" else 0):
                 raise ValueError("Snapshot policy mismatch")
             cfg = saved["config"]
@@ -223,7 +229,8 @@ def main():
     else:
         if args.output.exists(): raise ValueError("Freeze already exists")
         inputs = [args.dataset / "manifest.json", args.dataset / "sources.json", args.decision,
-                  ROOT / "docs/evidence/sf15-scaling/protocol.json"]
+                  ROOT / "docs/evidence/sf15-scaling/protocol.json",
+                  ROOT / "docs/evidence/sf-quality/ensemble-freeze.json"]
         for historical in (True, False): inputs.extend(paths(args.run, historical).values())
         inputs.extend(ROOT / s for s in SOURCES)
         pilot.write(args.output, make_freeze(inputs, read(args.decision)))

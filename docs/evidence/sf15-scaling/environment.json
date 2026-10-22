@@ -1,0 +1,15 @@
+{
+  "python": "3.13.10 (tags/v3.13.10:4fd8843, Dec  2 2025, 15:08:18) [MSC v.1944 64 bit (AMD64)]",
+  "executable": "C:\\Users\\Yu\\AppData\\Local\\Programs\\Python\\Python31310\\python.exe",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "torch": "2.13.0+cu130",
+    "numpy": "2.4.2",
+    "scipy": "1.17.1",
+    "jsonschema": "4.26.0",
+    "pytest": "9.0.2",
+    "psutil": "7.2.2"
+  },
+  "node": "v25.6.1",
+  "gpu": "name, uuid, driver_version, memory.total [MiB], power.limit [W]\nNVIDIA GeForce RTX 3090, GPU-cef0e73f-fb92-7b1a-c298-c518ad53e05c, 591.86, 24576 MiB, 370.00 W"
+}

@@ -1,0 +1,95 @@
+{
+  "profile": "sf15-replay-retirement.v1",
+  "canonical": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+  "canonical_manifest_sha256": "c71680f7e2d2451991a772a05c6b977a8944c476cd453d1dcf1b9f0bace47ebe",
+  "datasets": [
+    {
+      "path": "perf-speed/a",
+      "manifest_sha256": "9db12ff746c62f49762f65abec7e6f61c31d18b0db5f8ddb068ec6ebcdd6e7bb",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\a"
+    },
+    {
+      "path": "perf-speed/b",
+      "manifest_sha256": "e87c220551d8e3d0978db928c4fba914270f4eedd1dd0c89e557ff2841089946",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\b"
+    },
+    {
+      "path": "perf-speed/full-ac",
+      "manifest_sha256": "81dab6f6e01c6af986baf3d044362b9c32c79f3a29708f4857173d8afc5e0969",
+      "captures": 300,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\full-ac"
+    },
+    {
+      "path": "perf-speed/full-bvh",
+      "manifest_sha256": "a575a81acebbc1136a2719a0cf443382fe73c207cf8dcbdbad8857fd6288fd5f",
+      "captures": 300,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\full-bvh"
+    },
+    {
+      "path": "perf-speed/full-pp",
+      "manifest_sha256": "29357d83c717c7a43f5cf4eba4345d66ad8236399912192fa9ac4d4eaebfbf8a",
+      "captures": 300,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\full-pp"
+    },
+    {
+      "path": "perf-speed/full-w6",
+      "manifest_sha256": "4e3a612a4ce6a377c5f4f292255161a6a30a5e408e889e314788a7401dec82b6",
+      "captures": 300,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\full-w6"
+    },
+    {
+      "path": "perf-speed/r1",
+      "manifest_sha256": "58ade7395e2448f1756409b1763ffd6332b232655649e2636ea8822a0cf9923f",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\r1"
+    },
+    {
+      "path": "perf-speed/r3",
+      "manifest_sha256": "46c4c85a3817cdb2b3201450a23c039ae647ca20942ff51c25dd0f50b70968ad",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-speed\\r3"
+    },
+    {
+      "path": "perf-sf10/baseline",
+      "manifest_sha256": "033b200c850a5acd6518e8a500750716c3ab944aa91fb15f6134e291a71ce75b",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-sf10\\baseline"
+    },
+    {
+      "path": "perf-sf10/final-24",
+      "manifest_sha256": "322fa11043d6da4df88d9748e50ced4ffe068d3172a1f36fa9d42ed1eb978cdb",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-sf10\\final-24"
+    },
+    {
+      "path": "perf-sf10/full-300",
+      "manifest_sha256": "05b0898a5aca02faa7e1bc492686ec9ae7fbbdb1d59d8ce087a1bdcfe57f5908",
+      "captures": 300,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-sf10\\full-300"
+    },
+    {
+      "path": "perf-sf10/optimized",
+      "manifest_sha256": "32eef8ef9ae4238eb3bfc85854bc338f73a98de366d1e3fa7ef3dd4d70006e97",
+      "captures": 24,
+      "replacement": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf10\\pilot-300-v4",
+      "metadata_archive": "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\retired-replay-metadata\\perf-sf10\\optimized"
+    }
+  ],
+  "removed_capture_directories": 1668,
+  "pruned_worker_files": 42150,
+  "logical_dataset_bytes": 3994919183,
+  "disk_free_delta_bytes": 4091035648
+}
