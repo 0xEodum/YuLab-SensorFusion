@@ -61,12 +61,14 @@ def main() -> None:
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--device", default="cuda")
     p.add_argument("--limit", type=int, default=0, help="Only the first N captures (smoke runs)")
+    p.add_argument("--split", choices=("train", "validation", "test"), help="Cache one split without reading other split observations")
     a = p.parse_args()
     torch.set_num_threads(2)
     bundle = json.loads(a.bundle.read_text())
     model = DecisionFusionPredictor([ROOT / x["path"] for x in bundle["experts"]], a.device, [x["sha256"] for x in bundle["experts"]])
     manifest = json.loads((a.dataset / "manifest.json").read_text())
-    entries = manifest["captures"][:a.limit] if a.limit else manifest["captures"]
+    entries = [e for e in manifest["captures"] if a.split is None or e["split"] == a.split]
+    entries = entries[:a.limit] if a.limit else entries
     frames, started = [], time.perf_counter()
     for n, entry in enumerate(entries):
         cid = entry["capture_id"]
