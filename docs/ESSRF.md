@@ -2,6 +2,14 @@
 
 ## 0. Lab implementation status and decision record
 
+2026-10-23: SF-15 scales the unchanged SF-Q independent-expert recipe to 10,000 training captures,
+selected on validation; see the [model card](MODEL_CARD.md) and [SF-15 record](evidence/SF-15-scaling.md).
+Sealed test: clean mAP .915 ± .025, macro .876 ± .016, against .761 / .715 for the frozen SF-Q ensemble;
+held-out conditions .943; unseen F-22 mesh .867. The final detector is still this ensemble, not ESSRF.
+One frozen SF-11 target is unmet: 0.54–0.64 false positives per empty frame against ≤ .10. The ensemble
+has no learned no-object abstention or score cutoff. A revision, such as a validation-selected cutoff or
+no-object calibration, requires a new validation selection and fresh test data. This sealed test is spent.
+
 2026-10-21: SF-14 delivers `ensemble-kalman-tracker.v1` ([profile](TEMPORAL_TRACKER.md),
 [acceptance](evidence/SF-14-temporal.md)) instead of training `essrf-temporal-v1`. A gated
 information-form tracker consumes the frozen SF-Q ensemble's per-sensor detections. On the test clips it
@@ -224,6 +232,7 @@ selection must not use the sealed test set.
 | 2026-10-06 | Select Q32 using predeclared paired degradation mean; freeze remaining seeds | Q16 .062 versus Q32 .177 (seed 11); Q32 clean .314. Final epoch deteriorates to clean .057 / degradation .040, so extra epochs are not presumed beneficial. See `evidence/sf12/selected-configuration.json` |
 | 2026-10-06 | Complete three-seed static comparison without quality promotion | Clean .249 ± .109; degradation .136 ± .064 versus fusion .165 ± .030. IR stripes .247 versus fusion .140 / IR .039, but seed 13 loses to fusion. Single-sensor/calibration failures retained; 7.902 GiB training allocation, 52.8/63.8 ms end-to-end p50/p95. See `evidence/SF-12-ESSRF.md` |
 | 2026-10-21 | SF-14 replaces learned `essrf-temporal-v1` with a tracker over the frozen SF-Q ensemble | Few sequence clips, ESSRF static failure, strong static control. Test (3 layouts): clean .7449 vs .7402, macro .7388 vs .7288 (not significant), no FP benefit at equal cutoff (80 vs 82), outage continuation recall .85, 0 invented observations; first tuning with centre-only support failed (.659 vs .706) and is retained. See `evidence/SF-14-temporal.md` |
+| 2026-10-23 | SF-15 selects the SF-Q recipe at 10k captures | Validation +.183 objective vs SF-Q, +.141 vs 3k; 30k not run (user 10k ceiling, disk reserve). Test clean .915 vs .761, macro .876 vs .715; F-22 .867 vs .601. Empty-scene FP .54–.64 per empty frame fails the frozen ≤ .10 target (also 0.054–0.064 per frame over all frames). See `evidence/SF-15-scaling.md` |
 
 ---
 

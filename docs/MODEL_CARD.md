@@ -85,7 +85,11 @@ Every target was checked for each of the three ensembles; see `sf11_targets` in 
 | ECE ≤ 0.15 | Pass |
 | p95 latency ≤ 500 ms | Pass (93 ms) |
 | Training peak allocation ≤ 18 GiB | Pass (2.6 GiB) |
-| **Empty-scene false positives ≤ 0.10 per empty frame** | **Fail: 0.544–0.644** (SF-Q baseline 1.289). The F-22 set has only 10 empty frames, with 0 false positives. |
+| **Empty-scene false positives ≤ 0.10 per frame** | **Fail as read here: 0.544–0.644 per empty frame** (SF-Q baseline 1.289). The F-22 set has only 10 empty frames, with 0 false positives. |
+
+SF-11 froze only the value "0.10 per frame" and no formula. This card divides by empty frames, which is the unit SF-11 reported ("Empty-scene FP (60 test)"). Divided by all 900 frames, the candidate gets 0.054–0.064 and would pass, while the SF-Q baseline gets 0.129. Both values are in `sf11_targets`.
+
+For the F-22 set, the per-condition floors (frozen for the standard presets) and ship AP (no ships present) are not evaluated. They are listed under `not_evaluated` rather than counted as passes. The `acceptance-checks.json` export covers only the volume-rule floors.
 
 The empty-scene failure was already visible on validation (0.49–0.68 per empty frame). It was not detected before test because the volume rule only checks clean and macro mAP. The ensemble emits low-confidence boxes in object-free frames; there is no score cutoff or abstention head. Fixing it needs a model revision, such as a validation-selected confidence cutoff or a no-object calibration, followed by fresh test data, because this sealed test is spent.
 
@@ -101,7 +105,7 @@ End-to-end inference per capture includes loading observations, 18 heads and con
 ## Temporal ablation (post-selection, descriptive)
 
 - The SF-14 tracker was applied with its frozen parameters to the candidate's predictions on the historical SF-13/SF-14 test clips: 192 frames in 6 sequences.
-- On clean data, static mAP is 0.779. The SF-14 report gave 0.740 for the SF-Q ensemble on the same clips.
+- On clean data, static mAP is 0.779. The SF-14 report gave 0.740 for the SF-Q ensemble on the same clips (the 192 capture IDs were verified identical).
 - With the tracker, observed-detection mAP is 0.788. Including prediction-only output, it is 0.862.
 - Across subsets and corruptions, the tracker changes observed-detection mAP by −0.04 to +0.04.
 - As in SF-14, the tracker's demonstrated value is continuation through outages, which is labelled prediction-only. It does not establish a quality gain, and this is not a fresh temporal holdout. See [`temporal-ablation.json`](evidence/sf15-scaling/temporal-ablation.json).

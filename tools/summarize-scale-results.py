@@ -76,6 +76,7 @@ def target_checks(report, method, targets, latency_p95_ms, training_peak_gib):
         checks = {
             "class_ap": {n: classes[n]["ap"] >= targets["class_ap_min"][n] for n in classes},
             "recall": {n: classes[n]["recall"] >= targets["recall_min_each_class"] for n in classes},
+            # Floors were frozen for the standard presets only; other domains are not evaluated against them.
             "standard_condition_map": {i: standard_map >= floor for i, floor in targets["condition_map_min"].items()
                                        if (standard_map := clean["conditions"].get(f"standard/{i}", {}).get("map_3d")) is not None},
             "center_error": clean["matched_center_error_m"] <= targets["matched_center_error_max_m"],
@@ -83,17 +84,23 @@ def target_checks(report, method, targets, latency_p95_ms, training_peak_gib):
             "empty_scene_fp_per_frame": (clean["empty_scene_false_positives"] / clean["empty_scenes"]
                                          if clean["empty_scenes"] else None),
         }
+        # SF-11 froze only ".1 per frame"; report both denominators, gate on empty frames (SF-11 reporting unit).
+        checks["empty_scene_fp_per_all_frames"] = clean["empty_scene_false_positives"] / clean["frames"]
         efp = checks["empty_scene_fp_per_frame"]
         checks["empty_scene_fp"] = efp is None or efp <= targets["empty_scene_fp_per_frame_max"]
         rows.append({"ensemble": key, **checks})
-    flat = lambda r: [v for k, v in r.items() if k not in ("ensemble", "empty_scene_fp_per_frame")
+    info = ("ensemble", "empty_scene_fp_per_frame", "empty_scene_fp_per_all_frames")
+    flat = lambda r: [v for k, v in r.items() if k not in info
                       for v in (v.values() if isinstance(v, dict) else [v])]
     return {"per_ensemble": rows,
             "latency_p95": latency_p95_ms <= targets["latency_p95_ms_max"],
             "training_peak_allocated": training_peak_gib <= targets["training_peak_allocated_gib_max"],
-            "failed": sorted({k for r in rows for k, v in r.items() if k not in ("ensemble", "empty_scene_fp_per_frame")
+            "not_evaluated": sorted({k for r in rows for k, v in r.items() if isinstance(v, dict) and not v}
+                                    | {f"class:{n}" for n, c in report["cases"][groups(report, method)[0]]["availability-7"]["classes"].items()
+                                       if not c["positives"]}),
+            "failed": sorted({k for r in rows for k, v in r.items() if k not in info
                               and not all(v.values() if isinstance(v, dict) else [v])}),
-            "all_pass": all(all(flat(r)) for r in rows) and latency_p95_ms <= targets["latency_p95_ms_max"]
+            "all_evaluated_pass": all(all(flat(r)) for r in rows) and latency_p95_ms <= targets["latency_p95_ms_max"]
                         and training_peak_gib <= targets["training_peak_allocated_gib_max"]}
 
 

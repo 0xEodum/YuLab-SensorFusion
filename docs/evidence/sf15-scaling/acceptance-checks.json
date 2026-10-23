@@ -7,5 +7,6 @@
   "all_missing_abstention": true,
   "checkpoint_reload_exact": true,
   "claims": "Static synthetic known-asset detector; no learned temporal/calibration or sim-to-real acceptance",
-  "quality_pass": true
+  "quality_pass": true,
+  "scope": "Volume-rule floors only (clean/macro/SD/abstention/reload); the frozen SF-11 target verdict is sf11_targets in results-summary.json"
 }

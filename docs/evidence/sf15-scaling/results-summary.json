@@ -8099,6 +8099,7 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.6444444444444445,
+          "empty_scene_fp_per_all_frames": 0.06444444444444444,
           "empty_scene_fp": false
         },
         {
@@ -8128,6 +8129,7 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.5888888888888889,
+          "empty_scene_fp_per_all_frames": 0.058888888888888886,
           "empty_scene_fp": false
         },
         {
@@ -8157,15 +8159,17 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.5444444444444444,
+          "empty_scene_fp_per_all_frames": 0.05444444444444444,
           "empty_scene_fp": false
         }
       ],
       "latency_p95": true,
       "training_peak_allocated": true,
+      "not_evaluated": [],
       "failed": [
         "empty_scene_fp"
       ],
-      "all_pass": false
+      "all_evaluated_pass": false
     },
     "f22-asset-holdout": {
       "per_ensemble": [
@@ -8183,6 +8187,7 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.0,
+          "empty_scene_fp_per_all_frames": 0.0,
           "empty_scene_fp": true
         },
         {
@@ -8199,6 +8204,7 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.0,
+          "empty_scene_fp_per_all_frames": 0.0,
           "empty_scene_fp": true
         },
         {
@@ -8215,13 +8221,18 @@
           "center_error": true,
           "ece": true,
           "empty_scene_fp_per_frame": 0.0,
+          "empty_scene_fp_per_all_frames": 0.0,
           "empty_scene_fp": true
         }
       ],
       "latency_p95": true,
       "training_peak_allocated": true,
+      "not_evaluated": [
+        "class:ship",
+        "standard_condition_map"
+      ],
       "failed": [],
-      "all_pass": true
+      "all_evaluated_pass": true
     }
   }
 }

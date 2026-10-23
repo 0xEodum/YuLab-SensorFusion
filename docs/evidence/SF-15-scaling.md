@@ -7,7 +7,7 @@ Status: all deliverables are produced. **One frozen SF-11 target is unmet** (emp
 | Requirement | Evidence | Result |
 | --- | --- | --- |
 | Ladder used only when validation justifies; actual count and reason | [`selection.json`](sf15-scaling/selection.json), `validation-3000/10000.json` | 10,000 chosen: +0.183 objective over SF-Q, +0.141 over 3k. 30k not run because of the user's 10k ceiling (2026-10-23 budget extension) and the disk reserve; the curve was still rising |
-| Meet SF-11 targets or document failure | `results-summary.json` → `sf11_targets` | All pass except empty-scene FP: 0.544–0.644 per empty frame against a 0.10 target. Documented in the model card |
+| Meet SF-11 targets or document failure | `results-summary.json` → `sf11_targets` (authoritative; `acceptance-checks.json` covers only the volume-rule floors) | All pass except empty-scene FP: 0.544–0.644 per empty frame against a 0.10 target. Divided by all frames instead, 0.054–0.064, which would pass; SF-11 froze no formula. Documented in the model card |
 | ≥3 training seeds, uncertainty, per-condition/class counts | `results-summary.json` | 9 seeds as 3 disjoint ensembles; mean ± SD; per-domain, per-condition and per-class positives |
 | Every sensor subset, all-missing abstention | `test-report.json` | 7 subsets plus 6 corruptions; 0 detections with no sensors |
 | Held-out conditions | `condition_profiles.heldout-environment` | 0.943 ± 0.027 mAP (300 frames) |
@@ -33,7 +33,7 @@ Status: all deliverables are produced. **One frozen SF-11 target is unmet** (emp
 - **Export.** `report-scale-experiment.py --freeze artifacts/sf15/freeze-r2.json` was run against the `ca31bed` evaluator, before the freeze-CLI change. Its exported freeze is stored as `freeze-r2.json`.
 - **Runtime.** `profile-ensemble.py --observations artifacts/sf15/train-10000 --capture-id sf15a-1500 --repeat 200`, run for both bundles.
 - **Summary.** `summarize-scale-results.py`.
-- **Tests.** `python -m pytest tests/test_scaling.py tests/test_scaling_acceptance.py`: 20 passed.
+- **Tests.** `PYTHONPATH=backend python -m pytest backend/tests -q`: 306 passed (SF-14 recorded 286).
 
 ## Environment
 

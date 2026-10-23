@@ -87,7 +87,8 @@ def main():
               "sample_sd_target": max(selected["clean_sd"], selected["macro_sd"]) <= .03,
               "all_missing_abstention": selected["all_missing_detections"] == 0,
               "checkpoint_reload_exact": read(args.root / "test-report.json")["checkpoint_reload_exact_prediction_parity"],
-              "claims": "Static synthetic known-asset detector; no learned temporal/calibration or sim-to-real acceptance"}
+              "claims": "Static synthetic known-asset detector; no learned temporal/calibration or sim-to-real acceptance",
+              "scope": "Volume-rule floors only (clean/macro/SD/abstention/reload); the frozen SF-11 target verdict is sf11_targets in results-summary.json"}
     checks["quality_pass"] = all(checks[k] for k in ("clean_target", "macro_target", "sample_sd_target", "all_missing_abstention", "checkpoint_reload_exact"))
     write(args.output / "acceptance-checks.json", checks)
     print(json.dumps(checks), flush=True)
