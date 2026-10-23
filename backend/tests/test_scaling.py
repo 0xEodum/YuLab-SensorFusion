@@ -7,7 +7,7 @@ import sys
 
 import pytest
 
-from app.scaling import prune_worker_mirror, select_sources
+from app.scaling import grant_wall_extension, prune_worker_mirror, select_sources, wall_deadline
 from app.dataset import digest
 
 
@@ -197,3 +197,29 @@ def test_f22_holdout_is_test_only_and_replaces_aircraft(tmp_path):
     command[command.index("0,0,2")] = "2,0,0"
     result = subprocess.run(command, cwd=root, capture_output=True, text=True)
     assert result.returncode != 0
+
+
+def test_wall_deadline_is_frozen_without_an_explicit_extension():
+    state = {"started_epoch_s": 1000.0, "hours": 2.0}
+    assert wall_deadline(state) == 1000.0 + 7200
+
+
+def test_extension_starts_at_grant_time_and_keeps_frozen_budget():
+    state = {"started_epoch_s": 1000.0, "hours": 1.0}
+    grant_wall_extension(state, 4.0, "user approved +4 h", now=90000.0)
+    assert state["started_epoch_s"] == 1000.0 and state["hours"] == 1.0
+    assert state["budget_extensions"] == [
+        {"granted_epoch_s": 90000.0, "hours": 4.0, "authorization": "user approved +4 h"}]
+    assert wall_deadline(state) == 90000.0 + 4 * 3600
+
+
+def test_extension_never_shortens_and_is_not_duplicated_on_resume():
+    state = {"started_epoch_s": 1000.0, "hours": 10.0}
+    grant_wall_extension(state, 1.0, "small", now=1100.0)
+    assert wall_deadline(state) == 1000.0 + 36000
+    with pytest.raises(ValueError, match="already recorded"):
+        grant_wall_extension(state, 1.0, "small", now=1200.0)
+    for hours, note in [(0, "zero"), (-1, "negative"), (2, "  ")]:
+        with pytest.raises(ValueError):
+            grant_wall_extension(state, hours, note, now=1300.0)
+    assert len(state["budget_extensions"]) == 1

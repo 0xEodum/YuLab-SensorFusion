@@ -8,7 +8,8 @@ with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
 fresh holdout acceptance; SF-13 is DONE after full-resolution temporal capture,
 cold replay, outage and split-isolation acceptance. SF-14 is DONE as a gated tracker over the
-frozen static ensemble (see its report); SF-15 is IN PROGRESS under a 12-hour user limit.
+frozen static ensemble (see its report); SF-15 is IN PROGRESS under a 12-hour user limit,
+extended on 2026-10-23 by 4 h with a 10k-capture ceiling (see DATASET_SCALING).
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.

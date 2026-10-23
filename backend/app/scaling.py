@@ -29,6 +29,26 @@ def physical_world(world):
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
+def wall_deadline(state):
+    """Frozen budget end, or the latest explicitly authorized extension window."""
+    deadline = state["started_epoch_s"] + state["hours"] * 3600
+    for grant in state.get("budget_extensions", []):
+        deadline = max(deadline, grant["granted_epoch_s"] + grant["hours"] * 3600)
+    return deadline
+
+
+def grant_wall_extension(state, hours, authorization, *, now):
+    """Append a user-authorized window starting now; the original budget stays frozen."""
+    if not hours > 0:
+        raise ValueError("Extension hours must be positive")
+    if not authorization.strip():
+        raise ValueError("Extension requires the user's authorization text")
+    grants = state.setdefault("budget_extensions", [])
+    if any(grant["authorization"] == authorization for grant in grants):
+        raise ValueError("Extension already recorded; resume without granting it again")
+    grants.append({"granted_epoch_s": now, "hours": hours, "authorization": authorization})
+
+
 def select_sources(sources):
     selected, provenance = [], []
     ids, groups, worlds, sequences = set(), {}, {}, {}

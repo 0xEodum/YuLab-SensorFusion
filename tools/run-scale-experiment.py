@@ -1,4 +1,4 @@
-"""Resumable SF-15 ladder with a 12-hour wall budget and validation-only expansion.
+"""Resumable SF-15 ladder with a frozen wall budget and validation-only expansion.
 
 Every subprocess has a durable log and an exact command record. Only a completed
 stage is reusable; checkpoints without runtime completion are explicitly rejected.
@@ -22,12 +22,15 @@ import psutil
 import torch
 import numpy as np
 from app.dataset import digest
-from app.scaling import read, physical_world
+from app.scaling import grant_wall_extension, read, physical_world, wall_deadline
 from learning.data import PROFILE, preprocess, supervision
 from learning.scaling_acceptance import decide_volume
 
 PYTHON = sys.executable
 API_PYTHON = str(ROOT / "backend/.venv/Scripts/python.exe")
+# Children of a below-normal/idle process inherit its class, so browsers and pools yield to the desktop.
+PRIORITY = {"normal": 0, "below-normal": getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0),
+            "idle": getattr(subprocess, "IDLE_PRIORITY_CLASS", 0)}
 
 
 def write(path, value):
@@ -85,6 +88,12 @@ def main():
     parser.add_argument("--hours", type=float, default=12)
     parser.add_argument("--max-train", type=int, choices=(3000, 10000, 30000), default=30000)
     parser.add_argument("--prepare-only", type=Path)
+    parser.add_argument("--priority", choices=tuple(PRIORITY), default="below-normal",
+                        help="Windows priority class for every stage process tree")
+    parser.add_argument("--extend-hours", type=float,
+                        help="Record one user-authorized wall window starting now (pass once)")
+    parser.add_argument("--extension-authorization", default="",
+                        help="The user's authorization for --extend-hours, recorded verbatim")
     args = parser.parse_args()
     root = args.root.resolve(); root.mkdir(parents=True, exist_ok=True)
     if args.prepare_only:
@@ -93,8 +102,15 @@ def main():
     state = read(status_path) if status_path.exists() else {
         "profile": "sf15-experiment.v1", "started_epoch_s": time.time(), "hours": args.hours,
         "source_revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(), "stages": {}}
-    deadline = state["started_epoch_s"] + state["hours"] * 3600
     if state["hours"] != args.hours: raise ValueError("Cannot change frozen wall budget on resume")
+    if state.get("error"):
+        state.setdefault("previous_errors", []).append(state["error"]); state["error"] = None
+    if args.extend_hours is not None:
+        grant_wall_extension(state, args.extend_hours, args.extension_authorization, now=time.time())
+        state["budget_extensions"][-1]["max_train"] = args.max_train
+    state.setdefault("resumes", []).append({"epoch_s": time.time(), "max_train": args.max_train, "priority": args.priority})
+    write(status_path, state)
+    deadline = wall_deadline(state)
     env = dict(os.environ, PLAYWRIGHT_CHANNEL="msedge", PLAYWRIGHT_GPU="1", CUBLAS_WORKSPACE_CONFIG=":4096:8")
 
     def run(name, command, *, capture_root=None):
@@ -109,7 +125,8 @@ def main():
         write(status_path, state)
         print("START", name, flush=True)
         with log.open("a", encoding="utf-8") as stream:
-            process = subprocess.Popen(entry["command"], cwd=ROOT, env=stage_env, stdout=stream, stderr=subprocess.STDOUT)
+            process = subprocess.Popen(entry["command"], cwd=ROOT, env=stage_env, stdout=stream, stderr=subprocess.STDOUT,
+                                       creationflags=PRIORITY[args.priority])
             try:
                 code = process.wait(timeout=remaining)
             except subprocess.TimeoutExpired:
