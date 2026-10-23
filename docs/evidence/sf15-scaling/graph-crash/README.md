@@ -52,3 +52,21 @@ it refuse another run. Re-scoring requires a new freeze over the fixed source.
 That freeze must keep the same checkpoints, manifests and protocol, and needs
 explicit user approval as a deviation from the one-shot test protocol. Parity
 gate: the new run's 48 clean lines must equal the crashed run's lines exactly.
+
+## Re-run (user-approved, 2026-10-23)
+
+The user approved one re-run. `freeze-r2.json` differs from `freeze.json` only
+in `tools/scale-ensemble.py`; all 126 other hashes, including checkpoints,
+manifests and protocol, are identical. The single run exited 0. Its first 48
+`test` lines equal the crashed run's 48 lines exactly. Reload parity held for
+108/108 checkpoints. See [`../sealed-test-r2.json`](../sealed-test-r2.json)
+for the command, hashes and summary.
+
+| Sealed test, 900 frames, 18 layouts | Baseline (SF-Q) | Candidate 10k |
+| --- | --- | --- |
+| Clean mAP (mean ± sd, 3 ensembles) | 0.761 ± 0.016 | 0.915 ± 0.025 |
+| Macro over subsets and corruptions | 0.715 ± 0.008 | 0.876 ± 0.016 |
+| All-missing detections | 0 | 0 |
+
+The candidate is ahead in every one of the 3 ensembles for every subset and
+corruption case.

@@ -1,0 +1,84 @@
+{
+  "profile": "sf15-sealed-test-rerun.v1",
+  "user_approval": "2026-10-23: user approved one re-run after the evaluator fix",
+  "fix_commit": "ca31bed",
+  "freeze_original_sha256": "15703c4903c04a4036c6719626b7f77318a09e6c39fbddbc183df157c96a87ce",
+  "freeze_r2_sha256": "b08077b072a9cef3e0ed46bda390585c5f3461e9116375186fd320954339a824",
+  "freeze_difference": [
+    "tools/scale-ensemble.py"
+  ],
+  "command": [
+    "C:\\Users\\Yu\\AppData\\Local\\Programs\\Python\\Python31310\\python.exe",
+    "tools/scale-ensemble.py",
+    "evaluate",
+    "--dataset",
+    "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf15\\train-10000",
+    "--run",
+    "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf15\\runs-10000",
+    "--split",
+    "test",
+    "--freeze",
+    "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf15\\freeze-r2.json",
+    "--output",
+    "K:\\PycharmProjects\\temp\\low-poly-3d-terrain-generator-astra\\artifacts\\sf15\\test-report.json"
+  ],
+  "exit_code": 0,
+  "clean_line_parity": {
+    "crashed_run_lines": 48,
+    "identical_prefix": true
+  },
+  "test_report_sha256": "3aa41486d6d400b0a358581bae45bc267f8bf23288092bf8418e03298c8fbd4d",
+  "prediction_sha256": {
+    "test-report-baseline-11-predictions.json": "e8a78f2bd722ceba2baac7ba6e6e559a50b4f6c4f7e9c512fb483acb91e825c9",
+    "test-report-baseline-14-predictions.json": "71b92e18e28f15c12e3f74e7dab70366ad58668faaffd1d17f85c5c757aea16c",
+    "test-report-baseline-17-predictions.json": "d316fe8b61e70b6603ffc99b84fa0a8937a652a98f784e136f8c870182c1e9c3",
+    "test-report-candidate-11-predictions.json": "5e04dbacae94d6266ca03318518f53a76514c423a14065c266ee59a3c016953a",
+    "test-report-candidate-14-predictions.json": "ddb4a824dcbac5303ac1cabc97251a6517ed61609118bfa28e007eb274be2f97",
+    "test-report-candidate-17-predictions.json": "530063d5c6f6587a7315df34f72e9b55dba965e4e9c5de7d3d71a6055e02fee3"
+  },
+  "validation_recheck": {
+    "validation-10000": "27184/27184 identical",
+    "validation-3000": "27184/27184 identical"
+  },
+  "frames": 900,
+  "independent_layouts": 18,
+  "reload_parity": true,
+  "methods": {
+    "baseline": {
+      "clean_mean": 0.7609643701451295,
+      "clean_sd": 0.016336833102652944,
+      "macro_mean": 0.7154480338009349,
+      "macro_sd": 0.007891508941182719,
+      "clean_values": [
+        0.7662476085602328,
+        0.7426397136134234,
+        0.7740057882617322
+      ],
+      "macro_values": [
+        0.7227875892049607,
+        0.7071012797014838,
+        0.7164552324963603
+      ],
+      "replicates": 3,
+      "all_missing_detections": 0
+    },
+    "candidate": {
+      "clean_mean": 0.9152535469577973,
+      "clean_sd": 0.025170898971387395,
+      "macro_mean": 0.8755782298520889,
+      "macro_sd": 0.015569878003279847,
+      "clean_values": [
+        0.9422838681915158,
+        0.8924866051324744,
+        0.9109901675494018
+      ],
+      "macro_values": [
+        0.8909114521816126,
+        0.8597820233233459,
+        0.8760412140513081
+      ],
+      "replicates": 3,
+      "all_missing_detections": 0
+    }
+  }
+}
