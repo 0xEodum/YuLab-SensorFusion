@@ -8,8 +8,9 @@ with robustness failures retained. The 2026-10-09 quality request authorizes
 alternate architectures and data expansion before temporal work. SF-Q passed
 fresh holdout acceptance; SF-13 is DONE after full-resolution temporal capture,
 cold replay, outage and split-isolation acceptance. SF-14 is DONE as a gated tracker over the
-frozen static ensemble (see its report); SF-15 is IN PROGRESS under a 12-hour user limit,
-extended on 2026-10-23 by 4 h with a 10k-capture ceiling (see DATASET_SCALING).
+frozen static ensemble (see its report); SF-15 is IN PROGRESS: 10k candidate trained and
+sealed-tested (clean mAP .915, F-22 .867), with one frozen SF-11 target unmet (empty-scene false positives).
+See the [SF-15 record](evidence/SF-15-scaling.md) and [model card](MODEL_CARD.md).
 
 Read [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and
 the implementation profile in [ESSRF.md](ESSRF.md) before changing code.
@@ -582,6 +583,13 @@ Acceptance:
   reserved/process memory. No tuning on the sealed test set.
 - Checkpoint load reproduces saved predictions in its pinned environment; model
   card names scope, synthetic limitations and any unmet requirements.
+
+Status 2026-10-23: 10,000 training captures were chosen on validation; the curve had not saturated, and 30k
+was blocked by the user's 10k ceiling and the disk reserve. Sealed test (900 frames): clean .915 ± .025 and
+macro .876 ± .016 vs SF-Q .761 / .715; held-out conditions .943; unseen F-22 .867. Every frozen SF-11
+target passes except empty-scene FP/frame (.54–.64 vs ≤.10), which was also visible on validation.
+SF-15 stays open until that target is revised in a new iteration with fresh test data, or accepted
+explicitly as a reduced scope. See the [SF-15 record](evidence/SF-15-scaling.md).
 
 ## SF-16 — Interactive trained-model demo
 

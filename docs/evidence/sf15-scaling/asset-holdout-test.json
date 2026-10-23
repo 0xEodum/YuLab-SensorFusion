@@ -1,0 +1,52 @@
+{
+  "profile": "sf15-asset-holdout-test.v1",
+  "scope": "Unseen F-22 mesh, 300 test-only captures on 6 fresh airfield layouts; scored once after selection; cannot select a model",
+  "freeze_sha256": "2eb0240c70e31e7b0b3b3bac3234228c1c1bddb18a7322b9be086e86c406596b",
+  "freeze_difference_vs_freeze_r2": [
+    "tools/scale-ensemble.py (freeze CLI freezes --training-manifest)"
+  ],
+  "dataset_manifest_sha256": "4a14952283f2cef64f1b14ef900d40e46b411b77f91430037aff4971f8ffbe12",
+  "report_sha256": "e8b6680c774bb8332446107f32ca1d03dd7480afa72e77e80f635b45a03a35ad",
+  "group_world_overlap_with_all_other_requests": 0,
+  "frames": 300,
+  "independent_layouts": 6,
+  "reload_parity": true,
+  "methods": {
+    "baseline": {
+      "clean_mean": 0.601496171555224,
+      "clean_sd": 0.056263900533214416,
+      "macro_mean": 0.5804566016374014,
+      "macro_sd": 0.05156018121207855,
+      "clean_values": [
+        0.5814985392469749,
+        0.6650271979174046,
+        0.5579627775012925
+      ],
+      "macro_values": [
+        0.5827088068455859,
+        0.6308537749908564,
+        0.5278072230757622
+      ],
+      "replicates": 3,
+      "all_missing_detections": 0
+    },
+    "candidate": {
+      "clean_mean": 0.8670154408339362,
+      "clean_sd": 0.04634832851986323,
+      "macro_mean": 0.8154686168483086,
+      "macro_sd": 0.039533246888412345,
+      "clean_values": [
+        0.9148539527333112,
+        0.8638753846047672,
+        0.8223169851637304
+      ],
+      "macro_values": [
+        0.856613657126012,
+        0.8120189427039112,
+        0.7777732507150029
+      ],
+      "replicates": 3,
+      "all_missing_detections": 0
+    }
+  }
+}

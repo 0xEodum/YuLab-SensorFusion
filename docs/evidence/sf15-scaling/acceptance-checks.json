@@ -1,0 +1,11 @@
+{
+  "selected": "candidate",
+  "training_samples": 10000,
+  "clean_target": true,
+  "macro_target": true,
+  "sample_sd_target": true,
+  "all_missing_abstention": true,
+  "checkpoint_reload_exact": true,
+  "claims": "Static synthetic known-asset detector; no learned temporal/calibration or sim-to-real acceptance",
+  "quality_pass": true
+}

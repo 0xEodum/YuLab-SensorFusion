@@ -242,7 +242,9 @@ def main():
         evaluate(args.dataset, args.run, args.output, args.split, read(args.freeze) if args.freeze else None, args.training_manifest)
     else:
         if args.output.exists(): raise ValueError("Freeze already exists")
+        # A test-only dataset (e.g. the F-22 holdout) also freezes the training identity it is scored against.
         inputs = [args.dataset / "manifest.json", args.dataset / "sources.json", args.decision,
+                  *([args.training_manifest] if args.training_manifest else []),
                   ROOT / "docs/evidence/sf15-scaling/protocol.json",
                   ROOT / "docs/evidence/sf-quality/ensemble-freeze.json"]
         for historical in (True, False): inputs.extend(paths(args.run, historical).values())

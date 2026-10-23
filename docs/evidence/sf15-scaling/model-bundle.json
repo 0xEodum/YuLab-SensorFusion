@@ -1,0 +1,142 @@
+{
+  "profile": "independent-experts-initialization-consensus.v1",
+  "checkpoint_sha256": "fb456975c0155476df9e60fdbc1c96381e0c1e666e51ed10bde3e2c3e20c88a1",
+  "member_seeds": [
+    11,
+    12,
+    13
+  ],
+  "training_samples": 10000,
+  "training_sha256": "fedcbb5f39e4ce79058abc00be053b4985ae2d9b8b5e9316b725b6a6b6cd055b",
+  "averaged_epochs": 60,
+  "consensus_iou": 0.1,
+  "experts": [
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/rgb/raw-best.pt",
+      "sha256": "687878dc375c42c27ead876920865af0428ab1be219eb397ead1ef02b8da93c6",
+      "modality": "rgb",
+      "seed": 11,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/ir/raw-best.pt",
+      "sha256": "1dfb8111c14db2d9a41b691bbad646c2be0c476fcc07970f952ceac743fce183",
+      "modality": "ir",
+      "seed": 11,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/lidar/raw-best.pt",
+      "sha256": "c4b737e5591e6e05fac4c099cb1eb193e82118fff23ee470509eb5acc8379880",
+      "modality": "lidar",
+      "seed": 11,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/rgb/best.pt",
+      "sha256": "a9432ba6b1738b623ffaff7890e17c60209319ee3213706702035be608f7cea8",
+      "modality": "rgb",
+      "seed": 11,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/ir/best.pt",
+      "sha256": "7e5926bf92d1d33820938a154bf6868b35b21bef9ff1a52fbe1e7d0844f76251",
+      "modality": "ir",
+      "seed": 11,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-11/lidar/best.pt",
+      "sha256": "05d3a40b563cebd591a96a9d60e813b564bf1ccd9d7fb30d51a2d729ef00d983",
+      "modality": "lidar",
+      "seed": 11,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/rgb/raw-best.pt",
+      "sha256": "9284904a758308b7a7faffa1732a63c10f97e8b7101dbda87a96e98d85233cab",
+      "modality": "rgb",
+      "seed": 12,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/ir/raw-best.pt",
+      "sha256": "1727fca1757ef55904361ebb18329fd8f2f523b06caaf95f13872defa1b9b2d3",
+      "modality": "ir",
+      "seed": 12,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/lidar/raw-best.pt",
+      "sha256": "f8c9b3f6875416f43663bdcf7d46fa6f427db4b00c8f25bdf440bbdac42ebadc",
+      "modality": "lidar",
+      "seed": 12,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/rgb/best.pt",
+      "sha256": "d42be5e02524a884a484746282fd390e3c2aa21caeae13b0632b9b6c49026f89",
+      "modality": "rgb",
+      "seed": 12,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/ir/best.pt",
+      "sha256": "64c34986ab5874d5d6d35603418081d927134be56b959bd52af2982a834d16e3",
+      "modality": "ir",
+      "seed": 12,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-12/lidar/best.pt",
+      "sha256": "c7d51a1413b7f85663b91ee59a6f5f306cbd7498d5698e66047157aa960f79b7",
+      "modality": "lidar",
+      "seed": 12,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/rgb/raw-best.pt",
+      "sha256": "cd8413fa35d56f8d99f7ee212ed59f61c1a389ce4a6d0b79d604acc03cec336f",
+      "modality": "rgb",
+      "seed": 13,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/ir/raw-best.pt",
+      "sha256": "04e4408d38d8af981793288199db01ee482b2c3f2490f2f4269226c3d0b39fa0",
+      "modality": "ir",
+      "seed": 13,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/lidar/raw-best.pt",
+      "sha256": "9b0847dadfcd31020a05e5b516fec0ba7b906881058147ef405d84f6837aa43d",
+      "modality": "lidar",
+      "seed": 13,
+      "snapshot": "raw"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/rgb/best.pt",
+      "sha256": "074426871a39ae868e7fd6b412bd1e1d460f4ae27fe95dde1436a2c5fbaaa3e3",
+      "modality": "rgb",
+      "seed": 13,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/ir/best.pt",
+      "sha256": "9482bf410d28c928d096e56a5b668292c204d273602b540e3be1e9bf5aacebd9",
+      "modality": "ir",
+      "seed": 13,
+      "snapshot": "swa"
+    },
+    {
+      "path": "artifacts/sf15/runs-10000/seed-13/lidar/best.pt",
+      "sha256": "3510e0a87e9d77b5c3c3bdd6158ed4faca50b140f49a98ce3af6ad1e48ab5d79",
+      "modality": "lidar",
+      "seed": 13,
+      "snapshot": "swa"
+    }
+  ],
+  "selection": "First predeclared ensemble, never the best test/validation seed group"
+}

@@ -1,0 +1,308 @@
+{
+  "torch": "2.13.0+cu130",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "model_load_s": 0.2881926999834832,
+  "checkpoint_sha256": "fb456975c0155476df9e60fdbc1c96381e0c1e666e51ed10bde3e2c3e20c88a1",
+  "heads": 18,
+  "peak_allocated_bytes": 18999296,
+  "peak_reserved_bytes": 31457280,
+  "process_peak_rss_bytes": 1197150208,
+  "warmup": 10,
+  "repetitions": 200,
+  "benchmark_start_unix_s": 1792752492.3645504,
+  "benchmark_end_unix_s": 1792752508.800813,
+  "end_to_end_ms": {
+    "p50": 79.68054999946617,
+    "p95": 93.35644999227951
+  },
+  "instrumented_forward_stream_span_ms_per_capture": 56.236508750915526,
+  "instrumented_host_wall_s": 1.0135968,
+  "instrumented_captures": 10,
+  "host_cumulative_top": [
+    {
+      "file": "_contextlib.py",
+      "line": 120,
+      "function": "decorate_context",
+      "calls": 190,
+      "self_s": 0.0099412,
+      "cumulative_s": 1.0135753
+    },
+    {
+      "file": "decision_inference.py",
+      "line": 84,
+      "function": "infer_capture",
+      "calls": 10,
+      "self_s": 0.004705900000000001,
+      "cumulative_s": 1.0046758
+    },
+    {
+      "file": "module.py",
+      "line": 1774,
+      "function": "_wrapped_call_impl",
+      "calls": 7860,
+      "self_s": 0.010197600000000001,
+      "cumulative_s": 0.5408024
+    },
+    {
+      "file": "module.py",
+      "line": 1782,
+      "function": "_call_impl",
+      "calls": 7860,
+      "self_s": 0.0164041,
+      "cumulative_s": 0.5402928
+    },
+    {
+      "file": "module.py",
+      "line": 1794,
+      "function": "inner",
+      "calls": 180,
+      "self_s": 0.0032348000000000003,
+      "cumulative_s": 0.5386727
+    },
+    {
+      "file": "model.py",
+      "line": 40,
+      "function": "forward",
+      "calls": 180,
+      "self_s": 0.0193602,
+      "cumulative_s": 0.510426
+    },
+    {
+      "file": "transformer.py",
+      "line": 597,
+      "function": "forward",
+      "calls": 180,
+      "self_s": 0.0018159,
+      "cumulative_s": 0.33989600000000003
+    },
+    {
+      "file": "transformer.py",
+      "line": 1082,
+      "function": "forward",
+      "calls": 360,
+      "self_s": 0.025743600000000002,
+      "cumulative_s": 0.33377060000000003
+    },
+    {
+      "file": "observation_input.py",
+      "line": 13,
+      "function": "load_observation_only",
+      "calls": 10,
+      "self_s": 0.004004000000000001,
+      "cumulative_s": 0.2226778
+    },
+    {
+      "file": "activation.py",
+      "line": 1255,
+      "function": "forward",
+      "calls": 720,
+      "self_s": 0.010050700000000001,
+      "cumulative_s": 0.2091605
+    },
+    {
+      "file": "transformer.py",
+      "line": 1170,
+      "function": "_mha_block",
+      "calls": 360,
+      "self_s": 0.0015153,
+      "cumulative_s": 0.1606941
+    },
+    {
+      "file": "functional.py",
+      "line": 6637,
+      "function": "multi_head_attention_forward",
+      "calls": 360,
+      "self_s": 0.0099912,
+      "cumulative_s": 0.1250328
+    },
+    {
+      "file": "contracts.py",
+      "line": 42,
+      "function": "validate_payload",
+      "calls": 20,
+      "self_s": 0.0001583,
+      "cumulative_s": 0.1211364
+    },
+    {
+      "file": "validators.py",
+      "line": 349,
+      "function": "iter_errors",
+      "calls": 140,
+      "self_s": 0.00023510000000000002,
+      "cumulative_s": 0.1175168
+    },
+    {
+      "file": "_keywords.py",
+      "line": 351,
+      "function": "oneOf",
+      "calls": 50,
+      "self_s": 0.00020850000000000003,
+      "cumulative_s": 0.1174308
+    },
+    {
+      "file": "validators.py",
+      "line": 396,
+      "function": "descend",
+      "calls": 6490,
+      "self_s": 0.016868300000000003,
+      "cumulative_s": 0.1173521
+    },
+    {
+      "file": "_keywords.py",
+      "line": 274,
+      "function": "ref",
+      "calls": 1190,
+      "self_s": 0.0010387,
+      "cumulative_s": 0.1167248
+    },
+    {
+      "file": "_keywords.py",
+      "line": 290,
+      "function": "properties",
+      "calls": 880,
+      "self_s": 0.0024950000000000003,
+      "cumulative_s": 0.1147074
+    },
+    {
+      "file": "container.py",
+      "line": 248,
+      "function": "forward",
+      "calls": 540,
+      "self_s": 0.0046179,
+      "cumulative_s": 0.10654770000000001
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<built-in method torch._C._nn.linear>",
+      "calls": 2820,
+      "self_s": 0.0889617,
+      "cumulative_s": 0.0889617
+    },
+    {
+      "file": "decision_fusion.py",
+      "line": 65,
+      "function": "fuse_initializations",
+      "calls": 10,
+      "self_s": 8.740000000000001e-05,
+      "cumulative_s": 0.079693
+    },
+    {
+      "file": "decision_fusion.py",
+      "line": 6,
+      "function": "fuse",
+      "calls": 130,
+      "self_s": 0.0091666,
+      "cumulative_s": 0.0789312
+    },
+    {
+      "file": "decision_fusion.py",
+      "line": 58,
+      "function": "initialization_experts",
+      "calls": 10,
+      "self_s": 0.00016370000000000002,
+      "cumulative_s": 0.07181380000000001
+    },
+    {
+      "file": "model.py",
+      "line": 148,
+      "function": "predictions",
+      "calls": 180,
+      "self_s": 0.0012556000000000002,
+      "cumulative_s": 0.07033450000000001
+    },
+    {
+      "file": "dataset.py",
+      "line": 20,
+      "function": "digest",
+      "calls": 110,
+      "self_s": 0.0006977,
+      "cumulative_s": 0.0685734
+    },
+    {
+      "file": "model.py",
+      "line": 21,
+      "function": "forward",
+      "calls": 120,
+      "self_s": 0.0031042,
+      "cumulative_s": 0.0676115
+    },
+    {
+      "file": "transformer.py",
+      "line": 1151,
+      "function": "_sa_block",
+      "calls": 360,
+      "self_s": 0.0012823,
+      "cumulative_s": 0.0670873
+    },
+    {
+      "file": "linear.py",
+      "line": 130,
+      "function": "forward",
+      "calls": 1740,
+      "self_s": 0.0017412,
+      "cumulative_s": 0.0584469
+    },
+    {
+      "file": "functional.py",
+      "line": 6191,
+      "function": "_in_projection_packed",
+      "calls": 360,
+      "self_s": 0.0063029,
+      "cumulative_s": 0.053594600000000006
+    },
+    {
+      "file": "decision_inference.py",
+      "line": 16,
+      "function": "observation_features",
+      "calls": 10,
+      "self_s": 0.00011980000000000001,
+      "cumulative_s": 0.0515907
+    },
+    {
+      "file": "data.py",
+      "line": 23,
+      "function": "preprocess_arrays",
+      "calls": 10,
+      "self_s": 0.030342800000000003,
+      "cumulative_s": 0.0514709
+    },
+    {
+      "file": "_keywords.py",
+      "line": 332,
+      "function": "allOf",
+      "calls": 150,
+      "self_s": 0.0002324,
+      "cumulative_s": 0.0512936
+    },
+    {
+      "file": "_keywords.py",
+      "line": 59,
+      "function": "items",
+      "calls": 390,
+      "self_s": 0.0007915000000000001,
+      "cumulative_s": 0.050586000000000006
+    },
+    {
+      "file": "evaluate.py",
+      "line": 25,
+      "function": "box_iou",
+      "calls": 370,
+      "self_s": 0.0244861,
+      "cumulative_s": 0.0502972
+    },
+    {
+      "file": "~",
+      "line": 0,
+      "function": "<method 'read' of '_io.BufferedReader' objects>",
+      "calls": 660,
+      "self_s": 0.049333100000000005,
+      "cumulative_s": 0.049333100000000005
+    }
+  ],
+  "limits": [
+    "single-frame eager inference, not training or maximum batch throughput",
+    "CUDA event spans include host launch gaps; they are not active-kernel time",
+    "cProfile timings are instrumented and overlap across callers"
+  ]
+}

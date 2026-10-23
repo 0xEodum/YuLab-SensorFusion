@@ -33,8 +33,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT / "artifacts/sf15")
     parser.add_argument("--output", type=Path, default=ROOT / "docs/evidence/sf15-scaling")
+    parser.add_argument("--freeze", type=Path, help="Freeze the sealed test ran under (default: ROOT/freeze.json)")
     args = parser.parse_args()
-    frozen = read(args.root / "freeze.json"); assert_frozen(frozen)
+    frozen = read(args.freeze or args.root / "freeze.json"); assert_frozen(frozen)
     selection = read(args.root / "selection.json")
     torch.set_num_threads(2)
     spec = importlib.util.spec_from_file_location("scale", ROOT / "tools/scale-ensemble.py")
@@ -62,7 +63,7 @@ def main():
         del model
     write(args.output / "selection.json", selection)
     for path in sorted(args.root.glob("validation-*.json")):
-        if "predictions" not in path.name: write(args.output / path.name, compact(read(path)))
+        if "predictions" not in path.name and "recheck" not in path.name: write(args.output / path.name, compact(read(path)))
     write(args.output / "test-report.json", compact(read(args.root / "test-report.json")))
     # Store portable relative identities in the exported freeze, preserving the local raw freeze too.
     exported = dict(frozen)

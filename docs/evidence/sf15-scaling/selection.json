@@ -1,0 +1,30 @@
+{
+  "selected": "candidate",
+  "selected_training_samples": 10000,
+  "scaled_contender_samples": 10000,
+  "decision": {
+    "training_samples": 10000,
+    "objective_gain": 0.18281558198026532,
+    "clean_delta": 0.18488109116735085,
+    "macro_delta": 0.18075007279317978,
+    "stable": true,
+    "quality_targets": true,
+    "paired_nonregression": true,
+    "promote": true,
+    "expand": true,
+    "reason": "gain at least .005, nonregression and stability pass",
+    "incremental": {
+      "training_samples": 10000,
+      "objective_gain": 0.14124469554369368,
+      "clean_delta": 0.14817669926212174,
+      "macro_delta": 0.13431269182526562,
+      "stable": true,
+      "quality_targets": true,
+      "paired_nonregression": true,
+      "promote": true,
+      "expand": true,
+      "reason": "gain at least .005, nonregression and stability pass"
+    }
+  },
+  "resource_stop": null
+}
