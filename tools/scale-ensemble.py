@@ -177,6 +177,11 @@ def evaluate(dataset, run, output, split, freeze=None, training_manifest=None):
                 reload_checked += 1
                 del replay, reloaded, saved
                 gc.collect()
+            # Capturing/deleting the reload graphs invalidates earlier captures (illegal
+            # access on the 2026-10-23 sealed test); recapture before the corrupted cases.
+            for model in models.values():
+                model.graph_inference = GraphInference(model)
+            gc.collect()
         for method in all_paths:
             for group in GROUPS:
                 experts = []
