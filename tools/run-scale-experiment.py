@@ -14,6 +14,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import threading
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +32,22 @@ API_PYTHON = str(ROOT / "backend/.venv/Scripts/python.exe")
 # Children of a below-normal/idle process inherit its class, so browsers and pools yield to the desktop.
 PRIORITY = {"normal": 0, "below-normal": getattr(subprocess, "BELOW_NORMAL_PRIORITY_CLASS", 0),
             "idle": getattr(subprocess, "IDLE_PRIORITY_CLASS", 0)}
+
+
+def hold_tree_priority(process, priority_class, interval_s=2.0):
+    """Chromium resets renderer/GPU priorities to normal or above, so re-lower the stage tree."""
+    allowed = {priority_class, PRIORITY["idle"]}
+    while process.poll() is None:
+        try:
+            children = psutil.Process(process.pid).children(recursive=True)
+        except psutil.Error:
+            return
+        for child in children:
+            try:
+                if child.nice() not in allowed: child.nice(priority_class)
+            except psutil.Error:
+                pass
+        time.sleep(interval_s)
 
 
 def write(path, value):
@@ -127,6 +144,8 @@ def main():
         with log.open("a", encoding="utf-8") as stream:
             process = subprocess.Popen(entry["command"], cwd=ROOT, env=stage_env, stdout=stream, stderr=subprocess.STDOUT,
                                        creationflags=PRIORITY[args.priority])
+            if PRIORITY[args.priority]:
+                threading.Thread(target=hold_tree_priority, args=(process, PRIORITY[args.priority]), daemon=True).start()
             try:
                 code = process.wait(timeout=remaining)
             except subprocess.TimeoutExpired:

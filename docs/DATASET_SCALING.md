@@ -70,8 +70,11 @@ The generator uses six measured persistent capture sessions on this host. This
 is a host-specific measurement, not a general optimum. Capture is CPU-bound
 (GPU ANGLE rendering, 13-17% GPU utilization); three sessions give about 79% of
 six-session throughput with byte-identical outputs (`parity-w3/w6.json`).
-Every stage runs at Windows `below-normal` priority by default (`--priority`),
-which children inherit, so interactive applications take the CPU first. Task
+Every stage runs at Windows `below-normal` priority by default (`--priority`).
+Chromium resets its renderers (about 85% of capture CPU) to normal and its GPU
+process to above-normal, so inheritance alone is insufficient; the runner
+re-lowers the stage process tree every 2 s. Interactive applications then take
+the CPU first. Task
 Manager still reports near-100% CPU while the machine is otherwise idle. Clean expert predictions
 are reused across sensor-subset scoring because these independent unimodal
 networks never read other sensors; observation-level corruptions are reprocessed.
